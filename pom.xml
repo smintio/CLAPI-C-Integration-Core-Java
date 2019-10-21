@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.smint</groupId>
+    <artifactId>smintio-clapi-c-integration</artifactId>
+    <version>0.0.5</version><!-- when changed, change property "majorVersion" accordingly -->
+    <packaging>pom</packaging>
+
+    <name>smintio-clapi-c-integration-core</name>
+    <url>https://www.smint.io/</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>rh78</id>
+            <name>Reinhard Holzner</name>
+            <email>reinhard@smint.io</email>
+            <organization>Smint.io</organization>
+            <organizationUrl>https://www.smint.io</organizationUrl>
+        </developer>
+        <developer>
+            <id>nros</id>
+            <name>Nikolaus Rosenmayr</name>
+            <email>nikolaus@smint.io</email>
+            <organization>Smint.io</organization>
+            <organizationUrl>https://www.smint.io</organizationUrl>
+        </developer>
+        <developer>
+            <name>Smint.io</name>
+            <email>office@smint.io</email>
+            <organization>Smint.io</organization>
+            <organizationUrl>https://www.smint.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git</connection>
+        <tag>0.0.5</tag>
+        <url>https://github.com/smintio/CLAPI-C-Integration-Core-Java</url>
+    </scm>
+    
+    <repositories>
+        <repository>
+            <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPI-C-Integration-Core-Java/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>smintio-clapi-c-integration-core</id>
+            <name>Smint.io Visual Studio (VSTS) repository</name>
+            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPI-C-Integration-Core-Java/maven/v1</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.majorVersion>0</project.majorVersion>
+        <checkstyle.config.location>config/checkstyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.suppressions>config/checkstyle/suppressions.xml</checkstyle.suppressions>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <!-- junit 5, unit test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.6.0,4.0)</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>loggerPath</name>
+                            <value>conf/log4j.properties</value>
+                        </property>
+                    </systemProperties>
+                    <argLine>-Xms512m -Xmx1500m</argLine>
+                    <parallel>methods</parallel>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>                    
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>make-assembly</id>
+                    <phase>package</phase> 
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                  </execution>
+                </executions>
+            </plugin>
+
+            <!-- attach test jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                       <outputDirectory>${project.basedir}/docs</outputDirectory>
+                       <destDir>/</destDir>
+                       <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
+                       <detectJavaApiLink>true</detectJavaApiLink>
+                   </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                      <id>test</id>
+                         <phase>test</phase>
+                      <goals>
+                          <goal>check</goal>
+                      </goals>
+                      <configuration>
+                          <suppressionsLocation>${checkstyle.suppressions}</suppressionsLocation>
+                          <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                      </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.25</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+    <modules>
+        <module>smintio-clapi-c-integration-core</module>
+    </modules>
+
+</project>

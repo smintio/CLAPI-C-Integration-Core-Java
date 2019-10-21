@@ -1,0 +1,151 @@
+buildscript {
+    ext {
+        // detect TeamCity CI/CD!
+        // setting compatibility flag when compiling with version > 1.8
+        // since JDK 1.9, the major version is > 1 (eg: 9)
+        isCiCdBuild = hasProperty('teamcity') || hasProperty("JENKINS_URL") || System.getenv("JENKINS_URL") != null || System.getenv("TF_BUILD") != null
+
+
+        // test for Java8 compiler
+        // since JDK 1.9, the major version is > 1 (eg: 9)
+        isJava8Compiler = "1".equals(System.getProperty("java.version").replaceAll("\\..*", ""))
+
+
+        // force Java8 compatible build with TeamCity/Jenkins CI/CD!
+        // setting compatibility flag when compiling with version > 1.8
+        // since JDK 1.9, the major version is > 1 (eg: 9)
+        isJava8Build = isCiCdBuild || isJava8Compiler
+
+        majorVersion = 0
+    }
+    repositories {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+            gradlePluginPortal()
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
+
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.1.0"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.21"
+
+        if (!isJava8Compiler) {
+            classpath "org.openjfx:javafx-plugin:0.0.8"
+        }
+
+    }
+}
+
+
+plugins {
+    id 'checkstyle'
+}
+
+
+apply plugin: "java"
+apply plugin: "eclipse"
+
+group = "io.smint"
+version = "${majorVersion}.0.5"
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+
+// add SNAPSHOT to version number if not build via CI/CD
+if (!isCiCdBuild && !Boolean.valueOf(System.getenv("IS_RELEASE_PUBLISH"))) {
+    version += "-SNAPSHOT"
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+
+eclipse {
+    project {
+        name = "smintio-integration"
+    }
+}
+
+subprojects { proj ->
+    proj.version = parent.version
+    group = parent.group
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+
+    apply plugin: "java"
+    apply plugin: "maven"
+    apply plugin: "checkstyle"
+
+    // see https://stackoverflow.com/questions/42599422/warning-options-bootstrap-class-path-not-set-in-conjunction-with-source-1-7
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(Test) {
+        systemProperty "file.encoding", "UTF-8"
+    }
+
+
+    dependencies {
+        testCompile "org.hamcrest:hamcrest-all:1.3"
+        testCompile "org.jmockit:jmockit:1.48"
+
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    }
+
+
+    // https://github.com/gradle/gradle/issues/4618
+    test {
+        useJUnitPlatform()
+
+        doFirst {
+            // Don"t do this until the task is actually being executed, because
+            // as soon as we call testCompile.find the configuration is resolved and
+            // can"t be modified anymore.
+            def jMockit = project.configurations.testCompile.find {
+                it.name.startsWith("jmockit-")
+            }
+            jvmArgs "-javaagent:${jMockit}"
+        }
+        testLogging {
+            showStandardStreams = (System.getProperty("logging.enabled", "false") == "true")
+        }
+        systemProperties = System.properties
+        if (!isCiCdBuild && proj.file("src/test/resources/logging.properties").exists()) {
+            systemProperty("java.util.logging.config.file", proj.file("src/test/resources/logging.properties").getAbsolutePath())
+        }
+    }
+
+
+    checkstyle {
+        configFile = rootProject.file("config/checkstyle/checkstyle.xml")
+        configProperties = [
+            "configDir": rootProject.file("config/checkstyle"),
+            "baseDir": proj.file("src/"),
+        ]
+        toolVersion = "8.25"
+        // ignoreFailures = true
+    }
+
+
+    javadoc.destinationDir = rootProject.file("docs/" + project.name + "/${majorVersion}")
+    javadoc.options.overview = file("src/main/javadoc/overview.html")
+    javadoc.options.links.add("https://docs.oracle.com/javase/8/docs/api/")
+
+    build.finalizedBy("javadoc")
+}

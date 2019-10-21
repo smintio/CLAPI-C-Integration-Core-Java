@@ -1,0 +1,73 @@
+
+apply plugin: "java"
+apply plugin: "maven-publish"
+
+
+description = """Base library for downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
+It can be used to access Smint.io data via classes/instances rather than raw RESTful API.
+Additionally basic infrastructure to drive automatic synchronisation of a assets from Smint.io
+to the DAM is provided.
+"""
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+javadoc.options.docTitle = "Smint.io Content Licensing API Consumer (CLAPI-C) integration library - version ${majorVersion}"
+
+publishing { 
+    publications { 
+        mavenJava(MavenPublication) { 
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            pom {
+                description = 'Smint.io core DAM integration library'
+                scm {
+                    connection = "scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git"
+                    developerConnection = "scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git"
+                    url = "https://github.com/smintio/CLAPI-C-Integration-Core-Java"
+                }
+            }
+        } 
+    } 
+
+    // Repositories *to* which Gradle can publish artifacts 
+    repositories { 
+        maven { 
+            def mavenURL = System.getenv("MAVEN_URL")
+            if (mavenURL == null || mavenURL.isEmpty()) {
+                mavenURL = property("maven_url")
+            }
+            url mavenURL
+
+            if (!mavenURL.startsWith("file://")) {
+                def userName = System.getenv("MAVEN_URL_USERNAME")
+                if (userName == null || userName.isEmpty()) {
+                    userName = hasProperty("maven_url_username") ?  property("maven_url_username") : null;
+                }
+                if (isCiCdBuild && (userName == null || userName.isEmpty())) {
+                    userName = "Azure DevOps Services"
+                }
+
+                if (userName != null && !userName.isEmpty()) {
+                    def userPassword = System.getenv("MAVEN_URL_PASSWORD")
+                    if (userPassword == null || userPassword.isEmpty()) {
+                        userPassword = hasProperty("maven_url_userPassword") ? property("maven_url_userPassword") : null;
+                    }
+                    if (isCiCdBuild && (userPassword == null || userPassword.isEmpty())) {
+                        userPassword = System.getenv("Azure DevOps Services_ENV_ACCESS_TOKEN")
+                    }
+
+                    credentials { 
+                        username userName
+                        password userPassword
+                    } 
+                }
+            }
+        } 
+    } 
+}
