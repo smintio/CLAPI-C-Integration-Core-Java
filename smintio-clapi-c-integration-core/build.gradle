@@ -12,6 +12,7 @@ to the DAM is provided.
 
 dependencies {
     compile ("io.smint:smintio-clapi-consumer-client:1.4.1")
+    compile ("javax.inject:javax.inject:[1,2)")
 }
 
 
