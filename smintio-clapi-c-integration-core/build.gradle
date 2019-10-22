@@ -9,6 +9,12 @@ Additionally basic infrastructure to drive automatic synchronisation of a assets
 to the DAM is provided.
 """
 
+
+dependencies {
+    compile ("io.smint:smintio-clapi-consumer-client:1.4.1")
+}
+
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }

@@ -9,6 +9,85 @@ common codebase for integration to
 Web2Print, WCM or other systems, written in Java.
 
 
+Requirements
+------------
+
+### *Smint.io client API consumer library* - add credentials to load the library
+
+This library depends on the *Smint.io client API consumer library ("CLAPI-C")*, that will handle
+all connection to the RESTful Smint.io API. Access to the *CLAPI-C* library is
+restricted. Get in contact with [Smint.io](https://www.smint.io) and request
+access. You will need to sign an NDA first.
+
+You will need an account with Microsoft Visual Studio cloud offerings, as
+the CLAPI-C library is hosted there.
+
+#### Required steps:
+
+-   login to your [Microsoft Visual Studio account](https://visualstudio.microsoft.com/)
+-   create an [user access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops)
+
+
+If you use [gradle](https://gradle.org/) as your build system, you need to
+do the following to load the required and restricted Smint.io client API
+library.
+
+-   in order to avoid adding the access token to your git repository, use a
+    plugin like [`b3er.local.properties` plugin](https://plugins.gradle.org/plugin/com.github.b3er.local.properties)
+-   as an example take a copy of the file [`local.properties.template`](./local.properties.template)
+    and use it as  `local.properties` and replace the text *FILL_IN_USER_ACCESS_TOKEN*
+    with your token.
+    Ensure you do not add this file to your code versioning system!
+    [git](https://en.wikipedia.org/wiki/Git) provides
+    [gitignore](https://git-scm.com/docs/gitignore) file for this.
+-   Now you might want to add the following repository to the list of your
+    repositories:
+
+    ```
+    maven {
+        url 'https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1'
+        credentials {
+            username "AZURE_ARTIFACTS"
+            password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+        }
+    }
+    ```
+
+
+If you are using maven instead, then the steps are generally the same, but
+the files and changes differ:
+
+- Add credentials to your user [`settings.xml`](https://maven.apache.org/settings.html#Servers) inside the
+    &lt;servers&gt; element.
+    Ensure you do not add this file to your code versioning system!
+    [git](https://en.wikipedia.org/wiki/Git) provides
+    [gitignore](https://git-scm.com/docs/gitignore) file for this.
+
+    ```
+    <server>
+      <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+      <username>CLAPIC-API-Clients</username>
+      <!-- Treat this auth token like a password. Do not share it with anyone, including Microsoft support. -->
+      <password>FILL_IN_USER_ACCESS_TOKEN</password>
+    </server>
+    ```
+
+- Add this to your project `pom.xml` inside the `<repositories>` elements.
+
+    ```
+    <repository>
+      <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+      <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    ```
+
+
 
 Implemented features
 --------------------

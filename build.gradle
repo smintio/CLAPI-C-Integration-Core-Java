@@ -31,22 +31,25 @@ buildscript {
 
         classpath "com.github.jengelman.gradle.plugins:shadow:5.1.0"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.21"
+        classpath "gradle.plugin.com.github.b3er.local.properties:local-properties-plugin:1.1"
 
         if (!isJava8Compiler) {
             classpath "org.openjfx:javafx-plugin:0.0.8"
         }
-
     }
 }
 
 
 plugins {
-    id 'checkstyle'
+    id "checkstyle"
 }
 
 
 apply plugin: "java"
 apply plugin: "eclipse"
+
+// rename local.properties.template -> local.properties
+apply plugin: "com.github.b3er.local.properties"
 
 group = "io.smint"
 version = "${majorVersion}.0.5"
@@ -84,6 +87,14 @@ subprojects { proj ->
         mavenLocal()
         mavenCentral()
         jcenter()
+
+        maven {
+            url "https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1"
+            credentials {
+                username "AZURE_ARTIFACTS"
+                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+            }
+        }
     }
 
 

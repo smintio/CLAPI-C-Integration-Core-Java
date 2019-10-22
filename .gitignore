@@ -157,3 +157,9 @@ gradle-app.setting
 /build/**
 /out/**
 *.iml
+
+
+# ignore files with credentials
+local.properties
+settings.xml
+
