@@ -24,6 +24,34 @@ import java.util.concurrent.Future;
 
 /**
  * Provides methods to handle the sync process from assets at Smint.io to a downstream synchronization target.
+ *
+ * <h2>Two kinds of events for initiating a synchronization: <em>scheduled</em> + <em>on demand pusher</em></h2>
+ * <p>
+ * Synchronization of purchased assets are performed on a regular/scheduled basis in the background. A timer is used to
+ * start this task. Additional, synchronization can also started on demand, as soon as any new asset has been bought on
+ * Smint.io. Hence the scheduled process does not need to run every minute but can be scheduled utilizing a wider
+ * interval. In order to speed-up on-demand sync, the structured meta data usually is not synchronized at this step. It
+ * can be assumed that syncing meta data in the scheduled process only is sufficient. So an initial synchronization is
+ * required, usually performed during development time of any implementing instance.
+ * </p>
+ *
+ * <ul>
+ * <li><em>scheduled sync</em> &mdash; automatic synchronization task in the background synchronizing all data</li>
+ * <li><em>on demand pusher</em> &mdash; manually/programmatically started task to synchronize binary assets only. Such
+ * an on-demand event will be triggered by the Smint.io platform utilizing channel-services of
+ * <a href="https://www.pusher.com">Pusher.com</a></li>
+ * </ul>
+ *
+ * <h2>Registering with <a href="https://www.pusher.com">Pusher.com</a></h2>
+ * <p>
+ * To receive notifications for on-demand synchronization in case of any purchase, the synchronization job registered
+ * itself to the <a href="https://pusher.com/docs/channels">channel API</a> of
+ * <a href="https://www.pusher.com">Pusher.com</a>. In general, a web socket is opened to something like
+ * {@code https://ws-*.pusher.com}. The web socket is used to exchange notification. In order to make that work, the
+ * open socket must be kept available and a reference to it maintained. Hence the subscription to the channel is started
+ * along the scheduled job in order to ensure a reference to {@code ISmintIoSynchronization} is available with its
+ * internal reference to the channel socket.
+ * </p>
  */
 public interface ISmintIoSynchronization {
 

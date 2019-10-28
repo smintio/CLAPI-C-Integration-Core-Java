@@ -53,21 +53,6 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * meta data types and values are available on the target before the binaries are transmitted.
  * </p>
  *
- * <h2>Two kinds of synchronization: <em>scheduled</em> + <em>on demand pusher</em></h2>
- * <p>
- * Synchronization of purchased assets are performed on a regular/scheduled basis in the background. A timer is used to
- * start this task. Additional, synchronization can also started on demand, as soon as any new asset has been bought on
- * Smint.io. Hence the scheduled process does not need to run every minute but can be scheduled utilizing a wider
- * interval. In order to speed-up on-demand sync, the structured meta data usually is not synchronized at this step. It
- * can be assumed that syncing meta data in the scheduled process only is sufficient. So an initial synchronization is
- * required, usually performed during development time of any implementing instance.
- * </p>
- *
- * <ul>
- * <li><em>scheduled sync</em> &mdash; automatic synchronization task in the background synchronizing all data</li>
- * <li><em>on demand pusher</em> &mdash; manually/programmatically started task to synchronize binary assets only.</li>
- * </ul>
- *
  * <h2>Event driven notification for start and end of sync phases</h2>
  * <p>
  * The synchronization process is driven outside of instances of this interface. However, these are notified of some
@@ -121,6 +106,13 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * }
  * }
  * </pre>
+ *
+ * <h2>Two kinds of events for initiating an synchronization process</h2>
+ * <p>
+ * There are two kinds of events initiating a synchronization, as outlined in
+ * {@link io.smint.clapi.consumer.integration.core.target.ISmintIoSynchronization}. The scheduled synchronization will
+ * sync meta data, whereas the pushed kind of sync in case of a purchase will not.
+ * </p>
  */
 public interface ISyncTarget {
 

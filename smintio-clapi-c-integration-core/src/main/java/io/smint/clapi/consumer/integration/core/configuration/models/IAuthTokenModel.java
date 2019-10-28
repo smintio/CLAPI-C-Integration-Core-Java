@@ -23,20 +23,148 @@ import java.time.OffsetDateTime;
 
 
 /**
- * Data model with token data needed for OAuth authentication.
+ * Data required by OAuth to access the Smint.io RESTful API.
+ *
+ * <h2>Authorization for Smint.io RESTful API</h2>
+ * <p>
+ * Smint.io RESTful API requires <a href="https://en.wikipedia.org/wiki/OAuth">OAuth 2.0</a> authorization. For a
+ * detailed explanation about the steps needed see <a href="https://aaronparecki.com/oauth-2-simplified/">OAuth 2
+ * Simplified</a>. Usually some UI need to perform these steps as the flow is heavily based on user interaction.<br>
+ * In order to refresh access tokens with OAuth, that got invalid because of time-out, the client application ID
+ * ({@link #getClientId()}) and the companion client secret ({@link #getClientSecret()}) are needed.
+ * </p>
+ *
+ * <p>
+ * The implementing application making use of this library is responsible for driving the OAuth authorization work flow
+ * and acquire the necessary tokens. These tokens are required to be made available by providing an instance
+ * implementing this interface.
+ * </p>
  */
 public interface IAuthTokenModel {
 
+    /**
+     * Indicates whether fetching OAuth access token was successful.
+     *
+     * <p>
+     * In case {@code false} is returned, no other check is performed and the synchronization process stops right at the
+     * start with an exception. Synchronizing with Smint.io requires a valid access token!<br>
+     * This function will help to increase performance as no token action is performed in case the token has not been
+     * retrieved successfully before hand.
+     * </p>
+     *
+     * <p>
+     * No check is performed, whether the {@link #getAccessToken()} is still valid. The server will tell anyway and a
+     * refresh is tried with {@link #getRefreshToken()}. If that fails, too, an exception will abort the synchronization
+     * process.
+     * </p>
+     *
+     * @return {@code true} for valid access tokens, of {@code false} in case acquiring an access token via OAuth has
+     *         not been finished successfully (eg: aborted, failed).
+     */
     boolean isSuccess();
 
-    String getErrorMessage();
 
+    /**
+     * Returns the access token as returned by Smint.io OAuth authorization token server.
+     *
+     * <p>
+     * After authorization with the Smint.io OAuth server, an access token is issued and returned with the server
+     * response. This token is the main indicator for authorization - it is like a combination of user name and
+     * password. All the authorization is based on this token. Hence it must be provided here.
+     * </p>
+     *
+     * <p>
+     * In case the access token has expired, a refresh is tried utilizing the {@code #getRefreshToken()}. If that is
+     * successful, then the new token is being stored for next use.
+     *
+     * </p>
+     *
+     * @return the identity token {@code id_token} that is part of the
+     *         <a href="https://openid.net/developers/specs/">OpenID specification</a> as sent by the Smint.io server.
+     *         This token may be sent by the the Smint.io token server but not necessarily. If omitted by the server
+     *         this function returns just {@code null}.
+     */
     String getAccessToken();
 
+
+    /**
+     * Stores a new access token as returned by Smint.io OAuth authorization token server.
+     *
+     * <p>
+     * The access token should be persisted to the underlaying storage. In case this storage takes a lot of IO and time
+     * (eg: database), please make use of {@link java.util.concurrent.CompletableFuture#runAsync(Runnable)}.
+     * </p>
+     *
+     * <pre>
+     * {@code
+     *    CompletableFuture.runAsync(() -> {
+     *        database.storeSmintIoAccessToken(accessToken);
+     *    });
+     * }
+     * </pre>
+     *
+     * @param newAccessToken    the new access token as returned from the token server. If it is {@code null} or empty,
+     *                          then invalidate the access token immediately as refreshing the token has completely
+     *                          failed. A new user interactive authorization is required to be conducted by the UI.
+     * @param newExpirationTime the new expiration time of the access token as returned from the token server. If this
+     *                          is set to {@code null}, then the token will not expire.
+     * @return {@code this} in order to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent
+     *         Interface</a>.
+     * @see #getAccessToken()
+     */
+    IAuthTokenModel setAccessToken(final String newAccessToken, final OffsetDateTime newExpirationTime);
+
+
+    /**
+     * Returns the refresh token as (optionally) returned by Smint.io OAuth authorization server.
+     *
+     * <p>
+     * The Smint.io OAuth server supports <a href="https://openid.net/developers/specs/">OpenID</a> as well. The token
+     * ID is part of this specification. At the moment it is not required to authorize but in case the Smint.io server
+     * returns such a value, it is required to provide it here.
+     * </p>
+     *
+     * @return the identity token {@code id_token} that is part of the
+     *         <a href="https://openid.net/developers/specs/">OpenID specification</a> as sent by the Smint.io server.
+     *         This token may be sent by the the Smint.io token server but not necessarily. If omitted by the server
+     *         this function returns just {@code null}.
+     */
     String getRefreshToken();
 
+
+    /**
+     * returns the identity token as (optionally) returned by Smint.io OAuth authorization server.
+     *
+     * <p>
+     * The Smint.io OAuth server supports <a href="https://openid.net/developers/specs/">OpenID</a> as well. The token
+     * ID is part of this specification. At the moment it is not required to authorize but in case the Smint.io server
+     * returns such a value, it is required to provide it here.
+     * </p>
+     *
+     * @return the identity token {@code id_token} that is part of the
+     *         <a href="https://openid.net/developers/specs/">OpenID specification</a> as sent by the Smint.io server.
+     *         This token may be sent by the the Smint.io token server but not necessarily. If omitted by the server
+     *         this function returns just {@code null}.
+     */
     String getIdentityToken();
 
-    OffsetDateTime getExpiration();
 
+    /**
+     * The expiration time of the access token.
+     *
+     * <p>
+     * Every access token has an expiration time. Usually it is just a couple of hours or days. After the expiration
+     * time the token must be refreshed. The expiration time is transmitted along the access token with the token-server
+     * answer.
+     * </p>
+     *
+     * <p>
+     * The expiration time is used to avoid initial access with an expired token as it would definitely result in an
+     * authorization error. However, even if the access token has not yet expired, the server still may regard the token
+     * as invalid and may require a refresh of the token.
+     * </p>
+     *
+     * @return the expiration time of the access token. If {@code null} then the access token does not expire.
+     */
+    OffsetDateTime getExpiration();
 }

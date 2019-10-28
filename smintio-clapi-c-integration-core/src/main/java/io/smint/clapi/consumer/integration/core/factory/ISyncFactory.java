@@ -44,7 +44,7 @@ public interface ISyncFactory {
      * create a new instance on each call or not.
      * </p>
      *
-     * @return returns a sync target on each call.
+     * @return returns a new sync target on each call.
      */
     ISyncTarget createSyncTarget();
 

@@ -51,6 +51,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  *         bind(IAuthTokenProvider.class).to(MyAuthTokenProviderImplementation.class).in(Singleton.class);
  *
  *         bind(ISyncFactory.class).to(SyncFactoryFromDependencyInjection.class).in(Singleton.class);
+ *         bind(ISmintIoSynchronization.class).to(SmintIoSynchronization.class).in(Singleton.class);
  *     }
  * }
  * </pre>

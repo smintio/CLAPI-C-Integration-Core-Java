@@ -29,6 +29,11 @@ import io.smint.clapi.consumer.integration.core.factory.ISyncFactory;
 
 /**
  * Provides initializing functions for the Smint.io synchronization process and handles the synchronization.
+ *
+ * <p>
+ * This class will create a synchronization job and will schedule it in function {@link #start()}. The schedule is set
+ * to constant time between synchronization jobs of 5 Minutes.
+ * </p>
  */
 public class SmintIoSynchronization implements ISmintIoSynchronization {
 
