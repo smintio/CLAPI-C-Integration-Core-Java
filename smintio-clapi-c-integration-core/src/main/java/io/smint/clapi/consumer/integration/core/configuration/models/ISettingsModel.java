@@ -134,7 +134,6 @@ public interface ISettingsModel {
      */
     String getClientSecret();
 
-    String getRedirectUri();
 
     /**
      * The languages to use for importing meta data and asset descriptions.
