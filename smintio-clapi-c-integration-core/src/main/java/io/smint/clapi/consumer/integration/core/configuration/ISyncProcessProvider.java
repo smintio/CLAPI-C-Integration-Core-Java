@@ -47,7 +47,17 @@ public interface ISyncProcessProvider {
     /**
      * Returns the data that has previously been set by the sync process to be made persistent.
      *
-     * @return a {@code Future} that may complete in an asynchronous way.
+     * @return a {@code Future} that may complete in an asynchronous way. Its value will return an
+     *         {@link ISyncProcessModel} copy of data that has been previously been passed to
+     *         {@link #setSyncProcessModelAsync(ISyncProcessModel)}. Implementing classes must not return {@code null}.
      */
-    Future<ISyncProcessModel> getSettingsModelAsync();
+    Future<ISyncProcessModel> getSyncProcessModelAsync();
+
+    /**
+     * Sets a new set of process data that need to be made persistent and made available to the next run.
+     *
+     * @return a {@code Future} that may complete in an asynchronous way. Its value will return an
+     *         {@link ISyncProcessModel} instance. Implementing classes must not return {@code null}.
+     */
+    Future<ISyncProcessProvider> setSyncProcessModelAsync(final ISyncProcessModel newProcessData);
 }
