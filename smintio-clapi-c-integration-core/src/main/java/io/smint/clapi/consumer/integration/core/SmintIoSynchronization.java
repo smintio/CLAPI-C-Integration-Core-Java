@@ -61,7 +61,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * {@inheritDoc}
      */
     @Override
-    public void startSchedule() {
+    public void start() {
     }
 
 
@@ -69,7 +69,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * {@inheritDoc}
      */
     @Override
-    public void stopSchedule() {
+    public void stop() {
     }
 
 

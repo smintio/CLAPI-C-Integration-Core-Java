@@ -28,7 +28,7 @@ import java.util.concurrent.Future;
 public interface ISmintIoSynchronization {
 
     /**
-     * Start a scheduled synchronization process and store a reference to the instance with the scheduler.
+     * Start a scheduled synchronization, register with channel listener and store a reference with the scheduler.
      *
      * <p>
      * The scheduling is maintained by the implementing class. It will schedule only one process, no matter how often
@@ -36,21 +36,28 @@ public interface ISmintIoSynchronization {
      * </p>
      *
      * <p>
+     * Along the scheduled job, the job is registered with the the <a href="https://pusher.com/docs/channels">channel
+     * API</a> of <a href="https://www.pusher.com">Pusher.com</a> to receive push notification in case of any purchase.
+     * </p>
+     *
+     * <p>
      * Beware: a reference to this instance is stored with the scheduler. So as long as there is an active schedule
      * garbage collection won't apply.
      * </p>
      */
-    void startSchedule();
+    void start();
 
 
     /**
      * Stop the scheduled synchronization process.
      *
      * <p>
-     * Only the schedule is stopped (removed). A currently running synchronization process is not terminated.
+     * Only the schedule is stopped (removed) and the <a href="https://pusher.com/docs/channels">channel API</a> of
+     * <a href="https://www.pusher.com">Pusher.com</a> is disconnected. Any currently running synchronization process is
+     * not terminated.
      * </p>
      */
-    void stopSchedule();
+    void stop();
 
 
     /**
