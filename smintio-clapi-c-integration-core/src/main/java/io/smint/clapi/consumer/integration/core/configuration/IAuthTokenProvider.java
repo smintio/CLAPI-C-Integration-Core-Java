@@ -25,7 +25,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 
 
 /**
- * Provides OAuth access token to authenticate to the Smint.io RESTful API.
+ * Provides OAuth access token data to authenticate to the Smint.io RESTful API.
  */
 public interface IAuthTokenProvider {
 
@@ -34,5 +34,22 @@ public interface IAuthTokenProvider {
      *
      * @return a {@code Future} that may complete in an asynchronous way.
      */
-    Future<IAuthTokenModel> getSettingsModelAsync();
+    Future<IAuthTokenModel> getAuthTokenModelAsync();
+
+
+    /**
+     * Sets set of OAuth authentication data to be made persistent and retrieved on next call to
+     * {@link #getSettingsModelAsync()}.
+     *
+     * <p>
+     * The access token should be persisted to the underlaying storage. In case this storage takes a lot of IO and time
+     * (eg: database), please make use of {@link java.util.concurrent.CompletableFuture#runAsync(Runnable)} and then
+     * return {@code this} on completion.
+     * </p>
+     *
+     * @param newAuthTokenData new OAuth token data for authorization with Smint.io API server, that need to be made
+     *                         persistent.
+     * @return a {@code Future} that may complete in an asynchronous way. Its value will return {@code this} instance.
+     */
+    Future<IAuthTokenProvider> setAuthModelAsync(final IAuthTokenModel newAuthTokenData);
 }

@@ -88,34 +88,6 @@ public interface IAuthTokenModel {
 
 
     /**
-     * Stores a new access token as returned by Smint.io OAuth authorization token server.
-     *
-     * <p>
-     * The access token should be persisted to the underlaying storage. In case this storage takes a lot of IO and time
-     * (eg: database), please make use of {@link java.util.concurrent.CompletableFuture#runAsync(Runnable)}.
-     * </p>
-     *
-     * <pre>
-     * {@code
-     *    CompletableFuture.runAsync(() -> {
-     *        database.storeSmintIoAccessToken(accessToken);
-     *    });
-     * }
-     * </pre>
-     *
-     * @param newAccessToken    the new access token as returned from the token server. If it is {@code null} or empty,
-     *                          then invalidate the access token immediately as refreshing the token has completely
-     *                          failed. A new user interactive authorization is required to be conducted by the UI.
-     * @param newExpirationTime the new expiration time of the access token as returned from the token server. If this
-     *                          is set to {@code null}, then the token will not expire.
-     * @return {@code this} in order to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent
-     *         Interface</a>.
-     * @see #getAccessToken()
-     */
-    IAuthTokenModel setAccessToken(final String newAccessToken, final OffsetDateTime newExpirationTime);
-
-
-    /**
      * Returns the refresh token as (optionally) returned by Smint.io OAuth authorization server.
      *
      * <p>
