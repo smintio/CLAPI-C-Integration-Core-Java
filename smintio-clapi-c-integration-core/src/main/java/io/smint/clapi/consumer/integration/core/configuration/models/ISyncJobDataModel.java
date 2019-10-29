@@ -19,7 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models;
 
-public interface ISyncProcessModel {
+public interface ISyncJobDataModel {
 
     String getContinuationUuid();
 }
