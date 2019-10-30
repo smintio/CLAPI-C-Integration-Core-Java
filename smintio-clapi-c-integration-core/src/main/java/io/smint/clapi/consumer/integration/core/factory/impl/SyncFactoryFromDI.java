@@ -23,8 +23,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenProvider;
-import io.smint.clapi.consumer.integration.core.configuration.ISettingsProvider;
+import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.ISyncFactory;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
@@ -74,8 +74,8 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 @Singleton
 public class SyncFactoryFromDI implements ISyncFactory {
 
-    private final IAuthTokenProvider _authTokenProvider;
-    private final ISettingsProvider _settingsProvider;
+    private final IAuthTokenStorage _authTokenProvider;
+    private final ISettingsModel _settings;
     private final Provider<ISyncTarget> _syncTargetProvider;
 
 
@@ -88,12 +88,12 @@ public class SyncFactoryFromDI implements ISyncFactory {
      */
     @Inject
     public SyncFactoryFromDI(
-        final IAuthTokenProvider authTokenProvider,
-        final ISettingsProvider settingsProvider,
+        final IAuthTokenStorage authTokenProvider,
+        final ISettingsModel settings,
         final Provider<ISyncTarget> syncTargetProvider
     ) {
         this._authTokenProvider = authTokenProvider;
-        this._settingsProvider = settingsProvider;
+        this._settings = settings;
         this._syncTargetProvider = syncTargetProvider;
     }
 
@@ -111,8 +111,8 @@ public class SyncFactoryFromDI implements ISyncFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISettingsProvider createSettingsProvider() {
-        return this._settingsProvider;
+    public ISettingsModel getSettings() {
+        return this._settings;
     }
 
 
@@ -120,7 +120,7 @@ public class SyncFactoryFromDI implements ISyncFactory {
      * {@inheritDoc}
      */
     @Override
-    public IAuthTokenProvider createAuthTokenProvider() {
+    public IAuthTokenStorage getAuthTokenStorage() {
         return this._authTokenProvider;
     }
 }

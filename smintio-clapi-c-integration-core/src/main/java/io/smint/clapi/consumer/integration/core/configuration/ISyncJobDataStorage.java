@@ -19,13 +19,13 @@
 
 package io.smint.clapi.consumer.integration.core.configuration;
 
-import java.util.concurrent.Future;
+import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDataModel;
 
 
 /**
- * Provides data that a sync process need to store for its next run and must be made persistent.
+ * Provides storage layer for some process data that a sync process need to store for its next run.
  *
  * <p>
  * There is some data that is created in one sync run that must be made available to the next sync run, even if the JVM
@@ -37,27 +37,26 @@ import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDat
  * </p>
  *
  * <p>
- * Usually the same instance as passed to {@code #setSyncProcessModelAsync(ISyncJobDataModel)} will be kept in memory
- * and returns with {@code #getSyncProcessModelAsync()}. However, it must be persisted to a storage system in order to
- * restore it once the JVM has been stopped and/or restarted. A base class
+ * Usually the same instance as passed to {@code #storeSyncProcessData(ISyncJobDataModel)} will be kept in memory and
+ * returns with {@code #getSyncProcessData()}. However, it must be persisted to a storage system in order to restore it
+ * once the JVM has been stopped and/or restarted.
  * </p>
  */
-public interface ISyncJobDataProvider {
+public interface ISyncJobDataStorage extends Provider<ISyncJobDataModel> {
 
     /**
      * Returns the data that has previously been set by the sync process to be made persistent.
      *
-     * @return a {@code Future} that may complete in an asynchronous way. Its value will return an
-     *         {@link ISyncJobDataModel} copy of data that has been previously been passed to
-     *         {@link #setSyncProcessModelAsync(ISyncJobDataModel)}. Implementing classes must not return {@code null}.
+     * @return An instance of {@link ISyncJobDataModel} that has been previously been passed to
+     *         {@link #setSyncProcessModel(ISyncJobDataModel)} or {@code null}.
      */
-    Future<ISyncJobDataModel> getSyncProcessModelAsync();
+    ISyncJobDataModel getSyncProcessData();
+
 
     /**
      * Sets a new set of process data that need to be made persistent and made available to the next run.
      *
-     * @return a {@code Future} that may complete in an asynchronous way. Its value will return an
-     *         {@link ISyncJobDataModel} instance. Implementing classes must not return {@code null}.
+     * @return {@code this} and implements Fluent Interface
      */
-    Future<ISyncJobDataProvider> setSyncProcessModelAsync(final ISyncJobDataModel newProcessData);
+    ISyncJobDataStorage storeSyncProcessData(final ISyncJobDataModel newProcessData);
 }

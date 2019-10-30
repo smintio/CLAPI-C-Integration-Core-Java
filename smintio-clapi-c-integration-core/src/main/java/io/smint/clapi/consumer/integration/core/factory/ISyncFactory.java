@@ -19,8 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core.factory;
 
-import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenProvider;
-import io.smint.clapi.consumer.integration.core.configuration.ISettingsProvider;
+import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
 
@@ -34,14 +34,17 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  */
 public interface ISyncFactory {
 
-
     /**
      * creates an instance of the synchronization target instance.
      *
      * <p>
      * Since the synchronization target is a heavy class with a lot of cache data, it seems better to create a new
      * instance on each call. However, the implementor of the sync target need to decide whether it is necessary to
-     * create a new instance on each call or not.
+     * create a new instance on each call or not. At the moment the default implementation of
+     * {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob}, which is
+     * {@link io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob}, reuses the target for all
+     * synchronization processes as long as the job is being scheduled. As soon as the job is being rescheduled, a new
+     * synchronization target will be created.
      * </p>
      *
      * @return returns a new sync target on each call.
@@ -57,16 +60,16 @@ public interface ISyncFactory {
      * advisable.
      * </p>
      *
-     * @return returns the same settings provider on each request.
+     * @return returns the same settings on each request.
      */
-    ISettingsProvider createSettingsProvider();
+    ISettingsModel getSettings();
 
 
     /**
-     * creates a token provider to deliver the settings for authentication to the Smint.IO RESTful API.
+     * creates a token storage to deliver the settings for authentication to the Smint.IO RESTful API.
      *
-     * @return returns the same authentication token provider on each request.
+     * @return returns the same authentication token storage on each request.
      */
-    IAuthTokenProvider createAuthTokenProvider();
+    IAuthTokenStorage getAuthTokenStorage();
 
 }

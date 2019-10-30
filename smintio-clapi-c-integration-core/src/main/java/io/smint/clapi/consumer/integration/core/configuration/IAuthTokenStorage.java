@@ -19,7 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.configuration;
 
-import java.util.concurrent.Future;
+import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 
@@ -27,19 +27,19 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 /**
  * Provides OAuth access token data to authenticate to the Smint.io RESTful API.
  */
-public interface IAuthTokenProvider {
+public interface IAuthTokenStorage extends Provider<IAuthTokenModel> {
 
     /**
-     * Provides the OAuth authentication token data that is needed for accessing Smint.io API.
+     * Provides the OAuth authentication data to authorize access to Smint.io API.
      *
-     * @return a {@code Future} that may complete in an asynchronous way.
+     * @return Currently valid OAuth data or {@code null} if none is available.
      */
-    Future<IAuthTokenModel> getAuthTokenModelAsync();
+    IAuthTokenModel getAuthData();
 
 
     /**
-     * Sets set of OAuth authentication data to be made persistent and retrieved on next call to
-     * {@link #getSettingsModelAsync()}.
+     * Stores a new set of OAuth authentication data to be made persistent and retrieved on next call to
+     * {@link #getAuthData()}.
      *
      * <p>
      * The access token should be persisted to the underlaying storage. In case this storage takes a lot of IO and time
@@ -49,7 +49,7 @@ public interface IAuthTokenProvider {
      *
      * @param newAuthTokenData new OAuth token data for authorization with Smint.io API server, that need to be made
      *                         persistent.
-     * @return a {@code Future} that may complete in an asynchronous way. Its value will return {@code this} instance.
+     * @return {@code this} to support Fluent Interface.
      */
-    Future<IAuthTokenProvider> setAuthModelAsync(final IAuthTokenModel newAuthTokenData);
+    IAuthTokenStorage storeAuthData(final IAuthTokenModel newAuthTokenData);
 }
