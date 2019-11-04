@@ -19,7 +19,23 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models;
 
+
+/**
+ * Data to remember between synchronization runs.
+ *
+ * <p>
+ * At the moment, only the continuation UUID is required to be passed to next run. This UUID is presented to the
+ * Smint.io server as a sort of session ID. A fixed set of assets to sync is attached to this UUID on the server,
+ * greatly improving synchronization process. It helps to avoid loops and duplicate synchronization of assets as well as
+ * helping to split a big list of assets into smaller chunks and keep track of these chunks.
+ * </p>
+ */
 public interface ISyncJobDataModel {
 
+    /**
+     * Return the continuation UUID to be used with next synchronization run.
+     *
+     * @return {@code null} if no UUID was stored on last run or the value as provided from last run.
+     */
     String getContinuationUuid();
 }
