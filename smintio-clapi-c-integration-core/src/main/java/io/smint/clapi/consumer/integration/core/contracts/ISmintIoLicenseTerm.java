@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.contracts;
 
 import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -35,7 +36,7 @@ public interface ISmintIoLicenseTerm {
      *
      * @return the name of the license in multiple languages.
      */
-    Map<String, String> getName();
+    Map<Locale, String> getName();
 
     String[] getExclusivities();
 

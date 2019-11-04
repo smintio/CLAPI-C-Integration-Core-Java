@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -27,8 +28,8 @@ import java.util.Map;
  */
 public interface ISmintIoLicenseOptions {
 
-    Map<String, String> getOptionName();
+    Map<Locale, String> getOptionName();
 
-    Map<String, String> getLicenseText();
+    Map<Locale, String> getLicenseText();
 }
 

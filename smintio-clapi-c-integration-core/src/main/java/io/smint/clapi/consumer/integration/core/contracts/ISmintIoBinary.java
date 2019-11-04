@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.core.contracts;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -32,12 +33,25 @@ public interface ISmintIoBinary {
 
     String getBinaryType();
 
-    Map<String, String> getName();
 
-    Map<String, String> getDescription();
+    /**
+     * Get the name of the binary asset in various languages.
+     *
+     * @return a single line name of the asset, translated to various languages.
+     */
+    Map<Locale, String> getName();
 
-    Map<String, String> getUsage();
 
+    /**
+     * Provide a multi-line description of the binary asset in various languages.
+     *
+     * @return the multi-line description of the asset, translated to various languages.
+     */
+    Map<Locale, String> getDescription();
+
+
+    // TODO: javadoc
+    Map<Locale, String> getUsage();
 
 
     /**
@@ -73,7 +87,18 @@ public interface ISmintIoBinary {
      */
     String getRecommendedFileName();
 
-    String getCulture();
+
+    /**
+     * Get the locale this assemble is valid for.
+     *
+     * <p>
+     * If this binary asset does not depend on any locale (including language and country) {@code null} may be returned.
+     * </p>
+     *
+     * @return a locale this asset is valid for or {@code null} if not restricted to any locale.
+     */
+    Locale getLocale();
+
 
     int getVersion();
 }
