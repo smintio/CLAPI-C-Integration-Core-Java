@@ -1,2 +1,4 @@
 rootProject.name = 'smintio-clapi'
+
 include 'smintio-clapi-c-integration-core'
+include 'smintio-clapi-c-integration-application'

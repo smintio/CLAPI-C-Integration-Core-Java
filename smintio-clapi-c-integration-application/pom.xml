@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.smint</groupId>
+        <artifactId>smintio-clapi-c-integration</artifactId>
+        <version>0.0.5</version>
+    </parent>
+
+    <artifactId>smintio-clapi-c-integration-application</artifactId>
+    <packaging>jar</packaging>
+
+    <name>smintio-clapi-c-integration-application</name>
+    <description>
+        Base library for CLI based downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
+        Useful to implement an application to sync between Smint.io platform and a
+        target DAM system.
+    </description>
+    <url>https://www.smint.io/</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git</connection>
+        <tag>0.0.5</tag>
+        <url>https://github.com/smintio/CLAPI-C-Integration-Core-Java</url>
+    </scm>
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>[1,2)</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.smint</groupId>
+            <artifactId>smintio-clapi-c-integration-core</artifactId>
+            <version>[0.0.5,)</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                       <outputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</outputDirectory>
+                       <reportOutputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</reportOutputDirectory>
+                       <detectJavaApiLink>true</detectJavaApiLink>
+                       <doctitle>Smint.io Content Licensing API Consumer (CLAPI-C) Integration library - version ${project.majorVersion}</doctitle>
+                   </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

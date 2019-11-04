@@ -30,6 +30,8 @@ import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateE
  */
 public interface ISmintIoAsset {
 
+    String getContentElementUuid();
+
     String getLicensePurchaseTransactionUuid();
 
     String getCartPurchaseTransactionUuid();
