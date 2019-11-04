@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -88,7 +89,7 @@ public class SyncFactoryFromDI implements ISyncFactory {
      */
     @Inject
     public SyncFactoryFromDI(
-        final IAuthTokenStorage authTokenProvider,
+        @Named("authTokenStorage") final IAuthTokenStorage authTokenProvider,
         final ISettingsModel settings,
         final Provider<ISyncTarget> syncTargetProvider
     ) {
