@@ -75,6 +75,16 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * {@link io.smint.clapi.consumer.integration.core.target.ISmintIoSynchronization}. The scheduled synchronization will
  * sync meta data, whereas the pushed kind of sync in case of a purchase will not.
  * </p>
+ *
+ * <h2>Parallel execution of imports</h2>
+ * <p>
+ * When implementing a class, beware that all independent meta data may be imported in parallel by different threads.
+ * Please do not impose blocking of multiple threads to the implementing class. Instead support calling different
+ * imports by different threads at the same time and synchronize on the data level.<br>
+ * eg: calling {@link #importBinaryTypes(ISmintIoMetadataElement[])} and
+ * {@link #importContentTypes(ISmintIoMetadataElement[])} could be parallelized as these handle distinct, independent
+ * content.
+ * </p>
  */
 public interface ISyncTarget {
 

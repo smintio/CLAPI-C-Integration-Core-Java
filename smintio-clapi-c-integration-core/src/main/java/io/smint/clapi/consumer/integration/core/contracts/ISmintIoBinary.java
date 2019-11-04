@@ -27,10 +27,23 @@ import java.util.Map;
 
 public interface ISmintIoBinary {
 
+    /**
+     * Get the unique universal identifier of this asset within the Smint.io platform.
+     *
+     * <p>
+     * The {@code UUID} will not change, once created for an asset. It is the value to identify the asset with the
+     * Smint.io platform and with any synchronization target.
+     * </p>
+     *
+     * @return an invariant {@code UUID} created by the Smint.io platform.
+     */
     String getUuid();
 
+
+    // TODO: javadoc
     String getContentType();
 
+    // TODO: javadoc
     String getBinaryType();
 
 
@@ -100,6 +113,17 @@ public interface ISmintIoBinary {
     Locale getLocale();
 
 
+    /**
+     * Get a version number for this binary asset that can be used for updating the asset.
+     *
+     * <p>
+     * Comparing the version number of binary assets enables
+     * {@link io.smint.clapi.consumer.integration.core.target.ISyncTarget} to detect updates to the binary data. The
+     * higher the version number, the more recent the binary data is.
+     * </p>
+     *
+     * @return a number greater than {@code 0}, which is increased by {@code 1} on every update to the binary asset.
+     */
     int getVersion();
 }
 
