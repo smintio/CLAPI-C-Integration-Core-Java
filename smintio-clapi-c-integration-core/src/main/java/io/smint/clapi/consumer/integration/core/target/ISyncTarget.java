@@ -142,35 +142,35 @@ public interface ISyncTarget {
 
     // TODO: add documentation to these functions along example data to by synced
 
-    void importContentProviders(List<ISmintIoMetadataElement> contentProviders);
+    void importContentProviders(ISmintIoMetadataElement[] contentProviders);
 
-    void importContentTypes(List<ISmintIoMetadataElement> contentTypes);
+    void importContentTypes(ISmintIoMetadataElement[] contentTypes);
 
-    void importBinaryTypes(List<ISmintIoMetadataElement> binaryTypes);
+    void importBinaryTypes(ISmintIoMetadataElement[] binaryTypes);
 
-    void importContentCategories(List<ISmintIoMetadataElement> contentCategories);
+    void importContentCategories(ISmintIoMetadataElement[] contentCategories);
 
-    void importLicenseTypes(List<ISmintIoMetadataElement> licenseTypes);
+    void importLicenseTypes(ISmintIoMetadataElement[] licenseTypes);
 
-    void importReleaseStates(List<ISmintIoMetadataElement> releaseStates);
+    void importReleaseStates(ISmintIoMetadataElement[] releaseStates);
 
-    void importLicenseExclusivities(List<ISmintIoMetadataElement> licenseExclusivities);
+    void importLicenseExclusivities(ISmintIoMetadataElement[] licenseExclusivities);
 
-    void importLicenseUsages(List<ISmintIoMetadataElement> licenseUsages);
+    void importLicenseUsages(ISmintIoMetadataElement[] licenseUsages);
 
-    void importLicenseSizes(List<ISmintIoMetadataElement> licenseSizes);
+    void importLicenseSizes(ISmintIoMetadataElement[] licenseSizes);
 
-    void importLicensePlacements(List<ISmintIoMetadataElement> licensePlacements);
+    void importLicensePlacements(ISmintIoMetadataElement[] licensePlacements);
 
-    void importLicenseDistributions(List<ISmintIoMetadataElement> licenseDistributions);
+    void importLicenseDistributions(ISmintIoMetadataElement[] licenseDistributions);
 
-    void importLicenseGeographies(List<ISmintIoMetadataElement> licenseGeographies);
+    void importLicenseGeographies(ISmintIoMetadataElement[] licenseGeographies);
 
-    void importLicenseIndustries(List<ISmintIoMetadataElement> licenseIndustries);
+    void importLicenseIndustries(ISmintIoMetadataElement[] licenseIndustries);
 
-    void importLicenseLanguages(List<ISmintIoMetadataElement> licenseLanguages);
+    void importLicenseLanguages(ISmintIoMetadataElement[] licenseLanguages);
 
-    void importLicenseUsageLimits(List<ISmintIoMetadataElement> licenseUsageLimits);
+    void importLicenseUsageLimits(ISmintIoMetadataElement[] licenseUsageLimits);
 
     /**
      * After the synchronization of all generic meta data this is called, before any syncing of assets.

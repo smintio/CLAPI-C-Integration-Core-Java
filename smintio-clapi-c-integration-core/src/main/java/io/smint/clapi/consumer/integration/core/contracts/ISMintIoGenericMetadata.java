@@ -19,41 +19,38 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
-import java.util.List;
-
-
 /**
  * Possible metadata for assets to synchronize.
  */
 public interface ISMintIoGenericMetadata {
 
-    List<ISmintIoMetadataElement> getContentProviders();
+    ISmintIoMetadataElement[] getContentProviders();
 
-    List<ISmintIoMetadataElement> getContentTypes();
+    ISmintIoMetadataElement[] getContentTypes();
 
-    List<ISmintIoMetadataElement> getBinaryTypes();
+    ISmintIoMetadataElement[] getBinaryTypes();
 
-    List<ISmintIoMetadataElement> getContentCategories();
+    ISmintIoMetadataElement[] getContentCategories();
 
-    List<ISmintIoMetadataElement> getLicenseTypes();
+    ISmintIoMetadataElement[] getLicenseTypes();
 
-    List<ISmintIoMetadataElement> getReleaseStates();
+    ISmintIoMetadataElement[] getReleaseStates();
 
-    List<ISmintIoMetadataElement> getLicenseExclusivities();
+    ISmintIoMetadataElement[] getLicenseExclusivities();
 
-    List<ISmintIoMetadataElement> getLicenseUsages();
+    ISmintIoMetadataElement[] getLicenseUsages();
 
-    List<ISmintIoMetadataElement> getLicenseSizes();
+    ISmintIoMetadataElement[] getLicenseSizes();
 
-    List<ISmintIoMetadataElement> getLicensePlacements();
+    ISmintIoMetadataElement[] getLicensePlacements();
 
-    List<ISmintIoMetadataElement> getLicenseDistributions();
+    ISmintIoMetadataElement[] getLicenseDistributions();
 
-    List<ISmintIoMetadataElement> getLicenseGeographies();
+    ISmintIoMetadataElement[] getLicenseGeographies();
 
-    List<ISmintIoMetadataElement> getLicenseIndustries();
+    ISmintIoMetadataElement[] getLicenseIndustries();
 
-    List<ISmintIoMetadataElement> getLicenseLanguages();
+    ISmintIoMetadataElement[] getLicenseLanguages();
 
-    List<ISmintIoMetadataElement> getLicenseUsageLimits();
+    ISmintIoMetadataElement[] getLicenseUsageLimits();
 }

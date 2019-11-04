@@ -20,7 +20,6 @@
 package io.smint.clapi.consumer.integration.core.contracts;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Map;
 
 
@@ -38,37 +37,37 @@ public interface ISmintIoLicenseTerm {
      */
     Map<String, String> getName();
 
-    List<String> getExclusivities();
+    String[] getExclusivities();
 
-    List<String> getAllowedUsages();
+    String[] getAllowedUsages();
 
-    List<String> getRestrictedUsages();
+    String[] getRestrictedUsages();
 
-    List<String> getAllowedSizes();
+    String[] getAllowedSizes();
 
-    List<String> getRestrictedSizes();
+    String[] getRestrictedSizes();
 
-    List<String> getAllowedPlacements();
+    String[] getAllowedPlacements();
 
-    List<String> getRestrictedPlacements();
+    String[] getRestrictedPlacements();
 
-    List<String> getAllowedDistributions();
+    String[] getAllowedDistributions();
 
-    List<String> getRestrictedDistributions();
+    String[] getRestrictedDistributions();
 
-    List<String> getAllowedGeographies();
+    String[] getAllowedGeographies();
 
-    List<String> getRestrictedGeographies();
+    String[] getRestrictedGeographies();
 
-    List<String> getAllowedIndustries();
+    String[] getAllowedIndustries();
 
-    List<String> getRestrictedIndustries();
+    String[] getRestrictedIndustries();
 
-    List<String> getAllowedLanguages();
+    String[] getAllowedLanguages();
 
-    List<String> getRestrictedLanguages();
+    String[] getRestrictedLanguages();
 
-    List<String> getUsageLimits();
+    String[] getUsageLimits();
 
     OffsetDateTime getValidFrom();
 

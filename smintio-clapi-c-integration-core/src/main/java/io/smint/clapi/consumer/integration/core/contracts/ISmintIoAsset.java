@@ -20,7 +20,6 @@
 package io.smint.clapi.consumer.integration.core.contracts;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Map;
 
 import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateEnum;
@@ -69,9 +68,9 @@ public interface ISmintIoAsset {
 
     Map<String, String> getLicenseText();
 
-    List<ISmintIoLicenseOptions> getLicenseOptions();
+    ISmintIoLicenseOptions[] getLicenseOptions();
 
-    List<ISmintIoLicenseTerm> getLicenseTerms();
+    ISmintIoLicenseTerm[] getLicenseTerms();
 
     ISmintIoDownloadConstraints getDownloadConstraints();
 
@@ -79,7 +78,7 @@ public interface ISmintIoAsset {
 
     boolean hasLicenseTerms();
 
-    List<ISmintIoBinary> getBinaries();
+    ISmintIoBinary[] getBinaries();
 
     String getSmintIoUrl();
 
