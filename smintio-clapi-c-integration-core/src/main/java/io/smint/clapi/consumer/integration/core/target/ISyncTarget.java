@@ -212,7 +212,25 @@ public interface ISyncTarget {
      */
     boolean beforeAssetsSync();
 
-    void importAssets(final String folderName, final List<ISmintIoAsset> assets);
+
+    /**
+     * Import assets from Smint.io utilizing a temporary folder.
+     *
+     * <p>
+     * The asset provides its related binaries via function {@link ISmintIoAsset#getBinaries()}. These binaries can be
+     * loaded to a temporary file with
+     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getDownloadedFile()}. The
+     * synchronization job preparing the data is taking care of preparing a temporary directory for these binaries of
+     * the assets and is taking care of cleaning-up the temporary directory after importing the assets. So expect the
+     * binary files to vanish after the call this this importing method. Either copy or move these files to the required
+     * location of the synchronization target.
+     * </p>
+     *
+     * @param assets the array of assets to import - may be {@code null} if there are no assets to import.
+     * @throws NullPointerException in case the parameter for the temporary folder is {@code null}.
+     */
+    void importAssets(final ISmintIoAsset[] assets) throws NullPointerException;
+
 
     /**
      * After the synchronization of all assets with {@link #importAssets(String, List)} this is called, but before

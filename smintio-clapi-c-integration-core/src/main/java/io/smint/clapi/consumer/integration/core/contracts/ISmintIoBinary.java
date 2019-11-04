@@ -19,6 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Map;
 
 
@@ -36,8 +38,39 @@ public interface ISmintIoBinary {
 
     Map<String, String> getUsage();
 
-    String getDownloadUrl();
 
+
+    /**
+     * Return the download URL to access the content on the Smint.io platform.
+     *
+     * @return an URL to download the asset.
+     */
+    URL getDownloadUrl();
+
+
+    /**
+     * Downloads the binary from Smint.io platform to a temporary file and provides this file.
+     *
+     * <p>
+     * The URL to download from is taken from {@code #getDownloadUrl()} and all content stored to a temporary file.
+     * </p>
+     *
+     * @return an already opened {@link java.io.InputStream} to read bytes from. If the content type is a textual type,
+     *         the content is encoded with UTF-8.
+     */
+    File getDownloadedFile();
+
+
+    /**
+     * Denotes the recommended file name for the locally stored asset.
+     *
+     * <p>
+     * This is an optionally suggestion for the file name. This name is not mandatory, but consumers are strongly
+     * advised to use this name.
+     * </p>
+     *
+     * @return a suggestion for a file.
+     */
     String getRecommendedFileName();
 
     String getCulture();
