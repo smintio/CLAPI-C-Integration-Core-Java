@@ -19,11 +19,9 @@
 
 package io.smint.clapi.consumer.integration.app;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -33,9 +31,8 @@ import java.util.logging.Logger;
 import javax.inject.Singleton;
 
 import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.impl.AbstractScheduler;
 
-
-// CHECKSTYLE.OFF: MultipleStringLiterals
 
 /**
  * Implements a Java {@link ScheduledThreadPoolExecutor} based scheduler to schedule a synchronization job.
@@ -48,55 +45,40 @@ import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
  * </p>
  */
 @Singleton
-public class NativeThreadPoolScheduler implements IPlatformScheduler {
+public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture<?>> implements IPlatformScheduler {
 
     private static final Logger LOG = Logger.getLogger(NativeThreadPoolScheduler.class.getName());
-    private static final int KEY_CHARACTER_LEN = 20;
 
-    private ScheduledThreadPoolExecutor _executor;
-    private final Map<String, ScheduledFuture<?>> _scheduledJobs = new Hashtable<>();
+    private ScheduledExecutorService _executor;
 
     @Override
     public String scheduleAtFixedRate(final Runnable job, final long period) {
         LOG.entering(this.getClass().getName(), "scheduleAtFixedRate", new Object[] { job, new Long(period) });
 
+        if (job == null || period < 10) {
+            LOG.finer("Ingoring invalid job and not scheduling it.");
+            LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", null);
+            return null;
+        }
+
+
         if (this._executor == null) {
-            this._executor = new ScheduledThreadPoolExecutor(2);
+            this._executor = Executors.newScheduledThreadPool(2);
         }
 
         Objects.requireNonNull(this._executor, "Failed to create a scheduled executor pool!");
-        this._executor.setRemoveOnCancelPolicy(true);
-
-
-        // create a key for the job
-        String key = this.createRandomKey();
-        // CHECKSTYLE.OFF: MagicNumber
-        int max = 1000;
-        // CHECKSTYLE.ON: MagicNumber
-        while (--max > 0 && this._scheduledJobs.containsKey(key)) {
-
-            LOG.finer("New job key >>" + key + "<< is not unique - trying again (" + max + " attempts left)!");
-            key = this.createRandomKey();
-        }
-        final String jobKey = key;
-
-        if (this._scheduledJobs.containsKey(jobKey)) {
-            final IllegalStateException excp = new IllegalStateException(
-                "Failed to create a unique key to add the job to the queue!"
-            );
-
-            LOG.finer(() -> "New job key >>" + jobKey + "<< is not unique - NOT trying again!");
-            LOG.throwing(this.getClass().getName(), "scheduleAtFixedRate", excp);
-            throw excp;
+        if (this._executor instanceof ScheduledThreadPoolExecutor) {
+            ((ScheduledThreadPoolExecutor) this._executor).setRemoveOnCancelPolicy(true);
         }
 
-        LOG.finer(() -> "Scheduling a new job with key >>" + jobKey + "<<.");
+
+        LOG.finer("Scheduling a new job.");
         final ScheduledFuture<?> scheduledJob = this._executor
             .scheduleAtFixedRate(
                 () -> {
                     // CHECKSTYLE.OFF: IllegalCatch
                     try {
-                        LOG.finer(() -> "Executing job with key >>" + jobKey + "<< in new thread.");
+                        LOG.finer(() -> "Executing a timed job with key in new thread.");
                         new Thread(job).start();
                     } catch (final Exception ignore) {
                         LOG.log(Level.SEVERE, "Executing a timed job has failed!", ignore);
@@ -108,7 +90,7 @@ public class NativeThreadPoolScheduler implements IPlatformScheduler {
                 TimeUnit.MILLISECONDS
             );
 
-        this._scheduledJobs.put(jobKey, scheduledJob);
+        final String jobKey = this.putJob(scheduledJob);
 
         LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", jobKey);
         return jobKey;
@@ -121,12 +103,11 @@ public class NativeThreadPoolScheduler implements IPlatformScheduler {
 
         if (this._executor != null && jobKey != null && !jobKey.isEmpty()) {
 
-            final ScheduledFuture<?> scheduledJob = this._scheduledJobs.get(jobKey);
+            final ScheduledFuture<?> scheduledJob = this.removeJob(jobKey);
             if (scheduledJob != null) {
 
                 LOG.finer(() -> "Stopping job with key >>" + jobKey + "<<.");
                 scheduledJob.cancel(false);
-                this._scheduledJobs.remove(jobKey);
 
             } else {
                 LOG.warning(() -> "No job with key >>" + jobKey + "<< has been found.");
@@ -148,6 +129,14 @@ public class NativeThreadPoolScheduler implements IPlatformScheduler {
     public IPlatformScheduler cancel() {
         LOG.entering(this.getClass().getName(), "cancel");
 
+        // cancel all schedules
+        for (final String key : this.getAllJobKey()) {
+            final ScheduledFuture<?> job = this.removeJob(key);
+            if (job != null) {
+                job.cancel(false);
+            }
+        }
+
         if (this._executor != null) {
             LOG.finer(() -> "Shutting down thread pool executer for timer!");
             this._executor.shutdownNow();
@@ -157,17 +146,4 @@ public class NativeThreadPoolScheduler implements IPlatformScheduler {
         LOG.exiting(this.getClass().getName(), "cancel", this);
         return this;
     }
-
-
-    private String createRandomKey() {
-        final byte[] array = new byte[KEY_CHARACTER_LEN];
-        new Random().nextBytes(array);
-        final String key = new String(array, StandardCharsets.UTF_8);
-
-        LOG.finer(() -> "Created new job key >>" + key + "<< - test for uniqueness is pending!");
-
-        return key;
-    }
 }
-
-// CHECKSTYLE.ON: MultipleStringLiterals

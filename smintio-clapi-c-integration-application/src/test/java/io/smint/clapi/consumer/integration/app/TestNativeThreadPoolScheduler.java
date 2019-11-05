@@ -19,9 +19,6 @@
 
 package io.smint.clapi.consumer.integration.app;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
@@ -129,45 +126,6 @@ public class TestNativeThreadPoolScheduler {
         TimeUnit.MILLISECONDS.sleep(period);
         Assertions
             .assertEquals(currentCall, wasCalled[0], "Scheduled job was executed although it has been cancelled!");
-    }
-
-
-    @Test
-    @DisplayName("An internally random key was created successfully.")
-    public void createJobKey() throws Exception {
-
-        final NativeThreadPoolScheduler scheduler = new NativeThreadPoolScheduler();
-
-        final Method createRandomKey = NativeThreadPoolScheduler.class
-            .getDeclaredMethod("createRandomKey", new Class<?>[] {});
-        createRandomKey.setAccessible(true);
-        final String jobKey = (String) createRandomKey.invoke(scheduler);
-
-        Assertions.assertNotNull(jobKey, "Failed to create a valid job key!");
-        Assertions.assertFalse(jobKey.isEmpty(), "Create job key is empty!");
-    }
-
-
-    @Test
-    @DisplayName("Job keys are random.")
-    public void createRandomJobKey() throws Exception {
-
-        final NativeThreadPoolScheduler scheduler = new NativeThreadPoolScheduler();
-
-        final Method createRandomKey = NativeThreadPoolScheduler.class
-            .getDeclaredMethod("createRandomKey", new Class<?>[] {});
-        createRandomKey.setAccessible(true);
-
-        final Map<String, Boolean> existingKeys = new HashMap<>();
-
-        for (int i = 0; i < 1000; i++) {
-            final String jobKey = (String) createRandomKey.invoke(scheduler);
-
-            Assertions.assertFalse(jobKey == null || jobKey.isEmpty(), "Job key is invalid: " + jobKey + "!");
-            Assertions.assertFalse(existingKeys.containsKey(jobKey), "Job key is not unique: " + jobKey + "!");
-
-            existingKeys.put(jobKey, Boolean.TRUE);
-        }
     }
 }
 
