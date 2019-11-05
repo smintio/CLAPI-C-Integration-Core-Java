@@ -338,6 +338,7 @@
     <modules>
         <module>smintio-clapi-c-integration-core</module>
         <module>smintio-clapi-c-integration-application</module>
+        <module>smintio-clapi-c-integration-j2ee</module>
     </modules>
 
 </project>

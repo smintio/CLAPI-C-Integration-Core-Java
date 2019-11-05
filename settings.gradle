@@ -2,3 +2,4 @@ rootProject.name = 'smintio-clapi'
 
 include 'smintio-clapi-c-integration-core'
 include 'smintio-clapi-c-integration-application'
+include 'smintio-clapi-c-integration-j2ee'
