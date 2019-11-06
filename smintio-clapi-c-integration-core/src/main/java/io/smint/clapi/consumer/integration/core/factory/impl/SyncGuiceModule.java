@@ -28,15 +28,15 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Provides;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
-import io.smint.clapi.consumer.integration.core.IPlatformSchedulerProvider;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
-import io.smint.clapi.consumer.integration.core.impl.NativeThreadPoolScheduler;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.IPlatformSchedulerProvider;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
-import io.smint.clapi.consumer.integration.core.services.PusherService;
+import io.smint.clapi.consumer.integration.core.services.impl.NativeThreadPoolScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.PusherService;
 
 
 /**

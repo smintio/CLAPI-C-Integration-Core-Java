@@ -23,10 +23,10 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
 

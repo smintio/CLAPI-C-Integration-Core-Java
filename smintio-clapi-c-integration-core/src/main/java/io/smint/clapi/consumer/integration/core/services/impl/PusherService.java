@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core.services;
+package io.smint.clapi.consumer.integration.core.services.impl;
 
 import java.text.MessageFormat;
 import java.util.Hashtable;
@@ -39,6 +39,7 @@ import com.pusher.client.util.HttpAuthorizer;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
+import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
 
 /**

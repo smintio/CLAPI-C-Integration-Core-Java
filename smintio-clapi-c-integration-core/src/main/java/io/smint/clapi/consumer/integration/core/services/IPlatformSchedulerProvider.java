@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core;
+package io.smint.clapi.consumer.integration.core.services;
 
 import javax.inject.Provider;
 

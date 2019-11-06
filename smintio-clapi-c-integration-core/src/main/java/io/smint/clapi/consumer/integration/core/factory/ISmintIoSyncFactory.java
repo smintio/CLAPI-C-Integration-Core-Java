@@ -19,8 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core.factory;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
 

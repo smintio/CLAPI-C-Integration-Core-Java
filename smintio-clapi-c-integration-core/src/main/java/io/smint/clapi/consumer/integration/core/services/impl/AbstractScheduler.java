@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core.impl;
+package io.smint.clapi.consumer.integration.core.services.impl;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals

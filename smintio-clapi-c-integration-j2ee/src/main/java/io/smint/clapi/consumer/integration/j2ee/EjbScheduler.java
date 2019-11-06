@@ -33,8 +33,8 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.inject.Singleton;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
-import io.smint.clapi.consumer.integration.core.impl.AbstractScheduler;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.AbstractScheduler;
 
 
 /**

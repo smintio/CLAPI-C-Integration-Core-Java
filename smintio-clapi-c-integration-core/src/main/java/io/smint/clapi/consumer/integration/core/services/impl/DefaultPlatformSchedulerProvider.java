@@ -17,11 +17,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core.impl;
+package io.smint.clapi.consumer.integration.core.services.impl;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
-import io.smint.clapi.consumer.integration.core.IPlatformSchedulerProvider;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.IPlatformSchedulerProvider;
 
 
 /**

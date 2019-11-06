@@ -21,8 +21,8 @@ package io.smint.clapi.consumer.integration.j2ee;
 
 import javax.inject.Singleton;
 
-import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
-import io.smint.clapi.consumer.integration.core.impl.DefaultPlatformSchedulerProvider;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.DefaultPlatformSchedulerProvider;
 
 
 /**

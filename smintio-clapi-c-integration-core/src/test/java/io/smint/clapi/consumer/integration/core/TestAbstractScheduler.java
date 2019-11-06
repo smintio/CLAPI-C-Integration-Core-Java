@@ -27,7 +27,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.smint.clapi.consumer.integration.core.impl.AbstractScheduler;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.AbstractScheduler;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
@@ -255,7 +256,7 @@ public class TestAbstractScheduler {
     }
 
 
-    public static class DummyScheduler extends AbstractScheduler<String> {
+    private static class DummyScheduler extends AbstractScheduler<String> {
 
         @Override
         public String scheduleAtFixedRate(final Runnable job, final long period) {
@@ -293,7 +294,7 @@ public class TestAbstractScheduler {
     }
 
 
-    public static class DummyObjectScheduler extends AbstractScheduler<Object> {
+    private static class DummyObjectScheduler extends AbstractScheduler<Object> {
 
         @Override
         public String scheduleAtFixedRate(final Runnable job, final long period) {

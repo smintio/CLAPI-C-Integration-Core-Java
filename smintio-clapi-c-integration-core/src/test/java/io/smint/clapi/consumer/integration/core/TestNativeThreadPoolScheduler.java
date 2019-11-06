@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.smint.clapi.consumer.integration.core.impl.NativeThreadPoolScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.NativeThreadPoolScheduler;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals

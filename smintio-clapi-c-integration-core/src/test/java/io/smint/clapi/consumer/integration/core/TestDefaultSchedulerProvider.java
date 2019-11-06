@@ -24,7 +24,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
-import io.smint.clapi.consumer.integration.core.impl.DefaultPlatformSchedulerProvider;
+import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
+import io.smint.clapi.consumer.integration.core.services.impl.DefaultPlatformSchedulerProvider;
 
 
 @DisplayName("Test default Java sheduler provider: DefaultPlatformSchedulerProvider.class")

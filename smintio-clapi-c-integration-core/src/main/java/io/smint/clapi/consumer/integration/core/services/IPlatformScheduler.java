@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core;
+package io.smint.clapi.consumer.integration.core.services;
 
 /**
  * Implements a platform dependent scheduler to schedule a synchronization job or handle on-demand sync.
