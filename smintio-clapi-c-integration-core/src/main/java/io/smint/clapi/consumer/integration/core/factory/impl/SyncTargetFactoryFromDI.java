@@ -26,7 +26,7 @@ import javax.inject.Singleton;
 
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
-import io.smint.clapi.consumer.integration.core.factory.ISyncFactory;
+import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
 
@@ -73,7 +73,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  * </pre>
  */
 @Singleton
-public class SyncFactoryFromDI implements ISyncFactory {
+public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
 
     private final IAuthTokenStorage _authTokenProvider;
     private final ISettingsModel _settings;
@@ -88,7 +88,7 @@ public class SyncFactoryFromDI implements ISyncFactory {
      * @param syncTargetProvider a sync target provider
      */
     @Inject
-    public SyncFactoryFromDI(
+    public SyncTargetFactoryFromDI(
         @Named("authTokenStorage") final IAuthTokenStorage authTokenProvider,
         final ISettingsModel settings,
         final Provider<ISyncTarget> syncTargetProvider

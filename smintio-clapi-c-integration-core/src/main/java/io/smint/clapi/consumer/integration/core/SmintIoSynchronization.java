@@ -24,7 +24,7 @@ import java.util.concurrent.FutureTask;
 
 import javax.inject.Inject;
 
-import io.smint.clapi.consumer.integration.core.factory.ISyncFactory;
+import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 
 
 /**
@@ -38,7 +38,7 @@ import io.smint.clapi.consumer.integration.core.factory.ISyncFactory;
 public class SmintIoSynchronization implements ISmintIoSynchronization {
 
 
-    private final ISyncFactory _factory;
+    private final ISyncTargetFactory _factory;
 
 
     /**
@@ -47,7 +47,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * @param factory the user factory helping to create all target specific instances.
      */
     @Inject
-    public SmintIoSynchronization(final ISyncFactory factory) {
+    public SmintIoSynchronization(final ISyncTargetFactory factory) {
         this._factory = factory;
     }
 
@@ -57,7 +57,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      *
      * @return the currently used factory.
      */
-    public ISyncFactory getFactory() {
+    public ISyncTargetFactory getFactory() {
         return this._factory;
     }
 

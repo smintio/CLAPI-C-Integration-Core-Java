@@ -24,7 +24,7 @@
  * <h2>How to provide your implementation to the sync library: Factory or dependency injection</h2>
  * <p>
  * In order to provide your implementation to the synchronization library framework, you need to provide a factory,
- * implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncFactory}. There is a default
+ * implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory}. There is a default
  * implementation available as {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncFactoryFromDI}. This
  * class can be used even if you do not have any dependency injection available. Nevertheless using any DI framework
  * would be helpful. There is an example how to use

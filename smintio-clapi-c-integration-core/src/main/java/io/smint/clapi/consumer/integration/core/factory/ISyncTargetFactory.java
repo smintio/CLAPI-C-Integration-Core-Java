@@ -32,7 +32,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  * factory functions to create all necessary instances.
  * </p>
  */
-public interface ISyncFactory {
+public interface ISyncTargetFactory {
 
     /**
      * creates an instance of the synchronization target instance.
