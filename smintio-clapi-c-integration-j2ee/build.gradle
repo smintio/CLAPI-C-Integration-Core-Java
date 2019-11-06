@@ -12,6 +12,11 @@ target DAM system.
 dependencies {
     compile project (":smintio-clapi-c-integration-core")
     compile ("javax.inject:javax.inject:[1,2)")
+
+    compileOnly ("javax.ejb:javax.ejb-api:[3.2,4.0)")
+    compileOnly ("javax.servlet:javax.servlet-api:[3.1,5.0)")
+
+    testCompile ("com.github.mjeanroy:junit-servers-tomcat:[0.6,1.0)")
 }
 
 
