@@ -17,13 +17,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.app;
+package io.smint.clapi.consumer.integration.core;
 
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import io.smint.clapi.consumer.integration.core.impl.NativeThreadPoolScheduler;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals

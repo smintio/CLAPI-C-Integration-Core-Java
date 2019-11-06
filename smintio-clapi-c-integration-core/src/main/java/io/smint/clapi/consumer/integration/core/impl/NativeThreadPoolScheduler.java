@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.app;
+package io.smint.clapi.consumer.integration.core.impl;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 import javax.inject.Singleton;
 
 import io.smint.clapi.consumer.integration.core.IPlatformScheduler;
-import io.smint.clapi.consumer.integration.core.impl.AbstractScheduler;
 
 
 /**
