@@ -31,6 +31,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
+import io.smint.clapi.consumer.integration.core.factory.impl.SyncGuiceModule;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 
 
@@ -43,6 +44,14 @@ import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
  * is set to constant rate of every 60 minutes. However, in case synchronization takes longer, the next scheduled task
  * is put into a waiting queue. The waiting queue consists of a single slot only. So any additional tasks to execute
  * because of the schedule is ignored and discarded. The still waiting task will handle its sync assets, too.
+ * </p>
+ *
+ * <h2>Dependency Injection</h2>
+ * <p>
+ * Either this class is created using any dependency injection, or <a href="https://github.com/google/guice"> Google's
+ * Guice</a> is used internally. The implementation tries to avoid to apply its own injector if there already is some in
+ * place. Only if the required instance of {@link ISmintIoSyncFactory} is not injected via Field Injection, Guice is to
+ * create these instances.
  * </p>
  */
 public class SmintIoSynchronization implements ISmintIoSynchronization {
@@ -57,7 +66,6 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
 
     private ISmintIoSyncFactory _factory;
-    private final ISyncTargetFactory _syncTargetfactory;
 
     private String _scheduledJobKey;
     private IPlatformScheduler _scheduler;
@@ -73,40 +81,10 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      *
      * @param syncTargetfactory the user factory helping to create all target specific instances.
      */
-    public SmintIoSynchronization(final ISyncTargetFactory syncTargetfactory) throws Exception {
-
-        Objects.requireNonNull(syncTargetfactory, "The provided sync target factory is null!");
-
-        this._syncTargetfactory = syncTargetfactory;
-        this._scheduledJobKey = null;
-        this.init();
-    }
-
-
-    /**
-     * Create a new Smint.io synchronization progress and injects required factory.
-     *
-     * <p>
-     * This should be used by external dependency injection system. In case none is in place,
-     * {@link #SmintIoSynchronization(ISyncTargetFactory)} might be more convenient.
-     * </p>
-     *
-     * <p>
-     * In case the provided factory is {@code null}, then {@link #init()} will try to load Google's Guice as Dependency
-     * Injection framework.
-     * </p>
-     *
-     * @param factory the Smint.io synchronization factory.
-     */
     @Inject
-    public SmintIoSynchronization(final ISmintIoSyncFactory factory) throws Exception {
-
-        Objects.requireNonNull(factory, "Dependency Injector did not provide a valid factory!");
-        this._factory = factory;
-
-        this._syncTargetfactory = null;
+    public SmintIoSynchronization(final ISyncTargetFactory syncTargetfactory) throws Exception {
+        this.init(syncTargetfactory);
         this._scheduledJobKey = null;
-        this.init();
     }
 
 
@@ -116,7 +94,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * @return the currently used factory.
      */
     public ISyncTargetFactory getFactory() {
-        return this._syncTargetfactory != null ? this._syncTargetfactory : this._factory.getSyncTargetFactory();
+        return this._factory.getSyncTargetFactory();
     }
 
 
@@ -166,14 +144,19 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * Initializes the Smint.io platform synchronization.
      *
      * <p>
-     * Checks whether an instance of {@link ISmintIoSyncFactory} has been properly injected into the private field by
-     * any injection system. An external dependency injection may be in place, to fulfill this task.
+     * An instance of <a href="https://github.com/google/guice"> Google's Guice</a> is created as Dependency Injection
+     * system and used to create this required instance of {@link ISmintIoSyncFactory}. The Guice injector is created by
+     * calling {@link SyncGuiceModule#createSmintIoSyncFactory(ISyncTargetFactory)}.
      * </p>
      *
      * @return the first service found or {@code null} if there is none.
-     * @throws NullPointerException
+     * @throws NullPointerException in case the created factory is {@code null} or any of its factory-function return
+     *                              {@code null}.
      */
-    public SmintIoSynchronization init() {
+    public SmintIoSynchronization init(final ISyncTargetFactory syncTargetFactory) {
+
+        Objects.requireNonNull(syncTargetFactory, "The provided sync target factory is null!");
+        this._factory = SyncGuiceModule.createSmintIoSyncFactory(syncTargetFactory);
 
         Objects.requireNonNull(this._factory, "No synchronization factory available!");
         Objects.requireNonNull(this._factory.getSyncTargetFactory(), "Failed to acquire sync target factory!");
