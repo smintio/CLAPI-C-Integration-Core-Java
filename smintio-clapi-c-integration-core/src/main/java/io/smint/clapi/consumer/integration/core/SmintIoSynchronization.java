@@ -33,6 +33,7 @@ import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.factory.impl.SyncGuiceModule;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
 
 /**
@@ -105,6 +106,11 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
                 this.createNewJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
             );
+
+            final IPushNotificationService pushService = this._factory.getNotificationService();
+            if (pushService != null) {
+                pushService.startNotificationService(this.createNewJob(false));
+            }
         }
     }
 
@@ -112,6 +118,12 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     @Override
     public void stop() {
         if (this._scheduledJobKey != null) {
+
+            final IPushNotificationService pushService = this._factory.getNotificationService();
+            if (pushService != null) {
+                pushService.stopNotificationService();
+            }
+
             this._scheduler.stopSchedule(this._scheduledJobKey);
             this._scheduledJobKey = null;
         }

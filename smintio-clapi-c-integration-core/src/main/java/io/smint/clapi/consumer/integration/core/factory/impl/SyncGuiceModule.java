@@ -35,6 +35,8 @@ import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.impl.NativeThreadPoolScheduler;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob;
+import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
+import io.smint.clapi.consumer.integration.core.services.PusherService;
 
 
 /**
@@ -125,10 +127,10 @@ public class SyncGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        super.configure();
 
         this.bind(ISyncJob.class).to(DefaultSyncJob.class);
         this.bind(ISmintIoSyncFactory.class).to(SmintIoSyncFactoryFromDI.class).in(Singleton.class);
-
-        super.configure();
+        this.bind(IPushNotificationService.class).to(PusherService.class).in(Singleton.class);
     }
 }

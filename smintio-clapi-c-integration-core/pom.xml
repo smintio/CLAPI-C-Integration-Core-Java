@@ -52,6 +52,12 @@
             <artifactId>guice</artifactId>
             <version>[4.0,5.0)</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.pusher</groupId>
+            <artifactId>pusher-java-client</artifactId>
+            <version>[1.6,3.0)</version>
+        </dependency>
     </dependencies>
 
     <build>
