@@ -38,7 +38,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDataModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.SettingsModelImpl;
-import io.smint.clapi.consumer.integration.core.contracts.ISMintIoGenericMetadata;
+import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException.AuthenticatorError;
@@ -313,7 +313,7 @@ public class DefaultSyncJob implements ISyncJob {
      * @param syncTarget the target to sync with.
      * @throws Exception any exception if thrown by the sync target functions
      */
-    public void synchronizeGenericMetadata(final ISMintIoGenericMetadata metaData, final ISyncTarget syncTarget)
+    public void synchronizeGenericMetadata(final ISmintIoGenericMetadata metaData, final ISyncTarget syncTarget)
         throws Exception {
 
         if (metaData == null) {

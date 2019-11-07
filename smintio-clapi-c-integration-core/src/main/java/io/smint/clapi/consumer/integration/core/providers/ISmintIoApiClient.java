@@ -1,6 +1,6 @@
 package io.smint.clapi.consumer.integration.core.providers;
 
-import io.smint.clapi.consumer.integration.core.contracts.ISMintIoGenericMetadata;
+import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 
 
@@ -20,7 +20,7 @@ public interface ISmintIoApiClient {
      *
      * @return Might be {@code null} in case no data can be retrieved from the server.
      */
-    ISMintIoGenericMetadata getGenericMetadata();
+    ISmintIoGenericMetadata getGenericMetadata();
 
 
     /**
