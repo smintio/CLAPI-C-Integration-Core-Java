@@ -28,6 +28,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Provides;
 
+import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
+import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
@@ -132,5 +134,6 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISyncJob.class).to(DefaultSyncJob.class);
         this.bind(ISmintIoSyncFactory.class).to(SmintIoSyncFactoryFromDI.class).in(Singleton.class);
         this.bind(IPushNotificationService.class).to(PusherService.class).in(Singleton.class);
+        this.bind(ISmintIoAuthenticator.class).to(SmintIoAuthenticatorImpl.class).in(Singleton.class);
     }
 }
