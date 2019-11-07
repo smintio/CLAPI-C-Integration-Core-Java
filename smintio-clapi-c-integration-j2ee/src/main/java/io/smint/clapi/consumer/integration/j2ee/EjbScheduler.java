@@ -59,7 +59,6 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
 
     private static final Logger LOG = Logger.getLogger(EjbScheduler.class.getName());
 
-
     private static EjbScheduler SCHEDULER_SINGLETON = null;
 
     @Resource
@@ -123,11 +122,13 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
             final J2eeSchedulerJobData jobData = this.getJob(timer.getInfo().toString());
             if (jobData != null && jobData.job != null) {
 
+                // CHECKSTYLE OFF: IllegalCatch
                 try {
                     jobData.job.run();
                 } catch (final Exception ingore) {
                     LOG.log(Level.SEVERE, "Timed job failed to execute!", ingore);
                 }
+                // CHECKSTYLE ON: IllegalCatch
 
             } else {
                 this.removeJob(jobData.jobKey);
@@ -142,12 +143,12 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
 
     @Override
     public String scheduleAtFixedRate(final Runnable job, final long period) {
-        LOG.entering(this.getClass().getName(), "scheduleAtFixedRate", new Object[] { job, new Long(period) });
+        LOG.entering(this.getClass().getName(), "scheduleAtFixedRate ", new Object[] { job, new Long(period) });
 
         Objects.requireNonNull(this._timerService, "No timer service has been injected by the J2EE container!");
 
 
-        if (job == null || period < 10) {
+        if (job == null || period < MINIMAL_PERIOD_MILLISECONDS) {
             LOG.finer("Ingoring invalid job and not scheduling it.");
             LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", null);
             return null;
@@ -161,14 +162,14 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
         jobInfo.jobKey = this.putJob(jobInfo);
         jobInfo.timer = this._timerService.createTimer(period, period, jobInfo.jobKey);
 
-        LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", jobInfo.jobKey);
+        LOG.exiting(this.getClass().getName(), "'scheduleAtFixedRate'", jobInfo.jobKey);
         return jobInfo.jobKey;
     }
 
 
     @Override
     public IPlatformScheduler stopSchedule(final String jobKey) {
-        LOG.entering(this.getClass().getName(), "stopSchedule", new Object[] { jobKey });
+        LOG.entering(this.getClass().getName(), "stopSchedule ", new Object[] { jobKey });
 
         if (jobKey != null && !jobKey.isEmpty()) {
 
@@ -186,7 +187,7 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
             LOG.finer(() -> "Job key to find job to stop is invalid: " + jobKey);
         }
 
-        LOG.exiting(this.getClass().getName(), "stopSchedule", this);
+        LOG.exiting(this.getClass().getName(), "'stopSchedule'", this);
         return this;
     }
 
@@ -203,7 +204,7 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
             }
         }
 
-        LOG.exiting(this.getClass().getName(), "cancel", this);
+        LOG.exiting(this.getClass().getName(), "cancel ", this);
         return this;
     }
 

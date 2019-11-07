@@ -13,6 +13,8 @@ package io.smint.clapi.consumer.integration.core.providers;
  * ID for users. This continuation ID is linked and related to all the data in the previous chunks. This makes it easy
  * to avoid duplicate transmission.
  * </p>
+ *
+ * @param <T> defines the type this container will hold as result.
  */
 public interface ISmintIoApiDataWithContinuation<T> {
 

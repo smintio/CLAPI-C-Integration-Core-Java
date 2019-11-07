@@ -49,6 +49,16 @@ public class SyncGuiceModule extends AbstractModule {
 
 
     /**
+     * Creates a new Google's Guice configuation module.
+     *
+     * @param syncTargetFactory the custom sync target factory.
+     */
+    public SyncGuiceModule(final ISyncTargetFactory syncTargetFactory) {
+        this._syncTargetFactory = syncTargetFactory;
+    }
+
+
+    /**
      * Create a new Google's Guice injector that makes use of the targets {@link ISyncTargetFactory}.
      *
      * @param syncTargetFactory the custom sync target factory.
@@ -58,16 +68,6 @@ public class SyncGuiceModule extends AbstractModule {
         return Guice.createInjector(
             new SyncGuiceModule(syncTargetFactory)
         ).getInstance(ISmintIoSyncFactory.class);
-    }
-
-
-    /**
-     * Creates a new Google's Guice configuation module.
-     *
-     * @param syncTargetFactory the custom sync target factory.
-     */
-    public SyncGuiceModule(final ISyncTargetFactory syncTargetFactory) {
-        this._syncTargetFactory = syncTargetFactory;
     }
 
 

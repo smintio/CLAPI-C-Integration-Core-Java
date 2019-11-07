@@ -109,7 +109,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private static final String PUSHER__APPLICATION_KEY = "32f31c26a83e09dc401b";
 
 
-    private final static Logger LOG = Logger.getLogger(PusherService.class.getName());
+    private static final Logger LOG = Logger.getLogger(PusherService.class.getName());
 
 
     private final ISettingsModel _settings;

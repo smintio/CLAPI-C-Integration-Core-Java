@@ -50,6 +50,20 @@ import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 @Singleton
 public abstract class AbstractScheduler<T> implements IPlatformScheduler {
 
+    /**
+     * The minimal milliseconds a schedule must use for its re-occurring period.
+     *
+     * <p>
+     * Schedules lower than this value will be ignored. Lower values impose a risk of workload overloading.
+     * </p>
+     *
+     * <pre>
+     * {@code MINIMAL_PERIOD_MILLISECONDS} = {@value #MINIMAL_PERIOD_MILLISECONDS}
+     * </pre>
+     */
+    public static final long MINIMAL_PERIOD_MILLISECONDS = 10;
+
+
     private static final Logger LOG = Logger.getLogger(AbstractScheduler.class.getName());
 
     private static final int KEY_BYTE_LEN = 20;

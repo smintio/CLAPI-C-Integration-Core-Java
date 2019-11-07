@@ -267,7 +267,7 @@
         </module>
         <module name="IllegalImport"/>
         <module name="ImportOrder">
-            <property name="groups" value="/^java\./,javax,com,io,org.mockito,org"/>
+            <property name="groups" value="/^java\./,javax,com,io,org,org.mockito,io.smint"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="top"/>

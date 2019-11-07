@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,9 +85,9 @@ public class FileModelStorage<T> implements Provider<T> {
             return null;
         }
 
+        final StringBuffer json = new StringBuffer();
         try (final FileReader in = new FileReader(this._fileStorage)) {
 
-            final StringBuffer json = new StringBuffer();
 
             final int chr = in.read();
             while (chr >= 0) {
@@ -94,6 +95,14 @@ public class FileModelStorage<T> implements Provider<T> {
             }
 
             return json.length() > 0 ? this._tokenConverter.decode(json.toString()) : null;
+
+        } catch (final ParseException excp) {
+
+            LOG.log(
+                Level.WARNING,
+                excp,
+                () -> "Can not convert invalid JSON to Java data: " + json.toString()
+            );
 
         } catch (final FileNotFoundException excp) {
 
@@ -122,7 +131,14 @@ public class FileModelStorage<T> implements Provider<T> {
 
         Objects.requireNonNull(this._fileStorage, "The file storage has not been provided and is null!");
 
-        final String json = this._tokenConverter.encode(newModelData);
+        String json = null;
+
+        try {
+            json = this._tokenConverter.encode(newModelData);
+        } catch (final ParseException excp) {
+            LOG.log(Level.WARNING, "Failed convert Java sync model data to JSON", excp);
+        }
+
         if (json == null || json.isEmpty()) {
             this._fileStorage.delete();
 

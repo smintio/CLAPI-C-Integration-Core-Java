@@ -35,11 +35,11 @@ public class AuthTokenImpl implements IAuthTokenModel {
     // not the case here, in order to get clean JSON property names without any annotation.
     // Avoiding any JSON library annotation helps keeping this class independent from any JSON library.
 
-    private boolean isSuccess = false;
-    private String accessToken;
-    private String refreshToken;
-    private String identityToken;
-    private OffsetDateTime expirationDate;
+    private boolean _isSuccess = false;
+    private String _accessToken;
+    private String _refreshToken;
+    private String _identityToken;
+    private OffsetDateTime _expirationDate;
 
 
     /**
@@ -69,90 +69,93 @@ public class AuthTokenImpl implements IAuthTokenModel {
 
     @Override
     public boolean isSuccess() {
-        return this.isSuccess;
+        return this._isSuccess;
     }
 
 
     /**
-     * Set a new value for {@link #isSuccess()} and provide Fluent Interface
+     * Set a new value for {@link #isSuccess()} and provide Fluent Interface.
      *
-     * @param isSuccess
+     * @param isSuccess set indicating value, whether retrieving the authentication token via OAuth procedure was
+     *                  successful.
      * @return {@code this} for <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public AuthTokenImpl setIsSuccess(final boolean isSuccess) {
-        this.isSuccess = isSuccess;
+        this._isSuccess = isSuccess;
         return this;
     }
 
 
     @Override
     public String getAccessToken() {
-        return this.accessToken;
+        return this._accessToken;
     }
 
 
     /**
-     * Set a new value for {@link #getAccessToken()} and provide Fluent Interface
+     * Set a new value for {@link #getAccessToken()} and provide Fluent Interface.
      *
-     * @param newAccessToken
+     * @param newAccessToken the new OAuth access token to store as it was retrieved with OAuth authentication
+     *                       procedure.
      * @return {@code this} for <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public AuthTokenImpl setAccessToken(final String newAccessToken) {
-        this.accessToken = newAccessToken;
+        this._accessToken = newAccessToken;
         return this;
     }
 
 
     @Override
     public String getRefreshToken() {
-        return this.refreshToken;
+        return this._refreshToken;
     }
 
 
     /**
-     * Set a new value for {@link #getRefreshToken()} and provide Fluent Interface
+     * Set a new value for {@link #getRefreshToken()} and provide Fluent Interface.
      *
-     * @param newRefreshToken
+     * @param newRefreshToken the new OAuth refresh token to store as it was retrieved with OAuth authentication
+     *                        procedure.
      * @return {@code this} for <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public AuthTokenImpl setRefreshToken(final String newRefreshToken) {
-        this.refreshToken = newRefreshToken;
+        this._refreshToken = newRefreshToken;
         return this;
     }
 
 
     @Override
     public String getIdentityToken() {
-        return this.identityToken;
+        return this._identityToken;
     }
 
 
     /**
-     * Set a new value for {@link #getIdentityToken()} and provide Fluent Interface
+     * Set a new value for {@link #getIdentityToken()} and provide Fluent Interface.
      *
-     * @param newIdentityToken
+     * @param newIdentityToken a new identity token value.
      * @return {@code this} for <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public AuthTokenImpl setIdentityToken(final String newIdentityToken) {
-        this.identityToken = newIdentityToken;
+        this._identityToken = newIdentityToken;
         return this;
     }
 
 
     @Override
     public OffsetDateTime getExpiration() {
-        return this.expirationDate;
+        return this._expirationDate;
     }
 
 
     /**
-     * Set a new value for {@link #getExpiration()} and provide Fluent Interface
+     * Set a new value for {@link #getExpiration()} and provide Fluent Interface.
      *
-     * @param newExpireDate
+     * @param newExpireDate the new expire date for the access token.
      * @return {@code this} for <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public AuthTokenImpl setExpiration(final OffsetDateTime newExpireDate) {
-        this.expirationDate = newExpireDate;
+        this._expirationDate = newExpireDate;
         return this;
     }
 }

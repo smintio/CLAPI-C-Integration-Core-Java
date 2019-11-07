@@ -43,6 +43,6 @@ public interface ISmintIoApiClient {
      * @return {@code null} in case no data has been retrieved from the server.
      */
     ISmintIoApiDataWithContinuation<ISmintIoAsset[]> getAssets(
-        String continuationUuid, boolean includeCoundAssets, boolean includeBinaryUpdates
+        final String continuationUuid, final boolean includeCoundAssets, final boolean includeBinaryUpdates
     );
 }

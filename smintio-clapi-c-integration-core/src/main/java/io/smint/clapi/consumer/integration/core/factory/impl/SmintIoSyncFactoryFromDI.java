@@ -49,6 +49,7 @@ public class SmintIoSyncFactoryFromDI implements ISmintIoSyncFactory {
     private final IPlatformScheduler _scheduler;
     private final IPushNotificationService _notificationService;
 
+    // CHECKSTYLE OFF: ParameterNumber
     @Inject
     public SmintIoSyncFactoryFromDI(
         final ISyncTargetFactory syncTargetFactory,
@@ -61,6 +62,7 @@ public class SmintIoSyncFactoryFromDI implements ISmintIoSyncFactory {
         this._scheduler = platformScheduler;
         this._notificationService = notificationService;
     }
+    // CHECKSTYLE ON: ParameterNumber
 
 
     @Override

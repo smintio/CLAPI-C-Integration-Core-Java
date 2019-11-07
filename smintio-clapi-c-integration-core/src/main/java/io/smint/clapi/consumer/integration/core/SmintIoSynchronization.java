@@ -61,10 +61,10 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     /**
      * The rate (period) to execute the standard synchronization job, including meta-data synchronization.
      */
-    public final static long JOB_SCHEDULE_PERIOD_MILLISEC = 3600000L;
+    public static final long JOB_SCHEDULE_PERIOD_MILLISEC = 3600000L;
 
 
-    private final static Logger LOG = Logger.getLogger(SmintIoSynchronization.class.getName());
+    private static final Logger LOG = Logger.getLogger(SmintIoSynchronization.class.getName());
 
 
     private ISmintIoSyncFactory _factory;
@@ -188,7 +188,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         return () -> {
             try {
                 job.synchronize(syncMetadata);
-            } catch (SmintIoAuthenticatorException | SmintIoSyncJobException excp) {
+            } catch (final SmintIoAuthenticatorException | SmintIoSyncJobException excp) {
                 LOG.log(Level.SEVERE, "Failed to execute synchronization job with Smint.io platform!", excp);
             }
         };

@@ -29,6 +29,8 @@ import java.text.ParseException;
  * The representation within {@code String} is totally up to the implementation, whether it is something like XML or
  * JSON or any other form of textual representation.
  * </p>
+ *
+ * @param <T> the type of model to convert to and from a String.
  */
 public interface IModelStringConverter<T> {
 
@@ -43,7 +45,7 @@ public interface IModelStringConverter<T> {
      *                        Empty {@code String} values or {@code null} values are ignored and not parsed and thus no
      *                        exception is being thrown.
      */
-    T decode(final String encodedData) throws RuntimeException;
+    T decode(final String encodedData) throws ParseException;
 
 
     /**
@@ -55,5 +57,5 @@ public interface IModelStringConverter<T> {
      *                        Nevertheless {@code null} values are ignored and not converted and thus no exception is
      *                        being thrown.
      */
-    String encode(final T newModelData) throws RuntimeException;
+    String encode(final T newModelData) throws ParseException;
 }

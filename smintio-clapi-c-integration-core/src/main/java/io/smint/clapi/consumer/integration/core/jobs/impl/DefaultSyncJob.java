@@ -75,7 +75,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
  */
 public class DefaultSyncJob implements ISyncJob {
 
-    private final static Logger LOG = Logger.getLogger(DefaultSyncJob.class.getName());
+    private static final Logger LOG = Logger.getLogger(DefaultSyncJob.class.getName());
 
 
     private final SettingsModelImpl _settings;
@@ -85,6 +85,17 @@ public class DefaultSyncJob implements ISyncJob {
     private final ISyncTarget _syncTarget;
 
 
+    /**
+     * Create new sync job and provide all necessary parameters via parameters.
+     *
+     * @param settings         the settings to read tenant ID etc. from
+     * @param authTokenStorage OAuth token for authorization to connecto to Smint.io API
+     * @param smintIoClient    Smint.IO API wrapper instance
+     * @param syncTarget       the target to synchronize to
+     * @param syncDataStorage  storage to save some data between synchronization steps. Used for fetching the list of
+     *                         assets in chunks, as the list could be very long.
+     */
+    // CHECKSTYLE OFF: ParameterNumber
     @Inject
     public DefaultSyncJob(
         final ISettingsModel settings,
@@ -107,6 +118,7 @@ public class DefaultSyncJob implements ISyncJob {
         Objects.requireNonNull(this._settings, "Settings must not be null!");
         Objects.requireNonNull(this._settings.getTenantId(), "Settings must provide a tenent ID!");
     }
+    // CHECKSTYLE ON: ParameterNumber
 
 
     @Override
@@ -150,18 +162,20 @@ public class DefaultSyncJob implements ISyncJob {
             this._syncTarget.afterSync();
 
         } catch (final SmintIoAuthenticatorException authExcp) {
-            LOG.log(Level.SEVERE, "Error in sync job", authExcp);
+            LOG.log(Level.SEVERE, "Authentication error in sync job", authExcp);
             this._syncTarget.handleAuthenticatorException(authExcp);
 
         } catch (final SmintIoSyncJobException jobExcp) {
-            LOG.log(Level.SEVERE, "Error in sync job", jobExcp);
+            LOG.log(Level.SEVERE, "General synchronization error in sync job", jobExcp);
             this._syncTarget.handleSyncJobException(jobExcp);
 
+            // CHECKSTYLE OFF: IllegalCatch
         } catch (final Exception excp) {
-            LOG.log(Level.SEVERE, "Error in sync job", excp);
+            LOG.log(Level.SEVERE, "Arbitrary error in sync job", excp);
             this._syncTarget.handleSyncJobException(
                 new SmintIoSyncJobException(SmintIoSyncJobException.SyncJobError.Generic, excp.getMessage(), excp)
             );
+            // CHECKSTYLE ON: IllegalCatch
         }
     }
 
@@ -270,8 +284,7 @@ public class DefaultSyncJob implements ISyncJob {
      * <li>{@link IAuthTokenModel#getAccessToken()}</li>
      * </ul>
      *
-     * @param settings the settings data to check.
-     * @return {@code true} in case the provided settings instance contain all data that is needed for synchronization.
+     * @param authData authentication data to check whether every data for OAuth authorization is available.
      * @throws SmintIoAuthenticatorException in case an invalid settings value has been provided.
      * @throws NullPointerException          if parameter {@code authData} is {@code null}
      */
@@ -308,7 +321,7 @@ public class DefaultSyncJob implements ISyncJob {
             return;
         }
 
-        Objects.requireNonNull(syncTarget, "provided sync target is null");
+        Objects.requireNonNull(syncTarget, "Provided sync target is null!");
 
 
         LOG.info("Starting Smint.io generic metadata synchronization...");
@@ -346,12 +359,12 @@ public class DefaultSyncJob implements ISyncJob {
     }
 
 
-    /***
+    /**
      * Fetches the assets from Smint.io API and synchronizes these with the target.
      *
      * <p>
      * The assets are fetched from the Smint.io RESTful API in chunks and passed to the sync target in these batches. A
-     * temporary directory is created to be used for downloading assets. In the end, all files and directories in thie
+     * temporary directory is created to be used for downloading assets. In the end, all files and directories in the
      * temporary directory are deleted at the end of synchronizing.
      * </p>
      *
@@ -370,10 +383,10 @@ public class DefaultSyncJob implements ISyncJob {
     )
         throws Exception {
 
-        Objects.requireNonNull(tenantId, "provided tenant ID is null");
-        Objects.requireNonNull(syncTarget, "provided sync target is null");
-        Objects.requireNonNull(jobDataStorage, "provided job data storage is null");
-        Objects.requireNonNull(smintIoClient, "provided Smint.io API client is null");
+        Objects.requireNonNull(tenantId, "Provided tenant ID is <null>!");
+        Objects.requireNonNull(syncTarget, "Provided sync target is <null>!");
+        Objects.requireNonNull(jobDataStorage, "Provided job data storage is <null>!");
+        Objects.requireNonNull(smintIoClient, "Provided Smint.io API client is <null>!");
 
         LOG.info("Starting Smint.io asset synchronization...");
 

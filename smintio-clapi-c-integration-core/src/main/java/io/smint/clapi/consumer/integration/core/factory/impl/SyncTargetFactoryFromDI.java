@@ -84,7 +84,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      * create a new sync factory with pre-created values.
      *
      * @param authTokenProvider  already created and available authentication token provider
-     * @param settingsProvider   allready available settings provider
+     * @param settings           already available settings provider
      * @param syncTargetProvider a sync target provider
      */
     @Inject

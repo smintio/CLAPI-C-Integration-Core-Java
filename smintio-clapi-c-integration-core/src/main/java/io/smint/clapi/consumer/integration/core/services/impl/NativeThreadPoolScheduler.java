@@ -52,9 +52,9 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
 
     @Override
     public String scheduleAtFixedRate(final Runnable job, final long period) {
-        LOG.entering(this.getClass().getName(), "scheduleAtFixedRate", new Object[] { job, new Long(period) });
+        LOG.entering(this.getClass().getName(), "scheduleAtFixedRate ", new Object[] { job, new Long(period) });
 
-        if (job == null || period < 10) {
+        if (job == null || period < MINIMAL_PERIOD_MILLISECONDS) {
             LOG.finer("Ingoring invalid job and not scheduling it.");
             LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", null);
             return null;
@@ -91,14 +91,14 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
 
         final String jobKey = this.putJob(scheduledJob);
 
-        LOG.exiting(this.getClass().getName(), "scheduleAtFixedRate", jobKey);
+        LOG.exiting(this.getClass().getName(), "'scheduleAtFixedRate'", jobKey);
         return jobKey;
     }
 
 
     @Override
     public IPlatformScheduler stopSchedule(final String jobKey) {
-        LOG.entering(this.getClass().getName(), "stopSchedule", new Object[] { jobKey });
+        LOG.entering(this.getClass().getName(), "stopSchedule ", new Object[] { jobKey });
 
         if (this._executor != null && jobKey != null && !jobKey.isEmpty()) {
 
@@ -126,7 +126,7 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
 
     @Override
     public IPlatformScheduler cancel() {
-        LOG.entering(this.getClass().getName(), "cancel");
+        LOG.entering(this.getClass().getName(), "cancel ");
 
         // cancel all schedules
         for (final String key : this.getAllJobKey()) {

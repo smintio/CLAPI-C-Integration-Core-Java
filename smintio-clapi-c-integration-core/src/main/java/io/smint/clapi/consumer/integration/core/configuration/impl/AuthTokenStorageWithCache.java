@@ -49,8 +49,8 @@ public class AuthTokenStorageWithCache implements IAuthTokenStorage {
     /**
      * Create a new facade to another token provider, caching its result for improved performance.
      *
-     * @param tokenProvider the provider to wrap and query for data - must not be {@code null}. If available, the DI
-     *                      injects an instance named {@code authTokenPersistentStorage}.
+     * @param tokenStorage the storage to wrap and query for data - must not be {@code null}. If available, the DI
+     *                     injects an instance named {@code authTokenPersistentStorage}.
      */
     @Inject
     public AuthTokenStorageWithCache(@Named("authTokenPersistentStorage") final IAuthTokenStorage tokenStorage) {

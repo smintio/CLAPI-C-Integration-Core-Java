@@ -26,6 +26,7 @@ import javax.ejb.Timer;
  * A POJO definition to store job data for an J2EE based scheduler.
  */
 public class J2eeSchedulerJobData {
+    // CHECKSTYLE OFF: VisibilityModifier
 
     /**
      * The timer that was created to schedule the job.
@@ -41,5 +42,7 @@ public class J2eeSchedulerJobData {
      * The job to execute for every timer event.
      */
     public Runnable job;
+
+    // CHECKSTYLE ON: VisibilityModifier
 }
 
