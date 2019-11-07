@@ -38,7 +38,29 @@ public class SmintIoAuthenticatorException extends Exception {
      * provides more information about the kind of error this exception covers.
      */
     public enum AuthenticatorError {
-        SmintIoIntegrationWrongState, CannotAcquireSmintIoToken, CannotRefreshSmintIoToken, Generic
+        /**
+         * The current state does not permit any authorization with the Smint.io API.
+         *
+         * <p>
+         * Probably because settings are wrong.
+         * </p>
+         */
+        SmintIoIntegrationWrongState,
+
+        /**
+         * Acquiring the OAuth access token for Smint.io API failed.
+         */
+        CannotAcquireSmintIoToken,
+
+        /**
+         * Refreshing the OAuth access token for Smint.io API with the refresh token failed.
+         */
+        CannotRefreshSmintIoToken,
+
+        /**
+         * Some unknown, generic error.
+         */
+        Generic
     }
 
 

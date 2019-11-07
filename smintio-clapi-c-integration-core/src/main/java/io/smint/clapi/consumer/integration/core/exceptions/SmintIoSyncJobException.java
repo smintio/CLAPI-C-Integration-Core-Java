@@ -38,6 +38,10 @@ public class SmintIoSyncJobException extends Exception {
      * provides more information about the kind of error this exception covers.
      */
     public enum SyncJobError {
+
+        /**
+         * A generic, unknown error occurred.
+         */
         Generic
     }
 

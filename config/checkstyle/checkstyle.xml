@@ -224,10 +224,19 @@
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
-        <module name="JavadocTagContinuationIndentation"/>
+        <module name="InvalidJavadocPosition"/>
+        <module name="JavadocBlockTagLocation"/>
+        <module name="JavadocTagContinuationIndentation">
+            <property name="violateExecutionOnNonTightHtml" value="true"/>
+        </module>
+        <module name="JavadocVariable">
+            <property name="scope" value="protected"/>
+            <property name="ignoreNamePattern" value="log|logger|LOG"/>
+        </module>
         <module name="SummaryJavadoc">
+            <property name="violateExecutionOnNonTightHtml" value="true" />
             <property name="forbiddenSummaryFragments"
-             value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+             value="^@return [tT]he *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
         </module>
         <module name="JavadocParagraph">
             <property name="violateExecutionOnNonTightHtml" value="true"/>
@@ -237,12 +246,22 @@
             <property name="target"
              value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
+<!-- for newer checkstyle versions
+        <module name="MissingJavadocMethod">
+            <property name="scope" value="protected"/>
+            <property name="allowedAnnotations" value="Override, Test, Before, After, Generated, BeforeAll, AfterAll"/>
+        <module/>
+-->
+        <module name="MissingJavadocPackage"/>
+        <module name="MissingJavadocType">
+            <property name="scope" value="protected"/>
+        </module>
         <module name="JavadocMethod">
             <property name="scope" value="protected"/>
             <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingThrowsTags" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
-            <property name="allowedAnnotations" value="Override, Test, Before, After, Generated"/>
+            <property name="allowedAnnotations" value="Override, Test, Before, After, Generated, BeforeAll, AfterAll"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
         <module name="MethodName">
@@ -267,7 +286,7 @@
         </module>
         <module name="IllegalImport"/>
         <module name="ImportOrder">
-            <property name="groups" value="/^java\./,javax,com,io,org,org.mockito,io.smint"/>
+            <property name="groups" value="/^java\./,javax,com,io,okhttp3,org,org.mockito,io.smint"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="top"/>
@@ -287,7 +306,9 @@
         <module name="NestedTryDepth"/>
         <module name="NestedIfDepth"/>
         <module name="NestedForDepth"/>
-        <module name="MultipleStringLiterals"/>
+        <module name="MultipleStringLiterals">
+            <property name="ignoreStringsRegexp" value='^(("")|(":.*"))$'/>
+        </module>
         <module name="ModifiedControlVariable"/>
         <module name="MagicNumber"/>
         <module name="InnerAssignment"/>

@@ -1,7 +1,7 @@
 package io.smint.clapi.consumer.integration.core.providers;
 
-import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
+import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 
 
 /**
