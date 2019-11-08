@@ -27,6 +27,9 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -71,8 +74,15 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
     public static final String OAUTH_TOKEN_ENDPOINT = "https://{0}.smint.io/connect/token";
 
 
-    private static final Logger LOG = Logger.getAnonymousLogger(SmintIoAuthenticatorImpl.class.getName());
+    private static final Logger LOG = Logger.getLogger(SmintIoAuthenticatorImpl.class.getName());
 
+
+    private final Provider<OkHttpClient> _httpClientProvider;
+
+    @Inject
+    public SmintIoAuthenticatorImpl(final Provider<OkHttpClient> httpClientProvider) {
+        this._httpClientProvider = httpClientProvider;
+    }
 
     @Override
     public SmintIoAuthenticatorImpl refreshSmintIoToken(
@@ -102,6 +112,18 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
             this.extractTokenFromJsonResponse(response, authTokenStorage.getAuthData())
         );
 
+        if (!authTokenStorage.getAuthData().isSuccess()) {
+            // CHECKSTYLE OFF: MultipleStringLiterals
+            final String serverErrorMessage = response.has("error_msg") ? response.getString("error_msg") : null;
+            // CHECKSTYLE ON: MultipleStringLiterals
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.CannotRefreshSmintIoToken,
+                serverErrorMessage != null && !serverErrorMessage.isEmpty() ? serverErrorMessage
+                    : "Failed to renew access token."
+            );
+        }
+
+
         final String newAccessToken = authTokenStorage.getAuthData().getAccessToken();
         if (newAccessToken == null || newAccessToken.isEmpty()) {
             throw new SmintIoAuthenticatorException(
@@ -110,12 +132,6 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
             );
         }
 
-
-        if (!authTokenStorage.getAuthData().isSuccess()) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.CannotRefreshSmintIoToken, "Failed to renew access token."
-            );
-        }
 
         LOG.info("Successfully refreshed token for Smint.io!");
         return this;
@@ -170,7 +186,9 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         String responseText = null;
         try {
 
-            final OkHttpClient client = new OkHttpClient();
+            final OkHttpClient client = this._httpClientProvider != null ? this._httpClientProvider.get()
+                : new OkHttpClient();
+
             final Response httpResponse = client.newCall(request).execute();
 
             responseText = httpResponse.body().string();

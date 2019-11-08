@@ -56,6 +56,7 @@ public interface ISmintIoAuthenticator {
      *                         data that might be necessary.
      * @param authTokenStorage a storage provider to read the current OAuth access token and refresh token and then make
      *                         new tokens persistent for next use.
+     * @return {@code this} for Fluent Interface design.
      * @throws SmintIoAuthenticatorException in case no refresh token is available, invalid, has expired or the Smint.io
      *                                       API rejected the refresh token.
      */
