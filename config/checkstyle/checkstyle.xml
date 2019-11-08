@@ -255,6 +255,7 @@
         <module name="MissingJavadocPackage"/>
         <module name="MissingJavadocType">
             <property name="scope" value="protected"/>
+            <property name="skipAnnotations" value="Override, Test, Before, After, Generated, BeforeAll, AfterAll, DisplayName"/>
         </module>
         <module name="JavadocMethod">
             <property name="scope" value="protected"/>
@@ -282,11 +283,11 @@
             <property name="tokens" value="METHOD_DEF, CTOR_DEF, LITERAL_CATCH, FOR_EACH_CLAUSE"/>
         </module>
         <module name="AvoidStaticImport">
-            <property name="excludes" value="org.mockito.Mockito.*"/>
+            <property name="excludes" value="org.mockito.Mockito.*,org.mockito.ArgumentMatchers.*"/>
         </module>
         <module name="IllegalImport"/>
         <module name="ImportOrder">
-            <property name="groups" value="/^java\./,javax,com,io,okhttp3,org,org.mockito,io.smint"/>
+            <property name="groups" value="/^java\./,javax,com,io,okhttp3,okio,org,org.mockito,io.smint"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="top"/>
