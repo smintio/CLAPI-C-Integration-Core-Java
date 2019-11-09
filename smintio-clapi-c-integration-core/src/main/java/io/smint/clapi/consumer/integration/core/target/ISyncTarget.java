@@ -19,8 +19,6 @@
 
 package io.smint.clapi.consumer.integration.core.target;
 
-import java.util.List;
-
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
@@ -41,7 +39,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * to the target <em>downstream</em> <a href="https://en.wikipedia.org/wiki/Digital_asset_management">Asset Management
  * System (DAM)</a>. Smint.io is a purchase platform to easy acquiring of digital assets. These assets then can be
  * stored with a local DAM. Instances implementing this interface support automatically storing of assets from Smint.io
- * to a target DAM - in a one-way process, from Smint.io to DAM (Smint.io --&gt;/gt; DAM).
+ * to a target DAM - in a one-way process, from Smint.io to DAM (Smint.io --&gt;&gt; DAM).
  * </p>
  *
  * <h2>Two-phased synchronization process</h2>
@@ -72,8 +70,8 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * <h2>Two kinds of events for initiating an synchronization process</h2>
  * <p>
  * There are two kinds of events initiating a synchronization, as outlined in
- * {@link io.smint.clapi.consumer.integration.core.target.ISmintIoSynchronization}. The scheduled synchronization will
- * sync meta data, whereas the pushed kind of sync in case of a purchase will not.
+ * {@link io.smint.clapi.consumer.integration.core.ISmintIoSynchronization}. The scheduled synchronization will sync
+ * meta data, whereas the pushed kind of sync in case of a purchase will not.
  * </p>
  *
  * <h2>Parallel execution of imports</h2>
@@ -243,7 +241,7 @@ public interface ISyncTarget {
 
 
     /**
-     * After the synchronization of all assets with {@link #importAssets(String, List)} this is called, but before
+     * After the synchronization of all assets with {@link #importAssets(ISmintIoAsset[])} this is called, but before
      * {@link #afterAssetsSync()}.
      *
      * <p>
@@ -290,7 +288,7 @@ public interface ISyncTarget {
      * </p>
      *
      * <p>
-     * Whenever any of the synchronization functions (like {@link #importAssets(String, List)}) throws an exception,
+     * Whenever any of the synchronization functions (like {@link #importAssets(ISmintIoAsset[])}) throws an exception,
      * synchronization is terminated immediately. Eventually this function is called but not other clean-up utility
      * function, like {@link #clearGenericMetadataCaches()} or any {@code after...} function. So in case of any
      * exception, this handler is the final chance to perform clean-up and prepare everything for the next run to work

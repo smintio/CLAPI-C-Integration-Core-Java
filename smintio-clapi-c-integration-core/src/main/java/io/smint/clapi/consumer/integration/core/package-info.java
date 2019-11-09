@@ -16,9 +16,9 @@
  * To make it work with a sync target, you need to implement the following interfaces:
  * </p>
  * <ul>
- * <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}</li>
  * <li>{@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage}</li>
  * <li>{@link io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel}</li>
+ * <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}</li>
  * </ul>
  *
  * <h2>How to provide your implementation to the sync library: Factory or dependency injection</h2>
@@ -26,9 +26,9 @@
  * In order to provide your implementation to the synchronization library framework, you need to provide a factory,
  * implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory}. There is a
  * default * implementation available as
- * {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncFactoryFromDI}. This class can be used even if you
- * do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is an
- * example how to use {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncFactoryFromDI} in the
+ * {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncTargetFactoryFromDI}. This class can be used even if
+ * you do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is an
+ * example how to use {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncTargetFactoryFromDI} in the
  * documentation for that class.
  * </p>
  *

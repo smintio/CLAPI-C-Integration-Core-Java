@@ -92,6 +92,8 @@ public class ModelDataJsonConverter<T, I extends T> implements IModelStringConve
     /**
      * Return the class of the data model to be serialized - used for deserialization.
      *
+     * @param newModelClass the new class type of deserialized data. This is needed by Google's Gson to know, which
+     *                      class to instantiate for the analysed json data.
      * @return the class instance of the model to deserialize - must not return {@code null}.
      */
     protected ModelDataJsonConverter<T, I> setClassOfModel(final Class<I> newModelClass) {

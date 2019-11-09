@@ -50,6 +50,7 @@ public interface IPlatformSchedulerProvider extends Provider<IPlatformScheduler>
     /**
      * Sets initialization data for creating new schedulers.
      *
+     * @param settings the new settings to pass to a newly created scheduler.
      * @return {@code this} for Fluent Interface
      */
     IPlatformSchedulerProvider setSettings(final ISettingsModel settings);

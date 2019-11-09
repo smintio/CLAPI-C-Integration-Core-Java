@@ -53,6 +53,8 @@ public class AuthTokenImpl implements IAuthTokenModel {
 
     /**
      * Copy all data from another instance.
+     *
+     * @param otherAuthToken the source of all data to copy from.
      */
     public AuthTokenImpl(final IAuthTokenModel otherAuthToken) {
         this();

@@ -30,7 +30,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 
 
 /**
- * Wraps a {@link IAuthTokenProvider} and provides a cache to its retrieved data.
+ * Wraps a {@link IAuthTokenStorage} and provides a cache to its retrieved data.
  *
  * <p>
  * This instance requires another instance to wrap, which will be queried for data. Hence this instance is following the

@@ -25,11 +25,11 @@ import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDat
 
 
 /**
- * Provides storage layer for some process data that a sync process need to store for its next run.
+ * Provides storage layer for some process data that a sync process need to store for recovery.
  *
  * <p>
  * There is some data that is created in one sync run that must be made available to the next sync run, even if the JVM
- * has been restarted. Such data is used to speed-up synchronization. The kind of data is defined by
+ * has been restarted or crashes. Such data is used to speed-up synchronization. The kind of data is defined by
  * {@link ISyncJobDataModel}. Eg: {@link ISyncJobDataModel#getContinuationUuid()} will help to continue with a failed or
  * otherwise unexpectedly stopped synchronization process, because the assets that have already been synchronized
  * successfully are marked on the Smint.io server side. These can be skipped and only new assets need to be synced.
@@ -41,6 +41,10 @@ import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDat
  * returns with {@code #getSyncProcessData()}. However, it must be persisted to a storage system in order to restore it
  * once the JVM has been stopped and/or restarted.
  * </p>
+ *
+ * <p>
+ * Beware that multiple synchronization jobs/threads may access the same data. So do not forget to synchronize.
+ * </p>
  */
 public interface ISyncJobDataStorage extends Provider<ISyncJobDataModel> {
 
@@ -48,7 +52,7 @@ public interface ISyncJobDataStorage extends Provider<ISyncJobDataModel> {
      * Returns the data that has previously been set by the sync process to be made persistent.
      *
      * @return An instance of {@link ISyncJobDataModel} that has been previously been passed to
-     *         {@link #setSyncProcessModel(ISyncJobDataModel)} or {@code null}.
+     *         {@link #storeSyncProcessData(ISyncJobDataModel)} or {@code null}.
      */
     ISyncJobDataModel getSyncProcessData();
 
@@ -56,6 +60,7 @@ public interface ISyncJobDataStorage extends Provider<ISyncJobDataModel> {
     /**
      * Sets a new set of process data that need to be made persistent and made available to the next run.
      *
+     * @param newProcessData new synchronization process data to store for next run or step.
      * @return {@code this} and implements Fluent Interface
      */
     ISyncJobDataStorage storeSyncProcessData(final ISyncJobDataModel newProcessData);

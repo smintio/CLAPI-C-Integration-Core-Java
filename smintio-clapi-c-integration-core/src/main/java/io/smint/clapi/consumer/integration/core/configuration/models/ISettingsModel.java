@@ -53,7 +53,7 @@ package io.smint.clapi.consumer.integration.core.configuration.models;
  * <h2>Two kinds of events for initiating an synchronization process</h2>
  * <p>
  * There are two kinds of events initiating a synchronization, as outlined in
- * {@link io.smint.clapi.consumer.integration.core.target.ISmintIoSynchronization}
+ * {@link io.smint.clapi.consumer.integration.core.ISmintIoSynchronization}
  * </p>
  *
  * <h2>Authorization for Smint.io RESTful API</h2>

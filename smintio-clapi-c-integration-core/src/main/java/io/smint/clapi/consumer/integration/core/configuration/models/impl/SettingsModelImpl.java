@@ -44,6 +44,11 @@ public class SettingsModelImpl implements ISettingsModel {
     }
 
 
+    /**
+     * Copy all data from another instance.
+     *
+     * @param copyFrom the source of all data to copy from.
+     */
     public SettingsModelImpl(final ISettingsModel copyFrom) {
         this();
 
@@ -66,6 +71,8 @@ public class SettingsModelImpl implements ISettingsModel {
     /**
      * sets a new tenant ID and returns {@code this} for Fluent Interface.
      *
+     * @param newTenantId the new tenant ID of Smint.io platform, whose assets should be synchronized to the
+     *                    synrhonization target.
      * @return {@code this}
      */
     public SettingsModelImpl setTenantId(final String newTenantId) {
@@ -83,6 +90,8 @@ public class SettingsModelImpl implements ISettingsModel {
     /**
      * sets a new channel ID and returns {@code this} for Fluent Interface.
      *
+     * @param newChannelId the Pusher.com channel ID to subscript to its notification. This is specific to a Smint.io
+     *                     tenant.
      * @return {@code this}
      */
     public SettingsModelImpl setChannelId(final int newChannelId) {
@@ -100,6 +109,7 @@ public class SettingsModelImpl implements ISettingsModel {
     /**
      * sets a new client ID and returns {@code this} for Fluent Interface.
      *
+     * @param newClientId the client ID the access and refresh tokens of OAuth are related to.
      * @return {@code this}
      */
     public SettingsModelImpl setClientId(final String newClientId) {
@@ -117,6 +127,7 @@ public class SettingsModelImpl implements ISettingsModel {
     /**
      * sets a new client secret used for OAuth and returns {@code this} for Fluent Interface.
      *
+     * @param newClientSecret a new client secret to use with OAuth access token refresh.
      * @return {@code this}
      */
     public SettingsModelImpl setClientSecret(final String newClientSecret) {
@@ -134,6 +145,7 @@ public class SettingsModelImpl implements ISettingsModel {
     /**
      * sets a new list of import languages and returns {@code this} for Fluent Interface.
      *
+     * @param newLanguagesToImport new list of languages to import. must not be {@code null} or empty.
      * @return {@code this}
      */
     public SettingsModelImpl setImportLanguages(final String[] newLanguagesToImport) {

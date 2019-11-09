@@ -38,7 +38,7 @@ import io.smint.clapi.consumer.integration.core.services.impl.AbstractScheduler;
 
 
 /**
- * Implements a scheduler based on {@link #TimerService} to be used with Enterprise Java Beans.
+ * Implements a scheduler based on {@link TimerService} to be used with Enterprise Java Beans.
  *
  * <p>
  * This scheduler relies on creation upon startup of the servlet/container. As soon as the instance is created by the
@@ -77,7 +77,7 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
 
 
     /**
-     * Stores a reference to {@ode this}, which can be retrieved with {@link #getSchedulerBean()}.
+     * Stores a reference to {@code this}, which can be retrieved with {@link #getSchedulerBean()}.
      *
      * <p>
      * In case a second instance of this class is created, the reference to these additional instances are not stored.

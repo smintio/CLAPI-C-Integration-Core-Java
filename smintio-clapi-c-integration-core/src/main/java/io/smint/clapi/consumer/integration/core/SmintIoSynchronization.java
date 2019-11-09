@@ -77,14 +77,14 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * Create a new Smint.io synchronization progress.
      *
      * <p>
-     * {@link #init()} will try to load Google's Guice as Dependency Injection framework in order to create an instance
-     * of {@link ISmintIoSyncFactory}.
+     * {@link #init(ISyncTargetFactory)} will try to load Google's Guice as Dependency Injection framework in order to
+     * create an instance of {@link ISmintIoSyncFactory}.
      * </p>
      *
      * @param syncTargetfactory the user factory helping to create all target specific instances.
      */
     @Inject
-    public SmintIoSynchronization(final ISyncTargetFactory syncTargetfactory) throws Exception {
+    public SmintIoSynchronization(final ISyncTargetFactory syncTargetfactory) {
         this.init(syncTargetfactory);
         this._scheduledJobKey = null;
     }
@@ -162,6 +162,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * calling {@link SyncGuiceModule#createSmintIoSyncFactory(ISyncTargetFactory)}.
      * </p>
      *
+     * @param syncTargetFactory sync target provided factory to use with this library.
      * @return the first service found or {@code null} if there is none.
      * @throws NullPointerException in case the created factory is {@code null} or any of its factory-function return
      *                              {@code null}.
