@@ -50,6 +50,16 @@
     
     <repositories>
         <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
             <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPI-C-Integration-Core-Java/maven/v1</url>
             <releases>
