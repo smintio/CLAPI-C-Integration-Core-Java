@@ -36,6 +36,12 @@
     
     <dependencies>
         <dependency>
+            <groupId>io.smint</groupId>
+            <artifactId>smintio-clapi-consumer-client</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>1.3.2</version>
