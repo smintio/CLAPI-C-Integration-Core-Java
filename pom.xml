@@ -61,7 +61,7 @@
         </repository>
         <repository>
             <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
-            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPI-C-Integration-Core-Java/maven/v1</url>
+            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
