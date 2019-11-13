@@ -19,12 +19,38 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+/**
+ * Provides some download constraints.
+ */
 public interface ISmintIoDownloadConstraints {
 
+    /**
+     * The default value - denoting an <em>unlimited</em> value - for all fields in case no value has ever been set.
+     */
+    int UNLIMITED = -1;
+
+
+    /**
+     * Get the maximum allowed downloads for the asset.
+     *
+     * @return a maximum allowed amount of downloads, or {@link #UNLIMITED} if no restrictions have been set.
+     */
     int getMaxDownloads();
 
+
+    /**
+     * Get the maximum allowed users to make use of the asset.
+     *
+     * @return a maximum allowed users for downloads, or {@link #UNLIMITED} if no restrictions have been set.
+     */
     int getMaxUsers();
 
+
+    /**
+     * Get the maximum allowed reuses of the asset.
+     *
+     * @return a maximum allowed reuse of the asset, or {@link #UNLIMITED} if no restrictions have been set.
+     */
     int getMaxReuses();
 }
 

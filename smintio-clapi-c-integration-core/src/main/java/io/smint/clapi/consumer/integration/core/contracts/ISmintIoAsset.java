@@ -76,9 +76,34 @@ public interface ISmintIoAsset {
 
     ISmintIoDownloadConstraints getDownloadConstraints();
 
-    boolean isEditorialUse();
+    /**
+     * Defines whether the content is for editorial use only.
+     *
+     * <p>
+     * In case no such information is available, then {@code null} is returned. This is the case if the upstream asset
+     * provider did not define this value and did not provide any defaults. Hence it is impossible to determine, whether
+     * the asset is for editorial use only or not. If the synchronization target does not require a value, none should
+     * be set in these cases. If a valid value (decision) is required, it is up to the sync target to implement a
+     * reasonable default to be on the safe side of the legal challenge.
+     * </p>
+     *
+     * @return {@link Boolean#TRUE} in case the asset is for editorial use only and {@link Boolean#FALSE} otherwise.
+     *         However, {@code null} is returned if no such information is available. Hence neither is applicable.
+     */
+    Boolean isEditorialUse();
 
+
+    /**
+     * Defines whether the content has some license restrictions applied.
+     *
+     * <p>
+     * The kind of license restrictions applicable for this asset can be retrieved with {@link #getLicenseTerms()}.
+     * </p>
+     *
+     * @return {@code true} in case any licensing restriction has been applied to the asset or not.
+     */
     boolean hasLicenseTerms();
+
 
     ISmintIoBinary[] getBinaries();
 
