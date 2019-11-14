@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.Map;
 
@@ -107,7 +108,7 @@ public interface ISmintIoAsset {
 
     ISmintIoBinary[] getBinaries();
 
-    String getSmintIoUrl();
+    URL getSmintIoUrl();
 
     OffsetDateTime getPurchasedAt();
 

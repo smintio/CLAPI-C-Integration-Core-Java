@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts.impl;
 
+import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     private Boolean _isEditorialUse = null;
     private boolean _hasLicenceTerms = false;
     private ISmintIoBinary[] _binaries = null;
-    private String _smintIoUrl = null;
+    private URL _smintIoUrl = null;
     private OffsetDateTime _purchasedAt = null;
     private OffsetDateTime _createdAt = null;
     private OffsetDateTime _lastUpdatedAt = null;
@@ -540,7 +541,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public String getSmintIoUrl() {
+    public URL getSmintIoUrl() {
         return this._smintIoUrl;
     }
 
@@ -551,7 +552,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newSmintIoUrl the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setSmintIoUrl(final String newSmintIoUrl) {
+    public SmintIoAssetImpl setSmintIoUrl(final URL newSmintIoUrl) {
         this._smintIoUrl = newSmintIoUrl;
         return this;
     }

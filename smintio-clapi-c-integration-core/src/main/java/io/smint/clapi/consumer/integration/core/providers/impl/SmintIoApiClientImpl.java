@@ -1,6 +1,8 @@
 package io.smint.clapi.consumer.integration.core.providers.impl;
 
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -639,20 +641,28 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
                     .setIsEditorialUse(isEditorialUse)
                     .setHasLicenseTerms(hasLicenseTerms)
-                    .setSmintIoUrl(
-                        MessageFormat.format(
-                            SMINT_IO_CONTENT_ELEMENT_URL,
-                            settings.getTenantId(),
-                            lpt.getProjectUuid(),
-                            contentElement.getUuid()
-                        )
-                    )
                     .setPurchasedAt(lpt.getPurchasedAt())
                     .setCreatedAt(lpt.getCreatedAt())
                     .setLastUpdatedAt(
                         lpt.getLastUpdatedAt() != null ? lpt.getLastUpdatedAt()
                             : lpt.getCreatedAt() != null ? lpt.getCreatedAt() : OffsetDateTime.now()
                     );
+
+
+                try {
+                    asset.setSmintIoUrl(
+                        new URL(
+                            MessageFormat.format(
+                                SMINT_IO_CONTENT_ELEMENT_URL,
+                                settings.getTenantId(),
+                                lpt.getProjectUuid(),
+                                contentElement.getUuid()
+                            )
+                        )
+                    );
+                } catch (final MalformedURLException excp) {
+                    LOG.log(Level.WARNING, "Invalid Smint.io asset URL!", excp);
+                }
 
                 return asset;
             });
