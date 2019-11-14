@@ -34,6 +34,8 @@ import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob;
+import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
+import io.smint.clapi.consumer.integration.core.providers.impl.SmintIoApiClientImpl;
 import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPlatformSchedulerProvider;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
@@ -135,5 +137,6 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISmintIoSyncFactory.class).to(SmintIoSyncFactoryFromDI.class).in(Singleton.class);
         this.bind(IPushNotificationService.class).to(PusherService.class).in(Singleton.class);
         this.bind(ISmintIoAuthenticator.class).to(SmintIoAuthenticatorImpl.class).in(Singleton.class);
+        this.bind(ISmintIoApiClient.class).to(SmintIoApiClientImpl.class);
     }
 }

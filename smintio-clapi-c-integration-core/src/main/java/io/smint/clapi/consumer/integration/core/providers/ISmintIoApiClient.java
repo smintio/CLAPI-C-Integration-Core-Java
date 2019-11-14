@@ -1,5 +1,6 @@
 package io.smint.clapi.consumer.integration.core.providers;
 
+import io.smint.clapi.consumer.generated.ApiException;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 
@@ -19,8 +20,9 @@ public interface ISmintIoApiClient {
      * Retrieves all meta data from the Smint.io API server that is to be synchronized to the target.
      *
      * @return Might be {@code null} in case no data can be retrieved from the server.
+     * @throws ApiException in case calling the Smint.io platform RESTful API failed.
      */
-    ISmintIoGenericMetadata getGenericMetadata();
+    ISmintIoGenericMetadata getGenericMetadata() throws ApiException;
 
 
     /**
@@ -41,8 +43,9 @@ public interface ISmintIoApiClient {
      *                             synchronization target and thus updates should be included in the list of assets to
      *                             be synced.
      * @return {@code null} in case no data has been retrieved from the server.
+     * @throws ApiException in case calling the Smint.io platform RESTful API failed.
      */
     ISmintIoApiDataWithContinuation<ISmintIoAsset[]> getAssets(
         final String continuationUuid, final boolean includeCoundAssets, final boolean includeBinaryUpdates
-    );
+    ) throws ApiException;
 }
