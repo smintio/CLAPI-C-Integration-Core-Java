@@ -39,17 +39,86 @@ public interface ISmintIoAsset {
 
     LicensePurchaseTransactionStateEnum getState();
 
-    String getProvider();
+    /**
+     * Return an key, denoting the content provider.
+     *
+     * <p>
+     * The enumeration key is a simple reading text, which has been defined for each provider as soon as it has been
+     * added to the list of supported providers by Smint.io. Its value is arbitrary and uses mixed cases. Non-exhaustive
+     * example:
+     * </p>
+     *
+     * <p>
+     * <ul>
+     * <li>{@code getty}</li>
+     * <li>{@code shutterstock}</li>
+     * <li>{@code adobestock}</li>
+     * <li>{@code istock}</li>
+     * <li>{@code panthermedia}</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Although a known set of values are used, some might be changed and more be added in the near future without any
+     * further notice. So implementing classes must support an arbitrary value.
+     * </p>
+     *
+     * @return an enumeration key or {@code null} if none has been set.
+     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentProvider(String)
+     */
+    String getContentProvider();
 
+
+    /**
+     * Provides the content type of this asset.
+     *
+     * <p>
+     * The type value is a string representation of an enumerated value. Although a fixes set of values are used, more
+     * might be added in the near future. So implementing classes must support an arbitrary value. Possible values are
+     * at the moment:
+     * <ul>
+     * <li>{@code image}</li>
+     * <li>{@code video}</li>
+     * <li>{@code audio}</li>
+     * <li>{@code document}</li>
+     * <li>{@code 3d} - a 3D video</li>
+     * <li>{@code template}</li>
+     * </ul>
+     * </p>
+     *
+     * @return an enumeration key or {@code null} if none has been set.
+     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentType(String)
+     */
     String getContentType();
+
+
+    /**
+     * Provides the ID for the content category.
+     *
+     * <p>
+     * The ID is a simple reading text. Its value is arbitrary and uses mixed cases. Non-exhaustive example:
+     * <ul>
+     * <li>{@code creative}</li>
+     * <li>{@code editorial}</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Although a known set of values are used, some might be changed and more be added in the near future without any
+     * further notice. So implementing classes must support an arbitrary value.
+     * </p>
+     *
+     * @return a key of the category of this content or {@code null} if unknown.
+     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentCategory(String)
+     */
+    String getContentCategory();
+
 
     Map<String, String> getName();
 
     Map<String, String> getDescription();
 
     Map<String, String[]> getKeywords();
-
-    String getCategory();
 
     ISmintIoReleaseDetails getReleaseDetails();
 

@@ -608,12 +608,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     .setLicensePurchaseTransactionUuid(lpt.getUuid())
                     .setCartPurchaseTransactionUuid(lpt.getCartPurchaseTransactionUuid())
                     .setState(lpt.getState())
-                    .setProvider(contentElement.getProvider())
+                    .setContentProvider(contentElement.getProvider())
                     .setContentType(contentElement.getContentType())
                     .setName(this.getValuesForImportLanguages(importLanguages, lpt.getProjectName()))
                     .setDescription(this.getValuesForImportLanguages(importLanguages, contentElement.getDescription()))
                     .setKeywords(this.getGroupedValuesForImportLanguages(importLanguages, contentElement.getKeywords()))
-                    .setCategory(contentElement.getContentCategory())
+                    .setContentCategory(contentElement.getContentCategory())
 
                     .setReleaseDetails(this.getReleaseDetails(importLanguages, lpt))
                     .setCopyrightNotices(

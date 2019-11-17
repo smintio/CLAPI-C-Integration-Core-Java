@@ -44,7 +44,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     private String _licensePurchaseTransactionUuid = null;
     private String _cartPurchaseTransactionUuid = null;
     private LicensePurchaseTransactionStateEnum _state = null;
-    private String _provider = null;
+    private String _providerId = null;
     private String _contentType = null;
     private Map<String, String> _name = null;
     private Map<String, String> _description = null;
@@ -145,8 +145,8 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public String getProvider() {
-        return this._provider;
+    public String getContentProvider() {
+        return this._providerId;
     }
 
 
@@ -156,8 +156,8 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newProvider the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setProvider(final String newProvider) {
-        this._provider = newProvider;
+    public SmintIoAssetImpl setContentProvider(final String newProviderId) {
+        this._providerId = newProviderId;
         return this;
     }
 
@@ -235,7 +235,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public String getCategory() {
+    public String getContentCategory() {
         return this._category;
     }
 
@@ -243,11 +243,11 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     /**
      * Sets a new value to Category.
      *
-     * @param newCategory the new value to set.
+     * @param contentCategoryId the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setCategory(final String newCategory) {
-        this._category = newCategory;
+    public SmintIoAssetImpl setContentCategory(final String contentCategoryId) {
+        this._category = contentCategoryId;
         return this;
     }
 
