@@ -435,7 +435,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     }
 
 
-    private Map<String, String[]> getGroupedValuesForImportLanguages(
+    private Map<Locale, String[]> getGroupedValuesForImportLanguages(
         final String[] importLanguages, final java.util.List<LocalizedMetadataElement> localizedString
     ) {
 
@@ -450,7 +450,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 .stream()
                 .collect(
                     Collectors.toMap(
-                        (key) -> key.toString(),
+                        (key) -> new Locale(key.toString()),
                         (value) -> value.getValue().stream()
                             .map((localizedItem) -> localizedItem.getMetadataElement().getName())
                             .toArray(String[]::new)
@@ -462,7 +462,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     }
 
 
-    private Map<String, String> getValuesForImportLanguages(
+    private Map<Locale, String> getValuesForImportLanguages(
         final String[] importLanguages, final List<LocalizedString> localizedStrings
     ) {
 
@@ -474,7 +474,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
                 .collect(
                     Collectors.toMap(
-                        (elem) -> elem.getCulture(),
+                        (elem) -> new Locale(elem.getCulture()),
                         (elem) -> elem.getValue()
                     )
                 );
@@ -690,7 +690,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             if (option.getOptionName() != null) {
 
-                final Map<String, String> optionName = this
+                final Map<Locale, String> optionName = this
                     .getValuesForImportLanguages(importLanguages, option.getOptionName());
                 if (optionName != null && optionName.size() > 0) {
                     licenseOption.setOptionName(
@@ -706,7 +706,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             }
 
             if (option.getLicenseText() != null && option.getLicenseText().getEffectiveText() != null) {
-                final Map<String, String> licenseText = this.getValuesForImportLanguages(
+                final Map<Locale, String> licenseText = this.getValuesForImportLanguages(
                     importLanguages,
                     option.getLicenseText().getEffectiveText()
                 );

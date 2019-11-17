@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.core.contracts.impl;
 
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateEnum;
@@ -46,20 +47,20 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     private LicensePurchaseTransactionStateEnum _state = null;
     private String _providerId = null;
     private String _contentType = null;
-    private Map<String, String> _name = null;
-    private Map<String, String> _description = null;
-    private Map<String, String[]> _keywords = null;
+    private Map<Locale, String> _name = null;
+    private Map<Locale, String> _description = null;
+    private Map<Locale, String[]> _keywords = null;
     private String _category = null;
     private ISmintIoReleaseDetails _releaseDetails = null;
-    private Map<String, String> _copyrightNotices = null;
+    private Map<Locale, String> _copyrightNotices = null;
     private String _projectUuid = null;
-    private Map<String, String> _projectName = null;
+    private Map<Locale, String> _projectName = null;
     private String _collectionUuid = null;
-    private Map<String, String> _collectionName = null;
+    private Map<Locale, String> _collectionName = null;
     private String _licenseeUuid = null;
     private String _licenseeName = null;
     private String _licenseType = null;
-    private Map<String, String> _licenseText = null;
+    private Map<Locale, String> _licenseText = null;
     private ISmintIoLicenseOptions[] _licenseOptions = null;
     private ISmintIoLicenseTerm[] _licenseTerms = null;
     private ISmintIoDownloadConstraints _downloadConstraints = null;
@@ -181,7 +182,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public Map<String, String> getName() {
+    public Map<Locale, String> getName() {
         return this._name;
     }
 
@@ -192,14 +193,14 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newName the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setName(final Map<String, String> newName) {
+    public SmintIoAssetImpl setName(final Map<Locale, String> newName) {
         this._name = newName;
         return this;
     }
 
 
     @Override
-    public Map<String, String> getDescription() {
+    public Map<Locale, String> getDescription() {
         return this._description;
     }
 
@@ -210,14 +211,14 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newDescription the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setDescription(final Map<String, String> newDescription) {
+    public SmintIoAssetImpl setDescription(final Map<Locale, String> newDescription) {
         this._description = newDescription;
         return this;
     }
 
 
     @Override
-    public Map<String, String[]> getKeywords() {
+    public Map<Locale, String[]> getKeywords() {
         return this._keywords;
     }
 
@@ -228,7 +229,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newKeywords the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setKeywords(final Map<String, String[]> newKeywords) {
+    public SmintIoAssetImpl setKeywords(final Map<Locale, String[]> newKeywords) {
         this._keywords = newKeywords;
         return this;
     }
@@ -271,7 +272,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public Map<String, String> getCopyrightNotices() {
+    public Map<Locale, String> getCopyrightNotices() {
         return this._copyrightNotices;
     }
 
@@ -282,7 +283,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newCopyrightNotices the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setCopyrightNotices(final Map<String, String> newCopyrightNotices) {
+    public SmintIoAssetImpl setCopyrightNotices(final Map<Locale, String> newCopyrightNotices) {
         this._copyrightNotices = newCopyrightNotices;
         return this;
     }
@@ -307,7 +308,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public Map<String, String> getProjectName() {
+    public Map<Locale, String> getProjectName() {
         return this._projectName;
     }
 
@@ -318,7 +319,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newProjectName the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setProjectName(final Map<String, String> newProjectName) {
+    public SmintIoAssetImpl setProjectName(final Map<Locale, String> newProjectName) {
         this._projectName = newProjectName;
         return this;
     }
@@ -343,7 +344,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public Map<String, String> getCollectionName() {
+    public Map<Locale, String> getCollectionName() {
         return this._collectionName;
     }
 
@@ -354,7 +355,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newCollectionName the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setCollectionName(final Map<String, String> newCollectionName) {
+    public SmintIoAssetImpl setCollectionName(final Map<Locale, String> newCollectionName) {
         this._collectionName = newCollectionName;
         return this;
     }
@@ -415,7 +416,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public Map<String, String> getLicenseText() {
+    public Map<Locale, String> getLicenseText() {
         return this._licenseText;
     }
 
@@ -426,7 +427,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
      * @param newLicenseText the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setLicenseText(final Map<String, String> newLicenseText) {
+    public SmintIoAssetImpl setLicenseText(final Map<Locale, String> newLicenseText) {
         this._licenseText = newLicenseText;
         return this;
     }

@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.core.contracts;
 
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateEnum;
@@ -114,23 +115,23 @@ public interface ISmintIoAsset {
     String getContentCategory();
 
 
-    Map<String, String> getName();
+    Map<Locale, String> getName();
 
-    Map<String, String> getDescription();
+    Map<Locale, String> getDescription();
 
-    Map<String, String[]> getKeywords();
+    Map<Locale, String[]> getKeywords();
 
     ISmintIoReleaseDetails getReleaseDetails();
 
-    Map<String, String> getCopyrightNotices();
+    Map<Locale, String> getCopyrightNotices();
 
     String getProjectUuid();
 
-    Map<String, String> getProjectName();
+    Map<Locale, String> getProjectName();
 
     String getCollectionUuid();
 
-    Map<String, String> getCollectionName();
+    Map<Locale, String> getCollectionName();
 
     String getLicenseeUuid();
 
@@ -138,7 +139,7 @@ public interface ISmintIoAsset {
 
     String getLicenseType();
 
-    Map<String, String> getLicenseText();
+    Map<Locale, String> getLicenseText();
 
     ISmintIoLicenseOptions[] getLicenseOptions();
 

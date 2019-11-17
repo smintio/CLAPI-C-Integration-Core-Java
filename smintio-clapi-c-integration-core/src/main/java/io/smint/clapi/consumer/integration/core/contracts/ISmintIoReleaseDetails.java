@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -28,10 +29,10 @@ public interface ISmintIoReleaseDetails {
 
     String getPropertyReleaseState();
 
-    Map<String, String> getProviderAllowedUseComment();
+    Map<Locale, String> getProviderAllowedUseComment();
 
-    Map<String, String> getProviderReleaseComment();
+    Map<Locale, String> getProviderReleaseComment();
 
-    Map<String, String> getProviderUsageConstraints();
+    Map<Locale, String> getProviderUsageConstraints();
 }
 

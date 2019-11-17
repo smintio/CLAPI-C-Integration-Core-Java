@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts.impl;
 
+import java.util.Locale;
 import java.util.Map;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
@@ -31,9 +32,9 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
 
     private String _modelReleaseState = null;
     private String _propertyReleaseState = null;
-    private Map<String, String> _providerAllowedUseComment = null;
-    private Map<String, String> _providerReleaseComment = null;
-    private Map<String, String> _providerUsageConstraints = null;
+    private Map<Locale, String> _providerAllowedUseComment = null;
+    private Map<Locale, String> _providerReleaseComment = null;
+    private Map<Locale, String> _providerUsageConstraints = null;
 
 
     @Override
@@ -73,7 +74,7 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
 
 
     @Override
-    public Map<String, String> getProviderAllowedUseComment() {
+    public Map<Locale, String> getProviderAllowedUseComment() {
         return this._providerAllowedUseComment;
     }
 
@@ -85,7 +86,7 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public SmintIoReleaseDetailsImpl setProviderAllowedUseComment(
-        final Map<String, String> newProviderAllowedUseComment
+        final Map<Locale, String> newProviderAllowedUseComment
     ) {
         this._providerAllowedUseComment = newProviderAllowedUseComment;
         return this;
@@ -93,7 +94,7 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
 
 
     @Override
-    public Map<String, String> getProviderReleaseComment() {
+    public Map<Locale, String> getProviderReleaseComment() {
         return this._providerReleaseComment;
     }
 
@@ -104,14 +105,14 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
      * @param newProviderReleaseComment the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoReleaseDetailsImpl setProviderReleaseComment(final Map<String, String> newProviderReleaseComment) {
+    public SmintIoReleaseDetailsImpl setProviderReleaseComment(final Map<Locale, String> newProviderReleaseComment) {
         this._providerReleaseComment = newProviderReleaseComment;
         return this;
     }
 
 
     @Override
-    public Map<String, String> getProviderUsageConstraints() {
+    public Map<Locale, String> getProviderUsageConstraints() {
         return this._providerUsageConstraints;
     }
 
@@ -123,7 +124,7 @@ public class SmintIoReleaseDetailsImpl implements ISmintIoReleaseDetails {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public SmintIoReleaseDetailsImpl setProviderUsageConstraints(
-        final Map<String, String> newProviderUsageConstraints
+        final Map<Locale, String> newProviderUsageConstraints
     ) {
         this._providerUsageConstraints = newProviderUsageConstraints;
         return this;
