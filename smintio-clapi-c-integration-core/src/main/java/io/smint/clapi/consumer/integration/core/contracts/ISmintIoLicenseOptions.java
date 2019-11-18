@@ -24,12 +24,33 @@ import java.util.Map;
 
 
 /**
- * Provides informations for licenses on assets.
+ * Provides values for custom licensing options as created and provided by upstream content providers.
+ *
+ * <p>
+ * Any Custom license options, that do not fit any existing license data structure, are reflected with these text.
+ * Usually customers at Smint.io platform have closed a special contract with upstream content provider. So these
+ * contracts might be a source of custom license options.
+ * </p>
  */
 public interface ISmintIoLicenseOptions {
 
+    /**
+     * Provides the localized name for this licensing option.
+     *
+     * @return the localized name or {@code null}.
+     */
     Map<Locale, String> getOptionName();
 
+    /**
+     * Provides an arbitrary localized licensing text for this licensing option.
+     *
+     * <p>
+     * An custom licensing text, to describe additional license terms that are only available in written text but not in
+     * a structured data. These texts are created and provided by upstream content providers.
+     * </p>
+     *
+     * @return the localized text or {@code null}.
+     */
     Map<Locale, String> getLicenseText();
 }
 

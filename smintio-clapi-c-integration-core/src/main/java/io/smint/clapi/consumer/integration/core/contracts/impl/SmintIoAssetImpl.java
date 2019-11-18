@@ -154,7 +154,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     /**
      * Sets a new value to Provider.
      *
-     * @param newProvider the new value to set.
+     * @param newProviderId the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public SmintIoAssetImpl setContentProvider(final String newProviderId) {

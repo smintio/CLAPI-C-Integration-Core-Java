@@ -33,7 +33,9 @@ public interface ISmintIoDownloadConstraints {
     /**
      * Get the maximum allowed downloads for the asset.
      *
-     * @return a maximum allowed amount of downloads, or {@link #UNLIMITED} if no restrictions have been set.
+     * @return the maximum amount of downloads as a positive integer value. if value is below or equal {@code 0}, then
+     *         there are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions
+     *         have been set.
      */
     int getMaxDownloads();
 
@@ -41,7 +43,9 @@ public interface ISmintIoDownloadConstraints {
     /**
      * Get the maximum allowed users to make use of the asset.
      *
-     * @return a maximum allowed users for downloads, or {@link #UNLIMITED} if no restrictions have been set.
+     * @return the maximum amount of users as a positive integer value. if value is below or equal {@code 0}, then there
+     *         are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions have been
+     *         set.
      */
     int getMaxUsers();
 
@@ -49,7 +53,9 @@ public interface ISmintIoDownloadConstraints {
     /**
      * Get the maximum allowed reuses of the asset.
      *
-     * @return a maximum allowed reuse of the asset, or {@link #UNLIMITED} if no restrictions have been set.
+     * @return the maximum amount of reuses as a positive integer value. if value is below or equal {@code 0}, then
+     *         there are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions
+     *         have been set.
      */
     int getMaxReuses();
 }
