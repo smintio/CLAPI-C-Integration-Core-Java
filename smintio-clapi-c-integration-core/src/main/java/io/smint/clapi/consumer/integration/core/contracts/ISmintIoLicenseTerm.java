@@ -401,7 +401,12 @@ public interface ISmintIoLicenseTerm extends ISmintIoDataType {
      * {@code java.util.Locale} is not used, as it contains a geographical component, too.
      * </p>
      *
-     * @return a list of ISO 639-3 values or {@code null}.
+     * <p>
+     * There is one addition to the ISO 639-3 codes. "{@code any}" is used to denote <em>any</em> language. There is not
+     * ISO code for that.
+     * </p>
+     *
+     * @return a list of ISO 639-3 values (or "{@code any}") or {@code null}.
      */
     String[] getAllowedLanguages();
 

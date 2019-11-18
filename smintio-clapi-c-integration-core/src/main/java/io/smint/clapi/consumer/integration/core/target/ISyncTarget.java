@@ -420,6 +420,11 @@ public interface ISyncTarget {
      * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedLanguages()}.
      * </p>
      *
+     * <p>
+     * Beware that the value "{@code any}" is used in addition to the ISO 639-3 codes, in order to denote <em>any</em>
+     * language. There is not ISO code for that case.
+     * </p>
+     *
      * @param smintIoId the ID on the Smint.io platform.
      * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
      *         or if parameter the is {@code null}.

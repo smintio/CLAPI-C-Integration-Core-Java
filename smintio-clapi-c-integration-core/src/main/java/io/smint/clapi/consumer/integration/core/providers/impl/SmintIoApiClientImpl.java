@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,6 +36,7 @@ import io.smint.clapi.consumer.generated.ApiException;
 import io.smint.clapi.consumer.generated.api.MetadataApi;
 import io.smint.clapi.consumer.generated.api.TransactionHistoryApi;
 import io.smint.clapi.consumer.generated.models.LicenseDownloadConstraints;
+import io.smint.clapi.consumer.generated.models.LicenseLanguageEnum;
 import io.smint.clapi.consumer.generated.models.LocalizedContentElementDetail;
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
 import io.smint.clapi.consumer.generated.models.LocalizedReleaseDetails;
@@ -148,6 +150,35 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      * </pre>
      */
     public static final int SMINT_IO_ASSET_LIST_CHUNKSIZE = 10;
+
+
+    /**
+     * Map to translate Smint.io API enumeration key to ISO 639-3 code.
+     *
+     * @see LicenseLanguageEnum in smintio-clapi-c YAML file
+     * @see https://iso639-3.sil.org/code_tables/639/data
+     * @see https://en.wikipedia.org/wiki/ISO_639-3
+     */
+    @SuppressWarnings("serial")
+    private static final Map<String, String> MAP_API_LANGUAGE_TO_ISO = new HashMap<String, String>() {
+        {
+            // Note: null-values will be ignored from mapping.
+            // missing keys are just copied as-is.
+
+            // this.put("any", "any"); // no need to add this! missing is copied!
+            this.put("language_english", "eng");
+            this.put("language_german", "ger");
+            this.put("language_french", "fra");
+            this.put("language_spanish", "spa");
+            this.put("language_mandarin_chinese", "cmn");
+            this.put("language_hindustani", "hns");
+            this.put("language_arabic", "ara");
+            this.put("language_malay", "msa");
+            this.put("language_russian", "rus");
+            this.put("language_bengali", "ben");
+            this.put("language_portuguese", "por");
+        }
+    };
 
 
     private static final Logger LOG = Logger.getLogger(SmintIoApiClientImpl.class.getName());
@@ -767,8 +798,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     .setRestrictedGeographies(this.convertFromListToStringArray(licenseTerm.getRestrictedGeographies()))
                     .setAllowedIndustries(this.convertFromListToStringArray(licenseTerm.getAllowedIndustries()))
                     .setRestrictedIndustries(this.convertFromListToStringArray(licenseTerm.getRestrictedIndustries()))
-                    .setAllowedLanguages(this.convertFromListToStringArray(licenseTerm.getAllowedLanguages()))
-                    .setRestrictedLanguages(this.convertFromListToStringArray(licenseTerm.getRestrictedLanguages()))
+                    .setAllowedLanguages(this.convertApiLanguages(licenseTerm.getAllowedLanguages()))
+                    .setRestrictedLanguages(this.convertApiLanguages(licenseTerm.getRestrictedLanguages()))
                     .setUsageLimits(this.convertFromListToStringArray(licenseTerm.getUsageLimits()))
 
                     .setToBeUsedUntil(licenseTerm.getToBeUsedUntil())
@@ -826,5 +857,26 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     private String[] convertFromListToStringArray(final List<String> listOfItems) {
         return listOfItems != null && listOfItems.size() > 0 ? listOfItems.toArray(new String[listOfItems.size()])
             : null;
+    }
+
+
+    /**
+     * converts API language enumeration names to ISO 639-3 codes.
+     *
+     * @param apiLanguages some API enumeration names or {@code null}
+     * @return the converted names or {@code null}
+     */
+    private String[] convertApiLanguages(final List<String> apiLanguages) {
+        if (apiLanguages == null || apiLanguages.size() == 0) {
+            return null;
+        }
+
+        final String[] convertedLanguages = apiLanguages.stream()
+            .map((apiLanguage) -> MAP_API_LANGUAGE_TO_ISO.containsKey(apiLanguage) ? MAP_API_LANGUAGE_TO_ISO.get(apiLanguage) : apiLanguage
+            )
+            .filter((language) -> language != null)
+            .toArray(String[]::new);
+
+        return convertedLanguages != null && convertedLanguages.length > 0 ? convertedLanguages : null;
     }
 }
