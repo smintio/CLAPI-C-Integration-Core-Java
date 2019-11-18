@@ -37,7 +37,7 @@ import java.util.Map;
  *
  * @see io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm
  */
-public interface ISmintIoLicenseTerm {
+public interface ISmintIoLicenseTerm extends ISmintIoDataType {
 
 
     /**

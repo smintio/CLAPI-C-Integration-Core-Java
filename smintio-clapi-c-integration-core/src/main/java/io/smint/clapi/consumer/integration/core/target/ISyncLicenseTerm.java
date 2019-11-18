@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm
  */
-public interface ISyncLicenseTerm {
+public interface ISyncLicenseTerm extends ISyncDataType {
 
     /**
      * Sets the sequence number of this license term, which is unique only for the current tenant.

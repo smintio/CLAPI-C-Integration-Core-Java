@@ -17,40 +17,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core.contracts;
+package io.smint.clapi.consumer.integration.core.target;
 
-import java.util.Locale;
-import java.util.Map;
-
-
+// CHECKSTYLE OFF: InterfaceIsType
 /**
- * Provides values for custom licensing options as created and provided by upstream content providers.
+ * Interface that is solely used as an abstract categorizer of sync related interfaces.
  *
  * <p>
- * Any Custom license options, that do not fit any existing license data structure, are reflected with these text.
- * Usually customers at Smint.io platform have closed a special contract with upstream content provider. So these
- * contracts might be a source of custom license options.
+ * This empty interface can be used with template type definitions to restrict definition of <em>Generics</em> to use
+ * instances of this type.
  * </p>
+ *
+ * @see io.smint.clapi.consumer.integration.core.jobs.impl.BaseSyncDataConverter
+ * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoDataType
  */
-public interface ISmintIoLicenseOptions extends ISmintIoDataType {
+public interface ISyncDataType {
 
-    /**
-     * Provides the localized name for this licensing option.
-     *
-     * @return the localized name or {@code null}.
-     */
-    Map<Locale, String> getOptionName();
-
-    /**
-     * Provides an arbitrary localized licensing text for this licensing option.
-     *
-     * <p>
-     * An custom licensing text, to describe additional license terms that are only available in written text but not in
-     * a structured data. These texts are created and provided by upstream content providers.
-     * </p>
-     *
-     * @return the localized text or {@code null}.
-     */
-    Map<Locale, String> getLicenseText();
 }
-
+// CHECKSTYLE ON: InterfaceIsType

@@ -32,7 +32,7 @@ package io.smint.clapi.consumer.integration.core.target;
  * Every instance is being created with {@link ISyncTarget#createSyncDownloadConstraints()}.
  * </p>
  */
-public interface ISyncDownloadConstraints {
+public interface ISyncDownloadConstraints extends ISyncDataType {
 
     /**
      * Sets the maximum amount of users that are allowed to use the related asset.

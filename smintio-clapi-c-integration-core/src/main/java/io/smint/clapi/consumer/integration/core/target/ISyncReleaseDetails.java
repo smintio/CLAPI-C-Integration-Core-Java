@@ -32,7 +32,7 @@ import java.util.Map;
  * agree to the release of the image or movie.
  * </p>
  */
-public interface ISyncReleaseDetails {
+public interface ISyncReleaseDetails extends ISyncDataType {
 
     /**
      * Sets the state of the release agreement with any human model visible.

@@ -71,7 +71,7 @@ import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateE
  * @see io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset
  * @see io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset
  */
-public interface ISmintIoAsset {
+public interface ISmintIoAsset extends ISmintIoDataType {
 
     /**
      * Provides the UUID of the content element this asset is a copy of.

@@ -134,7 +134,7 @@ import java.util.Map;
  * </p>
  *
  */
-public interface ISyncAsset {
+public interface ISyncAsset extends ISyncDataType {
 
 
     /**

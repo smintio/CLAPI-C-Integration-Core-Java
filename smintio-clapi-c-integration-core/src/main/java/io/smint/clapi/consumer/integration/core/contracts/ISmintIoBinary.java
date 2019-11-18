@@ -41,7 +41,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
  *
  * @see ISyncAsset
  */
-public interface ISmintIoBinary {
+public interface ISmintIoBinary extends ISmintIoDataType {
 
     /**
      * Get the unique universal identifier of this asset within the Smint.io platform.

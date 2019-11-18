@@ -22,7 +22,7 @@ package io.smint.clapi.consumer.integration.core.contracts;
 /**
  * Possible metadata for assets to synchronize.
  */
-public interface ISmintIoGenericMetadata {
+public interface ISmintIoGenericMetadata extends ISmintIoDataType {
 
     ISmintIoMetadataElement[] getContentProviders();
 

@@ -22,7 +22,7 @@ package io.smint.clapi.consumer.integration.core.contracts;
 /**
  * Provides some download constraints.
  */
-public interface ISmintIoDownloadConstraints {
+public interface ISmintIoDownloadConstraints extends ISmintIoDataType {
 
     /**
      * The default value - denoting an <em>unlimited</em> value - for all fields in case no value has ever been set.

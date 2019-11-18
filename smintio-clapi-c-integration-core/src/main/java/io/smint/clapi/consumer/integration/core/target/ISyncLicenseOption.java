@@ -32,7 +32,7 @@ import java.util.Map;
  * contracts might be a source of custom license options.
  * </p>
  */
-public interface ISyncLicenseOption {
+public interface ISyncLicenseOption extends ISyncDataType {
 
     /**
      * Set the localized name for this licensing option.
