@@ -57,7 +57,7 @@ public class SmintIoLicenseTermImpl implements ISmintIoLicenseTerm {
     private OffsetDateTime _toBeUsedUntil = null;
 
     // editorial use is more restricted, hence this is the default!
-    private boolean _isEditorialUse = true;
+    private Boolean _isEditorialUse = null;
 
 
     @Override
@@ -436,7 +436,7 @@ public class SmintIoLicenseTermImpl implements ISmintIoLicenseTerm {
 
 
     @Override
-    public boolean isEditorialUse() {
+    public Boolean isEditorialUse() {
         return this._isEditorialUse;
     }
 
@@ -451,7 +451,7 @@ public class SmintIoLicenseTermImpl implements ISmintIoLicenseTerm {
      * @param newIsEditorialUse new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoLicenseTermImpl setIsEditorialUse(final boolean newIsEditorialUse) {
+    public SmintIoLicenseTermImpl setIsEditorialUse(final Boolean newIsEditorialUse) {
         this._isEditorialUse = newIsEditorialUse;
         return this;
     }

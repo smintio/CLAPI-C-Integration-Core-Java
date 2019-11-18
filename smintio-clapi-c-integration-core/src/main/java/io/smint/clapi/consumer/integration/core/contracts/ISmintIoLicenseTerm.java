@@ -76,7 +76,20 @@ public interface ISmintIoLicenseTerm {
 
     OffsetDateTime getToBeUsedUntil();
 
-    boolean isEditorialUse();
 
+    /**
+     * Provides a flag that this term restricts the use of the related asset to editorial usage.
+     *
+     * <p>
+     * Until a value has been passed to this function, it can not be determined whether the asset is for editorial use
+     * only or not. There might be some content provider that do not provide this information on some assets. It simply
+     * is impossible to tell. The default assumption and its derived legal action depends on the synchronization target.
+     * Smint.io can not give any advise how to handle such content.
+     * </p>
+     *
+     * @return {@link Boolean#TRUE} in case the term restricts for <em>Editorial Use</em> only and {@link Boolean#FALSE}
+     *         otherwise. If this can not be determined, than {@code null} is being returned.
+     */
+    Boolean isEditorialUse();
 }
 
