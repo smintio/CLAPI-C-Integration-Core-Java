@@ -47,6 +47,9 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithContinuation;
+import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
+import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
+import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
 
@@ -251,13 +254,13 @@ public class DefaultSyncJob implements ISyncJob {
 
         Objects.requireNonNull(settings, "provided settings to check is null - non existent");
 
-        if (this.isEmptyOrNull(settings.getTenantId())) {
+        if (this.isNullOrEmpty(settings.getTenantId())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState, "The tenant ID is missing"
             );
         }
 
-        if (this.isEmptyOrNull(settings.getClientId())) {
+        if (this.isNullOrEmpty(settings.getClientId())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
                 "The client ID is missing"
@@ -265,7 +268,7 @@ public class DefaultSyncJob implements ISyncJob {
         }
 
 
-        if (this.isEmptyOrNull(settings.getClientSecret())) {
+        if (this.isNullOrEmpty(settings.getClientSecret())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
                 "The client secret is missing"
@@ -293,7 +296,7 @@ public class DefaultSyncJob implements ISyncJob {
 
         Objects.requireNonNull(authData, "provided authentication data to check is null - non existent");
 
-        if (this.isEmptyOrNull(authData.getAccessToken())) {
+        if (this.isNullOrEmpty(authData.getAccessToken())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
                 "The access token is missing"
@@ -412,19 +415,97 @@ public class DefaultSyncJob implements ISyncJob {
 
             while (true) {
 
-                final ISmintIoApiDataWithContinuation<ISmintIoAsset[]> assetsInfo = smintIoClient
+                final ISmintIoApiDataWithContinuation<ISmintIoAsset[]> rawAssetsInfo = smintIoClient
                     .getAssets(continuationUuid, isCompoundAssetsSupported, isBinaryUpdatesSupported);
 
-                final String newContinuationUuid = assetsInfo.getContinuationUuid();
-                final ISmintIoAsset[] assets = assetsInfo.getResult();
+                final String newContinuationUuid = rawAssetsInfo.getContinuationUuid();
+                final ISmintIoAsset[] rawAssets = rawAssetsInfo.getResult();
                 continuationUuid = newContinuationUuid;
 
-                if (assets != null && assets.length > 0) {
-                    syncTarget.importAssets(assets);
+                if (rawAssets != null && rawAssets.length > 0) {
+
+                    final List<ISyncBinaryAsset> newTargetAssets = new ArrayList<>();
+                    final List<ISyncBinaryAsset> updatedTargetAssets = new ArrayList<>();
+                    final List<ISyncCompoundAsset> newTargetCompoundAssets = new ArrayList<>();
+                    final List<ISyncCompoundAsset> updatedTargetCompoundAssets = new ArrayList<>();
+
+                    final ISyncAsset[] targetAssets = new AssetConverter(this._syncTarget).convertAll(rawAssets);
+                    Objects.requireNonNull(targetAssets, "Conversion of assets from Smint.io failed.");
+
+                    for (final ISyncAsset targetAsset : targetAssets) {
+
+                        if (targetAsset.isCompoundAsset() && targetAsset instanceof ISyncCompoundAsset) {
+
+                            final ISyncCompoundAsset compoundTargetAsset = (ISyncCompoundAsset) targetAsset;
+
+                            // check for existing asset
+                            final String targetCompoundAssetUuid = this._syncTarget.getTargetCompoundAssetUuid(
+                                compoundTargetAsset.getUuid()
+                            );
+
+                            if (!this.isNullOrEmpty(targetCompoundAssetUuid)) {
+                                compoundTargetAsset.setTargetAssetUuid(targetCompoundAssetUuid);
+                                updatedTargetCompoundAssets.add(compoundTargetAsset);
+
+                            } else {
+                                newTargetCompoundAssets.add(compoundTargetAsset);
+                            }
+
+
+                        } else if (!targetAsset.isCompoundAsset() && targetAsset instanceof ISyncBinaryAsset) {
+
+                            final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
+
+                            // check for existing asset
+                            final String targetAssetUuid = this._syncTarget.getTargetBinaryAssetUuid(
+                                binaryTargetAsset.getUuid(),
+                                binaryTargetAsset.getBinaryUuid()
+                            );
+
+                            if (!this.isNullOrEmpty(targetAssetUuid)) {
+                                binaryTargetAsset.setTargetAssetUuid(targetAssetUuid);
+                                updatedTargetAssets.add(binaryTargetAsset);
+
+                            } else {
+                                newTargetAssets.add(binaryTargetAsset);
+                            }
+
+                        } else {
+                            throw new SmintIoSyncJobException(SyncJobError.Generic, "Invalid converted asset found!");
+                        }
+
+                    }
+
+
+                    if (!newTargetAssets.isEmpty()) {
+                        syncTarget.importNewTargetAssets(
+                            newTargetAssets.toArray(new ISyncBinaryAsset[newTargetAssets.size()])
+                        );
+                    }
+
+                    if (!updatedTargetAssets.isEmpty()) {
+                        syncTarget.updateTargetAssets(
+                            updatedTargetAssets.toArray(new ISyncBinaryAsset[updatedTargetAssets.size()])
+                        );
+                    }
+
+                    if (!newTargetCompoundAssets.isEmpty()) {
+                        syncTarget.importNewTargetCompoundAssets(
+                            newTargetCompoundAssets.toArray(new ISyncCompoundAsset[newTargetCompoundAssets.size()])
+                        );
+                    }
+
+                    if (!updatedTargetCompoundAssets.isEmpty()) {
+                        syncTarget.updateTargetCompoundAssets(
+                            updatedTargetCompoundAssets
+                                .toArray(new ISyncCompoundAsset[updatedTargetCompoundAssets.size()])
+                        );
+                    }
+
 
                     // store continuation ID
                     jobDataStorage.storeSyncProcessData(() -> newContinuationUuid);
-                    LOG.info("Synchronized " + assets.length + " Smint.io assets.");
+                    LOG.info("Synchronized " + rawAssets.length + " Smint.io assets.");
 
                 } else {
                     LOG.info("No more Smint.io assets to synchronize.");
@@ -450,7 +531,8 @@ public class DefaultSyncJob implements ISyncJob {
         }
     }
 
-    private boolean isEmptyOrNull(final String value) {
+
+    private boolean isNullOrEmpty(final String value) {
         return value == null || value.isEmpty() || value.matches("^\\s*$");
     }
 }
