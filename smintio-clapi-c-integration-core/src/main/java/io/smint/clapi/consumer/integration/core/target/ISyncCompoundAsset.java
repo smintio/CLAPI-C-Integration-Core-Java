@@ -125,119 +125,119 @@ public interface ISyncCompoundAsset extends ISyncAsset {
 
 
     @Override
-    ISyncBinaryAsset setUuid(String smintIoId);
+    ISyncCompoundAsset setUuid(String smintIoId);
 
     @Override
-    ISyncBinaryAsset setTargetAssetUuid(String targetAssetUuid);
+    ISyncCompoundAsset setTargetAssetUuid(String targetAssetUuid);
 
     @Override
-    ISyncBinaryAsset setName(Map<Locale, String> name);
+    ISyncCompoundAsset setName(Map<Locale, String> name);
 
     @Override
-    ISyncBinaryAsset setContentElementUuid(String contentElementUuid);
+    ISyncCompoundAsset setContentElementUuid(String contentElementUuid);
 
     @Override
-    ISyncBinaryAsset setContentType(String contentTypeKey);
+    ISyncCompoundAsset setContentType(String contentTypeKey);
 
     @Override
-    ISyncBinaryAsset setContentProvider(String contentProviderKey);
+    ISyncCompoundAsset setContentProvider(String contentProviderKey);
 
     @Override
-    ISyncBinaryAsset setContentCategory(String contentCategoryKey);
+    ISyncCompoundAsset setContentCategory(String contentCategoryKey);
 
     @Override
-    ISyncBinaryAsset setDescription(Map<Locale, String> description);
+    ISyncCompoundAsset setDescription(Map<Locale, String> description);
 
     @Override
-    ISyncBinaryAsset setSmintIoUrl(URL smintIoUrl);
-
-
-    @Override
-    ISyncBinaryAsset setCreatedAt(OffsetDateTime createdAt);
+    ISyncCompoundAsset setSmintIoUrl(URL smintIoUrl);
 
 
     @Override
-    ISyncBinaryAsset setLastUpdatedAt(OffsetDateTime lastUpdatedAt);
+    ISyncCompoundAsset setCreatedAt(OffsetDateTime createdAt);
 
 
     @Override
-    ISyncBinaryAsset setPurchasedAt(OffsetDateTime purchasedAt);
+    ISyncCompoundAsset setLastUpdatedAt(OffsetDateTime lastUpdatedAt);
 
 
     @Override
-    ISyncBinaryAsset setCartPurchaseTransactionUuid(String cartPurchaseTransactionUuid);
+    ISyncCompoundAsset setPurchasedAt(OffsetDateTime purchasedAt);
 
 
     @Override
-    ISyncBinaryAsset setLicensePurchaseTransactionUuid(String licensePurchaseTransactionUuid);
+    ISyncCompoundAsset setCartPurchaseTransactionUuid(String cartPurchaseTransactionUuid);
 
 
     @Override
-    ISyncBinaryAsset setHasBeenCancelled(boolean hasBeenCancelled);
+    ISyncCompoundAsset setLicensePurchaseTransactionUuid(String licensePurchaseTransactionUuid);
 
 
     @Override
-    ISyncBinaryAsset setProjectUuid(String projectUuid);
+    ISyncCompoundAsset setHasBeenCancelled(boolean hasBeenCancelled);
 
 
     @Override
-    ISyncBinaryAsset setProjectName(Map<Locale, String> projectName);
+    ISyncCompoundAsset setProjectUuid(String projectUuid);
 
 
     @Override
-    ISyncBinaryAsset setCollectionUuid(String collectionUuid);
+    ISyncCompoundAsset setProjectName(Map<Locale, String> projectName);
 
 
     @Override
-    ISyncBinaryAsset setCollectionName(Map<Locale, String> collectionName);
+    ISyncCompoundAsset setCollectionUuid(String collectionUuid);
 
 
     @Override
-    ISyncBinaryAsset setKeywords(Map<Locale, String[]> keywords);
+    ISyncCompoundAsset setCollectionName(Map<Locale, String> collectionName);
 
 
     @Override
-    ISyncBinaryAsset setCopyrightNotices(Map<Locale, String> copyrightNotices);
+    ISyncCompoundAsset setKeywords(Map<Locale, String[]> keywords);
 
 
     @Override
-    ISyncBinaryAsset setIsEditorialUse(Boolean isEditorialUse);
+    ISyncCompoundAsset setCopyrightNotices(Map<Locale, String> copyrightNotices);
 
 
     @Override
-    ISyncBinaryAsset setHasLicenseTerms(boolean hasLicenseTerms);
+    ISyncCompoundAsset setIsEditorialUse(Boolean isEditorialUse);
 
 
     @Override
-    ISyncBinaryAsset setLicenseType(String licenseTypeKey);
+    ISyncCompoundAsset setHasLicenseTerms(boolean hasLicenseTerms);
 
 
     @Override
-    ISyncBinaryAsset setLicenseeUuid(String licenseeUuid);
+    ISyncCompoundAsset setLicenseType(String licenseTypeKey);
 
 
     @Override
-    ISyncBinaryAsset setLicenseeName(String licenseeName);
+    ISyncCompoundAsset setLicenseeUuid(String licenseeUuid);
 
 
     @Override
-    ISyncBinaryAsset setLicenseText(Map<Locale, String> licenseText);
+    ISyncCompoundAsset setLicenseeName(String licenseeName);
 
 
     @Override
-    ISyncBinaryAsset setLicenseOptions(ISyncLicenseOption[] licenseOptions);
+    ISyncCompoundAsset setLicenseText(Map<Locale, String> licenseText);
 
 
     @Override
-    ISyncBinaryAsset setLicenseTerms(ISyncLicenseTerm[] licenseTerms);
+    ISyncCompoundAsset setLicenseOptions(ISyncLicenseOption[] licenseOptions);
 
 
     @Override
-    ISyncBinaryAsset setDownloadConstraints(ISyncDownloadConstraints downloadConstraints);
+    ISyncCompoundAsset setLicenseTerms(ISyncLicenseTerm[] licenseTerms);
 
 
     @Override
-    ISyncBinaryAsset setReleaseDetails(ISyncReleaseDetails releaseDetails);
+    ISyncCompoundAsset setDownloadConstraints(ISyncDownloadConstraints downloadConstraints);
+
+
+    @Override
+    ISyncCompoundAsset setReleaseDetails(ISyncReleaseDetails releaseDetails);
 
 }
 
