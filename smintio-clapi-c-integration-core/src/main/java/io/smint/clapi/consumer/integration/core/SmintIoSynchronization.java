@@ -110,7 +110,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
 
     @Override
-    public void start() {
+    public SmintIoSynchronization start() {
 
         if (this._scheduledJobKey == null) {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
@@ -122,11 +122,13 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
                 pushService.startNotificationService(this.createNewJob(false));
             }
         }
+
+        return this;
     }
 
 
     @Override
-    public void stop() {
+    public SmintIoSynchronization stop() {
         if (this._scheduledJobKey != null) {
 
             final IPushNotificationService pushService = this._factory.getNotificationService();
@@ -137,6 +139,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
             this._scheduler.stopSchedule(this._scheduledJobKey);
             this._scheduledJobKey = null;
         }
+        return this;
     }
 
 

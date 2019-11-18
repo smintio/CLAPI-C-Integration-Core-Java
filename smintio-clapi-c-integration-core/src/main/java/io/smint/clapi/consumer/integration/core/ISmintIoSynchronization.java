@@ -75,7 +75,7 @@ public interface ISmintIoSynchronization {
      * garbage collection won't apply.
      * </p>
      */
-    void start();
+    ISmintIoSynchronization start();
 
 
     /**
@@ -87,7 +87,7 @@ public interface ISmintIoSynchronization {
      * not terminated.
      * </p>
      */
-    void stop();
+    ISmintIoSynchronization stop();
 
 
     /**

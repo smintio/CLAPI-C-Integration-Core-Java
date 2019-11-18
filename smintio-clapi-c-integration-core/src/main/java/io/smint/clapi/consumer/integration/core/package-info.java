@@ -38,15 +38,15 @@
  * </p>
  *
  * <pre>
- * ISmintIoSynchronization smintSync = new SmintIoSynchronization(
+ * new SmintIoSynchronization(
  *     new SyncFactoryFromDI(
  *         new MyAuthTokenStorage(),
  *         new MySettings(),
  *         () -&gt; new MySyncTargetImplementation()
  *     )
- * );
- * smintSync.startSchedule();
- * smintSync.initialSync(false);
+ * )
+ *     .startSchedule()
+ *     .initialSync(false);
  * </pre>
  */
 package io.smint.clapi.consumer.integration.core;
