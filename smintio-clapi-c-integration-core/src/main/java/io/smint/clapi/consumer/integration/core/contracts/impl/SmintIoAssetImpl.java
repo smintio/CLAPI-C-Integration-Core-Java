@@ -611,6 +611,12 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
         this._lastUpdatedAt = newLastUpdatedAt;
         return this;
     }
+
+
+    @Override
+    public String getUuid() {
+        return this.getLicensePurchaseTransactionUuid();
+    }
 }
 
 // CHECKSTYLE ON: MethodCount

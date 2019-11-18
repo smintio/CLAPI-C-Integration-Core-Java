@@ -36,6 +36,19 @@ public interface ISmintIoAsset {
 
     String getLicensePurchaseTransactionUuid();
 
+
+    /**
+     * This is a Smint.io internal ID of the asset.
+     *
+     * <p>
+     * Implementing functions need to just call {@link #getLicensePurchaseTransactionUuid()}.
+     * </p>
+     *
+     * @return the return value of {@link #getLicensePurchaseTransactionUuid()}.
+     */
+    String getUuid();
+
+
     String getCartPurchaseTransactionUuid();
 
     LicensePurchaseTransactionStateEnum getState();
