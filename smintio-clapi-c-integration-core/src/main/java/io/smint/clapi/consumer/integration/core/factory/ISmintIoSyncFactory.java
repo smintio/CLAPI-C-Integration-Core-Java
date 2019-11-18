@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.factory;
 
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncJobExecutionQueue;
 import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
@@ -71,4 +72,12 @@ public interface ISmintIoSyncFactory {
      * @return {@code null} if no service is available.
      */
     IPushNotificationService getNotificationService();
+
+
+    /**
+     * Provides an execution queue to execute synchronization jobs one at a time, avoiding collisions.
+     *
+     * @return {@code null} if no execution queue is available.
+     */
+    ISyncJobExecutionQueue getJobExecutionQueue();
 }

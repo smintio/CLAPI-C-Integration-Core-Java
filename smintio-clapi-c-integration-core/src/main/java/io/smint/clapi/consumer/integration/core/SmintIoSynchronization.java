@@ -33,6 +33,7 @@ import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.factory.impl.SyncGuiceModule;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncJobExecutionQueue;
 import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
@@ -55,6 +56,13 @@ import io.smint.clapi.consumer.integration.core.services.IPushNotificationServic
  * place. Only if the required instance of {@link ISmintIoSyncFactory} is not injected via Field Injection, Guice is to
  * create these instances.
  * </p>
+ *
+ * <h2>Synchronizing job runs</h2>
+ * <p>
+ * Synchronization jobs are not allowed to run simultaneously. It simple does not make sense. So new events to trigger a
+ * new job run add the new run to a waiting queue in case a job is currently running. Hence an instance of
+ * {@link ISyncJobExecutionQueue} is used to detect and handle collisions.
+ * </p>
  */
 public class SmintIoSynchronization implements ISmintIoSynchronization {
 
@@ -71,7 +79,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
     private String _scheduledJobKey;
     private IPlatformScheduler _scheduler;
-
+    private ISyncJobExecutionQueue _executionQueue;
 
     /**
      * Create a new Smint.io synchronization progress.
@@ -81,11 +89,11 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * create an instance of {@link ISmintIoSyncFactory}.
      * </p>
      *
-     * @param syncTargetfactory the user factory helping to create all target specific instances.
+     * @param syncTargetFactory the user factory helping to create all target specific instances.
      */
     @Inject
-    public SmintIoSynchronization(final ISyncTargetFactory syncTargetfactory) {
-        this.init(syncTargetfactory);
+    public SmintIoSynchronization(final ISyncTargetFactory syncTargetFactory) {
+        this.init(syncTargetFactory);
         this._scheduledJobKey = null;
     }
 
@@ -105,12 +113,12 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
         if (this._scheduledJobKey == null) {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
-                this.createNewJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
+                this.createNewSynchonizedJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
             );
 
             final IPushNotificationService pushService = this._factory.getNotificationService();
             if (pushService != null) {
-                pushService.startNotificationService(this.createNewJob(false));
+                pushService.startNotificationService(this.createNewSynchonizedJob(false));
             }
         }
     }
@@ -179,6 +187,9 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         this._scheduler = this._factory.getPlatformScheduler();
         Objects.requireNonNull(this._scheduler, "Failed to get platform dependent scheduler from factory!");
 
+        this._executionQueue = this._factory.getJobExecutionQueue();
+        Objects.requireNonNull(this._executionQueue, "Failed to get job execution queue from factory!");
+
         return this;
     }
 
@@ -192,6 +203,19 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
             } catch (final SmintIoAuthenticatorException | SmintIoSyncJobException excp) {
                 LOG.log(Level.SEVERE, "Failed to execute synchronization job with Smint.io platform!", excp);
             }
+        };
+    }
+
+
+    private Runnable createNewSynchonizedJob(final boolean syncMetadata) {
+
+        final boolean isPushEventJob = !syncMetadata;
+        final Runnable checkedJob = this.createNewJob(syncMetadata);
+
+        // first add the job to the queue, then execute the next item in the queue if any is waiting.
+        return () -> {
+            this._executionQueue.addJob(isPushEventJob, checkedJob);
+            this._executionQueue.run();
         };
     }
 }

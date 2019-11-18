@@ -26,6 +26,7 @@ import javax.inject.Singleton;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncJobExecutionQueue;
 import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
@@ -48,6 +49,7 @@ public class SmintIoSyncFactoryFromDI implements ISmintIoSyncFactory {
     private final Provider<ISyncJob> _jobProvider;
     private final IPlatformScheduler _scheduler;
     private final IPushNotificationService _notificationService;
+    private final ISyncJobExecutionQueue _jobExecutionQueue;
 
     // CHECKSTYLE OFF: ParameterNumber
     @Inject
@@ -55,12 +57,14 @@ public class SmintIoSyncFactoryFromDI implements ISmintIoSyncFactory {
         final ISyncTargetFactory syncTargetFactory,
         final Provider<ISyncJob> jobProvider,
         final IPlatformScheduler platformScheduler,
-        final IPushNotificationService notificationService
+        final IPushNotificationService notificationService,
+        final ISyncJobExecutionQueue jobExecutionQueue
     ) {
         this._syncTargetFactory = syncTargetFactory;
         this._jobProvider = jobProvider;
         this._scheduler = platformScheduler;
         this._notificationService = notificationService;
+        this._jobExecutionQueue = jobExecutionQueue;
     }
     // CHECKSTYLE ON: ParameterNumber
 
@@ -86,6 +90,11 @@ public class SmintIoSyncFactoryFromDI implements ISmintIoSyncFactory {
     @Override
     public IPushNotificationService getNotificationService() {
         return this._notificationService;
+    }
+
+    @Override
+    public ISyncJobExecutionQueue getJobExecutionQueue() {
+        return this._jobExecutionQueue;
     }
 
 }

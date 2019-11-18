@@ -33,7 +33,9 @@ import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthen
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncJobExecutionQueue;
 import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.impl.SyncJobExecutionQueueImpl;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.impl.SmintIoApiClientImpl;
 import io.smint.clapi.consumer.integration.core.services.IPlatformScheduler;
@@ -53,7 +55,7 @@ public class SyncGuiceModule extends AbstractModule {
 
 
     /**
-     * Creates a new Google's Guice configuation module.
+     * Creates a new Google's Guice configuration module.
      *
      * @param syncTargetFactory the custom sync target factory.
      */
@@ -138,5 +140,6 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(IPushNotificationService.class).to(PusherService.class).in(Singleton.class);
         this.bind(ISmintIoAuthenticator.class).to(SmintIoAuthenticatorImpl.class).in(Singleton.class);
         this.bind(ISmintIoApiClient.class).to(SmintIoApiClientImpl.class);
+        this.bind(ISyncJobExecutionQueue.class).to(SyncJobExecutionQueueImpl.class).in(Singleton.class);
     }
 }
