@@ -123,30 +123,32 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
             }
         }
 
+        JobDescription nextJob = null;
         synchronized (this._jobWaitingQueue) {
             if (this._jobWaitingQueue.size() > 0) {
-                final JobDescription nextJob = this._jobWaitingQueue.remove(0);
-                if (nextJob != null && nextJob.getJob() != null) {
-                    synchronized (this._runningJobSemaphore) {
-                        this._runningJob = nextJob;
-                    }
-                }
+                nextJob = this._jobWaitingQueue.remove(0);
             }
         }
 
+        if (nextJob == null || nextJob.getJob() == null) {
+            return;
+        }
+
+
         synchronized (this._runningJobSemaphore) {
-            if (this._runningJob == null) {
-                return;
-            }
+            this._runningJob = nextJob;
         }
 
 
         // run outside of semaphore to avoid blocking other calls to run()
-        final JobDescription currentJob = this._runningJob;
+        final JobDescription currentJob = nextJob;
         final Runnable jobWrapper = () -> {
             try {
-                this._runningJob.getJob().run();
+                currentJob.getJob().run();
+
             } finally {
+
+                currentJob.notifyAll();
                 synchronized (this._runningJobSemaphore) {
                     if (this._runningJob == currentJob) {
                         this._runningJob = null;
@@ -156,6 +158,36 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
         };
 
         jobWrapper.run();
+    }
+
+
+    @Override
+    public boolean hasWaitingJob() {
+        synchronized (this._jobWaitingQueue) {
+            return !this._jobWaitingQueue.isEmpty();
+        }
+    }
+
+
+    @Override
+    public boolean isRunning() {
+        return this._runningJob != null;
+    }
+
+
+    @Override
+    public ISyncJobExecutionQueue waitForJob() throws InterruptedException {
+
+        JobDescription nextJob = null;
+        synchronized (this._jobWaitingQueue) {
+            if (this._runningJob == null) {
+                return this;
+            }
+            nextJob = this._runningJob;
+        }
+
+        nextJob.wait();
+        return this;
     }
 
 

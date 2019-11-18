@@ -90,4 +90,41 @@ public interface ISyncJobExecutionQueue extends Runnable {
      */
     @Override
     void run();
+
+
+    /**
+     * Checks whether a job has already been added to the waiting queue.
+     *
+     * <p>
+     * The call is non-blocking.
+     * </p>
+     *
+     * @return {@code true} if at least one job is waiting or {@code false}.
+     */
+    boolean hasWaitingJob();
+
+
+    /**
+     * Checks whether a job is currently being executed.
+     *
+     * <p>
+     * The call is non-blocking.
+     * </p>
+     *
+     * @return {@code true} if at least one job is waiting or {@code false}.
+     */
+    boolean isRunning();
+
+
+    /**
+     * Waits for the current running job to terminate.
+     *
+     * <p>
+     * The call is blocking. If no job is currently running, the function will return immediately.
+     * </p>
+     *
+     * @return {@code this}.
+     * @throws InterruptedException see {@link java.lang.Object#wait()}
+     */
+    ISyncJobExecutionQueue waitForJob() throws InterruptedException;
 }
