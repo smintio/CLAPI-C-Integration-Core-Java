@@ -43,7 +43,6 @@ import io.smint.clapi.consumer.integration.core.configuration.models.impl.AuthTo
  * over and over again.
  * </p>
  */
-@Named("authTokenPersistentStorage")
 @Singleton
 public class AuthTokenFileStorage extends FileModelStorage<IAuthTokenModel> implements IAuthTokenStorage {
 

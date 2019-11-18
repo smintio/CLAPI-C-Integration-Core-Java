@@ -89,7 +89,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      */
     @Inject
     public SyncTargetFactoryFromDI(
-        @Named("authTokenStorage") final IAuthTokenStorage authTokenProvider,
+        final IAuthTokenStorage authTokenProvider,
         final ISettingsModel settings,
         final Provider<ISyncTarget> syncTargetProvider
     ) {

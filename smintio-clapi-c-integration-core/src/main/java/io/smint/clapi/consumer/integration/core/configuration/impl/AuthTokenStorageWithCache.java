@@ -38,7 +38,6 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
  * avoid any stale cache. Nevertheless be aware that stale caches could happen.
  * </p>
  */
-@Named("authTokenStorage")
 @Singleton
 public class AuthTokenStorageWithCache implements IAuthTokenStorage {
 
