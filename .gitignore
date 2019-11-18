@@ -28,7 +28,7 @@ coverage
 # Compiled binary addons
 build/ 
 /target/
-smintio-clapi-c-integration-core/target/
+smintio-clapi-c-integration*/target/
 
 # Dependency directories
 node_modules
