@@ -27,9 +27,9 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstr
  */
 public class SmintIoDownloadConstraintsImpl implements ISmintIoDownloadConstraints {
 
-    private int _maxDownloads = UNLIMITED;
-    private int _maxUsers = UNLIMITED;
-    private int _maxReuses = UNLIMITED;
+    private int _maxDownloads = UNKNOWN;
+    private int _maxUsers = UNKNOWN;
+    private int _maxReuses = UNKNOWN;
 
 
     @Override

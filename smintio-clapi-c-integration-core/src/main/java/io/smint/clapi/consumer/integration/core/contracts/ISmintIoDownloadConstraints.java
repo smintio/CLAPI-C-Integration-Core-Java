@@ -27,7 +27,7 @@ public interface ISmintIoDownloadConstraints {
     /**
      * The default value - denoting an <em>unlimited</em> value - for all fields in case no value has ever been set.
      */
-    int UNLIMITED = -1;
+    int UNKNOWN = -1;
 
 
     /**
