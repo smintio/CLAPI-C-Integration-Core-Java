@@ -52,6 +52,8 @@ import java.util.concurrent.Future;
  * along the scheduled job in order to ensure a reference to {@code ISmintIoSynchronization} is available with its
  * internal reference to the channel socket.
  * </p>
+ *
+ * @see io.smint.clapi.consumer.integration.core
  */
 public interface ISmintIoSynchronization {
 
@@ -89,19 +91,19 @@ public interface ISmintIoSynchronization {
 
 
     /**
-     * Perform an on-demand synchronization without syncing any asset meta data.
+     * Perform an initial synchronization of all meta data and assets.
      *
-     * @return a {@code Future} that will return {@code null} in its {@link Future#get()} function.
-     */
-    Future<Void> doSync();
-
-
-    /**
-     * Perform an on-demand synchronization without or without syncing any asset meta data.
+     * <p>
+     * A new synchronization task will be executed. In case such a task is already being executed, no new one will be
+     * created but the returned {@code Future} is going to wait for the termination of the existing task. Beware that
+     * every {@link Future} will require the task to run in a different thread.
+     * </p>
      *
-     * @param syncMetaData pass {@code true} to force synchronization of meta data. If you pass {@code false} then no
-     *                     meta data will be synchronized. This is useful for non-scheduled synchronizations.
-     * @return a {@code Future} that will return {@code null} in its {@link Future#get()} function.
+     * @param waitForTermination if {@code true} the sync job is executed in the current thread and the function will
+     *                           return as soon as the task has terminated. There is no need to keep a reference to the
+     *                           result of this function in that case.
+     * @return a {@code Future} that will return {@code null} in its {@link Future#get()} function, once synchronization
+     *         job has finished.
      */
-    Future<Void> doSync(final boolean syncMetaData);
+    Future<Void> initialSync(boolean waitForTermination);
 }

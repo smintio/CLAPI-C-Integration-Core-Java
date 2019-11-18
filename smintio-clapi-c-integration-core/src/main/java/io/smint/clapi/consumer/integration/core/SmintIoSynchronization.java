@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
@@ -113,12 +114,12 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
         if (this._scheduledJobKey == null) {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
-                this.createNewSynchonizedJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
+                this.createNewJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
             );
 
             final IPushNotificationService pushService = this._factory.getNotificationService();
             if (pushService != null) {
-                pushService.startNotificationService(this.createNewSynchonizedJob(false));
+                pushService.startNotificationService(this.createNewJob(false));
             }
         }
     }
@@ -140,24 +141,24 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
 
     @Override
-    public Future<Void> doSync() {
-        return this.doSync(false);
-    }
+    public Future<Void> initialSync(final boolean waitForTermination) {
 
+        final Runnable syncJob = this.createNewJob(true);
+        if (waitForTermination) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Future<Void> doSync(final boolean syncMetaData) {
+            // run in same thread - wait for termination
+            syncJob.run();
+            return CompletableFuture.completedFuture(null);
 
-        final Runnable syncJob = this.createNewJob(false);
+        } else {
 
-        final FutureTask<Void> task = new FutureTask<>(syncJob, null);
-        final Thread workerThread = new Thread(task);
-        workerThread.start();
+            // do not wait for termination
+            final FutureTask<Void> task = new FutureTask<>(syncJob, null);
+            final Thread workerThread = new Thread(task);
+            workerThread.start();
 
-        return task;
+            return task;
+        }
     }
 
 
@@ -196,21 +197,15 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
     private Runnable createNewJob(final boolean syncMetadata) {
 
+        final boolean isPushEventJob = !syncMetadata;
         final ISyncJob job = this._factory.createSyncJob();
-        return () -> {
+        final Runnable checkedJob = () -> {
             try {
                 job.synchronize(syncMetadata);
             } catch (final SmintIoAuthenticatorException | SmintIoSyncJobException excp) {
                 LOG.log(Level.SEVERE, "Failed to execute synchronization job with Smint.io platform!", excp);
             }
         };
-    }
-
-
-    private Runnable createNewSynchonizedJob(final boolean syncMetadata) {
-
-        final boolean isPushEventJob = !syncMetadata;
-        final Runnable checkedJob = this.createNewJob(syncMetadata);
 
         // first add the job to the queue, then execute the next item in the queue if any is waiting.
         return () -> {

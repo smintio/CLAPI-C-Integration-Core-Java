@@ -46,6 +46,7 @@
  *     )
  * );
  * smintSync.startSchedule();
+ * smintSync.initialSync(false);
  * </pre>
  */
 package io.smint.clapi.consumer.integration.core;
