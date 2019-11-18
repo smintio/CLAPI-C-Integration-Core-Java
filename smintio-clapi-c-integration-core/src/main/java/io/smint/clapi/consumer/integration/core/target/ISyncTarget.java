@@ -202,6 +202,100 @@ public interface ISyncTarget {
 
 
     /**
+     * Factory function to create a new instance representing target's data structure for a <em>Binary Assets</em>.
+     *
+     * <p>
+     * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
+     * this instance, it will be passed to this sync target via {@link #importNewTargetAssets(ISyncBinaryAsset[])}.
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     * @see ISyncAsset
+     */
+    ISyncBinaryAsset createSyncBinaryAsset();
+
+
+    /**
+     * Factory function to create a new instance representing target's compound assets.
+     *
+     * <p>
+     * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
+     * this instance, it will be passed to this sync target via
+     * {@link #importNewTargetCompoundAssets(ISyncCompoundAsset[])}.
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     * @see ISyncAsset
+     */
+    ISyncCompoundAsset createSyncCompoundAsset();
+
+
+    /**
+     * Factory function to create a new instance representing target's lincense option data structure.
+     *
+     * <p>
+     * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
+     * storing this instance, it will be attached to an asset via
+     * {@link ISyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
+     * {@link #importNewTargetAssets(ISyncBinaryAsset[])}, {@link #importNewTargetCompoundAssets(ISyncCompoundAsset[])},
+     * {@link #updateTargetAssets(ISyncBinaryAsset[])}, {@link #updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     */
+    ISyncLicenseOption createSyncLicenseOption();
+
+
+    /**
+     * Factory function to create a new instance representing target's lincense terms data structure.
+     *
+     * <p>
+     * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
+     * storing this instance, it will be attached to an asset via {@link ISyncAsset#setLicenseTerms(ISyncLicenseTerm[])}
+     * and thus passed to this sync target via one of {@link #importNewTargetAssets(ISyncBinaryAsset[])},
+     * {@link #importNewTargetCompoundAssets(ISyncCompoundAsset[])}, {@link #updateTargetAssets(ISyncBinaryAsset[])},
+     * {@link #updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     */
+    ISyncLicenseTerm createSyncLicenseTerm();
+
+
+    /**
+     * Factory function to create a new instance representing target's release details structure.
+     *
+     * <p>
+     * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
+     * storing this instance, it will be attached to an asset via
+     * {@link ISyncAsset#setReleaseDetails(ISyncReleaseDetails)} and thus passed to this sync target via one of
+     * {@link #importNewTargetAssets(ISyncBinaryAsset[])}, {@link #importNewTargetCompoundAssets(ISyncCompoundAsset[])},
+     * {@link #updateTargetAssets(ISyncBinaryAsset[])}, {@link #updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     */
+    ISyncReleaseDetails createSyncReleaseDetails();
+
+
+    /**
+     * Factory function to create a new instance representing target's downloads constraints data structure.
+     *
+     * <p>
+     * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
+     * storing this instance, it will be attached to an asset via
+     * {@link ISyncAsset#setDownloadConstraints(ISyncDownloadConstraints)} and thus passed to this sync target via one
+     * of {@link #importNewTargetAssets(ISyncBinaryAsset[])},
+     * {@link #importNewTargetCompoundAssets(ISyncCompoundAsset[])}, {@link #updateTargetAssets(ISyncBinaryAsset[])},
+     * {@link #updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * </p>
+     *
+     * @return must return a fresh instance for every call and must not ever return {@code null}.
+     */
+    ISyncDownloadConstraints createSyncDownloadConstraints();
+
+
+    /**
      * Is called right before assets are about to be synced but after {@link #beforeSync()} and after
      * {@link #afterGenericMetadataSync()}.
      *
