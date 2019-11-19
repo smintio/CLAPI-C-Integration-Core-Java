@@ -28,6 +28,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Provides;
 
+import okhttp3.OkHttpClient;
+
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
@@ -52,6 +54,7 @@ public class SyncGuiceModule extends AbstractModule {
 
     private final ISyncTargetFactory _syncTargetFactory;
     private IPlatformScheduler _scheduler;
+    private OkHttpClient _httpClient;
 
 
     /**
@@ -85,6 +88,20 @@ public class SyncGuiceModule extends AbstractModule {
     @Provides
     public ISyncTargetFactory getSyncTargetFactory() {
         return this._syncTargetFactory;
+    }
+
+
+    /**
+     * Returns a singleton {@link OkHttpClient} instance.
+     *
+     * @return a {@link OkHttpClient} or {@code null}.
+     */
+    @Provides
+    public OkHttpClient getHttpClient() {
+        if (this._httpClient == null) {
+            this._httpClient = new OkHttpClient.Builder().build();
+        }
+        return this._httpClient;
     }
 
 
