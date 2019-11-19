@@ -24,6 +24,7 @@ import java.util.ServiceLoader;
 
 import javax.inject.Singleton;
 
+import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Provides;
@@ -152,6 +153,8 @@ public class SyncGuiceModule extends AbstractModule {
     @Override
     protected void configure() {
         super.configure();
+
+        this.bind(Gson.class).toProvider(SmintIoGsonProvider.class);
 
         this.bind(ISyncJob.class).to(DefaultSyncJob.class);
         this.bind(ISmintIoSyncFactory.class).to(SmintIoSyncFactoryFromDI.class).in(Singleton.class);
