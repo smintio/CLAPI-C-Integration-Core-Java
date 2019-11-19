@@ -33,8 +33,10 @@ import okhttp3.OkHttpClient;
 
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
+import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
 import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
+import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
@@ -93,6 +95,29 @@ public class SyncGuiceModule extends AbstractModule {
     @Provides
     public ISyncTargetFactory getSyncTargetFactory() {
         return this._syncTargetFactory;
+    }
+
+
+    /**
+     * Returns the value provided by {@link #getSyncTargetFactory()}
+     *
+     * @return an IAuthTokenStorage or {@code null}.
+     */
+    @Provides
+    public IAuthTokenStorage getAuthTokenStorage() {
+        final ISyncTargetFactory factory = this.getSyncTargetFactory();
+        return factory != null ? factory.getAuthTokenStorage() : null;
+    }
+
+
+    /**
+     * Returns the value provided by {@link #getAuthTokenStorage()}
+     *
+     * @return an IAuthTokenStorage or {@code null}.
+     */
+    @Provides
+    public IAuthTokenModel getAuthTokenModel() {
+        return this.getAuthTokenStorage() != null ? this.getAuthTokenStorage().getAuthData() : null;
     }
 
 

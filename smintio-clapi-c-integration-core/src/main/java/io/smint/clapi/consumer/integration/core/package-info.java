@@ -39,7 +39,7 @@
  *
  * <pre>
  * new SmintIoSynchronization(
- *     new SyncFactoryFromDI(
+ *     new SyncTargetFactoryFromDI(
  *         new MyAuthTokenStorage(),
  *         new MySettings(),
  *         () -&gt; new MySyncTargetImplementation()
@@ -47,6 +47,17 @@
  * )
  *     .startSchedule()
  *     .initialSync(false);
+ * </pre>
+ *
+ * <p>
+ * A file based authentication storage is available:
+ * </p>
+ *
+ * <pre>
+ * final IAuthTokenStorage authTokenStorage = new AuthTokenFileStorage(
+ *     new AuthTokenJsonConverter(new Gson()),
+ *     new File("./auth-token.json")
+ * )
  * </pre>
  */
 package io.smint.clapi.consumer.integration.core;
