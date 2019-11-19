@@ -52,6 +52,7 @@ import io.smint.clapi.consumer.integration.core.services.IPlatformSchedulerProvi
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 import io.smint.clapi.consumer.integration.core.services.impl.NativeThreadPoolScheduler;
 import io.smint.clapi.consumer.integration.core.services.impl.PusherService;
+import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
 
 /**
@@ -157,6 +158,18 @@ public class SyncGuiceModule extends AbstractModule {
         }
 
         return this._jobStorage;
+    }
+
+
+    /**
+     * Calls {@link #getSyncTargetFactory()}{@code .}{@link ISyncTargetFactory#createSyncTarget()}.
+     *
+     * @return an ISyncTarget or {@code null}.
+     */
+    @Provides
+    public ISyncTarget createSyncTarget() {
+        final ISyncTargetFactory factory = this.getSyncTargetFactory();
+        return factory != null ? factory.createSyncTarget() : null;
     }
 
 
