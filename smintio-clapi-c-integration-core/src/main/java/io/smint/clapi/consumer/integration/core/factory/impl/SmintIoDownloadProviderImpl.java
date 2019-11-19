@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 
+import javax.inject.Inject;
 import javax.inject.Provider;
 
 import okhttp3.OkHttpClient;
@@ -44,6 +45,7 @@ public class SmintIoDownloadProviderImpl implements ISmintIoDownloadProvider {
     private final OkHttpClient _httpClient;
     private final IAuthTokenStorage _authTokenStorage;
 
+    @Inject
     public SmintIoDownloadProviderImpl(
         final IAuthTokenStorage authTokenStorage,
         final OkHttpClient httpClient
