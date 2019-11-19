@@ -38,6 +38,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDataModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.SettingsModelImpl;
+import io.smint.clapi.consumer.integration.core.configuration.models.impl.SyncJobDataModelImpl;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
@@ -512,7 +513,9 @@ public class DefaultSyncJob implements ISyncJob {
 
 
                     // store continuation ID
-                    jobDataStorage.storeSyncProcessData(() -> newContinuationUuid);
+                    jobDataStorage.storeSyncProcessData(
+                        new SyncJobDataModelImpl().setContinuationUuid(newContinuationUuid)
+                    );
                     LOG.info("Synchronized " + rawAssets.length + " Smint.io assets.");
 
                 } else {

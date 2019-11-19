@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.factory;
 
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
@@ -68,8 +69,21 @@ public interface ISyncTargetFactory {
     /**
      * creates a token storage to deliver the settings for authentication to the Smint.IO RESTful API.
      *
-     * @return returns the same authentication token storage on each request.
+     * @return the same authentication token storage on each request but must not return {@code null}.
      */
     IAuthTokenStorage getAuthTokenStorage();
 
+
+    /**
+     * creates a job data storage to make job data available for next run.
+     *
+     * <p>
+     * If this function returns {@code null}, then an in-memory storage is used as default. The job data will be
+     * available for different runs but will automatically removed from memory, once the sync jobs are stopped and
+     * terminated. Nevertheless, it should be sufficient for most cases.
+     * </p>
+     *
+     * @return the same storage on each request or {@code null}.
+     */
+    ISyncJobDataStorage getJobDataStorage();
 }

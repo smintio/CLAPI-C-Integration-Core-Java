@@ -33,6 +33,8 @@ import okhttp3.OkHttpClient;
 
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
+import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
+import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
@@ -57,6 +59,7 @@ public class SyncGuiceModule extends AbstractModule {
     private final ISyncTargetFactory _syncTargetFactory;
     private IPlatformScheduler _scheduler;
     private OkHttpClient _httpClient;
+    private ISyncJobDataStorage _jobStorage;
 
 
     /**
@@ -90,6 +93,32 @@ public class SyncGuiceModule extends AbstractModule {
     @Provides
     public ISyncTargetFactory getSyncTargetFactory() {
         return this._syncTargetFactory;
+    }
+
+
+    /**
+     * Returns the job data storage as fetched from
+     * {@link #getSyncTargetFactory()}{@code .}{@link ISyncTargetFactory#getJobDataStorage()}
+     *
+     * <p>
+     * In case the sync target factory does not return an instance, the default {@link SyncJobDataMemoryStorage} is used
+     * instead.
+     * </p>
+     *
+     * @return an ISyncJobDataStorage.
+     */
+    @Provides
+    public ISyncJobDataStorage getJobDataStorage() {
+
+        final ISyncTargetFactory factory = this.getSyncTargetFactory();
+        if (this._jobStorage == null) {
+            this._jobStorage = factory != null ? factory.getJobDataStorage() : null;
+        }
+        if (this._jobStorage == null) {
+            this._jobStorage = new SyncJobDataMemoryStorage();
+        }
+
+        return this._jobStorage;
     }
 
 

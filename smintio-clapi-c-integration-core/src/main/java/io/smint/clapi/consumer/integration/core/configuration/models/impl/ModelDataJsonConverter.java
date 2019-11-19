@@ -27,10 +27,11 @@ import com.google.gson.Gson;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.IModelStringConverter;
+import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 
 
 /**
- * Convert {@link IAuthTokenModel} to and from {@link java.lang.String} in JSON format.
+ * Convert {@link IAuthTokenModel} or {@link ISettingsModel} to and from {@link java.lang.String} in JSON format.
  *
  * <p>
  * This class uses <a href="https://github.com/google/gson">Google's Gson library</a> to convert to and from JSON.

@@ -20,11 +20,11 @@
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
@@ -76,6 +76,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
 
     private final IAuthTokenStorage _authTokenProvider;
+    private final ISyncJobDataStorage _jobDataStorage;
     private final ISettingsModel _settings;
     private final Provider<ISyncTarget> _syncTargetProvider;
 
@@ -93,9 +94,28 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
         final ISettingsModel settings,
         final Provider<ISyncTarget> syncTargetProvider
     ) {
+        this(authTokenProvider, settings, syncTargetProvider, null);
+    }
+
+
+    /**
+     * create a new sync factory with pre-created values.
+     *
+     * @param authTokenProvider  already created and available authentication token provider
+     * @param settings           already available settings provider
+     * @param syncTargetProvider a sync target provider
+     */
+    @Inject
+    public SyncTargetFactoryFromDI(
+        final IAuthTokenStorage authTokenProvider,
+        final ISettingsModel settings,
+        final Provider<ISyncTarget> syncTargetProvider,
+        final ISyncJobDataStorage syncJobDataStorage
+    ) {
         this._authTokenProvider = authTokenProvider;
         this._settings = settings;
         this._syncTargetProvider = syncTargetProvider;
+        this._jobDataStorage = syncJobDataStorage;
     }
 
 
@@ -123,5 +143,11 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
     @Override
     public IAuthTokenStorage getAuthTokenStorage() {
         return this._authTokenProvider;
+    }
+
+
+    @Override
+    public ISyncJobDataStorage getJobDataStorage() {
+        return this._jobDataStorage;
     }
 }
