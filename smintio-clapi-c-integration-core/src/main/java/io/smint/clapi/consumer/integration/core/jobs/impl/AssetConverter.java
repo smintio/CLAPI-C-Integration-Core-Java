@@ -1,5 +1,6 @@
 package io.smint.clapi.consumer.integration.core.jobs.impl;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
+import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
@@ -41,6 +43,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     private static final Logger LOG = Logger.getLogger(AssetConverter.class.getName());
 
     private final ISyncTarget _syncTarget;
+    private final ISmintIoDownloadProvider _downloadProvider;
+    private final File _temporaryDownloadFolder;
 
     /**
      * Initializes a new converter, using the {@code syncTarget} to map to sync target keys.
@@ -50,11 +54,19 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
      * @throws NullPointerException if {@code syncTarget} is {@code null}
      */
     @Inject
-    public AssetConverter(final ISyncTarget syncTarget) {
+    public AssetConverter(
+        final ISyncTarget syncTarget,
+        final ISmintIoDownloadProvider downloadProvider,
+        final File temporaryDownloadFolder
+    ) {
         super(ISyncAsset.class);
         this._syncTarget = syncTarget;
+        this._downloadProvider = downloadProvider;
+        this._temporaryDownloadFolder = temporaryDownloadFolder;
 
         Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
+        Objects.requireNonNull(downloadProvider, "No creator of binary asset downloader has been provided.");
+        Objects.requireNonNull(temporaryDownloadFolder, "Temporary download folder is invalid <null>");
     }
 
 
@@ -85,9 +97,21 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                 .setRecommendedFileName(recommendedFileName)
                 .setDownloadUrl(downloadUrl);
 
-
             this.setContentMetadata(targetAsset, rawAsset, binary, this._syncTarget);
             this.setLicenseMetadata(targetAsset, rawAsset, this._syncTarget);
+
+            targetAsset
+                .setDownloadedFileProvider(
+                    this._downloadProvider.createDownloaderForSmintIoUrl(
+                        downloadUrl,
+                        new File(
+                            this._temporaryDownloadFolder,
+                            targetAsset.getUuid() + "_" + targetAsset.getBinaryUuid() + "_"
+                                + targetAsset.getRecommendedFileName()
+                        )
+                    )
+                );
+
 
             assetPartAssets.add(targetAsset);
             assets.add(targetAsset);

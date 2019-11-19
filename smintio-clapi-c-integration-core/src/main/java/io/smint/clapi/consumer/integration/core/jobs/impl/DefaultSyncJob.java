@@ -44,6 +44,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException.AuthenticatorError;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException.SyncJobError;
+import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithContinuation;
@@ -86,6 +87,7 @@ public class DefaultSyncJob implements ISyncJob {
     private final ISyncJobDataStorage _syncDataStorage;
     private final ISmintIoApiClient _smintIoClient;
     private final ISyncTarget _syncTarget;
+    private final ISmintIoDownloadProvider _downloadProvider;
 
 
     /**
@@ -105,13 +107,15 @@ public class DefaultSyncJob implements ISyncJob {
         final IAuthTokenStorage authTokenStorage,
         final ISmintIoApiClient smintIoClient,
         final ISyncTarget syncTarget,
-        final ISyncJobDataStorage syncDataStorage
+        final ISyncJobDataStorage syncDataStorage,
+        final ISmintIoDownloadProvider downloadProvider
     ) {
         this._settings = new SettingsModelImpl(settings);
         this._tokenStorage = authTokenStorage;
         this._syncDataStorage = syncDataStorage;
         this._smintIoClient = smintIoClient;
         this._syncTarget = syncTarget;
+        this._downloadProvider = downloadProvider;
 
 
         Objects.requireNonNull(this._syncTarget, "Synchronization target has not been provided!");
@@ -429,7 +433,11 @@ public class DefaultSyncJob implements ISyncJob {
                     final List<ISyncCompoundAsset> newTargetCompoundAssets = new ArrayList<>();
                     final List<ISyncCompoundAsset> updatedTargetCompoundAssets = new ArrayList<>();
 
-                    final ISyncAsset[] targetAssets = new AssetConverter(this._syncTarget).convertAll(rawAssets);
+                    final ISyncAsset[] targetAssets = new AssetConverter(
+                        this._syncTarget,
+                        this._downloadProvider,
+                        tempFolder
+                    ).convertAll(rawAssets);
                     Objects.requireNonNull(targetAssets, "Conversion of assets from Smint.io failed.");
 
                     for (final ISyncAsset targetAsset : targetAssets) {
