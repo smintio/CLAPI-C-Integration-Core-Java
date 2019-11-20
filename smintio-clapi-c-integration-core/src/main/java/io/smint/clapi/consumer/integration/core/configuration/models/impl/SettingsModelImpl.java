@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 
+import java.net.URL;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -33,6 +34,7 @@ public class SettingsModelImpl implements ISettingsModel {
 
     private String _clientSecret;
     private String _clientID;
+    private URL _redirectUrl;
     private int _channelID;
     private String _tenantID;
     private String[] _importLanguages;
@@ -55,8 +57,9 @@ public class SettingsModelImpl implements ISettingsModel {
         Objects.requireNonNull(copyFrom, "invalid object to copy from has been provided");
         this
             .setTenantId(copyFrom.getTenantId())
-            .setClientId(copyFrom.getClientId())
-            .setClientSecret(copyFrom.getClientSecret())
+            .setOAuthClientId(copyFrom.getOAuthClientId())
+            .setOAuthClientSecret(copyFrom.getOAuthClientSecret())
+            .setOAuthLocalUrlReceivingAccessData(copyFrom.getOAuthLocalUrlReceivingAccessData())
             .setChannelId(copyFrom.getChannelId())
             .setImportLanguages(copyFrom.getImportLanguages());
     }
@@ -101,7 +104,7 @@ public class SettingsModelImpl implements ISettingsModel {
 
 
     @Override
-    public String getClientId() {
+    public String getOAuthClientId() {
         return this._clientID;
     }
 
@@ -112,14 +115,14 @@ public class SettingsModelImpl implements ISettingsModel {
      * @param newClientId the client ID the access and refresh tokens of OAuth are related to.
      * @return {@code this}
      */
-    public SettingsModelImpl setClientId(final String newClientId) {
+    public SettingsModelImpl setOAuthClientId(final String newClientId) {
         this._clientID = newClientId;
         return this;
     }
 
 
     @Override
-    public String getClientSecret() {
+    public String getOAuthClientSecret() {
         return this._clientSecret;
     }
 
@@ -130,8 +133,26 @@ public class SettingsModelImpl implements ISettingsModel {
      * @param newClientSecret a new client secret to use with OAuth access token refresh.
      * @return {@code this}
      */
-    public SettingsModelImpl setClientSecret(final String newClientSecret) {
+    public SettingsModelImpl setOAuthClientSecret(final String newClientSecret) {
         this._clientSecret = newClientSecret;
+        return this;
+    }
+
+
+    @Override
+    public URL getOAuthLocalUrlReceivingAccessData() {
+        return this._redirectUrl;
+    }
+
+
+    /**
+     * sets a local URL to receive OAuth access data from server by user's browser redirect.
+     *
+     * @param newRedirectUrl a new URL, must not be {@code null} or initiating OAuth authorization won't work.
+     * @return {@code this}
+     */
+    public SettingsModelImpl setOAuthLocalUrlReceivingAccessData(final URL newRedirectUrl) {
+        this._redirectUrl = newRedirectUrl;
         return this;
     }
 

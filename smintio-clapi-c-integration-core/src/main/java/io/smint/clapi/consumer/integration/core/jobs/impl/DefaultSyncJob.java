@@ -246,8 +246,8 @@ public class DefaultSyncJob implements ISyncJob {
      * </p>
      * <ul>
      * <li>{@link ISettingsModel#getTenantId()}</li>
-     * <li>{@link ISettingsModel#getClientId()}</li>
-     * <li>{@link ISettingsModel#getClientSecret()}</li>
+     * <li>{@link ISettingsModel#getOAuthClientId()}</li>
+     * <li>{@link ISettingsModel#getOAuthClientSecret()}</li>
      * </ul>
      *
      * @param settings the settings data to check.
@@ -265,7 +265,7 @@ public class DefaultSyncJob implements ISyncJob {
             );
         }
 
-        if (this.isNullOrEmpty(settings.getClientId())) {
+        if (this.isNullOrEmpty(settings.getOAuthClientId())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
                 "The client ID is missing"
@@ -273,7 +273,7 @@ public class DefaultSyncJob implements ISyncJob {
         }
 
 
-        if (this.isNullOrEmpty(settings.getClientSecret())) {
+        if (this.isNullOrEmpty(settings.getOAuthClientSecret())) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
                 "The client secret is missing"

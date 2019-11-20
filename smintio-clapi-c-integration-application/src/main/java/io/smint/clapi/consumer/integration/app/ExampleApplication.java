@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -173,6 +174,10 @@ public class ExampleApplication {
             : settings.get("ImportLanguages"))).toArray(new String[0]);
 
 
+        final String redirectUri = localAuth.get("RedirectUri") != null ? localAuth.get("RedirectUri")
+            : auth.get("RedirectUri");
+        final URL oAuthUrl = redirectUri != null && !redirectUri.isEmpty() ? new URL(redirectUri) : null;
+
         return new ISettingsModel() {
 
             @Override
@@ -186,18 +191,23 @@ public class ExampleApplication {
             }
 
             @Override
-            public String getClientId() {
+            public String getOAuthClientId() {
                 return clientId;
             }
 
             @Override
-            public String getClientSecret() {
+            public String getOAuthClientSecret() {
                 return clientSecret;
             }
 
             @Override
             public String[] getImportLanguages() {
                 return importLanguages != null ? importLanguages : new String[] { "en", "de" };
+            }
+
+            @Override
+            public URL getOAuthLocalUrlReceivingAccessData() {
+                return oAuthUrl;
             }
         };
 

@@ -169,8 +169,8 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         // CHECKSTYLE OFF: MultipleStringLiterals
         requestData.put("grant_type", "refresh_token");
         requestData.put("refresh_token", authData.getRefreshToken());
-        requestData.put("client_id", settings.getClientId());
-        requestData.put("client_secret", settings.getClientSecret());
+        requestData.put("client_id", settings.getOAuthClientId());
+        requestData.put("client_secret", settings.getOAuthClientSecret());
         LOG.fine(() -> "Sending Smint.io OAuth data to end point: " + requestData.toString());
         // CHECKSTYLE ON: MultipleStringLiterals
 

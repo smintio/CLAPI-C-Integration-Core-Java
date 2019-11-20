@@ -19,6 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core;
 
+import java.net.URL;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,17 +89,22 @@ public class TestDefaultSchedulerProvider {
             }
 
             @Override
-            public String getClientId() {
+            public String getOAuthClientId() {
                 return null;
             }
 
             @Override
-            public String getClientSecret() {
+            public String getOAuthClientSecret() {
                 return null;
             }
 
             @Override
             public String[] getImportLanguages() {
+                return null;
+            }
+
+            @Override
+            public URL getOAuthLocalUrlReceivingAccessData() {
                 return null;
             }
         };

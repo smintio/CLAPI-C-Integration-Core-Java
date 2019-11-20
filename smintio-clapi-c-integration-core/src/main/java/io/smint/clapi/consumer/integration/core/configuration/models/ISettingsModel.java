@@ -19,6 +19,9 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models;
 
+import java.net.URL;
+
+
 /**
  * Define invariant settings for this synchronization library.
  *
@@ -37,10 +40,16 @@ package io.smint.clapi.consumer.integration.core.configuration.models;
  * </p>
  * <ul>
  * <li>tenant (company) - the owner of all assets to sync ({@link #getTenantId()})</li>
- * <li>client application ID - the application authorized to use OAuth ({@link #getClientId()})</li>
- * <li>client/application secret to use with OAuth 2.0 ({@link #getClientSecret()})</li>
+ * <li>client application ID - the application authorized to use OAuth ({@link #getOAuthClientId()})</li>
+ * <li>client/application secret to use with OAuth 2.0 ({@link #getOAuthClientSecret()})</li>
+ * <li>URL that will receive OAuth 2.0 access data ({@link #getOAuthLocalUrlReceivingAccessData()})</li>
  * <li>channel ID for push notification ({@link #getChannelId()})</li>
  * </ul>
+ * <p>
+ * The local URL to receive OAuth access data during the OAuth authorization process, can be {@code null} in case access
+ * data is created outside this library and provided as {@link IAuthTokenModel}. There is an optional companion library
+ * available (called {@code smintio-clapi-c-integration-authorizer}) that will help with creating OAuth access data.
+ * </p>
  *
  * <h2>Settings are static</h2>
  * <p>
@@ -64,7 +73,7 @@ package io.smint.clapi.consumer.integration.core.configuration.models;
  * However, in case the library is used on a command line (<em>CLI</em>), it is able to provide such a user interaction
  * by opening a browser and providing the necessary redirect URL for receiving authorization token.<br>
  * In order to refresh access tokens with OAuth, that got invalid because of time-out, the client application ID
- * ({@link #getClientId()}) and the companion client secret ({@link #getClientSecret()}) are needed.
+ * ({@link #getOAuthClientId()}) and the companion client secret ({@link #getOAuthClientSecret()}) are needed.
  * </p>
  *
  * <p>
@@ -119,7 +128,7 @@ public interface ISettingsModel {
      *
      * @return the client application ID for OAuth.
      */
-    String getClientId();
+    String getOAuthClientId();
 
 
     /**
@@ -127,12 +136,29 @@ public interface ISettingsModel {
      *
      * <p>
      * Used to refresh the access token to the Smint.io RESTful API server, along with the client application ID
-     * ({@link #getClientId()}.
+     * ({@link #getOAuthClientId()}.
      * </p>
      *
      * @return the OAuth 2.0 secret client token to use for authorization and access token refresh.
      */
-    String getClientSecret();
+    String getOAuthClientSecret();
+
+
+    /**
+     * The local URL the Smint.io OAuth service need to redirect to, after successful authorization.
+     *
+     * <p>
+     * The URL need to be accessible from the user's browser, that is performing the manually authorization steps. This
+     * URL will receive the required OAuth authorization data, which can be used to retrieve the OAuth access token.
+     * Then this access token data need to be stored with
+     * {@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage#storeAuthData(IAuthTokenModel)}
+     * </p>
+     *
+     * @return the local URL to receive OAuth access data during the OAuth authorization process. can be {@code null} in
+     *         case access data is created outside this library, eg: if there is an external OAuth authorizer driving
+     *         OAuth authorization with Smint.io API.
+     */
+    URL getOAuthLocalUrlReceivingAccessData();
 
 
     /**

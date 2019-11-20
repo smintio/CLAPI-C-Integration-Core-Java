@@ -31,8 +31,8 @@ import java.time.OffsetDateTime;
  * detailed explanation about the steps needed see <a href="https://aaronparecki.com/oauth-2-simplified/">OAuth 2
  * Simplified</a>. Usually some UI need to perform these steps as the flow is heavily based on user interaction.<br>
  * In order to refresh access tokens with OAuth, that got invalid because of time-out, the client application ID
- * ({@link ISettingsModel#getClientId()}) and the companion client secret ({@link ISettingsModel#getClientSecret()}) are
- * needed.
+ * ({@link ISettingsModel#getOAuthClientId()}) and the companion client secret
+ * ({@link ISettingsModel#getOAuthClientSecret()}) are needed.
  * </p>
  *
  * <p>

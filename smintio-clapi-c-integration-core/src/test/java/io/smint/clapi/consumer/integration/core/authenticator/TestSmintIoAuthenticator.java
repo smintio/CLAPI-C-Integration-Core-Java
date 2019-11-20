@@ -98,8 +98,8 @@ public class TestSmintIoAuthenticator {
             });
 
         lenient().when(settings.getTenantId()).thenReturn(TENANT_ID);
-        lenient().when(settings.getClientId()).thenReturn(CLIENT_ID);
-        lenient().when(settings.getClientSecret()).thenReturn(CLIENT_SECRET);
+        lenient().when(settings.getOAuthClientId()).thenReturn(CLIENT_ID);
+        lenient().when(settings.getOAuthClientSecret()).thenReturn(CLIENT_SECRET);
         lenient().when(authData.getAccessToken()).thenReturn(ACCESS_TOKEN_OLD);
         lenient().when(authData.getRefreshToken()).thenReturn(REFRESH_TOKEN_OLD);
 
