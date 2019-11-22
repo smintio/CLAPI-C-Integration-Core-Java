@@ -37,6 +37,7 @@ import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 
+import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
@@ -113,13 +114,13 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
 
     private final ISettingsModel _settings;
-    private final IAuthTokenModel _authToken;
+    private final IAuthTokenStorage _tokenStorage;
     private Pusher _pusher;
 
     @Inject
-    public PusherService(final ISettingsModel settings, final IAuthTokenModel authToken) {
+    public PusherService(final ISettingsModel settings, final IAuthTokenStorage authTokenStorage) {
         this._settings = settings;
-        this._authToken = authToken;
+        this._tokenStorage = authTokenStorage;
     }
 
 
@@ -127,8 +128,11 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     public PusherService startNotificationService(final Runnable job) {
 
         if (this._pusher == null) {
+
+            final IAuthTokenModel authToken = this._tokenStorage != null ? this._tokenStorage.get() : null;
+
             this.validateSettings(this._settings);
-            this.validateAuthToken(this._authToken);
+            this.validateAuthToken(authToken);
 
             final String pusherAuthEndpoint = MessageFormat.format(
                 PUSHER__OAUTH_SMINTIO_ENDPOINT, this._settings.getTenantId()
@@ -136,7 +140,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
             final HttpAuthorizer authorizer = new HttpAuthorizer(pusherAuthEndpoint);
 
-            final String accessToken = this._authToken.getAccessToken();
+            final String accessToken = authToken.getAccessToken();
             if (accessToken != null && !accessToken.isEmpty()) {
 
                 final Map<String, String> authorizationHeaders = new Hashtable<>();
