@@ -273,6 +273,26 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
 
 
     /**
+     * Provides the OkHttpClient provider, internally used.
+     *
+     * @return the provider or {@code null} if none has been set.
+     */
+    public Provider<OkHttpClient> getHttpClientProvider() {
+        return this._httpClientProvider;
+    }
+
+
+    /**
+     * Provides the OkHttpClient internally used, fetched from the provider {@link #getHttpClientProvider()}.
+     *
+     * @return the OkHttpClient or {@code null} if the provider has not been set or did not provide a value.
+     */
+    public OkHttpClient getHttpClient() {
+        final Provider<OkHttpClient> provider = this.getHttpClientProvider();
+        return provider != null ? provider.get() : null;
+    }
+
+    /**
      * Validates the available OAuth data for refreshing access token.
      *
      * <p>
