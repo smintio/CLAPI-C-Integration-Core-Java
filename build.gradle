@@ -149,6 +149,7 @@ subprojects { proj ->
     javadoc.destinationDir = rootProject.file("docs/" + project.name + "/${majorVersion}")
     javadoc.options.overview = file("src/main/javadoc/overview.html")
     javadoc.options.links.add("https://docs.oracle.com/javase/8/docs/api/")
+    javadoc.options.links.add("https://javaee.github.io/javaee-spec/javadocs/")
 
     build.finalizedBy("javadoc")
 }

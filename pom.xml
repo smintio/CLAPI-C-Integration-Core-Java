@@ -237,6 +237,9 @@
                        <destDir>/</destDir>
                        <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
                        <detectJavaApiLink>true</detectJavaApiLink>
+                       <links>
+                           <link>https://javaee.github.io/javaee-spec/javadocs/</link>
+                       </links>
                    </configuration>
                 <executions>
                     <execution>
@@ -354,6 +357,7 @@
     <modules>
         <module>smintio-clapi-c-integration-core</module>
         <module>smintio-clapi-c-integration-application</module>
+        <module>smintio-clapi-c-integration-authorizer</module>
         <module>smintio-clapi-c-integration-j2ee</module>
     </modules>
 
