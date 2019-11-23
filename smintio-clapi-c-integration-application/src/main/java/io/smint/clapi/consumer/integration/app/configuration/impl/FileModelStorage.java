@@ -89,9 +89,10 @@ public class FileModelStorage<T> implements Provider<T> {
         try (final FileReader in = new FileReader(this._fileStorage)) {
 
 
-            final int chr = in.read();
+            int chr = in.read();
             while (chr >= 0) {
                 json.append((char) chr);
+                chr = in.read();
             }
 
             return json.length() > 0 ? this._tokenConverter.decode(json.toString()) : null;
