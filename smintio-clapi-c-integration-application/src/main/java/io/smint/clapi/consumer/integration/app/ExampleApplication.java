@@ -28,13 +28,20 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import io.smint.clapi.consumer.integration.app.authenticator.SystemBrowserAuthenticator;
 import io.smint.clapi.consumer.integration.app.configuration.impl.AuthTokenFileStorage;
 import io.smint.clapi.consumer.integration.app.target.json.SyncTargetJson;
 import io.smint.clapi.consumer.integration.core.ISmintIoSynchronization;
 import io.smint.clapi.consumer.integration.core.SmintIoSynchronization;
+import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoOAuthAuthorizer;
+import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.AuthTokenJsonConverter;
 import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
@@ -96,24 +103,57 @@ public class ExampleApplication {
     public static final String FILE_NAME_APPSETTINGS = "appsettings.json";
 
 
+    private static final Logger LOG = Logger.getLogger(ExampleApplication.class.getName());
+
+
     private Map<String, Object> _localAppSettingsData;
     private Map<String, Object> _appSettingsData;
 
     public static void main(final String[] args) throws Exception {
+
+        final Logger root = Logger.getGlobal();
+        root.setLevel(Level.ALL);
+        for (final Handler handler : root.getHandlers()) {
+            handler.setLevel(Level.ALL);
+        }
+
+
+        LOG.finer("Starting application");
         new ExampleApplication().run();
     }
 
 
     public void run() throws Exception {
 
+        LOG.finer("Reading configuration data.");
+        final ISettingsModel settings = this.loadSettingsFromConfig();
+        final IAuthTokenStorage tokenStorage = new AuthTokenFileStorage(
+            new AuthTokenJsonConverter(new Gson()),
+            new File("./auth-token.json")
+        );
+
+        // check if auth tokens are available. If not, create some
+        final IAuthTokenModel authTokens = tokenStorage.getAuthData();
+        if (authTokens == null || !authTokens.isSuccess()) {
+            LOG.finer("Creating new OAuth token data.");
+
+            final SystemBrowserAuthenticator browserAuthenticator = new SystemBrowserAuthenticator(
+                new SmintIoOAuthAuthorizer(
+                    settings,
+                    tokenStorage
+                )
+            );
+
+            browserAuthenticator.refreshSmintIoToken(settings, tokenStorage);
+        }
+
+        LOG.finer("Creating new sync Job.");
+
         final SyncTargetJson syncTarget = new SyncTargetJson();
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
             new SyncTargetFactoryFromDI(
-                new AuthTokenFileStorage(
-                    new AuthTokenJsonConverter(new Gson()),
-                    new File("./auth-token.json")
-                ),
-                this.loadSettingsFromConfig(),
+                tokenStorage,
+                settings,
                 () -> syncTarget
             )
         );
