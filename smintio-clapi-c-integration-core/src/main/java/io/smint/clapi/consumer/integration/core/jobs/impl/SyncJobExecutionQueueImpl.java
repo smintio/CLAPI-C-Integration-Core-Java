@@ -148,7 +148,9 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
 
             } finally {
 
-                currentJob.notifyAll();
+                synchronized (currentJob) {
+                    currentJob.notifyAll();
+                }
                 synchronized (this._runningJobSemaphore) {
                     if (this._runningJob == currentJob) {
                         this._runningJob = null;
@@ -186,7 +188,9 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
             nextJob = this._runningJob;
         }
 
-        nextJob.wait();
+        synchronized (nextJob) {
+            nextJob.wait();
+        }
         return this;
     }
 
