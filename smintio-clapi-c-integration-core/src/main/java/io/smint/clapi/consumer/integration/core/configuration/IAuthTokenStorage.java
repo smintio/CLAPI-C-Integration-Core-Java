@@ -26,6 +26,29 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 
 /**
  * Provides OAuth access token data to authenticate to the Smint.io RESTful API.
+ *
+ * <p>
+ * It is vital for the synchronization job to have proper OAuth data available. This is not the case right at the
+ * beginning and OAuth access token must be created with user interaction. In the end new authorization data will be
+ * stored utilizing the store function {@link #storeAuthData(IAuthTokenModel)}. But how does the rest of the system get
+ * notified about it? It is highly asynchronous as it involves external systems (user browser) to accept the
+ * authorization request.
+ * </p>
+ *
+ * <p>
+ * All instances in a need for this data might decide and are encouraged to call {@link Object#wait()} on the instances
+ * implementing this interface, to get notified of available new token data. Hence the store function must call
+ * {@link Object#notifyAll()} whenever it is being called - no matter whether valid data is being passed to be stored.
+ * Even for invalid data, a notification should be sent, as it is quite uncertain, whether a second try to acquire OAuth
+ * data is on its way. So waiting instances need to get informed about each try - even failed ones.
+ * </p>
+ *
+ * <p>
+ * Especially this is required right at the beginning of the sync process, when no OAuth token data is available yet.
+ * Then there is a need to wait for the heavily asynchronous process that involves external systems such as a user's
+ * browser and the user's manual intervention. As soon as the user is involved, there is no fixed time to wait for, so a
+ * wait/notify scheme must be used.
+ * </p>
  */
 public interface IAuthTokenStorage extends Provider<IAuthTokenModel> {
 
@@ -42,9 +65,14 @@ public interface IAuthTokenStorage extends Provider<IAuthTokenModel> {
      * {@link #getAuthData()}.
      *
      * <p>
-     * The access token should be persisted to the underlaying storage. In case this storage takes a lot of IO and time
+     * The access token should be persisted to the underlying storage. In case this storage takes a lot of IO and time
      * (eg: database), please make use of {@link java.util.concurrent.CompletableFuture#runAsync(Runnable)} and then
      * return {@code this} on completion.
+     * </p>
+     *
+     * <p>
+     * Calls {@link Object#notifyAll()} on {@code this} for every call of this function - not matter what data has been
+     * provided in parameter {@code newAuthTokenData}.
      * </p>
      *
      * @param newAuthTokenData new OAuth token data for authorization with Smint.io API server, that need to be made

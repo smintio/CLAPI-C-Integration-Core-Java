@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.ServiceLoader;
 
 import javax.inject.Singleton;
@@ -35,6 +36,7 @@ import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthentica
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
+import io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenStorageWithNotify;
 import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
@@ -60,6 +62,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public class SyncGuiceModule extends AbstractModule {
 
     private final ISyncTargetFactory _syncTargetFactory;
+    private final IAuthTokenStorage _tokenStorage;
     private IPlatformScheduler _scheduler;
     private OkHttpClient _httpClient;
     private ISyncJobDataStorage _jobStorage;
@@ -72,6 +75,13 @@ public class SyncGuiceModule extends AbstractModule {
      */
     public SyncGuiceModule(final ISyncTargetFactory syncTargetFactory) {
         this._syncTargetFactory = syncTargetFactory;
+        this._tokenStorage = new AuthTokenStorageWithNotify(this._syncTargetFactory.getAuthTokenStorage());
+
+        Objects.requireNonNull(syncTargetFactory, "Invalid SyncTarget factory has been provided.");
+        Objects.requireNonNull(
+            this._syncTargetFactory.getAuthTokenStorage(),
+            "SyncTarget factory does not provide a valid OAuth token storage."
+        );
     }
 
 
@@ -106,8 +116,7 @@ public class SyncGuiceModule extends AbstractModule {
      */
     @Provides
     public IAuthTokenStorage getAuthTokenStorage() {
-        final ISyncTargetFactory factory = this.getSyncTargetFactory();
-        return factory != null ? factory.getAuthTokenStorage() : null;
+        return this._tokenStorage;
     }
 
 
