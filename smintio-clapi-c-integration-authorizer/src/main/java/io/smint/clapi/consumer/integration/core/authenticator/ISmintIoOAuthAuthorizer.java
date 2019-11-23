@@ -147,14 +147,6 @@ public interface ISmintIoOAuthAuthorizer extends ISmintIoAuthenticator {
      * These parameters need to be passed to this function.
      * </p>
      *
-     * <p>
-     * Because some instances in need for OAuth data might call {@link Object#wait()} on instances of
-     * {@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage}, this function must call
-     * {@link Object#notifyAll()} on this instance, even if the passed data is invalid. This is vital to notify all
-     * waiting instances that there is any change (even erroneous) and avoid program deadlocks. (see
-     * {@link io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenStorageWithNotify})
-     * </p>
-     *
      * @param urlParameters the parameters received by the redirection URL listener. Using servlets, the parameters can
      *                      be easily fetched by using {@link javax.servlet.http.HttpServletRequest#getParameterMap()}
      * @return A valid URL to display to the user, which need to open it in the browser.

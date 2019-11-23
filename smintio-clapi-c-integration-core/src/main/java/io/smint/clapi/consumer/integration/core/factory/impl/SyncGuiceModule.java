@@ -36,7 +36,6 @@ import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthentica
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
-import io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenStorageWithNotify;
 import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
@@ -75,7 +74,7 @@ public class SyncGuiceModule extends AbstractModule {
      */
     public SyncGuiceModule(final ISyncTargetFactory syncTargetFactory) {
         this._syncTargetFactory = syncTargetFactory;
-        this._tokenStorage = new AuthTokenStorageWithNotify(this._syncTargetFactory.getAuthTokenStorage());
+        this._tokenStorage = this._syncTargetFactory.getAuthTokenStorage();
 
         Objects.requireNonNull(syncTargetFactory, "Invalid SyncTarget factory has been provided.");
         Objects.requireNonNull(
