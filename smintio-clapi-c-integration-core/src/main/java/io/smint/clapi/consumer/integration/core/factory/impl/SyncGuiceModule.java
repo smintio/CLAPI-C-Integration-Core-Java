@@ -61,7 +61,6 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public class SyncGuiceModule extends AbstractModule {
 
     private final ISyncTargetFactory _syncTargetFactory;
-    private final IAuthTokenStorage _tokenStorage;
     private IPlatformScheduler _scheduler;
     private OkHttpClient _httpClient;
     private ISyncJobDataStorage _jobStorage;
@@ -74,7 +73,6 @@ public class SyncGuiceModule extends AbstractModule {
      */
     public SyncGuiceModule(final ISyncTargetFactory syncTargetFactory) {
         this._syncTargetFactory = syncTargetFactory;
-        this._tokenStorage = this._syncTargetFactory.getAuthTokenStorage();
 
         Objects.requireNonNull(syncTargetFactory, "Invalid SyncTarget factory has been provided.");
         Objects.requireNonNull(
@@ -109,29 +107,6 @@ public class SyncGuiceModule extends AbstractModule {
 
 
     /**
-     * Returns the value provided by {@link #getSyncTargetFactory()}
-     *
-     * @return an IAuthTokenStorage or {@code null}.
-     */
-    @Provides
-    public IAuthTokenStorage getAuthTokenStorage() {
-        return this._tokenStorage;
-    }
-
-
-    /**
-     * Returns the value provided by {@link #getSyncTargetFactory()}
-     *
-     * @return an ISettingsModel or {@code null}.
-     */
-    @Provides
-    public ISettingsModel getSettings() {
-        final ISyncTargetFactory factory = this.getSyncTargetFactory();
-        return factory != null ? factory.getSettings() : null;
-    }
-
-
-    /**
      * Returns the job data storage as fetched from
      * {@link #getSyncTargetFactory()}{@code .}{@link ISyncTargetFactory#getJobDataStorage()}
      *
@@ -154,18 +129,6 @@ public class SyncGuiceModule extends AbstractModule {
         }
 
         return this._jobStorage;
-    }
-
-
-    /**
-     * Calls {@link #getSyncTargetFactory()}{@code .}{@link ISyncTargetFactory#createSyncTarget()}.
-     *
-     * @return an ISyncTarget or {@code null}.
-     */
-    @Provides
-    public ISyncTarget createSyncTarget() {
-        final ISyncTargetFactory factory = this.getSyncTargetFactory();
-        return factory != null ? factory.createSyncTarget() : null;
     }
 
 
@@ -239,5 +202,10 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISmintIoApiClient.class).to(SmintIoApiClientImpl.class);
         this.bind(ISyncJobExecutionQueue.class).to(SyncJobExecutionQueueImpl.class).in(Singleton.class);
         this.bind(ISmintIoDownloadProvider.class).to(SmintIoDownloadProviderImpl.class).in(Singleton.class);
+
+        this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
+        this.bind(ISettingsModel.class).toProvider(() -> this._syncTargetFactory.getSettings()).in(Singleton.class);
+
+        this.bind(IAuthTokenStorage.class).toInstance(this._syncTargetFactory.getAuthTokenStorage());
     }
 }
