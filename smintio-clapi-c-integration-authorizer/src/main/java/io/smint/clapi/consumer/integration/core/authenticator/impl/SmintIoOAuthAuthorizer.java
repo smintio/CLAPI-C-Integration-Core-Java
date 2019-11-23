@@ -135,66 +135,71 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
         final Map<String, String[]> urlParameters
     ) throws SmintIoAuthenticatorException {
 
-        Objects.requireNonNull(urlParameters, "No url parameters to analyze have been passed!");
-
-
-        if (this._service == null || this._oAuthApiSecret == null) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "OAuth authorization proces has not been started yet!"
-            );
-        }
-
-        if (urlParameters.isEmpty()) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "No URL parameters have been passed to analyze!"
-            );
-        }
-
-
-        if (urlParameters.get("code") == null || urlParameters.get("code").length != 1) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "Invalid response from OAuth service, with wrong URL parameter 'code'"
-            );
-        }
-
-
-        // check "state" parameter to match our stored value
-        if (urlParameters.get("state") == null || urlParameters.get("state").length != 1) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "Invalid response from OAuth service, with wrong URL parameter 'state'"
-            );
-        }
-
-        if (!this._oAuthApiSecret.equals(urlParameters.get("state")[0])) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "Wrong URL parameter 'state' in OAuth authorization - answer was not for me!"
-            );
-        }
-
-        this.validateForOAuth(this._settings);
-        SmintIoApiForScribe.createSingleton(this._settings);
-
-
         try {
-            final OAuth2AccessToken accessToken = this._service.getAccessToken(urlParameters.get("code")[0]);
 
-            final IAuthTokenModel accessData = new AuthTokenImpl()
-                .setAccessToken(accessToken.getAccessToken())
-                .setRefreshToken(accessToken.getRefreshToken())
-                .setIsSuccess(true)
-                .setExpiration(OffsetDateTime.now().plus(accessToken.getExpiresIn(), ChronoUnit.SECONDS));
-            this._tokenStorage.storeAuthData(accessData);
+            Objects.requireNonNull(urlParameters, "No url parameters to analyze have been passed!");
 
-        } catch (IOException | InterruptedException | ExecutionException e) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.CannotAcquireSmintIoToken,
-                "Failed to redeem access token for the OAuth code."
-            );
+            if (this._service == null || this._oAuthApiSecret == null) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "OAuth authorization proces has not been started yet!"
+                );
+            }
+
+            if (urlParameters.isEmpty()) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "No URL parameters have been passed to analyze!"
+                );
+            }
+
+
+            if (urlParameters.get("code") == null || urlParameters.get("code").length != 1) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "Invalid response from OAuth service, with wrong URL parameter 'code'"
+                );
+            }
+
+
+            // check "state" parameter to match our stored value
+            if (urlParameters.get("state") == null || urlParameters.get("state").length != 1) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "Invalid response from OAuth service, with wrong URL parameter 'state'"
+                );
+            }
+
+            if (!this._oAuthApiSecret.equals(urlParameters.get("state")[0])) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "Wrong URL parameter 'state' in OAuth authorization - answer was not for me!"
+                );
+            }
+
+            this.validateForOAuth(this._settings);
+            SmintIoApiForScribe.createSingleton(this._settings);
+
+
+            try {
+                final OAuth2AccessToken accessToken = this._service.getAccessToken(urlParameters.get("code")[0]);
+
+                final IAuthTokenModel accessData = new AuthTokenImpl()
+                    .setAccessToken(accessToken.getAccessToken())
+                    .setRefreshToken(accessToken.getRefreshToken())
+                    .setIsSuccess(true)
+                    .setExpiration(OffsetDateTime.now().plus(accessToken.getExpiresIn(), ChronoUnit.SECONDS));
+                this._tokenStorage.storeAuthData(accessData);
+
+            } catch (IOException | InterruptedException | ExecutionException e) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.CannotAcquireSmintIoToken,
+                    "Failed to redeem access token for the OAuth code."
+                );
+            }
+
+        } finally {
+            this._tokenStorage.notifyAll();
         }
 
         return this;
