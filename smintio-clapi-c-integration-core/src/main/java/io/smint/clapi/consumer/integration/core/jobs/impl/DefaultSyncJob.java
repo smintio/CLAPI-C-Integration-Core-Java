@@ -334,7 +334,7 @@ public class DefaultSyncJob implements ISyncJob {
 
         LOG.info("Starting Smint.io generic metadata synchronization...");
 
-        final boolean cancelMetadataSync = this._syncTarget.beforeGenericMetadataSync();
+        final boolean cancelMetadataSync = !this._syncTarget.beforeGenericMetadataSync();
         if (cancelMetadataSync) {
             LOG.warning("'beforeGenericMetadataSync' task aborted meta data sync");
             return;
@@ -398,7 +398,7 @@ public class DefaultSyncJob implements ISyncJob {
 
         LOG.info("Starting Smint.io asset synchronization...");
 
-        final boolean cancelAssetsSync = syncTarget.beforeAssetsSync();
+        final boolean cancelAssetsSync = !syncTarget.beforeAssetsSync();
         if (cancelAssetsSync) {
             LOG.info("'BeforeAssetsSyncAsync' task aborted assets sync");
             return;
