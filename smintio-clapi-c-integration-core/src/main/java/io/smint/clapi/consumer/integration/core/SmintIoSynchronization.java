@@ -83,7 +83,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     private ISyncJobExecutionQueue _executionQueue;
 
     /**
-     * Create a new Smint.io synchronization progress.
+     * Create a new Smint.io synchronization process handler.
      *
      * <p>
      * {@link #init(ISyncTargetFactory)} will try to load Google's Guice as Dependency Injection framework in order to

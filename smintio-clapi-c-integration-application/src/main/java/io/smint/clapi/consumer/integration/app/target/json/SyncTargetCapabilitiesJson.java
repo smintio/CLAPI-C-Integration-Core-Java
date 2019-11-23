@@ -31,8 +31,8 @@ import io.smint.clapi.consumer.integration.core.target.SyncTargetCapabilitiesEnu
  * Supported capabilities are:
  * </p>
  * <ul>
- * <li>{@link SyncTargetCapabilitiesEnum.MultiLanguageEnum}</li>
- * <li>{@link SyncTargetCapabilitiesEnum.BinaryUpdatesEnum}</li>
+ * <li>{@link SyncTargetCapabilitiesEnum#MultiLanguageEnum}</li>
+ * <li>{@link SyncTargetCapabilitiesEnum#BinaryUpdatesEnum}</li>
  * </ul>
  */
 public class SyncTargetCapabilitiesJson implements ISyncTargetCapabilities {
