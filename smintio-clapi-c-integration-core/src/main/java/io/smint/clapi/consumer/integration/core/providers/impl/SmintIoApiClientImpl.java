@@ -219,7 +219,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         Objects.requireNonNull(settings, "No settings provided to read tenant ID from.");
         Objects.requireNonNull(authTokenStorage, "No auth token storage has been provided to authorize for API.");
-        Objects.requireNonNull(smintIoMetadataApi, "Invalid Smint.io Metadata API client has been provided.");
         Objects.requireNonNull(this._authenticator, "Invalid authenticator has been provided.");
 
         if (this._metadataApi == null) {
@@ -458,6 +457,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 .map(
                     (group) -> new SmintIoMetadataElementImpl()
                         .setKey(group.getKey())
+                        .setValues(
+                            group.getValue()
+                                .stream()
+                                .map((element) -> element.getMetadataElement())
+                                .collect(Collectors.toMap((element) -> element.getKey(), (element) -> element.getName()))
+                        )
                 )
                 .toArray(SmintIoMetadataElementImpl[]::new);
         }
