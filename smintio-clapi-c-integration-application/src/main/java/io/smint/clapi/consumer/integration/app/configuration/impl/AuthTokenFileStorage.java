@@ -69,6 +69,14 @@ public class AuthTokenFileStorage extends FileModelStorage<IAuthTokenModel> impl
 
     @Override
     public AuthTokenFileStorage storeAuthData(final IAuthTokenModel newAuthTokenData) {
+
+        if (newAuthTokenData != null && newAuthTokenData.isSuccess()
+            && (newAuthTokenData.getAccessToken() == null || newAuthTokenData.getAccessToken().isEmpty()
+                || newAuthTokenData.getRefreshToken() == null || newAuthTokenData.getRefreshToken().isEmpty())) {
+            throw new IllegalArgumentException("New OAuth token data is invalid, not going to store it!");
+        }
+
+
         this.store(newAuthTokenData);
         return this;
     }
