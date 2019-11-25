@@ -236,6 +236,13 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         LOG.entering(this.getClass().getName(), ":extractTokenFromJsonResponse");
         Objects.requireNonNull(response, "Invalid response!");
 
+        if (response.has("error")) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.CannotRefreshSmintIoToken, response.getString("error")
+            );
+        }
+
+
         final AuthTokenImpl newAuthData = new AuthTokenImpl(oldAuthData);
         newAuthData.setAccessToken(null);
         newAuthData.setIsSuccess(true);
