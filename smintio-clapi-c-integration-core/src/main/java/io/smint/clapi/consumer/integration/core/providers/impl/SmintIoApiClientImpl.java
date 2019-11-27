@@ -684,16 +684,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .map(
                 (licenseTerm) -> new SmintIoLicenseTermImpl()
                     .setSequenceNumber(licenseTerm.getSequenceNumber())
-                    .setName(this.getValuesForImportLanguages(importLanguages, licenseTerm.getName())
-                        .entrySet()
-                        .stream()
-                        .collect(
-                            Collectors.toMap(
-                                (key) -> new Locale(key.toString()),
-                                (value) -> value.toString()
-                            )
-                        )
-                    )
+                    .setName(this.getValuesForImportLanguages(importLanguages, licenseTerm.getName()))
                     .setExclusivities(this.convertFromListToStringArray(licenseTerm.getExclusivities()))
                     .setAllowedUsages(this.convertFromListToStringArray(licenseTerm.getAllowedUsages()))
                     .setRestrictedUsages(this.convertFromListToStringArray(licenseTerm.getRestrictedUsages()))
