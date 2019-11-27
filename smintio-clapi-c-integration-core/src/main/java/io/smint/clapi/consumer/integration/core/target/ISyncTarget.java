@@ -84,6 +84,34 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * {@link #importContentTypes(ISmintIoMetadataElement[])} could be parallelized as these handle distinct, independent
  * content.
  * </p>
+ *
+ * <h2 id="import-meta-information">Importing meta data information</h2>
+ * <p>
+ * Meta data is imported in categories, whereas each category will receive a list of Smint.io values as instances of
+ * {@link ISmintIoMetadataElement}. The {@link ISmintIoMetadataElement#getKey()} of the list item will return the
+ * Smint.io API key for that item and the {@link ISmintIoMetadataElement#getValues()} will hold a list of localized
+ * names for that item. The localized name can be used with the UI. The list is not sorted in any way. See an example
+ * with JSON.
+ * </p>
+ *
+ * <p>
+ * For each Smint.io key (see {@link ISmintIoMetadataElement#getKey()}) a sync target ID must be created and a mapping
+ * must be maintained. The sync target ID will be used with assets to import or update. Its value will be retrieved for
+ * every Smint.io key! (eg: see {@link #getContentProviderKey(String)}). In case the Smint.io key already exists, just
+ * update/overwrite the localized names retrieved by {@link ISmintIoMetadataElement#getValues()}. Implementing classes
+ * must not create new sync target ID. It would lead to big mess with the meta data, as the strictly 1:1 relation
+ * between these keys would be broken.
+ * </p>
+ *
+ * <p>
+ * Whenever meta data is synchronized, ALL data will be written to the sync target. There is no detection of already
+ * existing meta data on the sync target, as the metadata items are so limited in list size that additional checks would
+ * impose more performance penalty than any improvements. So, upon importing meta data, expect to some across already
+ * existing Smint.io key. This is perfectly natural and expected behavior. However, implementors must not delete keys on
+ * sync target that are not passed to the importing functions. These keys might still be used with assets. Deleting them
+ * without any checks would break their meta information.
+ * </p>
+ *
  */
 public interface ISyncTarget {
 
@@ -149,8 +177,56 @@ public interface ISyncTarget {
     boolean beforeGenericMetadataSync();
 
 
-    // TODO: add documentation to these functions along example data to by synced
-
+    /**
+     * Import the provided list of content providers.
+     *
+     * <p>
+     * For general information about meta data import, see <a href="#import-meta-information">Import Meta Data
+     * Information</a> in the heading section above. Example data for this meta data category is:
+     * </p>
+     *
+     * <pre>
+     * [
+     *     {
+     *         "getKey": "getty",
+     *         "getValues": {
+     *             "en": "Getty Images",
+     *             "de": "Getty Images"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "istock",
+     *         "getValues": {
+     *             "en": "iStock",
+     *             "de": "iStock"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "shutterstock",
+     *         "getValues": {
+     *             "en": "Shutterstock",
+     *             "de": "Shutterstock"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "adobestock",
+     *         "getValues": {
+     *             "en": "Adobe Stock",
+     *             "de": "Adobe Stock"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "panthermedia",
+     *         "getValues()": {
+     *             "en": "PantherMedia",
+     *             "de": "PantherMedia"
+     *         }
+     *     }
+     * ]
+     * </pre>
+     *
+     * @param contentProviders the list of content providers used with Smint.io.
+     */
     void importContentProviders(ISmintIoMetadataElement[] contentProviders);
 
 
@@ -182,6 +258,63 @@ public interface ISyncTarget {
     String getContentProviderKey(String smintIoProviderId);
 
 
+    /**
+     * Import the provided list of content types.
+     *
+     * <p>
+     * For general information about meta data import, see <a href="#import-meta-information">Import Meta Data
+     * Information</a> in the heading section above. Example data for this meta data category is:
+     * </p>
+     *
+     * <pre>
+     * [
+     *     {
+     *         "getKey": "image",
+     *         "getValues": {
+     *             "en": "Image",
+     *             "de": "Bild"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "video",
+     *         "getValues": {
+     *             "en": "Video",
+     *             "de": "Video"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "audio",
+     *         "getValues": {
+     *             "en": "Audio",
+     *             "de": "Audio"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "document",
+     *         "getValues": {
+     *             "en": "Text",
+     *             "de": "Text"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "template",
+     *         "getValues": {
+     *             "en": "Template",
+     *             "de": "Vorlage"
+     *         }
+     *     },
+     *     {
+     *         "getKey": "3d",
+     *         "getValues()": {
+     *             "en": "3D",
+     *             "de": "3D"
+     *         }
+     *     }
+     * ]
+     * </pre>
+     *
+     * @param contentTypes the list of content types used with Smint.io.
+     */
     void importContentTypes(ISmintIoMetadataElement[] contentTypes);
 
 
@@ -409,6 +542,116 @@ public interface ISyncTarget {
     String getLicenseIndustryKey(String smintIoId);
 
 
+    /**
+     * Import the provided list of content providers.
+     *
+     * <p>
+     * For general information about meta data import, see <a href="#import-meta-information">Import Meta Data
+     * Information</a> in the heading section above. Example data for this meta data category is:
+     * </p>
+     *
+     * <pre>
+     * [
+     *     {
+     *         "Key": "ara",
+     *         "Values": {
+     *             "de": "Arabisch",
+     *             "en": "Arabic"
+     *         }
+     *     },
+     *     {
+     *         "Key": "rus",
+     *         "Values": {
+     *             "de": "Russisch",
+     *             "en": "Russian"
+     *         }
+     *     },
+     *     {
+     *         "Key": "ben",
+     *         "Values": {
+     *             "de": "Bengali",
+     *             "en": "Bengali"
+     *         }
+     *     },
+     *     {
+     *         "Key": "eng",
+     *         "Values": {
+     *             "de": "Englisch",
+     *             "en": "English"
+     *         }
+     *     },
+     *     {
+     *         "Key": "spa",
+     *         "Values": {
+     *             "de": "Spanisch",
+     *             "en": "Spanish"
+     *         }
+     *     },
+     *     {
+     *         "Key": "hns",
+     *         "Values": {
+     *             "de": "Hindi",
+     *             "en": "Hindustani"
+     *         }
+     *     },
+     *     {
+     *         "Key": "fra",
+     *         "Values": {
+     *             "de": "Französisch",
+     *             "en": "French"
+     *         }
+     *     },
+     *     {
+     *         "Key": "ger",
+     *         "Values": {
+     *             "de": "Deutsch",
+     *             "en": "German"
+     *         }
+     *     },
+     *     {
+     *         "Key": "cmn",
+     *         "Values": {
+     *             "de": "Mandarin",
+     *             "en": "Mandarin"
+     *         }
+     *     },
+     *     {
+     *         "Key": "any",
+     *         "Values": {
+     *             "de": "Alle",
+     *             "en": "Any"
+     *         }
+     *     },
+     *     {
+     *         "Key": "por",
+     *         "Values": {
+     *             "de": "Portugiesisch",
+     *             "en": "Portuguese"
+     *         }
+     *     },
+     *     {
+     *         "Key": "msa",
+     *         "Values": {
+     *             "de": "Malaysisch",
+     *             "en": "Malay"
+     *         }
+     *     }
+     * ]
+     * </pre>
+     *
+     * <p>
+     * Each {@link ISmintIoMetadataElement#getKey()} will return a valid
+     * <a href="https://en.wikipedia.org/wiki/ISO_639-3">ISO 639-3 code</a>. Smint.io uses other codes internally with
+     * its RESTful API but these codes are translated to their ISO counterparts by this library.<br>
+     * Although this library is delivering the same localized text as used with Smint.io web page, it would be better to
+     * use the name, available to your system - if there is some. So to get the proper localized name from "Mandarin" by
+     * using something like {@code new Locale("cmn").getDisplayLanguage()}. However there might not be translations for
+     * all languages available with your Java VM. So either use the values provided here, or use an external library for
+     * such cases.
+     * </p>
+     *
+     * @param contentProviders the list of content providers used with Smint.io.
+     */
     void importLicenseLanguages(ISmintIoMetadataElement[] licenseLanguages);
 
 
