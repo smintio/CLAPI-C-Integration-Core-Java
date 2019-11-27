@@ -19,7 +19,6 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
@@ -132,18 +131,6 @@ public interface ISmintIoBinary extends ISmintIoDataType {
      * @return a valid URL to download the binary from the Smint.io platform or {@code null}.
      */
     URL getDownloadUrl();
-
-
-    /**
-     * Downloads the binary from Smint.io platform to a temporary file and provides this file.
-     *
-     * <p>
-     * The URL to download from is taken from {@code #getDownloadUrl()} and all content stored to a temporary file.
-     * </p>
-     *
-     * @return a file with the downloaded content as-is.
-     */
-    File getDownloadedFile();
 
 
     /**
