@@ -568,9 +568,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final String continuationUuid, final boolean includeCoundAssets, final boolean includeBinaryUpdates
     ) throws ApiException {
 
-        final ISettingsModel settings = this.getSettings();
-        final String[] importLanguages = settings.getImportLanguages();
-
         this.setupClapicOpenApiClient();
 
         final TransactionHistoryApi transactionApi = this.getTransactionApiClient();
@@ -596,118 +593,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final ISmintIoAsset[] result = syncLptQueryResult.getLicensePurchaseTransactions()
             .stream()
             .filter((lpt) -> lpt != null && lpt.getContentElement() != null)
-            .map((lpt) -> {
-
-                Boolean isEditorialUse = null;
-                boolean hasLicenseTerms = false;
-
-                List<SyncLicenseTerm> licenseTerms = lpt.getLicenseTerms();
-                if (licenseTerms == null) {
-                    licenseTerms = new ArrayList<>();
-                }
-
-
-                for (final SyncLicenseTerm licenceTerm : licenseTerms) {
-
-                    // make sure we do not store editorial use information if no information is there!
-                    if (licenceTerm.getIsEditorialUse() != null) {
-                        if (licenceTerm.getIsEditorialUse().booleanValue()) {
-                            // if we have a restrictions, always indicate
-
-                            isEditorialUse = true;
-
-                        } else if (isEditorialUse == null) {
-                            // if we have no restriction, only store, if we have no other restriction
-                            isEditorialUse = false;
-                        }
-                    }
-
-
-                    hasLicenseTerms |= licenceTerm.getRestrictedUsages() != null
-                        && licenceTerm.getRestrictedUsages().size() > 0
-                        || licenceTerm.getRestrictedSizes() != null && licenceTerm.getRestrictedUsages().size() > 0
-                        || licenceTerm.getRestrictedPlacements() != null
-                            && licenceTerm.getRestrictedPlacements().size() > 0
-                        || licenceTerm.getRestrictedDistributions() != null
-                            && licenceTerm.getRestrictedDistributions().size() > 0
-                        || licenceTerm.getRestrictedGeographies() != null
-                            && licenceTerm.getRestrictedGeographies().size() > 0
-                        || licenceTerm.getRestrictedIndustries() != null
-                            && licenceTerm.getRestrictedIndustries().size() > 0
-                        || licenceTerm.getRestrictedLanguages() != null
-                            && licenceTerm.getRestrictedLanguages().size() > 0
-                        || licenceTerm.getUsageLimits() != null && licenceTerm.getUsageLimits().size() > 0
-                        || licenceTerm.getValidFrom() != null
-                            && licenceTerm.getValidFrom().isBefore(OffsetDateTime.now())
-                        || licenceTerm.getValidUntil() != null
-                        || licenceTerm.getToBeUsedUntil() != null
-                        || licenceTerm.getIsEditorialUse() != null && licenceTerm.getIsEditorialUse().booleanValue();
-                }
-
-                final LocalizedContentElementDetail contentElement = lpt.getContentElement();
-                final SmintIoAssetImpl asset = new SmintIoAssetImpl()
-                    .setContentElementUuid(contentElement.getUuid())
-                    .setLicensePurchaseTransactionUuid(lpt.getUuid())
-                    .setCartPurchaseTransactionUuid(lpt.getCartPurchaseTransactionUuid())
-                    .setState(lpt.getState())
-                    .setContentProvider(contentElement.getProvider())
-                    .setContentType(contentElement.getContentType())
-                    .setName(this.getValuesForImportLanguages(importLanguages, lpt.getProjectName()))
-                    .setDescription(this.getValuesForImportLanguages(importLanguages, contentElement.getDescription()))
-                    .setKeywords(this.getGroupedValuesForImportLanguages(importLanguages, contentElement.getKeywords()))
-                    .setContentCategory(contentElement.getContentCategory())
-
-                    .setReleaseDetails(this.getReleaseDetails(importLanguages, lpt))
-                    .setCopyrightNotices(
-                        this.getValuesForImportLanguages(importLanguages, contentElement.getCopyrightNotices())
-                    )
-
-                    .setProjectUuid(lpt.getProjectUuid())
-                    .setProjectName(this.getValuesForImportLanguages(importLanguages, lpt.getProjectName()))
-                    .setCollectionUuid(lpt.getCollectionUuid())
-                    .setLicenseeUuid(lpt.getLicenseeUuid())
-                    .setLicenseeName(lpt.getLicenseeName())
-                    .setLicenseType(lpt.getOffering() != null ? lpt.getOffering().getLicenseType() : null)
-                    .setLicenseText(
-                        this.getValuesForImportLanguages(
-                            importLanguages,
-                            lpt.getOffering() != null && lpt.getOffering().getLicenseText() != null
-                                ? lpt.getOffering().getLicenseText().getEffectiveText()
-                                : null
-                        )
-                    )
-
-                    .setLicenseOptions(this.getLicenseOptions(importLanguages, lpt))
-                    .setLicenseTerms(this.getLicenseTerms(importLanguages, lpt))
-                    .setDownloadConstraints(this.getDownloadConstraints(lpt))
-
-                    .setIsEditorialUse(isEditorialUse)
-                    .setHasLicenseTerms(hasLicenseTerms)
-                    .setPurchasedAt(lpt.getPurchasedAt())
-                    .setCreatedAt(lpt.getCreatedAt())
-                    .setLastUpdatedAt(
-                        lpt.getLastUpdatedAt() != null ? lpt.getLastUpdatedAt()
-                            : lpt.getCreatedAt() != null ? lpt.getCreatedAt() : OffsetDateTime.now()
-                    );
-
-
-                try {
-                    asset.setSmintIoUrl(
-                        new URL(
-                            MessageFormat.format(
-                                SMINT_IO_CONTENT_ELEMENT_URL,
-                                settings.getTenantId(),
-                                lpt.getProjectUuid(),
-                                contentElement.getUuid()
-                            )
-                        )
-                    );
-                } catch (final MalformedURLException excp) {
-                    LOG.log(Level.WARNING, "Invalid Smint.io asset URL!", excp);
-                }
-
-                return asset;
-            });
+            .map((lpt) -> this.convertApiAsset(lpt))
             .filter((asset) -> asset != null)
             .toArray(ISmintIoAsset[]::new);
 
@@ -866,6 +752,130 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
             );
     }
+
+
+    private ISmintIoAsset convertApiAsset(final SyncLicensePurchaseTransaction apiAsset) {
+
+        if (apiAsset == null || apiAsset.getContentElement() == null) {
+            return null;
+        }
+
+
+        final ISettingsModel settings = this.getSettings();
+        final String[] importLanguages = settings.getImportLanguages();
+
+
+        Boolean isEditorialUse = null;
+        boolean hasLicenseTerms = false;
+
+        List<SyncLicenseTerm> licenseTerms = apiAsset.getLicenseTerms();
+        if (licenseTerms == null) {
+            licenseTerms = new ArrayList<>();
+        }
+
+
+        for (final SyncLicenseTerm licenceTerm : licenseTerms) {
+
+            // make sure we do not store editorial use information if no information is there!
+            if (licenceTerm.getIsEditorialUse() != null) {
+                if (licenceTerm.getIsEditorialUse().booleanValue()) {
+                    // if we have a restrictions, always indicate
+
+                    isEditorialUse = true;
+
+                } else if (isEditorialUse == null) {
+                    // if we have no restriction, only store, if we have no other restriction
+                    isEditorialUse = false;
+                }
+            }
+
+
+            hasLicenseTerms |= licenceTerm.getRestrictedUsages() != null
+                && licenceTerm.getRestrictedUsages().size() > 0
+                || licenceTerm.getRestrictedSizes() != null && licenceTerm.getRestrictedUsages().size() > 0
+                || licenceTerm.getRestrictedPlacements() != null
+                    && licenceTerm.getRestrictedPlacements().size() > 0
+                || licenceTerm.getRestrictedDistributions() != null
+                    && licenceTerm.getRestrictedDistributions().size() > 0
+                || licenceTerm.getRestrictedGeographies() != null
+                    && licenceTerm.getRestrictedGeographies().size() > 0
+                || licenceTerm.getRestrictedIndustries() != null
+                    && licenceTerm.getRestrictedIndustries().size() > 0
+                || licenceTerm.getRestrictedLanguages() != null
+                    && licenceTerm.getRestrictedLanguages().size() > 0
+                || licenceTerm.getUsageLimits() != null && licenceTerm.getUsageLimits().size() > 0
+                || licenceTerm.getValidFrom() != null
+                    && licenceTerm.getValidFrom().isBefore(OffsetDateTime.now())
+                || licenceTerm.getValidUntil() != null
+                || licenceTerm.getToBeUsedUntil() != null
+                || licenceTerm.getIsEditorialUse() != null && licenceTerm.getIsEditorialUse().booleanValue();
+        }
+
+        final LocalizedContentElementDetail contentElement = apiAsset.getContentElement();
+        final SmintIoAssetImpl asset = new SmintIoAssetImpl()
+            .setContentElementUuid(contentElement.getUuid())
+            .setLicensePurchaseTransactionUuid(apiAsset.getUuid())
+            .setCartPurchaseTransactionUuid(apiAsset.getCartPurchaseTransactionUuid())
+            .setState(apiAsset.getState())
+            .setContentProvider(contentElement.getProvider())
+            .setContentType(contentElement.getContentType())
+            .setName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+            .setDescription(this.getValuesForImportLanguages(importLanguages, contentElement.getDescription()))
+            .setKeywords(this.getGroupedValuesForImportLanguages(importLanguages, contentElement.getKeywords()))
+            .setContentCategory(contentElement.getContentCategory())
+
+            .setReleaseDetails(this.getReleaseDetails(importLanguages, apiAsset))
+            .setCopyrightNotices(
+                this.getValuesForImportLanguages(importLanguages, contentElement.getCopyrightNotices())
+            )
+
+            .setProjectUuid(apiAsset.getProjectUuid())
+            .setProjectName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+            .setCollectionUuid(apiAsset.getCollectionUuid())
+            .setLicenseeUuid(apiAsset.getLicenseeUuid())
+            .setLicenseeName(apiAsset.getLicenseeName())
+            .setLicenseType(apiAsset.getOffering() != null ? apiAsset.getOffering().getLicenseType() : null)
+            .setLicenseText(
+                this.getValuesForImportLanguages(
+                    importLanguages,
+                    apiAsset.getOffering() != null && apiAsset.getOffering().getLicenseText() != null
+                        ? apiAsset.getOffering().getLicenseText().getEffectiveText()
+                        : null
+                )
+            )
+
+            .setLicenseOptions(this.getLicenseOptions(importLanguages, apiAsset))
+            .setLicenseTerms(this.getLicenseTerms(importLanguages, apiAsset))
+            .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
+
+            .setIsEditorialUse(isEditorialUse)
+            .setHasLicenseTerms(hasLicenseTerms)
+            .setPurchasedAt(apiAsset.getPurchasedAt())
+            .setCreatedAt(apiAsset.getCreatedAt())
+            .setLastUpdatedAt(
+                apiAsset.getLastUpdatedAt() != null ? apiAsset.getLastUpdatedAt()
+                    : apiAsset.getCreatedAt() != null ? apiAsset.getCreatedAt() : OffsetDateTime.now()
+            );
+
+
+        try {
+            asset.setSmintIoUrl(
+                new URL(
+                    MessageFormat.format(
+                        SMINT_IO_CONTENT_ELEMENT_URL,
+                        settings.getTenantId(),
+                        apiAsset.getProjectUuid(),
+                        contentElement.getUuid()
+                    )
+                )
+            );
+        } catch (final MalformedURLException excp) {
+            LOG.log(Level.WARNING, "Invalid Smint.io asset URL!", excp);
+        }
+
+        return asset;
+    }
+
 
     private String[] convertFromListToStringArray(final List<String> listOfItems) {
         return listOfItems != null && listOfItems.size() > 0 ? listOfItems.toArray(new String[listOfItems.size()])
