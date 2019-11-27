@@ -237,9 +237,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         LOG.info("Receiving generic metadata from Smint.io...");
         this.setupClapicOpenApiClient();
 
-        final MetadataApi metadataApi = this.getMetadataApiClient();
         final SyncGenericMetadata syncGenericMetadata = this.retryApiRequest(
-            ThrowingSupplier.sneaky(metadataApi::getGenericMetadataForSync)
+            ThrowingSupplier.sneaky(() -> {
+                final MetadataApi metadataApi = this.getMetadataApiClient();
+                metadataApi.getApiClient().setAccessToken(this.getAuthToken().getAccessToken());
+                return metadataApi.getGenericMetadataForSync();
+            })
         );
 
 
