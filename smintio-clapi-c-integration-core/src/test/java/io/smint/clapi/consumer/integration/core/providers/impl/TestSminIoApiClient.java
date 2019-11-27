@@ -127,23 +127,38 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
 
         final String expectedResult = "[\n" +
             "  {\n" +
-            "    \"_key\": \"de\",\n" +
+            "    \"_key\": \"adobestock\",\n" +
             "    \"_values\": {\n" +
-            "      \"getty\": \"Getty Images DE\",\n" +
-            "      \"shutterstock\": \"Shutterstock\",\n" +
-            "      \"istock\": \"iStock\",\n" +
-            "      \"panthermedia\": \"PantherMedia\",\n" +
-            "      \"adobestock\": \"Adobe Stock\"\n" +
+            "      \"de\": \"Adobe Stock\",\n" +
+            "      \"en\": \"Adobe Stock\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"_key\": \"en\",\n" +
+            "    \"_key\": \"getty\",\n" +
             "    \"_values\": {\n" +
-            "      \"getty\": \"Getty Images EN\",\n" +
-            "      \"shutterstock\": \"Shutterstock\",\n" +
-            "      \"istock\": \"iStock\",\n" +
-            "      \"panthermedia\": \"PantherMedia\",\n" +
-            "      \"adobestock\": \"Adobe Stock\"\n" +
+            "      \"de\": \"Getty Images DE\",\n" +
+            "      \"en\": \"Getty Images EN\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"iStock\",\n" +
+            "      \"en\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"PantherMedia\",\n" +
+            "      \"en\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Shutterstock\",\n" +
+            "      \"en\": \"Shutterstock\"\n" +
             "    }\n" +
             "  }\n" +
             "]";
@@ -154,10 +169,11 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
         Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
         Assertions.assertEquals(
             importLanguages.length,
-            groupedElements.length,
+            groupedElements[0].getValues().size(),
             "Failed to acquire a value for each import language!"
         );
 
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
         Assertions.assertEquals(
             expectedResult,
             gson.toJson(groupedElements),
@@ -253,13 +269,33 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
 
         final String expectedResult = "[\n" +
             "  {\n" +
-            "    \"_key\": \"de\",\n" +
+            "    \"_key\": \"adobestock\",\n" +
             "    \"_values\": {\n" +
-            "      \"getty\": \"Getty Images DE\",\n" +
-            "      \"shutterstock\": \"Shutterstock\",\n" +
-            "      \"istock\": \"iStock\",\n" +
-            "      \"panthermedia\": \"PantherMedia\",\n" +
-            "      \"adobestock\": \"Adobe Stock\"\n" +
+            "      \"de\": \"Adobe Stock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"getty\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Getty Images DE\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Shutterstock\"\n" +
             "    }\n" +
             "  }\n" +
             "]";
@@ -270,10 +306,11 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
         Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
         Assertions.assertEquals(
             importLanguages.length,
-            groupedElements.length,
+            groupedElements[0].getValues().size(),
             "Failed to acquire a value for each import language!"
         );
 
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
         Assertions.assertEquals(
             expectedResult,
             gson.toJson(groupedElements),

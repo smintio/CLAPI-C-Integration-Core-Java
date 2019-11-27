@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.contracts.impl;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Map;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
@@ -36,7 +37,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElemen
 public class SmintIoMetadataElementImpl implements ISmintIoMetadataElement {
 
     private String _key = null;
-    private Map<String, String> _values = null;
+    private Map<Locale, String> _values = null;
 
 
     @Override
@@ -59,18 +60,18 @@ public class SmintIoMetadataElementImpl implements ISmintIoMetadataElement {
 
 
     @Override
-    public Map<String, String> getValues() {
+    public Map<Locale, String> getValues() {
         return this._values != null ? Collections.unmodifiableMap(this._values) : null;
     }
 
 
     /**
-     * Sets new values to be related to the key from {@link #getKey()}.
+     * Sets new localized values to be related to the key from {@link #getKey()}.
      *
      * @param newValues the values to set, or {@code null}. The parameter is stored internally as-is.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoMetadataElementImpl setValues(final Map<String, String> newValues) {
+    public SmintIoMetadataElementImpl setValues(final Map<Locale, String> newValues) {
         this._values = newValues;
         return this;
     }

@@ -19,6 +19,7 @@
 
 package io.smint.clapi.consumer.integration.core.contracts;
 
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -45,5 +46,5 @@ public interface ISmintIoMetadataElement {
      *
      * @return The properties as a flat list of values.
      */
-    Map<String, String> getValues();
+    Map<Locale, String> getValues();
 }

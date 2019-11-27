@@ -454,7 +454,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             return localizedMetadataElements.stream()
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
-                .collect(Collectors.groupingBy(LocalizedMetadataElement::getCulture))
+                .collect(Collectors.groupingBy((elem) -> elem.getMetadataElement().getKey()))
                 .entrySet()
                 .stream()
                 .map(
@@ -463,8 +463,13 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         .setValues(
                             group.getValue()
                                 .stream()
-                                .map((element) -> element.getMetadataElement())
-                                .collect(Collectors.toMap((element) -> element.getKey(), (element) -> element.getName()))
+                                .sorted((a, b) -> a.getCulture().compareTo(b.getCulture()))
+                                .collect(
+                                    Collectors.toMap(
+                                        (elem) -> new Locale(elem.getCulture()),
+                                        (elem) -> elem.getMetadataElement().getName()
+                                    )
+                                )
                         )
                 )
                 .toArray(SmintIoMetadataElementImpl[]::new);
