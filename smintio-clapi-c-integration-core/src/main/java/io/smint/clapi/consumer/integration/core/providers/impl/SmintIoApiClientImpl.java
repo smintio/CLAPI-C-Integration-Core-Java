@@ -133,7 +133,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      * {@code SMINT_IO_API_BASE_URL = }{@value #SMINT_IO_API_BASE_URL}
      * </pre>
      */
-    public static final String SMINT_IO_CONTENT_ELEMENT_URL = "https://{0}.smint.io/project/{1}/content-element/{lpt.Content_element.Uuid}";
+    public static final String SMINT_IO_CONTENT_ELEMENT_URL = "https://{0}.smint.io/project/{1}/content-element/{2}";
 
     //
     /**
