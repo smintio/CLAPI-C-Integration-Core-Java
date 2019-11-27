@@ -533,7 +533,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         if (localizedStrings != null) {
 
 
-            return localizedStrings.stream()
+            final Map<Locale, String> result = localizedStrings.stream()
                 .filter((elem) -> elem != null && elem.getValue() != null)
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
                 .collect(
@@ -542,6 +542,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         (elem) -> elem.getValue()
                     )
                 );
+
+            return result.size() > 0 ? result : null;
         }
 
         return null;
