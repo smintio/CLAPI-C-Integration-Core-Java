@@ -54,6 +54,8 @@ public class FileModelStorage<T> implements Provider<T> {
 
     private final File _fileStorage;
     private final IModelStringConverter<T> _tokenConverter;
+    private T _token;
+    private long _lastReadFromFile;
 
 
     /**
@@ -85,6 +87,15 @@ public class FileModelStorage<T> implements Provider<T> {
             return null;
         }
 
+        if (this._token != null && this._lastReadFromFile > 0
+            && this._lastReadFromFile >= this._fileStorage.lastModified()) {
+            return this._token;
+        }
+
+
+        this._token = null;
+        this._lastReadFromFile = this._fileStorage.lastModified();
+
         final StringBuffer json = new StringBuffer();
         try (final FileReader in = new FileReader(this._fileStorage)) {
 
@@ -95,7 +106,7 @@ public class FileModelStorage<T> implements Provider<T> {
                 chr = in.read();
             }
 
-            return json.length() > 0 ? this._tokenConverter.decode(json.toString()) : null;
+            this._token = json.length() > 0 ? this._tokenConverter.decode(json.toString()) : null;
 
         } catch (final ParseException excp) {
 
@@ -124,7 +135,7 @@ public class FileModelStorage<T> implements Provider<T> {
             );
         }
 
-        return null;
+        return this._token;
     }
 
 
@@ -141,6 +152,8 @@ public class FileModelStorage<T> implements Provider<T> {
         }
 
         if (json == null || json.isEmpty()) {
+            this._token = null;
+            this._lastReadFromFile = 0;
             this._fileStorage.delete();
 
         } else {
@@ -157,6 +170,9 @@ public class FileModelStorage<T> implements Provider<T> {
                         + (this._fileStorage != null ? this._fileStorage.getAbsolutePath() : "null")
                 );
             }
+
+            this._token = newModelData;
+            this._lastReadFromFile = this._fileStorage.lastModified();
         }
 
 
