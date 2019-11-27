@@ -20,7 +20,6 @@
 package io.smint.clapi.consumer.integration.core.providers.impl;
 
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
-import io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenMemoryStorage;
-import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 
 
@@ -41,7 +38,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElemen
 // CHECKSTYLE.OFF: MagicNumber
 
 @DisplayName("Test Smint.io API provider: SmintIoApiClientImpl")
-public class TestSminIoApiClient {
+public class TestSminIoApiClient extends TestSminIoApiClientBase {
 
 
     @Test
@@ -291,57 +288,14 @@ public class TestSminIoApiClient {
     ) throws Exception {
 
         final SmintIoApiClientImpl apiClient = this.createApiClient(importLanguages);
-        final Method getGrouped = apiClient.getClass().getDeclaredMethod(
+        final Method getGrouped = this.getPrivateFunction(
+            apiClient,
             "getGroupedMetadataElementsForImportLanguages",
             String[].class, List.class
         );
-        getGrouped.setAccessible(true);
         return (ISmintIoMetadataElement[]) getGrouped.invoke(apiClient, importLanguages, elements);
     }
 
-
-    private SmintIoApiClientImpl createApiClient(final String[] importLanguages) {
-        return new SmintIoApiClientImpl(
-            new ISettingsModel() {
-
-                @Override
-                public String getTenantId() {
-                    return "test";
-                }
-
-                @Override
-                public int getChannelId() {
-                    return 0;
-                }
-
-                @Override
-                public String getOAuthClientId() {
-                    return "test";
-                }
-
-                @Override
-                public String getOAuthClientSecret() {
-                    return "test";
-                }
-
-                @Override
-                public URL getOAuthLocalUrlReceivingAccessData() {
-                    return null;
-                }
-
-                @Override
-                public String[] getImportLanguages() {
-                    return importLanguages;
-                }
-
-            },
-            new AuthTokenMemoryStorage(),
-            (settings, authTokenStorage) -> null,
-            null,
-            null,
-            null
-        );
-    }
 }
 
 // CHECKSTYLE.ON: MultipleStringLiterals
