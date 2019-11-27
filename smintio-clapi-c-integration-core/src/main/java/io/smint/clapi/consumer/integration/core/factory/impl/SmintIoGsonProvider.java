@@ -37,6 +37,7 @@ public class SmintIoGsonProvider implements Provider<Gson> {
     @Override
     public Gson get() {
         return new GsonBuilder()
+            .setPrettyPrinting()
             .create();
     }
 }
