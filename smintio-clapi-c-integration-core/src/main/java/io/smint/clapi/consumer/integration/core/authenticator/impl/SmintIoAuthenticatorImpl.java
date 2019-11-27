@@ -259,7 +259,7 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
 
 
         // CHECKSTYLE OFF: MultipleStringLiterals
-        final long newExpireDuration = response.has("expires") ? response.getLong("expires") : 0;
+        final long newExpireDuration = response.has("expires_in") ? response.getLong("expires_in") : 0;
         if (newExpireDuration > 0) {
             newAuthData.setExpiration(
                 OffsetDateTime.now(ZoneId.systemDefault()).plusSeconds(newExpireDuration)

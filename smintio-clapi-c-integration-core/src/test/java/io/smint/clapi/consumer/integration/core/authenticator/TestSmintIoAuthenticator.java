@@ -144,7 +144,7 @@ public class TestSmintIoAuthenticator {
             + "\"access_token\": \"" + ACCESS_TOKEN_NEW + "\",\n"
             + "\"refresh_token\": \"" + REFRESH_TOKEN_NEW + "\",\n"
             + "\"token_type\": \"bearer\",\n"
-            + "\"expires\": " + expireAfterSeconds + "\n"
+            + "\"expires_in\": " + expireAfterSeconds + "\n"
             + "}";
 
         final SmintIoAuthenticatorImpl authenticator = this.createAuthenticator(
@@ -213,7 +213,7 @@ public class TestSmintIoAuthenticator {
             + "\"refresh_token\": \"" + REFRESH_TOKEN_NEW + "\",\n"
             + "\"identity_token\": \"" + IDENTITY_TOKEN_NEW + "\",\n"
             + "\"token_type\": \"bearer\",\n"
-            + "\"expires\": " + expireAfterSeconds + "\n"
+            + "\"expires_in\": " + expireAfterSeconds + "\n"
             + "}";
 
 
@@ -279,7 +279,7 @@ public class TestSmintIoAuthenticator {
             + "\"refresh_token\": \"" + REFRESH_TOKEN_NEW + "\",\n"
             + "\"identity_token\": \"" + IDENTITY_TOKEN_NEW + "\",\n"
             + "\"token_type\": \"bearer\",\n"
-            + "\"expires\": " + expireAfterSeconds + "\n"
+            + "\"expires_in\": " + expireAfterSeconds + "\n"
             + "}";
 
 
@@ -460,7 +460,7 @@ public class TestSmintIoAuthenticator {
             + "\"access_token\": \"" + ACCESS_TOKEN_NEW + "\",\n"
             + "\"refresh_token\": \"" + REFRESH_TOKEN_NEW + "\",\n"
             + "\"token_type\": \"bearer\",\n"
-            + "\"expires\": 3600\n"
+            + "\"expires_in\": 3600\n"
             + "}";
 
         final Request[] requests = new Request[1];
