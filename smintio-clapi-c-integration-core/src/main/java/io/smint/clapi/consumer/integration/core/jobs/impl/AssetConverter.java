@@ -73,7 +73,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     @Override
     public ISyncAsset[] convert(final ISmintIoAsset rawAsset) {
 
-        if (rawAsset == null) {
+        final ISmintIoBinary[] binaries = rawAsset != null ? rawAsset.getBinaries() : null;
+        if (rawAsset == null || binaries == null || binaries.length == 0) {
             return null;
         }
 
@@ -82,7 +83,6 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
         LOG.info(() -> "Transforming Smint.io LPT " + rawAsset.getLicensePurchaseTransactionUuid() + " ...");
 
-        final ISmintIoBinary[] binaries = rawAsset.getBinaries();
 
         final List<ISyncBinaryAsset> assetPartAssets = new ArrayList<>();
         for (final ISmintIoBinary binary : binaries) {
