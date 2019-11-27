@@ -720,12 +720,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             return null;
         }
 
-        final LicenseDownloadConstraints licenseDownloadConstraints = lpt.getLicenseDownloadConstraints();
+        final LicenseDownloadConstraints restricts = lpt.getLicenseDownloadConstraints();
 
         return new SmintIoDownloadConstraintsImpl()
-            .setMaxUsers(licenseDownloadConstraints.getEffectiveMaxUsers())
-            .setMaxDownloads(licenseDownloadConstraints.getEffectiveMaxDownloads())
-            .setMaxReuses(licenseDownloadConstraints.getEffectiveMaxReuses());
+            .setMaxUsers(restricts.getEffectiveMaxUsers() != null ? restricts.getEffectiveMaxUsers() : -1)
+            .setMaxDownloads(restricts.getEffectiveMaxDownloads() != null ? restricts.getEffectiveMaxDownloads() : -1)
+            .setMaxReuses(restricts.getEffectiveMaxReuses() != null ? restricts.getEffectiveMaxReuses() : -1);
     }
 
 
