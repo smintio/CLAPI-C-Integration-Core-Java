@@ -127,8 +127,9 @@ public class ExampleApplication {
 
         LOG.finer("Reading configuration data.");
         final ISettingsModel settings = this.loadSettingsFromConfig();
+
         final IAuthTokenStorage tokenStorage = new AuthTokenFileStorage(
-            new AuthTokenJsonConverter(new Gson()),
+            new AuthTokenJsonConverter(new SmintIoGsonProvider().get()),
             new File("./auth-token.json")
         );
 
