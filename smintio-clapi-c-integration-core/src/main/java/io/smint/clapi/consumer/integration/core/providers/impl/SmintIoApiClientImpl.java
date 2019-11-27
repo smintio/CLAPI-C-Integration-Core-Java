@@ -821,7 +821,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .setState(apiAsset.getState())
             .setContentProvider(contentElement.getProvider())
             .setContentType(contentElement.getContentType())
-            .setName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+            .setName(this.getValuesForImportLanguages(importLanguages, contentElement.getName()))
             .setDescription(this.getValuesForImportLanguages(importLanguages, contentElement.getDescription()))
             .setKeywords(this.getGroupedValuesForImportLanguages(importLanguages, contentElement.getKeywords()))
             .setContentCategory(contentElement.getContentCategory())
@@ -833,7 +833,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             .setProjectUuid(apiAsset.getProjectUuid())
             .setProjectName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+
             .setCollectionUuid(apiAsset.getCollectionUuid())
+            .setCollectionName(this.getValuesForImportLanguages(importLanguages, apiAsset.getCollectionName()))
+
             .setLicenseeUuid(apiAsset.getLicenseeUuid())
             .setLicenseeName(apiAsset.getLicenseeName())
             .setLicenseType(apiAsset.getOffering() != null ? apiAsset.getOffering().getLicenseType() : null)
