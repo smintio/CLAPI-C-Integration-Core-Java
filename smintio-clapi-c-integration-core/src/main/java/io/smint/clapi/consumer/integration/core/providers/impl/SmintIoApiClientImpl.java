@@ -807,7 +807,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     && licenceTerm.getRestrictedLanguages().size() > 0
                 || licenceTerm.getUsageLimits() != null && licenceTerm.getUsageLimits().size() > 0
                 || licenceTerm.getValidFrom() != null
-                    && licenceTerm.getValidFrom().isBefore(OffsetDateTime.now())
+                    && licenceTerm.getValidFrom().isAfter(OffsetDateTime.now())
                 || licenceTerm.getValidUntil() != null
                 || licenceTerm.getToBeUsedUntil() != null
                 || licenceTerm.getIsEditorialUse() != null && licenceTerm.getIsEditorialUse().booleanValue();
