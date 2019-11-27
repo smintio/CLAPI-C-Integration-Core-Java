@@ -483,15 +483,17 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
             return localizedString.stream()
+                .filter((elem) -> elem != null && elem.getMetadataElement() != null)
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
                 .collect(Collectors.groupingBy(LocalizedMetadataElement::getCulture))
                 .entrySet()
                 .stream()
                 .collect(
                     Collectors.toMap(
-                        (key) -> new Locale(key.toString()),
-                        (value) -> value.getValue().stream()
+                        (entry) -> new Locale(entry.getKey()),
+                        (entry) -> entry.getValue().stream()
                             .map((localizedItem) -> localizedItem.getMetadataElement().getName())
+                            .filter((name) -> name != null && !name.isEmpty())
                             .toArray(String[]::new)
                     )
                 );
@@ -510,6 +512,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
             return localizedStrings.stream()
+                .filter((elem) -> elem != null && elem.getValue() != null)
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
                 .collect(
                     Collectors.toMap(
@@ -590,7 +593,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
 
 
-        syncLptQueryResult.getLicensePurchaseTransactions()
+        final ISmintIoAsset[] result = syncLptQueryResult.getLicensePurchaseTransactions()
             .stream()
             .filter((lpt) -> lpt != null && lpt.getContentElement() != null)
             .map((lpt) -> {
@@ -705,10 +708,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
                 return asset;
             });
+            .filter((asset) -> asset != null)
+            .toArray(ISmintIoAsset[]::new);
 
 
         return new SmintIoApiDataWithContinuationImpl<ISmintIoAsset[]>()
-            .setResult(new ISmintIoAsset[0]);
+            .setResult(result);
     }
 
 
