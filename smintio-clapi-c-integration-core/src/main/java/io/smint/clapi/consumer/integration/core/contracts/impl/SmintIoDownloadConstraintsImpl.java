@@ -27,13 +27,13 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstr
  */
 public class SmintIoDownloadConstraintsImpl implements ISmintIoDownloadConstraints {
 
-    private int _maxDownloads = UNKNOWN;
-    private int _maxUsers = UNKNOWN;
-    private int _maxReuses = UNKNOWN;
+    private Integer _maxDownloads = null;
+    private Integer _maxUsers = null;
+    private Integer _maxReuses = null;
 
 
     @Override
-    public int getMaxDownloads() {
+    public Integer getMaxDownloads() {
         return this._maxDownloads;
     }
 
@@ -41,17 +41,18 @@ public class SmintIoDownloadConstraintsImpl implements ISmintIoDownloadConstrain
     /**
      * Sets a new value to max downloads.
      *
-     * @param newMaxDownloads the new maximum downloads to allow.
+     * @param newMaxDownloads the new maximum downloads to allow. Use {@code null} if no constraints are to be set or
+     *                        just unknown.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoDownloadConstraintsImpl setMaxDownloads(final int newMaxDownloads) {
+    public SmintIoDownloadConstraintsImpl setMaxDownloads(final Integer newMaxDownloads) {
         this._maxDownloads = newMaxDownloads;
         return this;
     }
 
 
     @Override
-    public int getMaxUsers() {
+    public Integer getMaxUsers() {
         return this._maxUsers;
     }
 
@@ -59,17 +60,18 @@ public class SmintIoDownloadConstraintsImpl implements ISmintIoDownloadConstrain
     /**
      * Sets a new value to max users.
      *
-     * @param newMaxUsers the new maximum users to allow.
+     * @param newMaxUsers the new maximum users to allow. Use {@code null} if no constraints are to be set or just
+     *                    unknown.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoDownloadConstraintsImpl setMaxUsers(final int newMaxUsers) {
+    public SmintIoDownloadConstraintsImpl setMaxUsers(final Integer newMaxUsers) {
         this._maxUsers = newMaxUsers;
         return this;
     }
 
 
     @Override
-    public int getMaxReuses() {
+    public Integer getMaxReuses() {
         return this._maxReuses;
     }
 
@@ -77,10 +79,11 @@ public class SmintIoDownloadConstraintsImpl implements ISmintIoDownloadConstrain
     /**
      * Sets a new value to max re-uses.
      *
-     * @param newMaxReuses the new maximum re-use to allow.
+     * @param newMaxReuses the new maximum re-use to allow. Use {@code null} if no constraints are to be set or just
+     *                     unknown.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoDownloadConstraintsImpl setMaxReuses(final int newMaxReuses) {
+    public SmintIoDownloadConstraintsImpl setMaxReuses(final Integer newMaxReuses) {
         this._maxReuses = newMaxReuses;
         return this;
     }

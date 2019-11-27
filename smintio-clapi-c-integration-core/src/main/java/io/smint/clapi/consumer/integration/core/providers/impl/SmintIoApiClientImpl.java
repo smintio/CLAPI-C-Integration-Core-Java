@@ -718,11 +718,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
 
         final LicenseDownloadConstraints restricts = lpt.getLicenseDownloadConstraints();
-
         return new SmintIoDownloadConstraintsImpl()
-            .setMaxUsers(restricts.getEffectiveMaxUsers() != null ? restricts.getEffectiveMaxUsers() : -1)
-            .setMaxDownloads(restricts.getEffectiveMaxDownloads() != null ? restricts.getEffectiveMaxDownloads() : -1)
-            .setMaxReuses(restricts.getEffectiveMaxReuses() != null ? restricts.getEffectiveMaxReuses() : -1);
+            .setMaxUsers(restricts.getEffectiveMaxUsers())
+            .setMaxDownloads(restricts.getEffectiveMaxDownloads())
+            .setMaxReuses(restricts.getEffectiveMaxReuses());
     }
 
 
@@ -877,6 +876,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         } catch (final MalformedURLException excp) {
             LOG.log(Level.WARNING, "Invalid Smint.io asset URL!", excp);
         }
+
 
         return asset;
     }
