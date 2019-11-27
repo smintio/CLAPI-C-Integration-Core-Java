@@ -316,9 +316,15 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
             )
             .setLicenseLanguages(
-                this.getGroupedMetadataElementsForImportLanguages(
-                    importLanguages, syncGenericMetadata.getLicenseLanguages()
-                )
+                Arrays.stream(
+                    this.getGroupedMetadataElementsForImportLanguages(
+                        importLanguages, syncGenericMetadata.getLicenseLanguages()
+                    )
+                ).map(
+                    (elem) -> new SmintIoMetadataElementImpl()
+                        .setValues(elem.getValues())
+                        .setKey(this.convertApiLanguage(elem.getKey()))
+                ).toArray(ISmintIoMetadataElement[]::new)
             )
             .setLicenseUsageLimits(
                 this.getGroupedMetadataElementsForImportLanguages(
@@ -466,7 +472,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                                 .sorted((a, b) -> a.getCulture().compareTo(b.getCulture()))
                                 .collect(
                                     Collectors.toMap(
-                                        (elem) -> new Locale(elem.getCulture()),
+                                        (elem) -> new Locale(this.convertApiLanguage(elem.getCulture())),
                                         (elem) -> elem.getMetadataElement().getName()
                                     )
                                 )
@@ -907,4 +913,18 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         return convertedLanguages != null && convertedLanguages.length > 0 ? convertedLanguages : null;
     }
+
+    private String convertApiLanguage(final String apiLanguage) {
+
+        if (apiLanguage == null) {
+            return null;
+        }
+
+        final List<String> langs = new ArrayList<>();
+        langs.add(apiLanguage);
+
+        final String[] converted = this.convertApiLanguages(langs);
+        return converted != null && converted.length > 0 ? converted[0] : null;
+    }
+
 }
