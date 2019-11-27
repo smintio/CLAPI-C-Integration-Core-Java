@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import okhttp3.MediaType;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -165,21 +165,19 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         LOG.info(() -> "Trying to access Smint.io OAuth end point: " + tokenEndPoint);
 
 
-        final JSONObject requestData = new JSONObject();
         // CHECKSTYLE OFF: MultipleStringLiterals
-        requestData.put("grant_type", "refresh_token");
-        requestData.put("refresh_token", authData.getRefreshToken());
-        requestData.put("client_id", settings.getOAuthClientId());
-        requestData.put("client_secret", settings.getOAuthClientSecret());
-        LOG.fine(() -> "Sending Smint.io OAuth data to end point: " + requestData.toString());
+        final RequestBody formBody = new FormBody.Builder()
+            .add("grant_type", "refresh_token")
+            .add("refresh_token", authData.getRefreshToken())
+            .add("client_id", settings.getOAuthClientId())
+            .add("client_secret", settings.getOAuthClientSecret())
+            .build();
         // CHECKSTYLE ON: MultipleStringLiterals
+        LOG.fine(() -> "Sending Smint.io OAuth data to end point: " + formBody.toString());
 
-
-        final MediaType jsonType = MediaType.parse("application/json; charset=utf-8");
-        final RequestBody body = RequestBody.create(jsonType, requestData.toString());
         final Request request = new Request.Builder()
             .url(tokenEndPoint)
-            .post(body)
+            .post(formBody)
             .build();
 
 

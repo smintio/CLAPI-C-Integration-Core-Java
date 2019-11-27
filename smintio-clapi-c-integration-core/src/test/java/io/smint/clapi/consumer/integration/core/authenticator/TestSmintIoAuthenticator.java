@@ -27,7 +27,9 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -486,7 +488,11 @@ public class TestSmintIoAuthenticator {
 
         final Buffer buffer = new Buffer();
         requests[0].body().writeTo(buffer);
-        final String body = buffer.readString(StandardCharsets.UTF_8);
+        final String body = "{" + Arrays.stream(buffer.readString(StandardCharsets.UTF_8).split("&"))
+            .map((param) -> "\"" + param.replaceAll("=", "\": \"") + "\"")
+            .collect(Collectors.joining(","))
+            + "}";
+
 
         final JSONObject json = new JSONObject(body);
 
