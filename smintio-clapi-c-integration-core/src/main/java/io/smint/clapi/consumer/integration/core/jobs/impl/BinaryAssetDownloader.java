@@ -112,6 +112,7 @@ public class BinaryAssetDownloader implements Provider<File> {
 
             LOG.finer(() -> "Authorization failed for URL " + url);
 
+            response.close();
             throw new RuntimeException(
                 "Authorization failed for downloading the binary file from "
                     + url
@@ -150,9 +151,12 @@ public class BinaryAssetDownloader implements Provider<File> {
                         + url
                 );
 
+            } finally {
+                response.close();
             }
 
         } else {
+            response.close();
             throw new RuntimeException("failed to download binary file from " + url);
         }
     }
