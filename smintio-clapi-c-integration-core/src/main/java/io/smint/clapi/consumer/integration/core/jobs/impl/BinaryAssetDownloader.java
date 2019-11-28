@@ -67,6 +67,13 @@ public class BinaryAssetDownloader implements Provider<File> {
             return null;
         }
 
+
+        // return already downloaded files
+        if (this._targetFile.exists() && this._targetFile.isFile() && this._targetFile.length() > 0) {
+            return this._targetFile;
+        }
+
+
         if (this._httpClient == null) {
             this._httpClient = new OkHttpClient();
         }
