@@ -1,5 +1,6 @@
 package io.smint.clapi.consumer.integration.core.jobs.impl;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -105,11 +106,14 @@ public class BinaryAssetDownloader implements Provider<File> {
 
             try (
                 final OutputStream out = new BufferedOutputStream(new FileOutputStream(this._targetFile));
-                final InputStream in = response.body().byteStream();) {
+                final InputStream in = new BufferedInputStream(response.body().byteStream());
 
-                final int chr = in.read();
+            ) {
+
+                int chr = in.read();
                 while (chr >= 0) {
                     out.write(chr);
+                    chr = in.read();
                 }
 
                 return this._targetFile;
