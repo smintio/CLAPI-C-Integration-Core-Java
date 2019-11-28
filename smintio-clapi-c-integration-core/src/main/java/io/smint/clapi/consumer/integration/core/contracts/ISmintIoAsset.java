@@ -132,7 +132,7 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      * <p>
      * Currently supported values are (but might change in the future):
      * </p>
-     * <ol>
+     * <ol start="0">
      * <li>{@code PURCHASE_PHASE_1}</li>
      * <li>{@code PURCHASE_PHASE_2}</li>
      * <li>{@code DOWNLOADING}</li>
