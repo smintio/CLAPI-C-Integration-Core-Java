@@ -271,6 +271,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
 
             targetDownloadConstraints
+                .setMaxUsers(rawDownloadConstraints.getMaxUsers())
                 .setMaxDownloads(rawDownloadConstraints.getMaxDownloads())
                 .setMaxReuses(rawDownloadConstraints.getMaxReuses());
 
