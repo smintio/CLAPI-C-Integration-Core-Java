@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import javax.inject.Provider;
 
@@ -30,6 +31,9 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
  * </p>
  */
 public class BinaryAssetDownloader implements Provider<File> {
+
+    private static final Logger LOG = Logger.getLogger(BinaryAssetDownloader.class.getName());
+
 
     private OkHttpClient _httpClient;
     private final File _targetFile;
@@ -68,6 +72,9 @@ public class BinaryAssetDownloader implements Provider<File> {
         }
 
 
+        final URL url = this._sourceURL;
+        LOG.finer(() -> "Downloading asset binary from URL " + url);
+
         final IAuthTokenModel authData = this._authTokenStorage != null ? this._authTokenStorage.getAuthData() : null;
         final String accessToken = authData != null ? authData.getAccessToken() : null;
         Objects.requireNonNull(
@@ -75,8 +82,9 @@ public class BinaryAssetDownloader implements Provider<File> {
             "No Smint.io authentication data available from authentication storage!"
         );
 
+        final String token = accessToken;
+        LOG.finer(() -> "Downloading asset binary with access token " + token + " from URL " + url);
 
-        final URL url = this._sourceURL;
         final Request downloadRequest = new Request.Builder()
             .addHeader(
                 accessToken == null ? "X-Smint.io-Auth-dummy" : "Authorization",
@@ -85,17 +93,25 @@ public class BinaryAssetDownloader implements Provider<File> {
             .url(url)
             .build();
 
+        LOG.finer(() -> "Creating HTTP client call to URL " + url);
         final Call call = this._httpClient.newCall(downloadRequest);
-        Response response = null;
+
+        Response resp = null;
         try {
-            response = call.execute();
+            LOG.finer(() -> "Executing HTTP client call, receiving response from URL " + url);
+            resp = call.execute();
         } catch (final IOException ignore) {
             throw new RuntimeException("failed to download binary file!", ignore);
         }
 
 
+        final Response response = resp;
+        LOG.finer(() -> "Receiving response with code " + response.code() + " from URL " + url);
+
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED
             || response.code() == HttpURLConnection.HTTP_FORBIDDEN) {
+
+            LOG.finer(() -> "Authorization failed for URL " + url);
 
             throw new RuntimeException(
                 "Authorization failed for downloading the binary file from "
@@ -103,6 +119,11 @@ public class BinaryAssetDownloader implements Provider<File> {
             );
 
         } else if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_OK) {
+
+            LOG.finer(
+                () -> "Writing binary data of successful request for URL " + url + " to file "
+                    + this._targetFile.getAbsolutePath()
+            );
 
             try (
                 final OutputStream out = new BufferedOutputStream(new FileOutputStream(this._targetFile));
@@ -115,6 +136,11 @@ public class BinaryAssetDownloader implements Provider<File> {
                     out.write(chr);
                     chr = in.read();
                 }
+
+                LOG.finer(
+                    () -> "Successfully downloaded to target file " + this._targetFile.getAbsolutePath() + " from URL "
+                        + url
+                );
 
                 return this._targetFile;
 
