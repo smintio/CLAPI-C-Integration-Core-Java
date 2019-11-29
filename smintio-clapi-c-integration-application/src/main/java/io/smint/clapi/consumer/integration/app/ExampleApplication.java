@@ -151,7 +151,8 @@ public class ExampleApplication {
 
         LOG.finer("Creating new sync Job.");
 
-        final SyncTargetJson syncTarget = new SyncTargetJson();
+        final File assetsDir = new File(".", "downloaded-assets");
+        final SyncTargetJson syncTarget = new SyncTargetJson(assetsDir);
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
             new SyncTargetFactoryFromDI(
                 tokenStorage,
@@ -175,6 +176,8 @@ public class ExampleApplication {
         }
         System.out.println("DONE DONE: " + new File(".", "out-result.json").getAbsolutePath());
 
+
+        System.out.println("asset downloaded to: " + assetsDir.getAbsolutePath());
     }
 
 
