@@ -12,9 +12,9 @@ Web2Print, WCM or other systems, written in Java.
 Requirements
 ------------
 
-### *Smint.io client API consumer library* - add credentials to load the library
+### *Smint.io Content Licensing Consumer API library* - add credentials to load the library
 
-This library depends on the *Smint.io client API consumer library ("CLAPI-C")*, that will handle
+This library depends on the *Smint.io Content Licensing Consumer API library ("CLAPI-C")*, that will handle
 all connection to the RESTful Smint.io API. Access to the *CLAPI-C* library is
 restricted. Get in contact with [Smint.io](https://www.smint.io) and request
 access. You will need to sign an NDA first.
