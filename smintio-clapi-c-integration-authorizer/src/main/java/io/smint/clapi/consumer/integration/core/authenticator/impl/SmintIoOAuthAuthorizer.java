@@ -66,6 +66,9 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
 
     /**
      * Initializes this instance with an internally used, default {@code OkHttpClient}.
+     *
+     * @param settings     the settings to use for the authorizer, where to read OAuth redirect target URL from.
+     * @param tokenStorage the token storage to use for newly created access token data.
      */
     public SmintIoOAuthAuthorizer(final ISettingsModel settings, final IAuthTokenStorage tokenStorage) {
         this(settings, tokenStorage, () -> new OkHttpClient());
@@ -74,6 +77,11 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
 
     /**
      * (preferred) Fully initializes this instance with all related instances needed.
+     *
+     * @param settings           the settings to use for the authorizer, where to read OAuth redirect target URL from.
+     * @param tokenStorage       the token storage to use for newly created access token data.
+     * @param httpClientProvider provides a valid OkHttp client to perform the requests. Its value is passed to the
+     *                           super class constructor.
      */
     @Inject
     public SmintIoOAuthAuthorizer(

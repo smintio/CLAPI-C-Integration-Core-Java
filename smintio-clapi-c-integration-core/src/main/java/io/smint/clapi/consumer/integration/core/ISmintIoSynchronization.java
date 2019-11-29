@@ -74,6 +74,8 @@ public interface ISmintIoSynchronization {
      * Beware: a reference to this instance is stored with the scheduler. So as long as there is an active schedule
      * garbage collection won't apply.
      * </p>
+     *
+     * @return {@code this} in order to support <em>Fluent Interface</em> paradigm.
      */
     ISmintIoSynchronization start();
 
@@ -86,6 +88,8 @@ public interface ISmintIoSynchronization {
      * <a href="https://www.pusher.com">Pusher.com</a> is disconnected. Any currently running synchronization process is
      * not terminated.
      * </p>
+     *
+     * @return {@code this} in order to support <em>Fluent Interface</em> paradigm.
      */
     ISmintIoSynchronization stop();
 

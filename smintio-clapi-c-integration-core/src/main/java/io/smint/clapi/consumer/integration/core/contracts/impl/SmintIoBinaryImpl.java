@@ -19,37 +19,15 @@
 
 package io.smint.clapi.consumer.integration.core.contracts.impl;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 
 
 /**
  * POJO to hold data for binaries.
- *
- * <p>
- * In order to provide a downloaded {@link File} in {@link #getDownloadedFile()}, a {@link Provider} is being set to
- * this POJO. Using such a provider enables the creator to download the file on first usage only, without the need to
- * download all files in advance although some (all) might not be needed. This POJO implementation does not make use of
- * any cache. So every call of {@link #getDownloadedFile()} is directly passed to {@link Provider#get()}.
- * </p>
- *
- * <pre>
- * {@code
- *     final ISmintIoBinary binaryData = new SmintIoBinaryImpl()
- *         .setUuid(UUID)
- *         .setDownloadFile(() -> {
- *             // NOW CHECK FILE EXISTENCE AND DOWNLOAD IF NECESSARY
- *             return downloadedFile;
- *         })
- * }
- * </pre>
- *
  */
 public class SmintIoBinaryImpl implements ISmintIoBinary {
 

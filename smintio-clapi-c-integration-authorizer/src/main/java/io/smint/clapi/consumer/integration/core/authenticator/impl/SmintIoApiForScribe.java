@@ -33,7 +33,12 @@ import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsMo
 /**
  * The API description for <a href="https://github.com/scribejava/scribejava">ScribeJava</a>.
  *
- * @see https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/main/java/com/github/scribejava/apis/GoogleApi20.java
+ * <p>
+ * see <a href=
+ * "https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/main/java/com/github/scribejava/apis/GoogleApi20.java"
+ * >https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/main/java/com/github/scribejava/apis/GoogleApi20.java
+ * </a>
+ * </p>
  */
 public class SmintIoApiForScribe extends DefaultApi20 {
 
@@ -109,6 +114,7 @@ public class SmintIoApiForScribe extends DefaultApi20 {
     /**
      * Provides the singleton instance and returns it.
      *
+     * @param settings the settings to use, where to read the OAuth success redirection URL from.
      * @return the singleton instance, never {@code null}.
      */
     public static void createSingleton(final ISettingsModel settings) {

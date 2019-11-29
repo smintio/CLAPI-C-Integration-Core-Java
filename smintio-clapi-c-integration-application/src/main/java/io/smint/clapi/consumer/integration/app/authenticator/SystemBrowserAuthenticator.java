@@ -215,10 +215,10 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
      * <li>Linux with a Desktop - helper {@code xdg-open}</li>
      * </ul>
      *
-     * @param url
+     * @param url the browser will open this URL initially. if {@code null}, no browser will be opened.
+     * @return {@code this}
      * @throws IOException        see {@link Runtime#exec(String)}
      * @throws URISyntaxException if conversion to {@link URI} failed with {@link URL#toURI()}.
-     * @see https://stackoverflow.com/questions/5226212/how-to-open-the-default-webbrowser-using-java
      */
     public SystemBrowserAuthenticator openSystemBrowser(final URL url) throws IOException, URISyntaxException {
 

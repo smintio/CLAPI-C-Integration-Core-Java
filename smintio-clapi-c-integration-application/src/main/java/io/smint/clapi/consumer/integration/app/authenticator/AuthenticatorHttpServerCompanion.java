@@ -134,11 +134,11 @@ public class AuthenticatorHttpServerCompanion extends NanoHTTPD {
      *
      * @param settings              the settings to read the port to listen to.
      *                              {@link ISettingsModel#getOAuthLocalUrlReceivingAccessData()} is fetched and its
-     *                              {@link URL#} port will be used.
+     *                              {@link java.net.URL#getPort()} port will be used.
      * @param consumerOfOAuthParams a consumer to receive the URL parameters containing all OAuth data - must not be
      *                              {@code null}. if injected by name, the name is set to
      *                              {@code @Named("authorizer-url-params-consumer")}.
-     * @throwns NullPointerException in case any parameter is {@code null}.
+     * @throws NullPointerException in case any parameter is {@code null}.
      */
     @Inject
     public AuthenticatorHttpServerCompanion(
