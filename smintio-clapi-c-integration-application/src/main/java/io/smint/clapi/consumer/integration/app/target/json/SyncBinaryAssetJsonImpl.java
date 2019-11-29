@@ -134,7 +134,7 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
 
     @Override
     public ISyncBinaryAsset setBinaryVersion(final int binaryVersion) {
-        this.putMetaDataValue(JSON_KEY__BINARY_UUID, new Integer(binaryVersion));
+        this.putMetaDataValue(JSON_KEY__BINARY_VERSION, new Integer(binaryVersion));
         return this;
     }
 
@@ -166,203 +166,203 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
     }
 
     @Override
-    public ISyncBinaryAsset setUuid(String smintIoId) {
+    public ISyncBinaryAsset setUuid(final String smintIoId) {
         super.setUuid(smintIoId);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setTargetAssetUuid(String targetAssetUuid) {
+    public ISyncBinaryAsset setTargetAssetUuid(final String targetAssetUuid) {
         super.setTargetAssetUuid(targetAssetUuid);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setName(Map<Locale, String> name) {
+    public ISyncBinaryAsset setName(final Map<Locale, String> name) {
         super.setName(name);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setContentElementUuid(String contentElementUuid) {
+    public ISyncBinaryAsset setContentElementUuid(final String contentElementUuid) {
         super.setContentElementUuid(contentElementUuid);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setContentProvider(String contentProviderKey) {
+    public ISyncBinaryAsset setContentProvider(final String contentProviderKey) {
         super.setContentProvider(contentProviderKey);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setContentCategory(String contentCategoryKey) {
+    public ISyncBinaryAsset setContentCategory(final String contentCategoryKey) {
         super.setContentCategory(contentCategoryKey);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setDescription(Map<Locale, String> description) {
+    public ISyncBinaryAsset setDescription(final Map<Locale, String> description) {
         super.setDescription(description);
         return this;
     }
 
     @Override
-    public ISyncBinaryAsset setSmintIoUrl(URL smintIoUrl) {
+    public ISyncBinaryAsset setSmintIoUrl(final URL smintIoUrl) {
         super.setSmintIoUrl(smintIoUrl);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setCreatedAt(OffsetDateTime createdAt) {
+    public ISyncBinaryAsset setCreatedAt(final OffsetDateTime createdAt) {
         super.setCreatedAt(createdAt);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLastUpdatedAt(OffsetDateTime lastUpdatedAt) {
+    public ISyncBinaryAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt) {
         super.setLastUpdatedAt(lastUpdatedAt);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setPurchasedAt(OffsetDateTime purchasedAt) {
+    public ISyncBinaryAsset setPurchasedAt(final OffsetDateTime purchasedAt) {
         super.setPurchasedAt(purchasedAt);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setCartPurchaseTransactionUuid(String cartPurchaseTransactionUuid) {
+    public ISyncBinaryAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
         super.setCartPurchaseTransactionUuid(cartPurchaseTransactionUuid);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicensePurchaseTransactionUuid(String licensePurchaseTransactionUuid) {
+    public ISyncBinaryAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid) {
         super.setLicensePurchaseTransactionUuid(licensePurchaseTransactionUuid);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setHasBeenCancelled(boolean hasBeenCancelled) {
+    public ISyncBinaryAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
         super.setHasBeenCancelled(hasBeenCancelled);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setProjectUuid(String projectUuid) {
+    public ISyncBinaryAsset setProjectUuid(final String projectUuid) {
         super.setProjectUuid(projectUuid);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setProjectName(Map<Locale, String> projectName) {
+    public ISyncBinaryAsset setProjectName(final Map<Locale, String> projectName) {
         super.setProjectName(projectName);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setCollectionUuid(String collectionUuid) {
+    public ISyncBinaryAsset setCollectionUuid(final String collectionUuid) {
         super.setCollectionUuid(collectionUuid);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setCollectionName(Map<Locale, String> collectionName) {
+    public ISyncBinaryAsset setCollectionName(final Map<Locale, String> collectionName) {
         super.setCollectionName(collectionName);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setKeywords(Map<Locale, String[]> keywords) {
+    public ISyncBinaryAsset setKeywords(final Map<Locale, String[]> keywords) {
         super.setKeywords(keywords);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setCopyrightNotices(Map<Locale, String> copyrightNotices) {
+    public ISyncBinaryAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices) {
         super.setCopyrightNotices(copyrightNotices);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setIsEditorialUse(Boolean isEditorialUse) {
+    public ISyncBinaryAsset setIsEditorialUse(final Boolean isEditorialUse) {
         super.setIsEditorialUse(isEditorialUse);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setHasLicenseTerms(boolean hasLicenseTerms) {
+    public ISyncBinaryAsset setHasLicenseTerms(final boolean hasLicenseTerms) {
         super.setHasLicenseTerms(hasLicenseTerms);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseType(String licenseTypeKey) {
+    public ISyncBinaryAsset setLicenseType(final String licenseTypeKey) {
         super.setLicenseType(licenseTypeKey);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseeUuid(String licenseeUuid) {
+    public ISyncBinaryAsset setLicenseeUuid(final String licenseeUuid) {
         super.setLicenseeUuid(licenseeUuid);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseeName(String licenseeName) {
+    public ISyncBinaryAsset setLicenseeName(final String licenseeName) {
         super.setLicenseeName(licenseeName);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseText(Map<Locale, String> licenseText) {
+    public ISyncBinaryAsset setLicenseText(final Map<Locale, String> licenseText) {
         super.setLicenseText(licenseText);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseOptions(ISyncLicenseOption[] licenseOptions) {
+    public ISyncBinaryAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
         super.setLicenseOptions(licenseOptions);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setLicenseTerms(ISyncLicenseTerm[] licenseTerms) {
+    public ISyncBinaryAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
         super.setLicenseTerms(licenseTerms);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setDownloadConstraints(ISyncDownloadConstraints downloadConstraints) {
+    public ISyncBinaryAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints) {
         super.setDownloadConstraints(downloadConstraints);
         return this;
     }
 
 
     @Override
-    public ISyncBinaryAsset setReleaseDetails(ISyncReleaseDetails releaseDetails) {
+    public ISyncBinaryAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails) {
         super.setReleaseDetails(releaseDetails);
         return this;
     }

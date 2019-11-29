@@ -25,38 +25,32 @@ package io.smint.clapi.consumer.integration.core.contracts;
 public interface ISmintIoDownloadConstraints extends ISmintIoDataType {
 
     /**
-     * The default value - denoting an <em>unlimited</em> value - for all fields in case no value has ever been set.
-     */
-    int UNKNOWN = -1;
-
-
-    /**
      * Get the maximum allowed downloads for the asset.
      *
      * @return the maximum amount of downloads as a positive integer value. if value is below or equal {@code 0}, then
-     *         there are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions
-     *         have been set.
+     *         there are no restrictions on the maximum amount of users. Returns {@code null} if no restrictions have
+     *         been set or are unknown.
      */
-    int getMaxDownloads();
+    Integer getMaxDownloads();
 
 
     /**
      * Get the maximum allowed users to make use of the asset.
      *
      * @return the maximum amount of users as a positive integer value. if value is below or equal {@code 0}, then there
-     *         are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions have been
-     *         set.
+     *         are no restrictions on the maximum amount of users. Returns {@code null} if no restrictions have been set
+     *         or are unknown.
      */
-    int getMaxUsers();
+    Integer getMaxUsers();
 
 
     /**
      * Get the maximum allowed reuses of the asset.
      *
      * @return the maximum amount of reuses as a positive integer value. if value is below or equal {@code 0}, then
-     *         there are no restrictions on the maximum amount of users. Returns {@link #UNKNOWN} if no restrictions
-     *         have been set.
+     *         there are no restrictions on the maximum amount of users. Returns {@code null} if no restrictions have
+     *         been set or are unknown.
      */
-    int getMaxReuses();
+    Integer getMaxReuses();
 }
 

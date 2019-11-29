@@ -33,6 +33,7 @@ import okhttp3.OkHttpClient;
 
 import io.smint.clapi.consumer.generated.ApiClient;
 import io.smint.clapi.consumer.generated.ApiException;
+import io.smint.clapi.consumer.generated.api.DownloadsApi;
 import io.smint.clapi.consumer.generated.api.MetadataApi;
 import io.smint.clapi.consumer.generated.api.TransactionHistoryApi;
 import io.smint.clapi.consumer.generated.models.LicenseDownloadConstraints;
@@ -41,6 +42,7 @@ import io.smint.clapi.consumer.generated.models.LocalizedContentElementDetail;
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
 import io.smint.clapi.consumer.generated.models.LocalizedReleaseDetails;
 import io.smint.clapi.consumer.generated.models.LocalizedString;
+import io.smint.clapi.consumer.generated.models.SyncBinary;
 import io.smint.clapi.consumer.generated.models.SyncGenericMetadata;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransaction;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransactionQueryResult;
@@ -51,6 +53,7 @@ import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
+import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions;
@@ -58,6 +61,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoAssetImpl;
+import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoBinaryImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoDownloadConstraintsImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoGenericMetadataImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoLicenseOptionsImpl;
@@ -65,6 +69,7 @@ import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoLicenseTer
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoMetadataElementImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoReleaseDetailsImpl;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithContinuation;
 
@@ -197,6 +202,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     private final OkHttpClient _httpClient;
     private MetadataApi _metadataApi;
     private TransactionHistoryApi _transactionApi;
+    private DownloadsApi _downloadsApi;
 
     // CHECKSTYLE OFF: ParameterNumber
 
@@ -207,13 +213,15 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final ISmintIoAuthenticator authenticator,
         final OkHttpClient httpClient,
         @Nullable final MetadataApi smintIoMetadataApi,
-        @Nullable final TransactionHistoryApi smintIoTransactionApi
+        @Nullable final TransactionHistoryApi smintIoTransactionApi,
+        @Nullable final DownloadsApi smintIoDownloadsApi
     ) {
         this._settings = settings;
         this._authTokenStorage = authTokenStorage;
         this._authenticator = authenticator;
         this._metadataApi = smintIoMetadataApi;
         this._transactionApi = smintIoTransactionApi;
+        this._downloadsApi = smintIoDownloadsApi;
         this._httpClient = httpClient;
 
 
@@ -226,6 +234,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
         if (this._transactionApi == null) {
             this._transactionApi = new TransactionHistoryApi(this._metadataApi.getApiClient());
+        }
+        if (this._downloadsApi == null) {
+            this._downloadsApi = new DownloadsApi(this._metadataApi.getApiClient());
         }
     }
 
@@ -522,7 +533,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         if (localizedStrings != null) {
 
 
-            return localizedStrings.stream()
+            final Map<Locale, String> result = localizedStrings.stream()
                 .filter((elem) -> elem != null && elem.getValue() != null)
                 .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
                 .collect(
@@ -531,6 +542,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         (elem) -> elem.getValue()
                     )
                 );
+
+            return result.size() > 0 ? result : null;
         }
 
         return null;
@@ -604,13 +617,14 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final ISmintIoAsset[] result = syncLptQueryResult.getLicensePurchaseTransactions()
             .stream()
             .filter((lpt) -> lpt != null && lpt.getContentElement() != null)
-            .map((lpt) -> this.convertApiAsset(lpt))
+            .map((lpt) -> this.convertApiAsset(lpt, includeCoundAssets, includeBinaryUpdates))
             .filter((asset) -> asset != null)
             .toArray(ISmintIoAsset[]::new);
 
 
         return new SmintIoApiDataWithContinuationImpl<ISmintIoAsset[]>()
-            .setResult(result);
+            .setResult(result)
+            .setContinuationUuid(syncLptQueryResult.getContinuationUuid());
     }
 
 
@@ -684,16 +698,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .map(
                 (licenseTerm) -> new SmintIoLicenseTermImpl()
                     .setSequenceNumber(licenseTerm.getSequenceNumber())
-                    .setName(this.getValuesForImportLanguages(importLanguages, licenseTerm.getName())
-                        .entrySet()
-                        .stream()
-                        .collect(
-                            Collectors.toMap(
-                                (key) -> new Locale(key.toString()),
-                                (value) -> value.toString()
-                            )
-                        )
-                    )
+                    .setName(this.getValuesForImportLanguages(importLanguages, licenseTerm.getName()))
                     .setExclusivities(this.convertFromListToStringArray(licenseTerm.getExclusivities()))
                     .setAllowedUsages(this.convertFromListToStringArray(licenseTerm.getAllowedUsages()))
                     .setRestrictedUsages(this.convertFromListToStringArray(licenseTerm.getRestrictedUsages()))
@@ -727,11 +732,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
 
         final LicenseDownloadConstraints restricts = lpt.getLicenseDownloadConstraints();
-
         return new SmintIoDownloadConstraintsImpl()
-            .setMaxUsers(restricts.getEffectiveMaxUsers() != null ? restricts.getEffectiveMaxUsers() : -1)
-            .setMaxDownloads(restricts.getEffectiveMaxDownloads() != null ? restricts.getEffectiveMaxDownloads() : -1)
-            .setMaxReuses(restricts.getEffectiveMaxReuses() != null ? restricts.getEffectiveMaxReuses() : -1);
+            .setMaxUsers(restricts.getEffectiveMaxUsers())
+            .setMaxDownloads(restricts.getEffectiveMaxDownloads())
+            .setMaxReuses(restricts.getEffectiveMaxReuses());
     }
 
 
@@ -765,7 +769,11 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     }
 
 
-    private ISmintIoAsset convertApiAsset(final SyncLicensePurchaseTransaction apiAsset) {
+    private ISmintIoAsset convertApiAsset(
+        final SyncLicensePurchaseTransaction apiAsset,
+        final boolean includeCoundAssets,
+        final boolean includeBinaryUpdates
+    ) {
 
         if (apiAsset == null || apiAsset.getContentElement() == null) {
             return null;
@@ -816,7 +824,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     && licenceTerm.getRestrictedLanguages().size() > 0
                 || licenceTerm.getUsageLimits() != null && licenceTerm.getUsageLimits().size() > 0
                 || licenceTerm.getValidFrom() != null
-                    && licenceTerm.getValidFrom().isBefore(OffsetDateTime.now())
+                    && licenceTerm.getValidFrom().isAfter(OffsetDateTime.now())
                 || licenceTerm.getValidUntil() != null
                 || licenceTerm.getToBeUsedUntil() != null
                 || licenceTerm.getIsEditorialUse() != null && licenceTerm.getIsEditorialUse().booleanValue();
@@ -830,7 +838,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .setState(apiAsset.getState())
             .setContentProvider(contentElement.getProvider())
             .setContentType(contentElement.getContentType())
-            .setName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+            .setName(this.getValuesForImportLanguages(importLanguages, contentElement.getName()))
             .setDescription(this.getValuesForImportLanguages(importLanguages, contentElement.getDescription()))
             .setKeywords(this.getGroupedValuesForImportLanguages(importLanguages, contentElement.getKeywords()))
             .setContentCategory(contentElement.getContentCategory())
@@ -842,7 +850,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             .setProjectUuid(apiAsset.getProjectUuid())
             .setProjectName(this.getValuesForImportLanguages(importLanguages, apiAsset.getProjectName()))
+
             .setCollectionUuid(apiAsset.getCollectionUuid())
+            .setCollectionName(this.getValuesForImportLanguages(importLanguages, apiAsset.getCollectionName()))
+
             .setLicenseeUuid(apiAsset.getLicenseeUuid())
             .setLicenseeName(apiAsset.getLicenseeName())
             .setLicenseType(apiAsset.getOffering() != null ? apiAsset.getOffering().getLicenseType() : null)
@@ -882,6 +893,77 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             );
         } catch (final MalformedURLException excp) {
             LOG.log(Level.WARNING, "Invalid Smint.io asset URL!", excp);
+        }
+
+
+        // get the binaries for this asset
+        if (apiAsset.getCanBeSynced()) {
+
+            List<SyncBinary> binaries = null;
+            try {
+                binaries = this._downloadsApi.getLicensePurchaseTransactionBinariesForSync(
+                    asset.getCartPurchaseTransactionUuid(),
+                    asset.getLicensePurchaseTransactionUuid()
+                );
+            } catch (final ApiException excp) {
+                LOG.log(
+                    Level.SEVERE,
+                    "Failed to read binaries of content UUID " + asset.getUuid() + " from Smint.io API: ", excp
+                );
+            }
+
+            final List<ISmintIoBinary> assetBinaries = new ArrayList<>();
+            if (binaries != null) {
+
+                if (!includeCoundAssets && binaries.size() > 1) {
+                    throw new SmintIoSyncJobException(
+                        SmintIoSyncJobException.SyncJobError.Generic,
+                        "SyncTarget does not support compound assets!"
+                    );
+                }
+
+
+                for (final SyncBinary binary : binaries) {
+
+
+                    if (!includeBinaryUpdates && binary.getVersion() != null && binary.getVersion() > 1) {
+                        // binary version update
+                        throw new SmintIoSyncJobException(
+                            SmintIoSyncJobException.SyncJobError.Generic,
+                            "SyncTarget does not support binary updates!"
+                        );
+                    }
+
+
+                    final SmintIoBinaryImpl convertedBinary = new SmintIoBinaryImpl()
+                        .setVersion(binary.getVersion() != null ? binary.getVersion() : 0)
+                        .setUuid(binary.getUuid())
+                        .setContentType(binary.getContentType())
+                        .setBinaryType(binary.getContentType())
+                        .setName(this.getValuesForImportLanguages(importLanguages, binary.getName()))
+                        .setDescription(this.getValuesForImportLanguages(importLanguages, binary.getDescription()))
+                        .setUsage(this.getValuesForImportLanguages(importLanguages, binary.getUsage()))
+                        .setRecommendedFileName(binary.getRecommendedFileName());
+
+                    if (binary.getCulture() != null && !binary.getCulture().isEmpty()) {
+                        convertedBinary.setLocale(new Locale(this.convertApiLanguage(binary.getCulture())));
+                    }
+
+                    try {
+                        final URL downloadURL = new URL(binary.getDownloadUrl());
+                        convertedBinary.setDownloadUrl(downloadURL);
+
+                    } catch (final MalformedURLException excp) {
+                        LOG.log(Level.WARNING, "Invalid Smint.io asset binary URL: " + binary.getDownloadUrl(), excp);
+                    }
+
+                    assetBinaries.add(convertedBinary);
+                }
+
+                if (assetBinaries.size() > 0) {
+                    asset.setBinaries(assetBinaries.toArray(new ISmintIoBinary[assetBinaries.size()]));
+                }
+            }
         }
 
         return asset;

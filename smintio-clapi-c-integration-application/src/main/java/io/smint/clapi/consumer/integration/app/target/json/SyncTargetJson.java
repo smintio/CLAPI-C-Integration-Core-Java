@@ -19,10 +19,15 @@
 
 package io.smint.clapi.consumer.integration.app.target.json;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.common.io.Files;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
@@ -59,10 +64,16 @@ public class SyncTargetJson implements ISyncTarget {
     private transient final Map<String, ISyncAsset> _binaryAssets = new Hashtable<>();
     private transient final Map<String, ISyncAsset> _compoundAssets = new Hashtable<>();
 
+    private final File _assetBinariesDir;
 
-    public SyncTargetJson() {
+    public SyncTargetJson(final File assetBinaryDownloadsDirectory) {
         this._allData.put("binaryAssets", this._binaryAssets);
         this._allData.put("compoundAssets", this._compoundAssets);
+
+        this._assetBinariesDir = assetBinaryDownloadsDirectory;
+        if (assetBinaryDownloadsDirectory != null) {
+            assetBinaryDownloadsDirectory.mkdirs();
+        }
     }
 
 
@@ -292,11 +303,31 @@ public class SyncTargetJson implements ISyncTarget {
 
     @Override
     public void importNewTargetAssets(final ISyncBinaryAsset[] newTargetAssets) {
+
+        LOG.finer("Importing new asset!");
+
+
         if (newTargetAssets != null) {
             for (final ISyncBinaryAsset asset : newTargetAssets) {
+
+                LOG.finer("Importing new asset " + asset.getUuid() + ":" + asset.getBinaryUuid() + "!");
+
                 final String id = this.getNextId();
                 this._binaryAssets.put(id, asset);
                 this._mapSmintIoIdToMyId.put("asset-" + asset.getUuid() + "_" + asset.getBinaryUuid(), id);
+
+                LOG.info("Downloading asset file: " + asset.getRecommendedFileName());
+
+                // download file
+                try {
+                    final File assetFile = asset.getDownloadedFile();
+                    LOG.finer(
+                        "Download asset to file (" + asset.getRecommendedFileName() + "): " + assetFile.getName()
+                    );
+
+                } catch (FileNotFoundException | SmintIoAuthenticatorException excp) {
+                    LOG.log(Level.SEVERE, "Failed to download asset to file!", excp);
+                }
             }
         }
     }
@@ -335,6 +366,24 @@ public class SyncTargetJson implements ISyncTarget {
 
     @Override
     public void afterAssetsSync() {
+
+        // move every file to target output directory
+        final File assetsDir = this._assetBinariesDir;
+        assetsDir.mkdirs();
+
+        for (final SyncBinaryAssetJsonImpl asset : this.getAllBinaryAssets()) {
+            try {
+                final File assetFile = asset.getDownloadedFile();
+                final File targetFile = new File(assetsDir, assetFile.getName());
+
+                if (!targetFile.exists()) {
+                    Files.move(assetFile, targetFile);
+                }
+
+            } catch (SmintIoAuthenticatorException | IOException excp) {
+                LOG.log(Level.SEVERE, "Failed to move asset file for asset " + asset.getRecommendedFileName(), excp);
+            }
+        }
     }
 
     @Override
@@ -357,6 +406,23 @@ public class SyncTargetJson implements ISyncTarget {
     public void clearGenericMetadataCaches() {
 
     }
+
+
+    public SyncBinaryAssetJsonImpl[] getAllBinaryAssets() {
+        return this._binaryAssets.values()
+            .stream()
+            .map((i) -> (SyncBinaryAssetJsonImpl) i)
+            .toArray(SyncBinaryAssetJsonImpl[]::new);
+    }
+
+
+    public SyncCompoundAssetJsonImpl[] getAllCompoundAssets() {
+        return this._compoundAssets.values()
+            .stream()
+            .map((i) -> (SyncCompoundAssetJsonImpl) i)
+            .toArray(SyncCompoundAssetJsonImpl[]::new);
+    }
+
 
     private String getNextId() {
         return String.valueOf(this._nextId++);

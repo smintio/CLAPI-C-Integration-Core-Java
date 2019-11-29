@@ -53,7 +53,6 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
  */
 public class SmintIoBinaryImpl implements ISmintIoBinary {
 
-
     private String _uuid = null;
     private String _contentType = null;
     private String _binaryType = null;
@@ -61,7 +60,6 @@ public class SmintIoBinaryImpl implements ISmintIoBinary {
     private Map<Locale, String> _description = null;
     private Map<Locale, String> _usage = null;
     private URL _downloadUrl = null;
-    private Provider<File> _downloadFileProvider = null;
     private String _recommendedFileName = null;
     private Locale _locale = null;
     private int _version = -1;
@@ -189,26 +187,6 @@ public class SmintIoBinaryImpl implements ISmintIoBinary {
      */
     public SmintIoBinaryImpl setDownloadUrl(final URL newDownloadUrl) {
         this._downloadUrl = newDownloadUrl;
-        return this;
-    }
-
-
-    @Override
-    public File getDownloadedFile() {
-        return this._downloadFileProvider != null ? this._downloadFileProvider.get() : null;
-    }
-
-
-    /**
-     * Sets a new value to the download file.
-     *
-     * @param newFileProvider the new value to set. The file does not need to be existent. The next call to
-     *                        {@code #getDownloadedFile()} will download the file from the Smint.io platform in case the
-     *                        file does not exist yet. At least the path of the target file must be writable.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     */
-    public SmintIoBinaryImpl setDownloadFile(final Provider<File> newFileProvider) {
-        this._downloadFileProvider = newFileProvider;
         return this;
     }
 

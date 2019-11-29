@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.app;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
@@ -150,7 +151,8 @@ public class ExampleApplication {
 
         LOG.finer("Creating new sync Job.");
 
-        final SyncTargetJson syncTarget = new SyncTargetJson();
+        final File assetsDir = new File(".", "downloaded-assets");
+        final SyncTargetJson syncTarget = new SyncTargetJson(assetsDir);
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
             new SyncTargetFactoryFromDI(
                 tokenStorage,
@@ -168,7 +170,14 @@ public class ExampleApplication {
 
         // now print out the collected JSON
         final Gson gson = this.createGson();
-        System.out.println(gson.toJson(syncTarget.getAllData()));
+
+        try (final FileWriter out = new FileWriter(new File(".", "out-result.json"))) {
+            out.append(gson.toJson(syncTarget.getAllData()));
+        }
+        System.out.println("DONE DONE: " + new File(".", "out-result.json").getAbsolutePath());
+
+
+        System.out.println("asset downloaded to: " + assetsDir.getAbsolutePath());
     }
 
 

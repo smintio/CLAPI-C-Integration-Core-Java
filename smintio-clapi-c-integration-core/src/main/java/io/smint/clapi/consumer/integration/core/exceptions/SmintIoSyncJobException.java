@@ -28,7 +28,7 @@ package io.smint.clapi.consumer.integration.core.exceptions;
  * order to preserve the full stack and provide best possible debug information.
  * </p>
  */
-public class SmintIoSyncJobException extends Exception {
+public class SmintIoSyncJobException extends RuntimeException {
 
 
     private static final long serialVersionUID = -2392621201523224696L;

@@ -62,6 +62,7 @@ public abstract class TestSminIoApiClientBase {
             (settings, authTokenStorage) -> null,
             null,
             null,
+            null,
             null
         );
     }

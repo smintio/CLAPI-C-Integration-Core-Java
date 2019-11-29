@@ -22,7 +22,6 @@ package io.smint.clapi.consumer.integration.core.factory.impl;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.ServiceLoader;
-import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 
@@ -32,8 +31,6 @@ import com.google.inject.Guice;
 import com.google.inject.Provides;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
@@ -143,23 +140,7 @@ public class SyncGuiceModule extends AbstractModule {
     @Provides
     public OkHttpClient getHttpClient() {
         if (this._httpClient == null) {
-
-            final Logger packageLogger = Logger.getLogger(this.getClass().getName().replaceAll("\\.core\\..*$", ""));
-            if (packageLogger != null && packageLogger.isLoggable(java.util.logging.Level.FINER)) {
-
-                this._httpClient = new OkHttpClient.Builder()
-                    .addInterceptor(
-                        new HttpLoggingInterceptor((msg) -> {
-                            packageLogger.finer(msg);
-                        }).setLevel(Level.BODY)
-                    )
-                    .build();
-
-            } else {
-
-                this._httpClient = new OkHttpClient.Builder().build();
-
-            }
+            this._httpClient = new OkHttpClient.Builder().build();
         }
         return this._httpClient;
     }
