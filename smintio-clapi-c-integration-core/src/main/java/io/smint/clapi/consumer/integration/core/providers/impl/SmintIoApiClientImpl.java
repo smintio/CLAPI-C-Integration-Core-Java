@@ -618,9 +618,19 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
 
 
-        final ISmintIoAsset[] result = syncLptQueryResult.getLicensePurchaseTransactions()
+        // convert the assets and filter for assets to be ignored or other invalid assets
+        final List<SyncLicensePurchaseTransaction> validAssets = syncLptQueryResult.getLicensePurchaseTransactions()
             .stream()
             .filter((lpt) -> lpt != null && lpt.getContentElement() != null)
+            .collect(Collectors.toList());
+
+        // are there any valid assets that are not to be ignored for sync?
+        final boolean hasAnyAssets = validAssets.size() > 0;
+
+        // convert to synchronizable assets
+        final ISmintIoAsset[] result = validAssets
+            .stream()
+            .filter((lpt) -> lpt.getCanBeSynced() == null || lpt.getCanBeSynced().booleanValue())
             .map((lpt) -> this.convertApiAsset(lpt, includeCoundAssets, includeBinaryUpdates))
             .filter((asset) -> asset != null)
             .toArray(ISmintIoAsset[]::new);
@@ -628,7 +638,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         return new SmintIoApiDataWithContinuationImpl<ISmintIoAsset[]>()
             .setResult(result)
-            .setContinuationUuid(syncLptQueryResult.getContinuationUuid());
+            .setContinuationUuid(syncLptQueryResult.getContinuationUuid())
+            .setHasAssets(hasAnyAssets);
     }
 
 

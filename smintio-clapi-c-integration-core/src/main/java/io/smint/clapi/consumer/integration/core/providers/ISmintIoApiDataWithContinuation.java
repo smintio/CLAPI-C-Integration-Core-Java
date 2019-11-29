@@ -25,10 +25,28 @@ public interface ISmintIoApiDataWithContinuation<T> {
      */
     T getResult();
 
+
     /**
      * Provides the next continuation UUID to be sent to the Smint.io API server on next fetch.
      *
      * @return a continuation UUID as sent by the server or {@code null} if nothing more is to be fetched.
      */
     String getContinuationUuid();
+
+
+    /**
+     * Indicates that the current chunk/batch covers assets, although none are subject synchronization.
+     *
+     * <p>
+     * There are assets that exist at the Smint.io platform but that must not be synchronized to any local asset
+     * management system. Maybe the purchase is not yet finished or whatever. In case a batch/chunk loaded from the
+     * Smint.io server covers only such assets, there will be no assets to sync. However, that must not be an abort
+     * criterion as more may be available. Therefore this flag will indicate that the current list of assets is covering
+     * some real assets and more are to be covered by next chunk/batch.
+     * </p>
+     *
+     * @return {@code true} in case this chunk/batch covers some assets and the sync job must continue with next
+     *         batch/chunk.
+     */
+    boolean hasAssets();
 }

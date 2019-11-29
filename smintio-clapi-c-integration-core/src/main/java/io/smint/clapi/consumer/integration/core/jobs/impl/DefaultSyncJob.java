@@ -419,16 +419,21 @@ public class DefaultSyncJob implements ISyncJob {
                 : false;
 
 
-            while (true) {
+            boolean moreChunksToLoad = true;
+            while (moreChunksToLoad) {
 
                 final ISmintIoApiDataWithContinuation<ISmintIoAsset[]> rawAssetsInfo = smintIoClient
                     .getAssets(continuationUuid, isCompoundAssetsSupported, isBinaryUpdatesSupported);
+
+                moreChunksToLoad = rawAssetsInfo.hasAssets();
 
                 final String newContinuationUuid = rawAssetsInfo.getContinuationUuid();
                 final ISmintIoAsset[] rawAssets = rawAssetsInfo.getResult();
                 continuationUuid = newContinuationUuid;
 
                 if (rawAssets != null && rawAssets.length > 0) {
+
+                    moreChunksToLoad = true;
 
                     final List<ISyncBinaryAsset> newTargetAssets = new ArrayList<>();
                     final List<ISyncBinaryAsset> updatedTargetAssets = new ArrayList<>();
@@ -518,10 +523,6 @@ public class DefaultSyncJob implements ISyncJob {
                         new SyncJobDataModelImpl().setContinuationUuid(newContinuationUuid)
                     );
                     LOG.info("Synchronized " + rawAssets.length + " Smint.io assets.");
-
-                } else {
-                    LOG.info("No more Smint.io assets to synchronize.");
-                    break;
                 }
             }
 

@@ -11,6 +11,7 @@ import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithCon
 public class SmintIoApiDataWithContinuationImpl<T> implements ISmintIoApiDataWithContinuation<T> {
 
     private T _result = null;
+    private boolean _hasAssets = false;
     private String _continuationUuid = null;
 
     @Override
@@ -45,6 +46,24 @@ public class SmintIoApiDataWithContinuationImpl<T> implements ISmintIoApiDataWit
      */
     public SmintIoApiDataWithContinuationImpl<T> setContinuationUuid(final String newUuid) {
         this._continuationUuid = newUuid;
+        return this;
+    }
+
+
+    @Override
+    public boolean hasAssets() {
+        return this._hasAssets;
+    }
+
+
+    /**
+     * Sets a new flag to indicate the sync job must continue with next batch/chunk.
+     *
+     * @param newUuid the new value to set.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public SmintIoApiDataWithContinuationImpl<T> setHasAssets(final boolean hasAssets) {
+        this._hasAssets = hasAssets;
         return this;
     }
 }
