@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.app;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
@@ -168,7 +169,12 @@ public class ExampleApplication {
 
         // now print out the collected JSON
         final Gson gson = this.createGson();
-        System.out.println(gson.toJson(syncTarget.getAllData()));
+
+        try (final FileWriter out = new FileWriter(new File(".", "out-result.json"))) {
+            out.append(gson.toJson(syncTarget.getAllData()));
+        }
+        System.out.println("DONE DONE: " + new File(".", "out-result.json").getAbsolutePath());
+
     }
 
 
