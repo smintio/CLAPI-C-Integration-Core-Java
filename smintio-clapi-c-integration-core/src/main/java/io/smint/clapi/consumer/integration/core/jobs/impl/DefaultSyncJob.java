@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
@@ -83,7 +84,7 @@ public class DefaultSyncJob implements ISyncJob {
     private static final Logger LOG = Logger.getLogger(DefaultSyncJob.class.getName());
 
 
-    private final SettingsModelImpl _settings;
+    private final Provider<ISettingsModel> _settingsProvider;
     private final IAuthTokenStorage _tokenStorage;
     private final ISyncJobDataStorage _syncDataStorage;
     private final ISmintIoApiClient _smintIoClient;
@@ -105,14 +106,14 @@ public class DefaultSyncJob implements ISyncJob {
     // CHECKSTYLE OFF: ParameterNumber
     @Inject
     public DefaultSyncJob(
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final IAuthTokenStorage authTokenStorage,
         final ISmintIoApiClient smintIoClient,
         final ISyncTarget syncTarget,
         final ISyncJobDataStorage syncDataStorage,
         final ISmintIoDownloadProvider downloadProvider
     ) {
-        this._settings = new SettingsModelImpl(settings);
+        this._settingsProvider = settings;
         this._tokenStorage = authTokenStorage;
         this._syncDataStorage = syncDataStorage;
         this._smintIoClient = smintIoClient;
@@ -124,8 +125,9 @@ public class DefaultSyncJob implements ISyncJob {
         Objects.requireNonNull(this._syncDataStorage, "job data storage is missing!");
         Objects.requireNonNull(this._tokenStorage, "OAuth token provider is missing!");
         Objects.requireNonNull(this._smintIoClient, "Missing Smint.io API client!");
-        Objects.requireNonNull(this._settings, "Settings must not be null!");
-        Objects.requireNonNull(this._settings.getTenantId(), "Settings must provide a tenent ID!");
+        Objects.requireNonNull(this._settingsProvider, "Settings must not be null!");
+        Objects.requireNonNull(this._settingsProvider.get(), "Settings must not be null!");
+        Objects.requireNonNull(this._settingsProvider.get().getTenantId(), "Settings must provide a tenent ID!");
     }
     // CHECKSTYLE ON: ParameterNumber
 
@@ -133,10 +135,10 @@ public class DefaultSyncJob implements ISyncJob {
     @Override
     public void synchronize(final boolean syncMetaData) throws SmintIoAuthenticatorException, SmintIoSyncJobException {
 
-        this.validateSettingsForSync(this._settings);
+        final ISettingsModel settings = this.validateSettingsForSync(this._settingsProvider.get());
 
         final ISyncTargetCapabilities capabilites = this._syncTarget.getCapabilities();
-        if (this._settings.getImportLanguages().length > 1
+        if (settings.getImportLanguages().length > 1
             && (capabilites == null || !capabilites.isMultiLanguageSupported())) {
 
             throw new SmintIoSyncJobException(
@@ -163,7 +165,7 @@ public class DefaultSyncJob implements ISyncJob {
             }
 
             this.synchronizeAssets(
-                this._settings.getTenantId(),
+                settings.getTenantId(),
                 this._syncTarget,
                 this._syncDataStorage,
                 this._smintIoClient
@@ -201,7 +203,7 @@ public class DefaultSyncJob implements ISyncJob {
      * @throws SmintIoAuthenticatorException in case an invalid settings value has been provided.
      * @throws NullPointerException          if parameter {@code settings} is {@code null}
      */
-    public void validateSettingsForSync(final SettingsModelImpl settings)
+    public ISettingsModel validateSettingsForSync(final ISettingsModel settings)
         throws SmintIoAuthenticatorException, NullPointerException {
 
         final String tenantId = settings != null ? settings.getTenantId() : null;
@@ -235,7 +237,9 @@ public class DefaultSyncJob implements ISyncJob {
                 );
             }
         }
-        settings.setImportLanguages(validLanguages.toArray(new String[validLanguages.size()]));
+
+        return new SettingsModelImpl(settings)
+            .setImportLanguages(validLanguages.toArray(new String[validLanguages.size()]));
     }
 
 
@@ -533,7 +537,7 @@ public class DefaultSyncJob implements ISyncJob {
         } finally {
 
             LOG.info(
-                () -> "failed to delete temporary path: " + tempFolder.getAbsolutePath()
+                () -> "Deleting temporary path: " + tempFolder.getAbsolutePath()
             );
 
             // delete the temporary files and folder

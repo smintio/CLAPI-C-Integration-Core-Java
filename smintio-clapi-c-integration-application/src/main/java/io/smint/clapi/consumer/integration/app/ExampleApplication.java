@@ -141,7 +141,7 @@ public class ExampleApplication {
 
             final SystemBrowserAuthenticator browserAuthenticator = new SystemBrowserAuthenticator(
                 new SmintIoOAuthAuthorizer(
-                    settings,
+                    () -> settings,
                     tokenStorage
                 )
             );
@@ -156,7 +156,7 @@ public class ExampleApplication {
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
             new SyncTargetFactoryFromDI(
                 tokenStorage,
-                settings,
+                () -> settings,
                 () -> syncTarget
             )
         );

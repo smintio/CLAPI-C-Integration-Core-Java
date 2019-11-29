@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import com.pivovarit.function.ThrowingSupplier;
 import com.pivovarit.function.exception.WrappedException;
@@ -201,7 +202,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private final IAuthTokenStorage _authTokenStorage;
-    private final ISettingsModel _settings;
+    private final Provider<ISettingsModel> _settings;
     private final ISmintIoAuthenticator _authenticator;
     private final OkHttpClient _httpClient;
     private MetadataApi _metadataApi;
@@ -212,7 +213,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
     @Inject
     public SmintIoApiClientImpl(
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final IAuthTokenStorage authTokenStorage,
         final ISmintIoAuthenticator authenticator,
         final OkHttpClient httpClient,
@@ -377,7 +378,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      * @return the settings or {@code null} as it has been provided to the constructor.
      */
     public ISettingsModel getSettings() {
-        return this._settings;
+        return this._settings.get();
     }
 
 

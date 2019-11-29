@@ -112,19 +112,15 @@ public class SmintIoApiForScribe extends DefaultApi20 {
 
 
     /**
-     * Provides the singleton instance and returns it.
+     * Creates a new singleton instance with the new provided settings.
      *
      * @param settings the settings to use, where to read the OAuth success redirection URL from.
-     * @return the singleton instance, never {@code null}.
      */
-    public static SmintIoApiForScribe createSingleton(final ISettingsModel settings) {
-
-        if (_instance == null) {
-            Objects.requireNonNull(settings, "No settings have been made available.");
-            _instance = new SmintIoApiForScribe(settings.getTenantId());
-        }
-
-        return _instance;
+    public static void createSingleton(final ISettingsModel settings) {
+        // Scribe uses "singletons" but the singleton depends on settings.
+        // hence a new one is created if needed.
+        Objects.requireNonNull(settings, "No settings have been made available.");
+        _instance = new SmintIoApiForScribe(settings.getTenantId());
     }
 
 

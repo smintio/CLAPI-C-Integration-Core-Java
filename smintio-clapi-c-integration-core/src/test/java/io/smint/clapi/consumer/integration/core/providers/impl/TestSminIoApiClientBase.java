@@ -56,8 +56,10 @@ public abstract class TestSminIoApiClientBase {
 
 
     public SmintIoApiClientImpl createApiClient(final String[] importLanguages) {
+
+        final ISettingsModel mySettings = this.createSettings(importLanguages);
         return new SmintIoApiClientImpl(
-            this.createSettings(importLanguages),
+            () -> mySettings,
             new AuthTokenMemoryStorage(),
             (settings, authTokenStorage) -> null,
             null,

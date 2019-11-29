@@ -59,7 +59,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
 public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements ISmintIoOAuthAuthorizer {
 
 
-    private final ISettingsModel _settings;
+    private final Provider<ISettingsModel> _settingsProvider;
     private final IAuthTokenStorage _tokenStorage;
     private String _oAuthApiSecret;
     private OAuth20Service _service;
@@ -70,7 +70,7 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
      * @param settings     the settings to use for the authorizer, where to read OAuth redirect target URL from.
      * @param tokenStorage the token storage to use for newly created access token data.
      */
-    public SmintIoOAuthAuthorizer(final ISettingsModel settings, final IAuthTokenStorage tokenStorage) {
+    public SmintIoOAuthAuthorizer(final Provider<ISettingsModel> settings, final IAuthTokenStorage tokenStorage) {
         this(settings, tokenStorage, () -> new OkHttpClient());
     }
 
@@ -85,12 +85,12 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
      */
     @Inject
     public SmintIoOAuthAuthorizer(
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final IAuthTokenStorage tokenStorage,
         final Provider<OkHttpClient> httpClientProvider
     ) {
         super(httpClientProvider);
-        this._settings = settings;
+        this._settingsProvider = settings;
         this._tokenStorage = tokenStorage;
 
         Objects.requireNonNull(settings, "No OAuth settings have been provided!");
@@ -101,18 +101,22 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
     @Override
     public URL createAuthorizationUrl() throws SmintIoAuthenticatorException {
 
-        this.validateForOAuth(this._settings);
-        SmintIoApiForScribe.createSingleton(this._settings);
+        final ISettingsModel settings = this._settingsProvider.get();
+        this.validateForOAuth(settings);
+
+        // Scribe uses "singletons" but the singleton depends on settings.
+        // hence a new one is created if needed.
+        SmintIoApiForScribe.createSingleton(settings);
 
         this._oAuthApiSecret = "secret-" + new Random().nextInt(999_999);
 
 
         // see:
         // https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java
-        this._service = new ServiceBuilder(this._settings.getOAuthClientId())
-            .apiSecret(this._settings.getOAuthClientSecret())
+        this._service = new ServiceBuilder(settings.getOAuthClientId())
+            .apiSecret(settings.getOAuthClientSecret())
             .defaultScope(SMINTIO_OAUTH_SCOPE)
-            .callback(this._settings.getOAuthLocalUrlReceivingAccessData().toExternalForm())
+            .callback(settings.getOAuthLocalUrlReceivingAccessData().toExternalForm())
             .build(SmintIoApiForScribe.instance());
 
 
@@ -179,8 +183,9 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
             );
         }
 
-        this.validateForOAuth(this._settings);
-        SmintIoApiForScribe.createSingleton(this._settings);
+        final ISettingsModel settings = this._settingsProvider.get();
+        this.validateForOAuth(settings);
+        SmintIoApiForScribe.createSingleton(settings);
 
         try {
             final OAuth2AccessToken accessToken = this._service.getAccessToken(urlParameters.get("code")[0]);

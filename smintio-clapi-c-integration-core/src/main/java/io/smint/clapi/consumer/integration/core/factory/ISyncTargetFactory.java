@@ -54,14 +54,14 @@ public interface ISyncTargetFactory {
 
 
     /**
-     * creates a settings provider to deliver the settings for the synchronization process.
+     * return the current settings for the synchronization process, which may have changed in the meantime.
      *
      * <p>
-     * since the settings hardly change, the same provider, delivering the same settings all the time seems to be
-     * advisable.
+     * This function is called very, very often. So please use some form of caching to check, whether the data really
+     * have changed from one call to another. Although the settings hardly change, they might do.
      * </p>
      *
-     * @return returns the same settings on each request.
+     * @return returns the currently valid settings on each request.
      */
     ISettingsModel getSettings();
 
