@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import javax.inject.Inject;
 import com.pivovarit.function.ThrowingSupplier;
 import com.pivovarit.function.exception.WrappedException;
 
+import io.github.resilience4j.retry.IntervalFunction;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.retry.RetryRegistry;
@@ -99,11 +99,15 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     /**
      * The amount of milliseconds to wait before a new try to call the Smint.io API is performed.
      *
+     * <p>
+     * The waiting duration between next try is doubled on each retry, this is the initial value in milli seconds.
+     * </p>
+     *
      * <pre>
      *     {@code RETRY_WAIT_FOR_NEXT_RETRY} = {@value #RETRY_WAIT_FOR_NEXT_RETRY}
      * </pre>
      */
-    public static final int RETRY_WAIT_FOR_NEXT_RETRY = 5;
+    public static final int RETRY_WAIT_FOR_NEXT_RETRY = 2000;
 
 
     /**
@@ -190,7 +194,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     private static final RetryRegistry RETRY_REGISTRY = RetryRegistry.of(
         RetryConfig.custom()
             .maxAttempts(RETRY_MAX_ATTEMPTS)
-            .waitDuration(Duration.ofMillis(RETRY_WAIT_FOR_NEXT_RETRY))
+            .intervalFunction(IntervalFunction.ofExponentialBackoff(RETRY_WAIT_FOR_NEXT_RETRY, 2))
             .retryExceptions(Exception.class, ApiException.class)
             .build()
     );
