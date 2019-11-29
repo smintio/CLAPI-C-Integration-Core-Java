@@ -16,7 +16,7 @@ buildscript {
         // since JDK 1.9, the major version is > 1 (eg: 9)
         isJava8Build = isCiCdBuild || isJava8Compiler
 
-        majorVersion = 0
+        majorVersion = 1
     }
     repositories {
         repositories {
@@ -52,7 +52,7 @@ apply plugin: "eclipse"
 apply plugin: "com.github.b3er.local.properties"
 
 group = "io.smint"
-version = "${majorVersion}.0.5"
+version = "${majorVersion}.5.0"
 
 
 sourceCompatibility = 1.8
@@ -142,7 +142,7 @@ subprojects { proj ->
             "baseDir": proj.file("src/"),
         ]
         toolVersion = "8.25"
-        // ignoreFailures = true
+        ignoreFailures = true
     }
 
 

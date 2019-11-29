@@ -101,7 +101,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
             this._authorizer.refreshSmintIoToken(settings, authTokenStorage);
             return this;
 
-        } catch (final SmintIoAuthenticatorException | RuntimeException ignore) {
+        } catch (final RuntimeException ignore) {
             // ignore, as full OAuth process will be tried instead.
         }
 
@@ -117,7 +117,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
             (urlParams) -> {
                 try {
                     this._authorizer.analyzeReceivedAuthorizationData(urlParams);
-                } catch (final SmintIoAuthenticatorException | RuntimeException excp) {
+                } catch (final RuntimeException excp) {
                     authorizerFailedException[0] = excp;
                 } finally {
                     synchronized (semaphore) {
@@ -215,10 +215,10 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
      * <li>Linux with a Desktop - helper {@code xdg-open}</li>
      * </ul>
      *
-     * @param url
+     * @param url the browser will open this URL initially. if {@code null}, no browser will be opened.
+     * @return {@code this}
      * @throws IOException        see {@link Runtime#exec(String)}
      * @throws URISyntaxException if conversion to {@link URI} failed with {@link URL#toURI()}.
-     * @see https://stackoverflow.com/questions/5226212/how-to-open-the-default-webbrowser-using-java
      */
     public SystemBrowserAuthenticator openSystemBrowser(final URL url) throws IOException, URISyntaxException {
 

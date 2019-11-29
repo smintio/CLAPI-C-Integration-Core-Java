@@ -31,7 +31,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 
 
 /**
- * A factory to hold all synchronization target specific implementation classes as precreated instances.
+ * A factory to hold all synchronization target specific implementation classes as pre-created instances.
  *
  * <p>
  * This class can be used with Java dependency injection to provide the required classes. Any dependency injection
@@ -39,23 +39,6 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  * instance does not need to be created utilizing dependency injection. It can be used as is and all necessary instances
  * passed to the constructor.
  * </p>
- *
- * <h2>Example with <a href="https://github.com/google/guice">Google's Guice</a></h2>
- *
- * <pre>
- * public class SyncTargetModule extends AbstractModule {
- *     &#64;Override
- *     protected void configure() {
- *
- *         bind(ISyncTarget.class).to(MySyncTargetImplementation.class);
- *         bind(ISettingsProvider.class).to(MySettingsProviderImplementation.class).in(Singleton.class);
- *         bind(IAuthTokenProvider.class).to(MyAuthTokenProviderImplementation.class).in(Singleton.class);
- *
- *         bind(ISyncFactory.class).to(SyncFactoryFromDependencyInjection.class).in(Singleton.class);
- *         bind(ISmintIoSynchronization.class).to(SmintIoSynchronization.class).in(Singleton.class);
- *     }
- * }
- * </pre>
  *
  * <h2>Example without any dependency injection</h2>
  * <p>
@@ -77,7 +60,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
 
     private final IAuthTokenStorage _authTokenProvider;
     private final ISyncJobDataStorage _jobDataStorage;
-    private final ISettingsModel _settings;
+    private final Provider<ISettingsModel> _settingsProvider;
     private final Provider<ISyncTarget> _syncTargetProvider;
 
 
@@ -91,7 +74,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
     @Inject
     public SyncTargetFactoryFromDI(
         final IAuthTokenStorage authTokenProvider,
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final Provider<ISyncTarget> syncTargetProvider
     ) {
         this(authTokenProvider, settings, syncTargetProvider, null);
@@ -104,16 +87,17 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      * @param authTokenProvider  already created and available authentication token provider
      * @param settings           already available settings provider
      * @param syncTargetProvider a sync target provider
+     * @param syncJobDataStorage a storage to read from and write job data to
      */
     @Inject
     public SyncTargetFactoryFromDI(
         final IAuthTokenStorage authTokenProvider,
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final Provider<ISyncTarget> syncTargetProvider,
         final ISyncJobDataStorage syncJobDataStorage
     ) {
         this._authTokenProvider = authTokenProvider;
-        this._settings = settings;
+        this._settingsProvider = settings;
         this._syncTargetProvider = syncTargetProvider;
         this._jobDataStorage = syncJobDataStorage;
     }
@@ -133,7 +117,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      */
     @Override
     public ISettingsModel getSettings() {
-        return this._settings;
+        return this._settingsProvider.get();
     }
 
 

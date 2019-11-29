@@ -28,7 +28,7 @@ package io.smint.clapi.consumer.integration.core.exceptions;
  * wrapped into this class in order to preserve the full stack and provide best possible debug information.
  * </p>
  */
-public class SmintIoAuthenticatorException extends Exception {
+public class SmintIoAuthenticatorException extends RuntimeException {
 
 
     private static final long serialVersionUID = 6271619852259353633L;

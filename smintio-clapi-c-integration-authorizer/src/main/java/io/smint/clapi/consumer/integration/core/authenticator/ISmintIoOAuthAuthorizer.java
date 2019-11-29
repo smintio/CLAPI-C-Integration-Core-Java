@@ -22,7 +22,6 @@ package io.smint.clapi.consumer.integration.core.authenticator;
 import java.net.URL;
 import java.util.Map;
 
-import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 
@@ -61,9 +60,10 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  *
  * <p>
  * A listener on an address reachable by the user's browser, need to be in place. This listener must read all URL data
- * and pass these to {@link #analyzeReceivedAuthorizationData(ISettingsModel, IAuthTokenStorage, Map)}. Utilizing a
- * servlet, the parameters are available calling {@link javax.servlet.http.HttpServletRequest#getParameterMap()}. Hence
- * such a listener might look like this, fetching the Smint.io instances from global scope, somehow.
+ * and pass these to {@link #analyzeReceivedAuthorizationData(Map)}. Utilizing a servlet, the parameters are available
+ * calling <a href="https://javaee.github.io/javaee-spec/javadocs/javax/servlet/ServletRequest.html#getParameterMap--"
+ * >{@code javax.servlet.http.HttpServletRequest#getParameterMap()}</a>. Hence such a listener might look like this,
+ * fetching the Smint.io instances from global scope, somehow.
  * </p>
  *
  * <pre>
@@ -148,7 +148,9 @@ public interface ISmintIoOAuthAuthorizer extends ISmintIoAuthenticator {
      * </p>
      *
      * @param urlParameters the parameters received by the redirection URL listener. Using servlets, the parameters can
-     *                      be easily fetched by using {@link javax.servlet.http.HttpServletRequest#getParameterMap()}
+     *                      be easily fetched by using <a href=
+     *                      "https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/HttpServletRequest.html"
+     *                      >{@code javax.servlet.http.HttpServletRequest#getParameterMap()}</a>.
      * @return A valid URL to display to the user, which need to open it in the browser.
      * @throws SmintIoAuthenticatorException in case no client ID or client secret are available, invalid, have expired
      *                                       or the Smint.io API rejected the authorization request, or network is down

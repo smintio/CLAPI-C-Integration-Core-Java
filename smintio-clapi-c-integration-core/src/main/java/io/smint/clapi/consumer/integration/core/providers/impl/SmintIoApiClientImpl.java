@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +19,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import com.pivovarit.function.ThrowingSupplier;
 import com.pivovarit.function.exception.WrappedException;
 
+import io.github.resilience4j.retry.IntervalFunction;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.retry.RetryRegistry;
@@ -99,11 +100,15 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     /**
      * The amount of milliseconds to wait before a new try to call the Smint.io API is performed.
      *
+     * <p>
+     * The waiting duration between next try is doubled on each retry, this is the initial value in milli seconds.
+     * </p>
+     *
      * <pre>
      *     {@code RETRY_WAIT_FOR_NEXT_RETRY} = {@value #RETRY_WAIT_FOR_NEXT_RETRY}
      * </pre>
      */
-    public static final int RETRY_WAIT_FOR_NEXT_RETRY = 5;
+    public static final int RETRY_WAIT_FOR_NEXT_RETRY = 2000;
 
 
     /**
@@ -190,14 +195,14 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     private static final RetryRegistry RETRY_REGISTRY = RetryRegistry.of(
         RetryConfig.custom()
             .maxAttempts(RETRY_MAX_ATTEMPTS)
-            .waitDuration(Duration.ofMillis(RETRY_WAIT_FOR_NEXT_RETRY))
+            .intervalFunction(IntervalFunction.ofExponentialBackoff(RETRY_WAIT_FOR_NEXT_RETRY, 2))
             .retryExceptions(Exception.class, ApiException.class)
             .build()
     );
 
 
     private final IAuthTokenStorage _authTokenStorage;
-    private final ISettingsModel _settings;
+    private final Provider<ISettingsModel> _settings;
     private final ISmintIoAuthenticator _authenticator;
     private final OkHttpClient _httpClient;
     private MetadataApi _metadataApi;
@@ -208,7 +213,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
     @Inject
     public SmintIoApiClientImpl(
-        final ISettingsModel settings,
+        final Provider<ISettingsModel> settings,
         final IAuthTokenStorage authTokenStorage,
         final ISmintIoAuthenticator authenticator,
         final OkHttpClient httpClient,
@@ -373,7 +378,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      * @return the settings or {@code null} as it has been provided to the constructor.
      */
     public ISettingsModel getSettings() {
-        return this._settings;
+        return this._settings.get();
     }
 
 
@@ -614,9 +619,19 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
 
 
-        final ISmintIoAsset[] result = syncLptQueryResult.getLicensePurchaseTransactions()
+        // convert the assets and filter for assets to be ignored or other invalid assets
+        final List<SyncLicensePurchaseTransaction> validAssets = syncLptQueryResult.getLicensePurchaseTransactions()
             .stream()
             .filter((lpt) -> lpt != null && lpt.getContentElement() != null)
+            .collect(Collectors.toList());
+
+        // are there any valid assets that are not to be ignored for sync?
+        final boolean hasAnyAssets = validAssets.size() > 0;
+
+        // convert to synchronizable assets
+        final ISmintIoAsset[] result = validAssets
+            .stream()
+            .filter((lpt) -> lpt.getCanBeSynced() == null || lpt.getCanBeSynced().booleanValue())
             .map((lpt) -> this.convertApiAsset(lpt, includeCoundAssets, includeBinaryUpdates))
             .filter((asset) -> asset != null)
             .toArray(ISmintIoAsset[]::new);
@@ -624,7 +639,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         return new SmintIoApiDataWithContinuationImpl<ISmintIoAsset[]>()
             .setResult(result)
-            .setContinuationUuid(syncLptQueryResult.getContinuationUuid());
+            .setContinuationUuid(syncLptQueryResult.getContinuationUuid())
+            .setHasAssets(hasAnyAssets);
     }
 
 

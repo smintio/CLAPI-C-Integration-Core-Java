@@ -41,7 +41,7 @@
  * new SmintIoSynchronization(
  *     new SyncTargetFactoryFromDI(
  *         new MyAuthTokenStorage(),
- *         new MySettings(),
+ *         new MySettingsProvider(),
  *         () -&gt; new MySyncTargetImplementation()
  *     )
  * )

@@ -297,7 +297,7 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getTargetBinaryAssetUuid(final String assetUuid, final String binaryUuid) {
+    public String getTargetAssetBinaryUuid(final String assetUuid, final String binaryUuid) {
         return this._mapSmintIoIdToMyId.get("asset-" + assetUuid + "_" + binaryUuid);
     }
 

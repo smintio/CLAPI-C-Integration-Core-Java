@@ -204,8 +204,8 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISmintIoDownloadProvider.class).to(SmintIoDownloadProviderImpl.class).in(Singleton.class);
 
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
+        this.bind(ISettingsModel.class).toProvider(() -> this._syncTargetFactory.getSettings());
 
-        this.bind(ISettingsModel.class).toInstance(this._syncTargetFactory.getSettings());
         this.bind(IAuthTokenStorage.class).toInstance(this._syncTargetFactory.getAuthTokenStorage());
     }
 }

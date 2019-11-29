@@ -40,6 +40,8 @@ import com.pusher.client.util.HttpAuthorizer;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException.AuthenticatorError;
 import io.smint.clapi.consumer.integration.core.services.IPushNotificationService;
 
 
@@ -207,11 +209,52 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
     private void validateSettings(final ISettingsModel settings) {
 
+        if (settings == null) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "No settings are available"
+            );
+        }
+
+        if (settings.getTenantId() == null || settings.getTenantId().isEmpty()) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "The tenant ID is missing"
+            );
+        }
+
+        if (settings.getImportLanguages() == null || settings.getImportLanguages().length == 0) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "The import languages are missing"
+            );
+        }
+
+        if (settings.getChannelId() <= 0) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "The channel ID is invalid: " + settings.getChannelId()
+            );
+        }
     }
+
 
     private void validateAuthToken(final IAuthTokenModel authToken) {
 
-    }
+        if (authToken == null) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "No access token for Smint.io are available"
+            );
+        }
 
+
+        if (!authToken.isSuccess() || authToken.getAccessToken() == null || authToken.getAccessToken().isEmpty()) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "The Smint.io access token is missing"
+            );
+        }
+    }
 
 }

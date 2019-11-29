@@ -543,7 +543,13 @@ public interface ISyncTarget {
 
 
     /**
-     * Import the provided list of content providers.
+     * Import the provided list of languages a license for an asset is restricted to.
+     *
+     * <p>
+     * The usage of assets may be limited to certain languages or certain languages may be excluded. Smint.io keeps a
+     * list of all languages ever used within licensing on the platform as meta data. This list is provided here and
+     * linked to if such a restriction is applicable.
+     * </p>
      *
      * <p>
      * For general information about meta data import, see <a href="#import-meta-information">Import Meta Data
@@ -650,7 +656,7 @@ public interface ISyncTarget {
      * such cases.
      * </p>
      *
-     * @param contentProviders the list of content providers used with Smint.io.
+     * @param licenseLanguages the list of languages a license may restrict the usage of assets to.
      */
     void importLicenseLanguages(ISmintIoMetadataElement[] licenseLanguages);
 
@@ -856,7 +862,7 @@ public interface ISyncTarget {
      * @see #getContentProviderKey(String)
      * @see ISyncAsset
      */
-    String getTargetBinaryAssetUuid(String assetUuid, String binaryUuid);
+    String getTargetAssetBinaryUuid(String assetUuid, String binaryUuid);
 
 
     /**
