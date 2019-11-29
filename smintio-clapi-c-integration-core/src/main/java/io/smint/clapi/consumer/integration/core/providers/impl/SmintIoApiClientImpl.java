@@ -623,7 +623,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
         return new SmintIoApiDataWithContinuationImpl<ISmintIoAsset[]>()
-            .setResult(result);
+            .setResult(result)
+            .setContinuationUuid(syncLptQueryResult.getContinuationUuid());
     }
 
 
