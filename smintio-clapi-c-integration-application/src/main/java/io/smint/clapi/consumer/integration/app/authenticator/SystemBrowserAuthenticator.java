@@ -101,7 +101,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
             this._authorizer.refreshSmintIoToken(settings, authTokenStorage);
             return this;
 
-        } catch (final SmintIoAuthenticatorException | RuntimeException ignore) {
+        } catch (final RuntimeException ignore) {
             // ignore, as full OAuth process will be tried instead.
         }
 
@@ -117,7 +117,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
             (urlParams) -> {
                 try {
                     this._authorizer.analyzeReceivedAuthorizationData(urlParams);
-                } catch (final SmintIoAuthenticatorException | RuntimeException excp) {
+                } catch (final RuntimeException excp) {
                     authorizerFailedException[0] = excp;
                 } finally {
                     synchronized (semaphore) {
