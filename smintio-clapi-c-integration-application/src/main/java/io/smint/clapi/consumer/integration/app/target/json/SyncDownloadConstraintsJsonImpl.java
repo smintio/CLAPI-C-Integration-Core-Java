@@ -34,21 +34,21 @@ public class SyncDownloadConstraintsJsonImpl extends BaseSyncDataTypeJson implem
 
     @Override
     public ISyncDownloadConstraints setMaxUsers(final Integer maxUsers) {
-        this.putMetaDataValue(JSON_KEY__MAX_USERS, maxUsers != null && maxUsers > 0 ? maxUsers : null);
+        this.putMetaDataValue(JSON_KEY__MAX_USERS, maxUsers);
         return this;
     }
 
 
     @Override
     public ISyncDownloadConstraints setMaxDownloads(final Integer maxDownloads) {
-        this.putMetaDataValue(JSON_KEY__MAX_DOWNLOADS, maxDownloads != null && maxDownloads > 0 ? maxDownloads : null);
+        this.putMetaDataValue(JSON_KEY__MAX_DOWNLOADS, maxDownloads);
         return this;
     }
 
 
     @Override
     public ISyncDownloadConstraints setMaxReuses(final Integer maxReuses) {
-        this.putMetaDataValue(JSON_KEY__MAX_REUSE, maxReuses != null && maxReuses > 0 ? maxReuses : null);
+        this.putMetaDataValue(JSON_KEY__MAX_REUSE, maxReuses);
         return this;
     }
 }
