@@ -154,9 +154,20 @@ code style *Clean-up*
 are in subdirectory `config/checkstyle`
 
 
+Topics of interest
+------------------
+
+### Study the Smint.io Integration Guide
+
+Please also study the Smint.io Integration Guide which has been provided to you when you signed up as a Smint.io Solution Partner.
 
 
-### Contributors
+### That's it!
+
+If there is any issues do not hesitate to drop us an email to [support@smint.io](mailto:support@smint.io) and we'll be happy to help!
+
+Contributors
+------------
 
 - Nikolaus Rosenmayr, Smint.io GmbH
 - Reinhard Holzner, Smint.io GmbH
