@@ -162,7 +162,7 @@ public class ExampleApplication {
 
         smintIoSync.initialSync(true);
 
-        // sync a second time to detect errors to updated assets
+        // just for testing, sync a second time to also test asset updates
         smintIoSync.initialSync(true);
 
 

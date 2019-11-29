@@ -112,7 +112,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
         // create and start web server
         final Exception[] authorizerFailedException = new Exception[1];
         final Object semaphore = new Object();
-        final AuthenticatorHttpServerCompanion webSever = new AuthenticatorHttpServerCompanion(
+        final AuthenticatorHttpServerCompanion webServer = new AuthenticatorHttpServerCompanion(
             settings,
             (urlParams) -> {
                 try {
@@ -128,7 +128,7 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
         );
 
         try {
-            webSever.start();
+            webServer.start();
 
         } catch (final IOException excp) {
 
@@ -172,9 +172,9 @@ public class SystemBrowserAuthenticator implements ISmintIoAuthenticator {
         }
 
 
-        if (webSever.isAlive()) {
+        if (webServer.isAlive()) {
             LOG.finer("Terminating companion web server.");
-            webSever.stop();
+            webServer.stop();
         }
 
         if (authorizerFailedException[0] != null) {
