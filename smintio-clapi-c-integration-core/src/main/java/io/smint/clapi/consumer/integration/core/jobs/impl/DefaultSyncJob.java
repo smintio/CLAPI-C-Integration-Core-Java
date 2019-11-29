@@ -200,6 +200,8 @@ public class DefaultSyncJob implements ISyncJob {
      * </p>
      *
      * @param settings the settings data to check.
+     * @return a validate version of the settings, to be used for a single run only. The import languages might have
+     *         been changed.
      * @throws SmintIoAuthenticatorException in case an invalid settings value has been provided.
      * @throws NullPointerException          if parameter {@code settings} is {@code null}
      */

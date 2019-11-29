@@ -59,7 +59,7 @@ public class SmintIoApiDataWithContinuationImpl<T> implements ISmintIoApiDataWit
     /**
      * Sets a new flag to indicate the sync job must continue with next batch/chunk.
      *
-     * @param newUuid the new value to set.
+     * @param hasAssets the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     public SmintIoApiDataWithContinuationImpl<T> setHasAssets(final boolean hasAssets) {
