@@ -22,7 +22,6 @@ package io.smint.clapi.consumer.integration.core.authenticator;
 import java.net.URL;
 import java.util.Map;
 
-import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 
