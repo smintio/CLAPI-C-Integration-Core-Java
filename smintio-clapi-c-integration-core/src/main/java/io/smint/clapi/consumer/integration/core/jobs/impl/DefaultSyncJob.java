@@ -472,7 +472,7 @@ public class DefaultSyncJob implements ISyncJob {
                             final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
 
                             // check for existing asset
-                            final String targetAssetUuid = this._syncTarget.getTargetBinaryAssetUuid(
+                            final String targetAssetUuid = this._syncTarget.getTargetAssetBinaryUuid(
                                 binaryTargetAsset.getUuid(),
                                 binaryTargetAsset.getBinaryUuid()
                             );

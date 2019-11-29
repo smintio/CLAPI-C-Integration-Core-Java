@@ -862,7 +862,7 @@ public interface ISyncTarget {
      * @see #getContentProviderKey(String)
      * @see ISyncAsset
      */
-    String getTargetBinaryAssetUuid(String assetUuid, String binaryUuid);
+    String getTargetAssetBinaryUuid(String assetUuid, String binaryUuid);
 
 
     /**
