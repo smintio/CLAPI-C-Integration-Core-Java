@@ -158,9 +158,9 @@ are in subdirectory `config/checkstyle`
 
 ### Contributors
 
-- Nikolaus Rosenmayr, Smint.io Smarter Interfaces GmbH
-- Reinhard Holzner, Smint.io Smarter Interfaces GmbH
+- Nikolaus Rosenmayr, Smint.io GmbH
+- Reinhard Holzner, Smint.io GmbH
 
-© 2019 [Smint.io Smarter Interfaces GmbH](https://www.smint.io)
+© 2019 [Smint.io GmbH](https://www.smint.io)
 
 Licensed under the [MIT License](https://opensource.org/licenses/MIT)
