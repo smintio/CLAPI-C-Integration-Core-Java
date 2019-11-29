@@ -149,9 +149,6 @@ public class BinaryAssetDownloader implements Provider<File> {
                         + url
                 );
 
-                // ensure the file will be deleted in case no clean up is possible, because the JVM is killed.
-                this._targetFile.deleteOnExit();
-
                 return this._targetFile;
 
             } catch (final IOException excp) {
