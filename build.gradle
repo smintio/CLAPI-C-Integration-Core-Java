@@ -142,7 +142,7 @@ subprojects { proj ->
             "baseDir": proj.file("src/"),
         ]
         toolVersion = "8.25"
-        // ignoreFailures = true
+        ignoreFailures = true
     }
 
 
