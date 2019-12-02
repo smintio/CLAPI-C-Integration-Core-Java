@@ -35,6 +35,11 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
  */
 public class AuthTokenJsonConverter extends ModelDataJsonConverter<IAuthTokenModel, AuthTokenImpl> {
 
+    public AuthTokenJsonConverter() {
+        this(new Gson());
+    }
+
+
     @Inject
     public AuthTokenJsonConverter(final Gson gson) {
         super(gson);
