@@ -18,12 +18,15 @@ downstream target system.
 
 <h2>What to implement to make it fly with a synchronization target</h2>
 <p>
-To make it work with a sync target, you need to implement the following interfaces:
+To make it work with a sync target, you need to implement the interfaces
+from the package {@link io.smint.clapi.consumer.integration.core.target}.
+Although you will need to implement all of these interfaces, the most
+important of this package are:
 </p>
 <ul>
 <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}</li>
 <li>{@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenProvider}</li>
-<li>{@link io.smint.clapi.consumer.integration.core.configuration.ISettingsProvider}</li>
+<li>{@link io.smint.clapi.consumer.integration.core.configuration.ISettingsModel}</li>
 </ul>
 
 <h2>How to provide your implementation to the sync library: Factory or dependency injection</h2>
@@ -44,8 +47,8 @@ Initialization is performed utilizing class {@link io.smint.clapi.consumer.integ
 <pre>
 ISmintIoSynchronization smintSync = new SmintIoSynchronization(
     new SyncFactoryFromDI(
-        new MyAuthTokenProviderImplementation(),
-        new MySettingsProviderImplementation(),
+        new MyAuthTokenStorageImplementation(),
+        new MySettingsModelProvider(),
         () -&gt; new MySyncTargetImplementation()
     )
 );

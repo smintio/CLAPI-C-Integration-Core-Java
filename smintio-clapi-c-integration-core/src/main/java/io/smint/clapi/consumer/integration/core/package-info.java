@@ -45,7 +45,7 @@
  *         () -&gt; new MySyncTargetImplementation()
  *     )
  * )
- *     .startSchedule()
+ *     .start()
  *     .initialSync(false);
  * </pre>
  *
@@ -55,9 +55,16 @@
  *
  * <pre>
  * final IAuthTokenStorage authTokenStorage = new AuthTokenFileStorage(
- *     new AuthTokenJsonConverter(new Gson()),
+ *     new AuthTokenJsonConverter(),
  *     new File("./auth-token.json")
  * )
  * </pre>
+ *
+ * <p>
+ * The provider for settings heavily depends on the target system. Therefore there is no default implementation
+ * available. Since the settings are ready very often from the provider, each implementation should use some sort of
+ * caching when reading the data from slow IO.
+ * </p>
+ *
  */
 package io.smint.clapi.consumer.integration.core;
