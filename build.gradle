@@ -62,12 +62,6 @@ tasks.withType(JavaCompile) {
 }
 
 
-// add SNAPSHOT to version number if not build via CI/CD
-if (!isCiCdBuild && !Boolean.valueOf(System.getenv("IS_RELEASE_PUBLISH"))) {
-    version += "-SNAPSHOT"
-}
-
-
 test {
     useJUnitPlatform()
 }
