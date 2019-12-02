@@ -11,6 +11,135 @@ Web2Print, WCM or other systems, written in Java.
 
 Current version is: 1.5.0
 
+see documentation: https://smintio.github.io/CLAPI-C-Integration-Core-Java/
+
+
+Implemented features
+--------------------
+
+- Acquiring access and refresh token from Smint.io
+- Synchronization of all required Smint.io generic metadata
+- Synchronization of all required content and license metadata
+- Support for compound assets (aka „multipart“ assets)
+- Handling of updates to license purchase transactions that have already been synchronized before
+- Live synchronization whenever an asset is being purchased on Smint.io
+- Regular synchronization
+- Exponential backoff API consumption pattern
+
+
+
+
+Adding as dependency to your project
+------------------------------------
+
+The artifacts are available from Microsoft's Azure service. The following
+libraries are available. Basically, what you will need is
+<em>smintio-clapi-c-integration-core</em>. If some support for getting
+OAuth authorization with Smint.io right, you may additional use
+<em>smintio-clapi-c-integration-authorizer</em>.
+
+* core library: <em>smintio-clapi-c-integration-core</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-core/1/))
+
+  It provides all tasks to perform the synchronization with Smint.io. But
+  you need to implement OAuth authorization with Smint.io API.
+
+* OAuth helper: <em>smintio-clapi-c-integration-authorizer</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-authorizer/1/))
+
+  This will help, to implement OAuth authorization with Smint.io API.
+
+
+* Application companion: <em>smintio-clapi-c-integration-application</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-application/1/))
+
+  Contains an example application and a helper web server to ask the user
+  to perform the necessary manual authorization with OAuth.
+  If your application is a stand-alone application, this might be useful.
+
+
+* EJB special overlay (untested): <em>smintio-clapi-c-integration-j2ee</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-j2ee/1/))
+
+  In case this library will be used with an
+  [EJB](https://en.wikipedia.org/wiki/Enterprise_JavaBeans) application,
+  some variants of utility classes need to be replaced. The replacement
+  implementation of these classes are part of this library here.
+
+
+
+### Using gradle
+
+Using gradle, you may add the following to your `build.gradle` file to use
+the core library.
+
+```
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+
+        maven {
+            url "https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1"
+            credentials {
+                username "AZURE_ARTIFACTS"
+                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+            }
+        }
+    }
+
+
+    dependencies {
+         compile ("io.smint:smintio-clapi-c-integration-core:[1.5.0,2.0.0)")
+         compile ("io.smint:smintio-clapi-c-integration-authorizer:[1.5.0,2.0.0)")
+    }
+
+```
+
+
+### Using Maven
+
+Using maven, you may add the following to your `pom.xml` file to use
+the core library.
+
+```xml
+
+    <repositories>
+        <!-- ... -->
+        <repository>
+            <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- ... -->
+        <dependency>
+            <groupId>io.smint</groupId>
+            <artifactId>smintio-clapi-c-integration-core</artifactId>
+            <version>[1.5.0,2.0.0)</version>
+        </dependency>
+        <dependency>
+            <groupId>io.smint</groupId>
+            <artifactId>smintio-clapi-c-integration-authorizer</artifactId>
+            <version>[1.5.0,2.0.0)</version>
+        </dependency>
+
+    </dependencies>
+
+```
+
+
+
+
+
 
 Requirements
 ------------
@@ -90,19 +219,6 @@ the files and changes differ:
     </repository>
     ```
 
-
-
-Implemented features
---------------------
-
-- Acquiring access and refresh token from Smint.io
-- Synchronization of all required Smint.io generic metadata
-- Synchronization of all required content and license metadata
-- Support for compound assets (aka „multipart“ assets)
-- Handling of updates to license purchase transactions that have already been synchronized before
-- Live synchronization whenever an asset is being purchased on Smint.io
-- Regular synchronization
-- Exponential backoff API consumption pattern
 
 
 
