@@ -14,9 +14,7 @@
 
     <name>smintio-clapi-consumer-integration-j2ee</name>
     <description>
-        Base library for CLI based downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
-        Useful to implement an j2ee to sync between Smint.io platform and a
-        target DAM system.
+        Companion library to Integration Core Base library, heping integration with J2EE/EJB.
     </description>
     <url>https://www.smint.io/</url>
 

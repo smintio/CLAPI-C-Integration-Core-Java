@@ -3,9 +3,10 @@ apply plugin: "java"
 apply plugin: "maven-publish"
 
 
-description = """Base library for CLI based downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
-Useful to implement an application to sync between Smint.io platform and a
-target DAM system.
+description = """
+Sample of integrating the Smint.io Content Licensing Consumer API with your DAM,
+based on the Smint.io Content Licensing Consumer Java Integration Core
+package.
 """
 
 
