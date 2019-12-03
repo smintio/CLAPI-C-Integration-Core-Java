@@ -94,6 +94,7 @@ subprojects { proj ->
 
     apply plugin: "java"
     apply plugin: "maven"
+    apply plugin: "maven-publish"
     apply plugin: "checkstyle"
 
     // see https://stackoverflow.com/questions/42599422/warning-options-bootstrap-class-path-not-set-in-conjunction-with-source-1-7
@@ -114,6 +115,15 @@ subprojects { proj ->
         testRuntimeOnly("org.junit.vintage:junit-vintage-engine:[5.5.0,6.0)")
     }
 
+    task sourceJar(type: Jar, dependsOn: "classes") {
+        from sourceSets.main.allSource
+        classifier = "sources"
+    }
+
+    task javadocJar(type: Jar, dependsOn: "javadoc") {
+        from javadoc
+        classifier = "javadoc"
+    }
 
     // https://github.com/gradle/gradle/issues/4618
     test {
@@ -146,4 +156,32 @@ subprojects { proj ->
     javadoc.options.links.add("https://javaee.github.io/javaee-spec/javadocs/")
 
     build.finalizedBy("javadoc")
+
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+
+                artifact sourceJar
+                artifact javadocJar
+            }
+        }
+
+        // Repositories *to* which Gradle can publish artifacts
+        repositories {
+
+
+            maven {
+
+
+                url "https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1"
+                name "CLAPIC-API-Clients"
+                credentials {
+                    username hasProperty("maven_url_username") ?  property("maven_url_username") : "Azure DevOps Services"
+                    password hasProperty("maven_url_userPassword") ? property("maven_url_userPassword") : System.getenv("Azure DevOps Services_ENV_ACCESS_TOKEN")
+                }
+            }
+        }
+    }
 }
