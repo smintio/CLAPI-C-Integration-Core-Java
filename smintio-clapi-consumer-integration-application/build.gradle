@@ -10,8 +10,8 @@ target DAM system.
 
 
 dependencies {
-    compile project (":smintio-clapi-c-integration-core")
-    compile project (":smintio-clapi-c-integration-authorizer")
+    compile project (":smintio-clapi-consumer-integration-core")
+    compile project (":smintio-clapi-consumer-integration-authorizer")
     compile ("javax.inject:javax.inject:[1,2)")
     compile ("org.nanohttpd:nanohttpd:[2.2.0,3.0.0)")
 }

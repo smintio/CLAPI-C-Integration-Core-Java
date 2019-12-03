@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.smint</groupId>
-        <artifactId>smintio-clapi-c-integration</artifactId>
+        <artifactId>smintio-clapi-consumer-integration</artifactId>
         <version>1.5.0</version>
     </parent>
 
-    <artifactId>smintio-clapi-c-integration-j2ee</artifactId>
+    <artifactId>smintio-clapi-consumer-integration-j2ee</artifactId>
     <packaging>jar</packaging>
 
-    <name>smintio-clapi-c-integration-j2ee</name>
+    <name>smintio-clapi-consumer-integration-j2ee</name>
     <description>
         Base library for CLI based downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
         Useful to implement an j2ee to sync between Smint.io platform and a
@@ -64,7 +64,7 @@
 
         <dependency>
             <groupId>io.smint</groupId>
-            <artifactId>smintio-clapi-c-integration-core</artifactId>
+            <artifactId>smintio-clapi-consumer-integration-core</artifactId>
             <version>[0.0.5,)</version>
         </dependency>
 

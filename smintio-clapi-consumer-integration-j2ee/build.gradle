@@ -10,7 +10,7 @@ target DAM system.
 
 
 dependencies {
-    compile project (":smintio-clapi-c-integration-core")
+    compile project (":smintio-clapi-consumer-integration-core")
     compile ("javax.inject:javax.inject:[1,2)")
 
     compileOnly ("javax.ejb:javax.ejb-api:[3.2,4.0)")

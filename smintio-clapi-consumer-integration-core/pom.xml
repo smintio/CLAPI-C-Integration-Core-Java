@@ -9,10 +9,10 @@
         <version>1.5.0</version>
     </parent>
 
-    <artifactId>smintio-clapi-c-integration-core</artifactId>
+    <artifactId>smintio-clapi-consumer-integration-core</artifactId>
     <packaging>jar</packaging>
 
-    <name>smintio-clapi-c-integration-core</name>
+    <name>smintio-clapi-consumer-integration-core</name>
     <description>
         Base library for downstream integration of Smint.io platform to Digital Asset Management (DAM) platforms.
         It can be used to access Smint.io data via classes/instances rather than raw RESTful API.
