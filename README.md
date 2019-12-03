@@ -34,32 +34,32 @@ Adding as dependency to your project
 
 The artifacts are available from Microsoft's Azure service. The following
 libraries are available. Basically, what you will need is
-<em>smintio-clapi-c-integration-core</em>. If some support for getting
+<em>smintio-clapi-consumer-integration-core</em>. If some support for getting
 OAuth authorization with Smint.io right, you may additional use
-<em>smintio-clapi-c-integration-authorizer</em>.
+<em>smintio-clapi-consumer-integration-authorizer</em>.
 
-* core library: <em>smintio-clapi-c-integration-core</em>
-  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-core/1/))
+* core library: <em>smintio-clapi-consumer-integration-core</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-core/1/))
 
   It provides all tasks to perform the synchronization with Smint.io. But
   you need to implement OAuth authorization with Smint.io API.
 
-* OAuth helper: <em>smintio-clapi-c-integration-authorizer</em>
-  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-authorizer/1/))
+* OAuth helper: <em>smintio-clapi-consumer-integration-authorizer</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-authorizer/1/))
 
   This will help, to implement OAuth authorization with Smint.io API.
 
 
-* Application companion: <em>smintio-clapi-c-integration-application</em>
-  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-application/1/))
+* Application companion: <em>smintio-clapi-consumer-integration-application</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-application/1/))
 
   Contains an example application and a helper web server to ask the user
   to perform the necessary manual authorization with OAuth.
   If your application is a stand-alone application, this might be useful.
 
 
-* EJB special overlay (untested): <em>smintio-clapi-c-integration-j2ee</em>
-  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-c-integration-j2ee/1/))
+* EJB special overlay (untested): <em>smintio-clapi-consumer-integration-j2ee</em>
+  ([JavaDoc](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-j2ee/1/))
 
   In case this library will be used with an
   [EJB](https://en.wikipedia.org/wiki/Enterprise_JavaBeans) application,
@@ -91,8 +91,8 @@ the core library.
 
 
     dependencies {
-         compile ("io.smint:smintio-clapi-c-integration-core:[1.5.0,2.0.0)")
-         compile ("io.smint:smintio-clapi-c-integration-authorizer:[1.5.0,2.0.0)")
+         compile ("io.smint:smintio-clapi-consumer-integration-core:[1.5.0,2.0.0)")
+         compile ("io.smint:smintio-clapi-consumer-integration-authorizer:[1.5.0,2.0.0)")
     }
 
 ```
@@ -123,12 +123,12 @@ the core library.
         <!-- ... -->
         <dependency>
             <groupId>io.smint</groupId>
-            <artifactId>smintio-clapi-c-integration-core</artifactId>
+            <artifactId>smintio-clapi-consumer-integration-core</artifactId>
             <version>[1.5.0,2.0.0)</version>
         </dependency>
         <dependency>
             <groupId>io.smint</groupId>
-            <artifactId>smintio-clapi-c-integration-authorizer</artifactId>
+            <artifactId>smintio-clapi-consumer-integration-authorizer</artifactId>
             <version>[1.5.0,2.0.0)</version>
         </dependency>
 

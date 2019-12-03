@@ -14,7 +14,7 @@ Todo
 1. Start-up the sync library
 
     Utilize class 
-    [SmintIoSynchronization](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html)
+    [SmintIoSynchronization](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html)
     and create an instance, providing your (proposed) required implementations:
 
     ```Java
@@ -29,14 +29,14 @@ Todo
     ```
 
 2. Implement settings provider
-  [`ISettingsModel`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html).
+  [`ISettingsModel`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html).
   Settings will be read a lot, so implement some caching technique in case
   you will read the data from the database.
 
 3. Implement storage provider for OAuth access data
-  [`IAuthTokenStorage`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenModek.html).
+  [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenModek.html).
 
-4. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
+4. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
     ```java
     public class MySyncTarget implements ISyncTarget {
 
@@ -45,5 +45,5 @@ Todo
     ```
 
 5. implement the interfaces representing meta data and asset data instances
-   see [Packages "target"](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/package-summary.html)
+   see [Packages "target"](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/package-summary.html)
 

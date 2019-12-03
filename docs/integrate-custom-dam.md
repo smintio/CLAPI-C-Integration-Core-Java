@@ -8,7 +8,7 @@ is a one-way synchronization: From Smint.io --> custom DAM.
 
 An example implementation can be viewer on github source code
 [Github project source
-code](https://github.com/smintio/CLAPI-C-Integration-Core-Java/tree/master/smintio-clapi-c-integration-application/src/main/java/io/smint/clapi/consumer/integration/app)
+code](https://github.com/smintio/CLAPI-C-Integration-Core-Java/tree/master/smintio-clapi-consumer-integration-application/src/main/java/io/smint/clapi/consumer/integration/app)
 
 
 Requirements overview
@@ -24,7 +24,7 @@ Library entry point
 -------------------
 
 The entry point for the library is the class
-[SmintIoSynchronization](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html).
+[SmintIoSynchronization](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html).
 To drive the synchronization, the *DAM* plugin needs to create an instance
 of this class and provides the custom implementations of the required
 interfaces. There is no need to keep a reference to the class, as it will be
@@ -48,8 +48,8 @@ smintIoSync.initialSync(false);
 OAuth 2.0  authentication
 ----------------------------
 
-* Supporting library: <em>smintio-clapi-c-integration-authorizer</em>
-  ([JavaDoc](smintio-clapi-c-integration-authorizer/1/),
+* Supporting library: <em>smintio-clapi-consumer-integration-authorizer</em>
+  ([JavaDoc](smintio-clapi-consumer-integration-authorizer/1/),
   [example](example-oauth.md))
 
 
@@ -67,26 +67,26 @@ be performed by an DAM administrator, but must be done manually.
 Abstraction of the target DAM system
 ------------------------------------
 
-* Supporting library: <em>smintio-clapi-c-integration-core</em>
-  ([JavaDoc](smintio-clapi-c-integration-core/1/),
+* Supporting library: <em>smintio-clapi-consumer-integration-core</em>
+  ([JavaDoc](smintio-clapi-consumer-integration-core/1/),
   [example](example-core.md))
 
 
 A synchronization process communicates with the target DAM by a well defined
-set of functions, defined in the interface [ISyncTarget](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html)
+set of functions, defined in the interface [ISyncTarget](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html)
 
 It is organised in four sections
 
 1. providing some insights about the target DAM
-   [ISyncTarget#getCapabilities()](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getCapabilities--)
+   [ISyncTarget#getCapabilities()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getCapabilities--)
 2. Importing meta data and retrieving target DAM IDs of Smint.io metadata
    keys.
 3. Importing asset data
 4. Functions to support error handling and flow control
-    * [ISyncTarget#beforeGenericMetadataSync()](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeGenericMetadataSync--)
-    * [ISyncTarget#afterGenericMetadataSync()](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#afterGenericMetadataSync--)
-    * [ISyncTarget#beforeAssetsSync()](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeAssetsSync--)
-    * [ISyncTarget#afterAssetsSync()](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#afterAssetsSync--)
+    * [ISyncTarget#beforeGenericMetadataSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeGenericMetadataSync--)
+    * [ISyncTarget#afterGenericMetadataSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#afterGenericMetadataSync--)
+    * [ISyncTarget#beforeAssetsSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeAssetsSync--)
+    * [ISyncTarget#afterAssetsSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#afterAssetsSync--)
 
  
 This is the main implementation to provide by the DAM integration.
@@ -105,9 +105,9 @@ point](#library-entry-point) above!
 
 The basic interfaces to implement and provide are
 
-* [`ISyncTarget`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html)
-* [`ISettingsModel`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html)
-* [`IAuthTokenStorage`](smintio-clapi-c-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenStorage.html)
+* [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html)
+* [`ISettingsModel`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html)
+* [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenStorage.html)
 
 
 There some more interfaces to implement, that cover meta data and OAuth access data.
@@ -117,8 +117,8 @@ There some more interfaces to implement, that cover meta data and OAuth access d
 Job to synchronize from Smint.io to target custom *DAM*
 -------------------------------------------------------
 
-* Supporting library: <em>smintio-clapi-c-integration-core</em>
-  ([JavaDoc](smintio-clapi-c-integration-core/1/),
+* Supporting library: <em>smintio-clapi-consumer-integration-core</em>
+  ([JavaDoc](smintio-clapi-consumer-integration-core/1/),
   [example](example-core.md))
 
 

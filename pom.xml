@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.smint</groupId>
-    <artifactId>smintio-clapi-c-integration</artifactId>
+    <artifactId>smintio-clapi-consumer-integration</artifactId>
     <version>1.5.0</version><!-- when changed, change property "majorVersion" accordingly -->
     <packaging>pom</packaging>
 
-    <name>smintio-clapi-c-integration-core</name>
+    <name>smintio-clapi-consumer-integration-core</name>
     <url>https://www.smint.io/</url>
 
     <licenses>
@@ -355,10 +355,10 @@
 
 
     <modules>
-        <module>smintio-clapi-c-integration-core</module>
-        <module>smintio-clapi-c-integration-application</module>
-        <module>smintio-clapi-c-integration-authorizer</module>
-        <module>smintio-clapi-c-integration-j2ee</module>
+        <module>smintio-clapi-consumer-integration-core</module>
+        <module>smintio-clapi-consumer-integration-application</module>
+        <module>smintio-clapi-consumer-integration-authorizer</module>
+        <module>smintio-clapi-consumer-integration-j2ee</module>
     </modules>
 
 </project>
