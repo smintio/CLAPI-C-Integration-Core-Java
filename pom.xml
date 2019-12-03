@@ -60,7 +60,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+            <id>CLAPIC-API-Clients</id>
             <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
             <releases>
                 <enabled>true</enabled>
@@ -73,10 +73,14 @@
 
     <distributionManagement>
         <repository>
-            <id>smintio-clapi-c-integration-core</id>
-            <name>Smint.io Visual Studio (VSTS) repository</name>
-            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPI-C-Integration-Core-Java/maven/v1</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>CLAPIC-API-Clients</id>
+            <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
+            <releases>
+              <enabled>true</enabled>
+            </releases>
+            <snapshots>
+              <enabled>true</enabled>
+            </snapshots>
         </repository>
     </distributionManagement>
 
