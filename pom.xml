@@ -9,7 +9,7 @@
     <version>1.5.0</version><!-- when changed, change property "majorVersion" accordingly -->
     <packaging>pom</packaging>
 
-    <name>smintio-clapi-consumer-integration-core</name>
+    <name>smintio-clapi-consumer-integration</name>
     <url>https://www.smint.io/</url>
 
     <licenses>
