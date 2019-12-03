@@ -88,8 +88,8 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.majorVersion>1</project.majorVersion>
-        <checkstyle.config.location>config/checkstyle/checkstyle.xml</checkstyle.config.location>
-        <checkstyle.suppressions>config/checkstyle/suppressions.xml</checkstyle.suppressions>
+        <checkstyle.config.location>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.suppressions>${maven.multiModuleProjectDirectory}/config/checkstyle/suppressions.xml</checkstyle.suppressions>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
@@ -297,8 +297,9 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
+                    <configLocation>${checkstyle.config.location}</configLocation>
                     <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
+                    <failsOnError>false</failsOnError>
                     <linkXRef>false</linkXRef>
                 </configuration>
                 <executions>
@@ -310,7 +311,7 @@
                       </goals>
                       <configuration>
                           <suppressionsLocation>${checkstyle.suppressions}</suppressionsLocation>
-                          <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                          <suppressionsFileExpression>${checkstyle.suppressions.file}</suppressionsFileExpression>
                       </configuration>
                     </execution>
                 </executions>
