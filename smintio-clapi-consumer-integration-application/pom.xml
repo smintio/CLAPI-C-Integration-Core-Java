@@ -89,4 +89,8 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
 </project>

@@ -90,6 +90,7 @@
         <project.majorVersion>0</project.majorVersion>
         <checkstyle.config.location>config/checkstyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions>config/checkstyle/suppressions.xml</checkstyle.suppressions>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
