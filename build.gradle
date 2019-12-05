@@ -154,6 +154,7 @@ subprojects { proj ->
     javadoc.options.overview = file("src/main/javadoc/overview.html")
     javadoc.options.links.add("https://docs.oracle.com/javase/8/docs/api/")
     javadoc.options.links.add("https://javaee.github.io/javaee-spec/javadocs/")
+    javadoc.options.bottom = "Copyright &#169; 2019. All rights reserved."
 
     build.finalizedBy("javadoc")
 
