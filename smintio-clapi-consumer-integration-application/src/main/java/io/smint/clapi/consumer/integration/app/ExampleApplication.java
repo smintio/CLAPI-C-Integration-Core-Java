@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 
 import io.smint.clapi.consumer.integration.app.authenticator.SystemBrowserAuthenticator;
 import io.smint.clapi.consumer.integration.app.configuration.impl.AuthTokenFileStorage;
+import io.smint.clapi.consumer.integration.app.target.json.SyncTargetDataFactory;
 import io.smint.clapi.consumer.integration.app.target.json.SyncTargetJson;
 import io.smint.clapi.consumer.integration.core.ISmintIoSynchronization;
 import io.smint.clapi.consumer.integration.core.SmintIoSynchronization;
@@ -157,6 +158,7 @@ public class ExampleApplication {
             new SyncTargetFactoryFromDI(
                 tokenStorage,
                 () -> settings,
+                new SyncTargetDataFactory(),
                 () -> syncTarget
             )
         );

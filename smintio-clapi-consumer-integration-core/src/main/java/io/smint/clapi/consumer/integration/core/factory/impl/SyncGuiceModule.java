@@ -53,6 +53,7 @@ import io.smint.clapi.consumer.integration.core.services.IPushNotificationServic
 import io.smint.clapi.consumer.integration.core.services.impl.NativeThreadPoolScheduler;
 import io.smint.clapi.consumer.integration.core.services.impl.PusherService;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -205,6 +206,7 @@ public class SyncGuiceModule extends AbstractModule {
 
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
         this.bind(ISettingsModel.class).toProvider(() -> this._syncTargetFactory.getSettings());
+        this.bind(ISyncTargetDataFactory.class).toProvider(() -> this._syncTargetFactory.getTargetDataFactory());
 
         this.bind(IAuthTokenStorage.class).toInstance(this._syncTargetFactory.getAuthTokenStorage());
     }

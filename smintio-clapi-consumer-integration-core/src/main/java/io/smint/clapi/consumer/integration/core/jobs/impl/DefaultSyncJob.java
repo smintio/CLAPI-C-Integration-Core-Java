@@ -55,6 +55,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -89,6 +90,7 @@ public class DefaultSyncJob implements ISyncJob {
     private final ISyncJobDataStorage _syncDataStorage;
     private final ISmintIoApiClient _smintIoClient;
     private final ISyncTarget _syncTarget;
+    private final ISyncTargetDataFactory _syncTargetDataFactory;
     private final ISmintIoDownloadProvider _downloadProvider;
 
 
@@ -110,6 +112,7 @@ public class DefaultSyncJob implements ISyncJob {
         final IAuthTokenStorage authTokenStorage,
         final ISmintIoApiClient smintIoClient,
         final ISyncTarget syncTarget,
+        final ISyncTargetDataFactory syncTargetDataFactory,
         final ISyncJobDataStorage syncDataStorage,
         final ISmintIoDownloadProvider downloadProvider
     ) {
@@ -118,6 +121,7 @@ public class DefaultSyncJob implements ISyncJob {
         this._syncDataStorage = syncDataStorage;
         this._smintIoClient = smintIoClient;
         this._syncTarget = syncTarget;
+        this._syncTargetDataFactory = syncTargetDataFactory;
         this._downloadProvider = downloadProvider;
 
 
@@ -447,6 +451,7 @@ public class DefaultSyncJob implements ISyncJob {
                     final List<ISyncCompoundAsset> updatedTargetCompoundAssets = new ArrayList<>();
 
                     final ISyncAsset[] targetAssets = new AssetConverter(
+                        this._syncTargetDataFactory,
                         this._syncTarget,
                         this._downloadProvider,
                         tempFolder
