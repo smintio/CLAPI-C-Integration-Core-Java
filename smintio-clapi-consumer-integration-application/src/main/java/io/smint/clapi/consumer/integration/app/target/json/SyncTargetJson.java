@@ -35,10 +35,6 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
 import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
-import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
 
@@ -254,36 +250,6 @@ public class SyncTargetJson implements ISyncTarget {
 
     @Override
     public void afterGenericMetadataSync() {
-    }
-
-    @Override
-    public ISyncBinaryAsset createSyncBinaryAsset() {
-        return new SyncBinaryAssetJsonImpl();
-    }
-
-    @Override
-    public ISyncCompoundAsset createSyncCompoundAsset() {
-        return new SyncCompoundAssetJsonImpl();
-    }
-
-    @Override
-    public ISyncLicenseOption createSyncLicenseOption() {
-        return new SyncLicenseOptionJsonImpl();
-    }
-
-    @Override
-    public ISyncLicenseTerm createSyncLicenseTerm() {
-        return new SyncLicenseTermJsonImpl();
-    }
-
-    @Override
-    public ISyncReleaseDetails createSyncReleaseDetails() {
-        return new SyncReleaseDetailsJsonImpl();
-    }
-
-    @Override
-    public ISyncDownloadConstraints createSyncDownloadConstraints() {
-        return new SyncDownloadConstraintsJsonImpl();
     }
 
     @Override

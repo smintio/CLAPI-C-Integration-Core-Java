@@ -23,6 +23,7 @@ import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -36,7 +37,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public interface ISyncTargetFactory {
 
     /**
-     * creates an instance of the synchronization target instance.
+     * Creates an instance of the synchronization target instance.
      *
      * <p>
      * Since the synchronization target is a heavy class with a lot of cache data, it seems better to create a new
@@ -54,7 +55,7 @@ public interface ISyncTargetFactory {
 
 
     /**
-     * return the current settings for the synchronization process, which may have changed in the meantime.
+     * Return the current settings for the synchronization process, which may have changed in the meantime.
      *
      * <p>
      * This function is called very, very often. So please use some form of caching to check, whether the data really
@@ -67,7 +68,7 @@ public interface ISyncTargetFactory {
 
 
     /**
-     * creates a token storage to deliver the settings for authentication to the Smint.IO RESTful API.
+     * Creates a token storage to deliver the settings for authentication to the Smint.IO RESTful API.
      *
      * @return the same authentication token storage on each request but must not return {@code null}.
      */
@@ -75,7 +76,7 @@ public interface ISyncTargetFactory {
 
 
     /**
-     * creates a job data storage to make job data available for next run.
+     * Creates a job data storage to make job data available for next run.
      *
      * <p>
      * If this function returns {@code null}, then an in-memory storage is used as default. The job data will be
@@ -86,4 +87,12 @@ public interface ISyncTargetFactory {
      * @return the same storage on each request or {@code null}.
      */
     ISyncJobDataStorage getJobDataStorage();
+
+
+    /**
+     * Get the factory to create sync target (DAM) specific data instances.
+     *
+     * @return a valid factory instance and must not return {@code null}
+     */
+    ISyncTargetDataFactory getTargetDataFactory();
 }

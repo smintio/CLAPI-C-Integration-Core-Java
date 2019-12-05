@@ -8,6 +8,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -25,21 +26,21 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public class LicenseOptionsConverter extends BaseSyncDataConverter<ISmintIoLicenseOptions, ISyncLicenseOption> {
 
 
-    private final ISyncTarget _syncTarget;
+    private final ISyncTargetDataFactory _syncTargetDataFactory;
 
     /**
      * Initializes a new converter, using the {@code syncTarget} to map to sync target keys.
      *
-     * @param syncTarget the sync target implementation that is used to map the keys and create the resulting instance.
-     *                   Must not be {@code null}!
+     * @param syncTargetDataFactory the sync target data factory implementation that is used to create the resulting
+     *                              instance. Must not be {@code null}!
      * @throws NullPointerException if {@code syncTarget} is {@code null}
      */
     @Inject
-    public LicenseOptionsConverter(final ISyncTarget syncTarget) {
+    public LicenseOptionsConverter(final ISyncTargetDataFactory syncTargetDataFactory) {
         super(ISyncLicenseOption.class);
-        this._syncTarget = syncTarget;
+        this._syncTargetDataFactory = syncTargetDataFactory;
 
-        Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
+        Objects.requireNonNull(syncTargetDataFactory, "Provided sync target data factory is invalid <null>!");
     }
 
 
@@ -51,7 +52,7 @@ public class LicenseOptionsConverter extends BaseSyncDataConverter<ISmintIoLicen
         }
 
         return new ISyncLicenseOption[] {
-            this._syncTarget.createSyncLicenseOption()
+            this._syncTargetDataFactory.createSyncLicenseOption()
                 .setName(rawLicenseOption.getOptionName())
                 .setLicenseText(rawLicenseOption.getLicenseText())
         };

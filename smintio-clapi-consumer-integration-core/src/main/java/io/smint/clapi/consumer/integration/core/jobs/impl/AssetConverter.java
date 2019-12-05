@@ -24,6 +24,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -42,6 +43,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
     private static final Logger LOG = Logger.getLogger(AssetConverter.class.getName());
 
+    private final ISyncTargetDataFactory _syncTargetDataFactory;
     private final ISyncTarget _syncTarget;
     private final ISmintIoDownloadProvider _downloadProvider;
     private final File _temporaryDownloadFolder;
@@ -57,6 +59,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
      */
     @Inject
     public AssetConverter(
+        final ISyncTargetDataFactory syncTargetDataFactory,
         final ISyncTarget syncTarget,
         final ISmintIoDownloadProvider downloadProvider,
         final File temporaryDownloadFolder
@@ -65,10 +68,12 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         this._syncTarget = syncTarget;
         this._downloadProvider = downloadProvider;
         this._temporaryDownloadFolder = temporaryDownloadFolder;
+        this._syncTargetDataFactory = syncTargetDataFactory;
 
         Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
         Objects.requireNonNull(downloadProvider, "No creator of binary asset downloader has been provided.");
         Objects.requireNonNull(temporaryDownloadFolder, "Temporary download folder is invalid <null>");
+        Objects.requireNonNull(syncTargetDataFactory, "Provided sync target data factory is invalid <null>!");
     }
 
 
@@ -92,7 +97,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             final URL downloadUrl = binary.getDownloadUrl();
             final String recommendedFileName = binary.getRecommendedFileName();
 
-            final ISyncBinaryAsset targetAsset = this._syncTarget.createSyncBinaryAsset();
+            final ISyncBinaryAsset targetAsset = this._syncTargetDataFactory.createSyncBinaryAsset();
 
             targetAsset
                 .setUuid(rawAsset.getLicensePurchaseTransactionUuid())
@@ -100,7 +105,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                 .setDownloadUrl(downloadUrl);
 
             this.setContentMetadata(targetAsset, rawAsset, binary, this._syncTarget);
-            this.setLicenseMetadata(targetAsset, rawAsset, this._syncTarget);
+            this.setLicenseMetadata(targetAsset, rawAsset, this._syncTarget, this._syncTargetDataFactory);
 
             targetAsset
                 .setDownloadedFileProvider(
@@ -123,7 +128,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         if (assetPartAssets.size() > 1) {
             // we have a compound asset, consisting of more than one asset part
 
-            final ISyncCompoundAsset targetCompoundAsset = this._syncTarget.createSyncCompoundAsset();
+            final ISyncCompoundAsset targetCompoundAsset = this._syncTargetDataFactory.createSyncCompoundAsset();
 
             targetCompoundAsset
                 .setAssetParts(assetPartAssets.toArray(new ISyncBinaryAsset[assetPartAssets.size()]))
@@ -131,7 +136,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
 
             this.setContentMetadata(targetCompoundAsset, rawAsset, null, this._syncTarget);
-            this.setLicenseMetadata(targetCompoundAsset, rawAsset, this._syncTarget);
+            this.setLicenseMetadata(targetCompoundAsset, rawAsset, this._syncTarget, this._syncTargetDataFactory);
 
             assets.add(targetCompoundAsset);
         }
@@ -234,7 +239,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     public void setLicenseMetadata(
         final ISyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
-        final ISyncTarget syncTarget
+        final ISyncTarget syncTarget,
+        final ISyncTargetDataFactory syncTargetDataFactory
     ) {
 
         targetAsset
@@ -249,14 +255,14 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
         if (rawAsset.getLicenseOptions() != null && rawAsset.getLicenseOptions().length > 0) {
             targetAsset.setLicenseOptions(
-                new LicenseOptionsConverter(syncTarget).convertAll(rawAsset.getLicenseOptions())
+                new LicenseOptionsConverter(syncTargetDataFactory).convertAll(rawAsset.getLicenseOptions())
             );
         }
 
         if (rawAsset.getLicenseTerms() != null && rawAsset.getLicenseTerms().length > 0) {
 
             targetAsset.setLicenseTerms(
-                new LicenseTermConverter(syncTarget).convertAll(rawAsset.getLicenseTerms())
+                new LicenseTermConverter(syncTargetDataFactory, syncTarget).convertAll(rawAsset.getLicenseTerms())
             );
 
         }
@@ -265,7 +271,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
             final ISmintIoDownloadConstraints rawDownloadConstraints = rawAsset.getDownloadConstraints();
 
-            final ISyncDownloadConstraints targetDownloadConstraints = syncTarget.createSyncDownloadConstraints();
+            final ISyncDownloadConstraints targetDownloadConstraints = syncTargetDataFactory
+                .createSyncDownloadConstraints();
             Objects.requireNonNull(
                 targetDownloadConstraints,
                 "ISyncTarget did not create an enitity with 'createSyncDownloadConstraints'"
@@ -285,7 +292,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         if (rawAsset.getReleaseDetails() != null) {
             final ISmintIoReleaseDetails rawReleaseDetails = rawAsset.getReleaseDetails();
 
-            final ISyncReleaseDetails targetReleaseDetails = syncTarget.createSyncReleaseDetails();
+            final ISyncReleaseDetails targetReleaseDetails = syncTargetDataFactory.createSyncReleaseDetails();
             Objects.requireNonNull(
                 targetReleaseDetails,
                 "ISyncTarget did not create an enitity with 'createSyncReleaseDetails'"

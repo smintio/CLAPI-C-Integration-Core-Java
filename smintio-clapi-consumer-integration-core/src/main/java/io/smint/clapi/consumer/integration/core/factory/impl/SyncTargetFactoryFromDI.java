@@ -19,6 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
@@ -28,6 +30,7 @@ import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorag
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -60,6 +63,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
 
     private final IAuthTokenStorage _authTokenProvider;
     private final ISyncJobDataStorage _jobDataStorage;
+    private final ISyncTargetDataFactory _dataFactory;
     private final Provider<ISettingsModel> _settingsProvider;
     private final Provider<ISyncTarget> _syncTargetProvider;
 
@@ -71,13 +75,13 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      * @param settings           already available settings provider
      * @param syncTargetProvider a sync target provider
      */
-    @Inject
     public SyncTargetFactoryFromDI(
         final IAuthTokenStorage authTokenProvider,
         final Provider<ISettingsModel> settings,
+        final ISyncTargetDataFactory dataFactory,
         final Provider<ISyncTarget> syncTargetProvider
     ) {
-        this(authTokenProvider, settings, syncTargetProvider, null);
+        this(authTokenProvider, settings, dataFactory, syncTargetProvider, null);
     }
 
 
@@ -93,6 +97,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
     public SyncTargetFactoryFromDI(
         final IAuthTokenStorage authTokenProvider,
         final Provider<ISettingsModel> settings,
+        final ISyncTargetDataFactory dataFactory,
         final Provider<ISyncTarget> syncTargetProvider,
         final ISyncJobDataStorage syncJobDataStorage
     ) {
@@ -100,6 +105,12 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
         this._settingsProvider = settings;
         this._syncTargetProvider = syncTargetProvider;
         this._jobDataStorage = syncJobDataStorage;
+        this._dataFactory = dataFactory;
+
+        Objects.requireNonNull(dataFactory, "The provided sync target data factory is invalid!");
+        Objects.requireNonNull(syncTargetProvider, "The passed sync target provider is invalid!");
+        Objects.requireNonNull(settings, "The named settings provider is invalid!");
+        Objects.requireNonNull(authTokenProvider, "The auth token provider parameter is invalid!");
     }
 
 
@@ -133,5 +144,11 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
     @Override
     public ISyncJobDataStorage getJobDataStorage() {
         return this._jobDataStorage;
+    }
+
+
+    @Override
+    public ISyncTargetDataFactory getTargetDataFactory() {
+        return this._dataFactory;
     }
 }

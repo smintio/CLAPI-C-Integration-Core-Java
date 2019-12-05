@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 /**
@@ -25,20 +26,27 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseTerm, ISyncLicenseTerm> {
 
 
+    private final ISyncTargetDataFactory _syncTargetDataFactory;
     private final ISyncTarget _syncTarget;
 
     /**
      * Initializes a new converter, using the {@code syncTarget} to map to sync target keys.
      *
-     * @param syncTarget the sync target implementation that is used to map the keys and create the resulting instance.
-     *                   Must not be {@code null}!
-     * @throws NullPointerException if {@code syncTarget} is {@code null}
+     * @param syncTargetDataFactory the sync target data factory implementation that is used to create the resulting
+     *                              data instances. Must not be {@code null}!
+     * @param syncTarget            the sync target that is used to map the meta data keys. Must not be {@code null}!
+     * @throws NullPointerException if {@code syncTarget} or {@code syncTargetDataFactory} are {@code null}
      */
     @Inject
-    public LicenseTermConverter(final ISyncTarget syncTarget) {
+    public LicenseTermConverter(
+        final ISyncTargetDataFactory syncTargetDataFactory,
+        final ISyncTarget syncTarget
+    ) {
         super(ISyncLicenseTerm.class);
+        this._syncTargetDataFactory = syncTargetDataFactory;
         this._syncTarget = syncTarget;
 
+        Objects.requireNonNull(syncTargetDataFactory, "Provided sync target data factory is invalid <null>");
         Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
     }
 
@@ -50,7 +58,7 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
             return null;
         }
 
-        final ISyncLicenseTerm targetLicenseTerm = this._syncTarget.createSyncLicenseTerm();
+        final ISyncLicenseTerm targetLicenseTerm = this._syncTargetDataFactory.createSyncLicenseTerm();
 
 
         if (rawLicenseTerm.getSequenceNumber() > 0) {
