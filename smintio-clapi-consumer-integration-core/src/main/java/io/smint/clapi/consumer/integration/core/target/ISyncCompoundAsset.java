@@ -32,7 +32,7 @@ import java.util.Map;
  *
  * <p>
  * Instances implementing this interface are created utilizing a factory function
- * {@link ISyncTarget#createSyncCompoundAsset()}.
+ * {@link ISyncTargetDataFactory#createSyncCompoundAsset()}.
  * </p>
  *
  * <h2 id="two-types-of-assets">Two types of assets</h2>

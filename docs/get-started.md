@@ -22,6 +22,7 @@ Todo
         new SyncTargetFactoryFromDI(
             new MyTokenStorage,
             () -> settings,
+            new MySyncTargetDataFactory(),
             () -> new MySyncTarget()
         )
     ).start();
@@ -36,7 +37,45 @@ Todo
 3. Implement storage provider for OAuth access data
   [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenModek.html).
 
-4. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
+4. implement synchronization target (DAM) data factory
+  [`ISyncTargetDataFactory`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html).
+    ```java
+    public class MySyncTargetDataFactory implements ISyncTargetDataFactory {
+
+        @Override
+        public ISyncBinaryAsset createSyncBinaryAsset() {
+            return new MySyncBinaryAssetImpl();
+        }
+
+        @Override
+        public ISyncCompoundAsset createSyncCompoundAsset() {
+            return new MySyncCompoundAssetImpl();
+        }
+
+        @Override
+        public ISyncLicenseOption createSyncLicenseOption() {
+            return new MySyncLicenseOptionImpl();
+        }
+
+        @Override
+        public ISyncLicenseTerm createSyncLicenseTerm() {
+            return new MySyncLicenseTermImpl();
+        }
+
+        @Override
+        public ISyncReleaseDetails createSyncReleaseDetails() {
+            return new MySyncReleaseDetailsImpl();
+        }
+
+        @Override
+        public ISyncDownloadConstraints createSyncDownloadConstraints() {
+            return new MySyncDownloadConstraintsImpl();
+        }
+    }
+
+    ```
+
+5. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
     ```java
     public class MySyncTarget implements ISyncTarget {
 
@@ -44,6 +83,6 @@ Todo
 
     ```
 
-5. implement the interfaces representing meta data and asset data instances
+6. implement the interfaces representing meta data and asset data instances
    see [Packages "target"](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/package-summary.html)
 

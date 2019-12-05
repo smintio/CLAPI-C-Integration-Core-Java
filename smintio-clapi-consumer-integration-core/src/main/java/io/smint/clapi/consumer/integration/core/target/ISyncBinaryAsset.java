@@ -38,7 +38,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  *
  * <p>
  * Instances implementing this interface are created utilizing one for the factory functions
- * {@link ISyncTarget#createSyncCompoundAsset()} or {@link ISyncTarget#createSyncBinaryAsset()}.
+ * {@link ISyncTargetDataFactory#createSyncCompoundAsset()} or {@link ISyncTargetDataFactory#createSyncBinaryAsset()}.
  * </p>
  *
  * <h2 id="two-types-of-assets">Two types of assets</h2>

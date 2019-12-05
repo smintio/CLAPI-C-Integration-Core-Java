@@ -38,9 +38,9 @@ import java.util.Map;
  *
  * <p>
  * Instances implementing this interface are created utilizing a factory function like
- * {@link ISyncTarget#createSyncBinaryAsset()} or {@link ISyncTarget#createSyncCompoundAsset()}. Since synchronizing is
- * performed one-way, at the moment, these instances are never used to read data. So only setters must be made available
- * to {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob}
+ * {@link ISyncTargetDataFactory#createSyncBinaryAsset()} or {@link ISyncTargetDataFactory#createSyncCompoundAsset()}.
+ * Since synchronizing is performed one-way, at the moment, these instances are never used to read data. So only setters
+ * must be made available to {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob}
  * </p>
  *
  * <h2 id="two-types-of-assets">Two types of assets</h2>
@@ -627,7 +627,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets a list of options for the applying licenses.
      *
      * <p>
-     * Every instance part of the list has been created with {@link ISyncTarget#createSyncLicenseOption()}.
+     * Every instance part of the list has been created with {@link ISyncTargetDataFactory#createSyncLicenseOption()}.
      * </p>
      *
      * @param licenseOptions the list of options for the license or {@code null}.
@@ -640,7 +640,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets a list of license terms to apply to this asset.
      *
      * <p>
-     * Every instance part of the list has been created with {@link ISyncTarget#createSyncLicenseTerm()}.
+     * Every instance part of the list has been created with {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
      * </p>
      *
      * @param licenseTerms the list of license terms of this asset or {@code null}.
@@ -653,7 +653,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets download constraints to apply to this asset.
      *
      * <p>
-     * The provided instance has been created with {@link ISyncTarget#createSyncDownloadConstraints()}.
+     * The provided instance has been created with {@link ISyncTargetDataFactory#createSyncDownloadConstraints()}.
      * </p>
      *
      * @param downloadConstraints the download constraints of this asset or {@code null}.
@@ -666,7 +666,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets some release details of this asset, regarding agreements with visible models or property owners.
      *
      * <p>
-     * Every provided instance has been created with {@link ISyncTarget#createSyncDownloadConstraints()}.
+     * Every provided instance has been created with {@link ISyncTargetDataFactory#createSyncDownloadConstraints()}.
      * </p>
      *
      * @param releaseDetails release details of this asset or {@code null}.

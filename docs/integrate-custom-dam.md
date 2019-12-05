@@ -37,6 +37,7 @@ final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
     new SyncTargetFactoryFromDI(
         new MyTokenStorage,
         () -> settings,
+        new MySyncTargetDataFactory(),
         () -> new MySyncJson()
     )
 ).start();

@@ -73,6 +73,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      *
      * @param authTokenProvider  already created and available authentication token provider
      * @param settings           already available settings provider
+     * @param dataFactory        factory to create sync target data instances
      * @param syncTargetProvider a sync target provider
      */
     public SyncTargetFactoryFromDI(
@@ -90,6 +91,7 @@ public class SyncTargetFactoryFromDI implements ISyncTargetFactory {
      *
      * @param authTokenProvider  already created and available authentication token provider
      * @param settings           already available settings provider
+     * @param dataFactory        the factory for sync target data instances
      * @param syncTargetProvider a sync target provider
      * @param syncJobDataStorage a storage to read from and write job data to
      */

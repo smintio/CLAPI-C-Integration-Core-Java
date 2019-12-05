@@ -20,7 +20,8 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * </p>
  *
  * <p>
- * New instances to {@link ISyncLicenseTerm} are created utilizing {@link ISyncTarget#createSyncLicenseTerm()}.
+ * New instances to {@link ISyncLicenseTerm} are created utilizing
+ * {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  */
 public class LicenseOptionsConverter extends BaseSyncDataConverter<ISmintIoLicenseOptions, ISyncLicenseOption> {

@@ -29,7 +29,7 @@ package io.smint.clapi.consumer.integration.core.target;
  * </p>
  *
  * <p>
- * Every instance is being created with {@link ISyncTarget#createSyncDownloadConstraints()}.
+ * Every instance is being created with {@link ISyncTargetDataFactory#createSyncDownloadConstraints()}.
  * </p>
  */
 public interface ISyncDownloadConstraints extends ISyncDataType {

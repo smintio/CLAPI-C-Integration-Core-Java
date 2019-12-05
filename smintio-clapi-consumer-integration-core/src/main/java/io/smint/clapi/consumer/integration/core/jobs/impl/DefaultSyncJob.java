@@ -97,13 +97,14 @@ public class DefaultSyncJob implements ISyncJob {
     /**
      * Create new sync job and provide all necessary parameters via parameters.
      *
-     * @param settings         the settings to read tenant ID etc. from
-     * @param authTokenStorage OAuth token for authorization to connect to Smint.io API
-     * @param smintIoClient    Smint.IO API wrapper instance
-     * @param syncTarget       the target to synchronize to
-     * @param syncDataStorage  storage to save some data between synchronization steps. Used for fetching the list of
-     *                         assets in chunks, as the list could be very long.
-     * @param downloadProvider an instance to create file downloader for binary asset files.
+     * @param settings              the settings to read tenant ID etc. from
+     * @param authTokenStorage      OAuth token for authorization to connect to Smint.io API
+     * @param smintIoClient         Smint.IO API wrapper instance
+     * @param syncTarget            the target to synchronize to
+     * @param syncTargetDataFactory the sync target data factory to create the data instance. Must not be {@code null}!
+     * @param syncDataStorage       storage to save some data between synchronization steps. Used for fetching the list
+     *                              of assets in chunks, as the list could be very long.
+     * @param downloadProvider      an instance to create file downloader for binary asset files.
      */
     // CHECKSTYLE OFF: ParameterNumber
     @Inject

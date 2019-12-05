@@ -19,6 +19,7 @@
  * <li>{@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage}</li>
  * <li>{@link io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel}</li>
  * <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}</li>
+ * <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory}</li>
  * </ul>
  *
  * <h2>How to provide your implementation to the sync library: Factory or dependency injection</h2>
@@ -42,6 +43,7 @@
  *     new SyncTargetFactoryFromDI(
  *         new MyAuthTokenStorage(),
  *         new MySettingsProvider(),
+ *         new MySyncTargetDataFactory(),
  *         () -&gt; new MySyncTargetImplementation()
  *     )
  * )

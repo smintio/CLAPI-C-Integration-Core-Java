@@ -36,7 +36,8 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * </p>
  *
  * <p>
- * New instances to {@link ISyncLicenseTerm} are created utilizing {@link ISyncTarget#createSyncLicenseTerm()}.
+ * New instances to {@link ISyncLicenseTerm} are created utilizing
+ * {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  */
 public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
@@ -51,8 +52,10 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     /**
      * Initializes a new converter, using the {@code syncTarget} to map to sync target keys.
      *
-     * @param syncTarget              the sync target implementation that is used to map the keys and create the
-     *                                resulting instance. Must not be {@code null}!
+     * @param syncTargetDataFactory   the sync target data factory to create the data instance. Must not be
+     *                                {@code null}!
+     * @param syncTarget              the sync target implementation that is used to map the keys. Must not be
+     *                                {@code null}!
      * @param downloadProvider        an instance to create the file downloader.
      * @param temporaryDownloadFolder the temporary folder where to put all downloads.
      * @throws NullPointerException if {@code syncTarget} is {@code null}

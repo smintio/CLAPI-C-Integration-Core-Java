@@ -34,7 +34,7 @@ import java.util.Map;
  * </p>
  *
  * <p>
- * Every instance is being created with {@link ISyncTarget#createSyncLicenseTerm()}.
+ * Every instance is being created with {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  *
  * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm
