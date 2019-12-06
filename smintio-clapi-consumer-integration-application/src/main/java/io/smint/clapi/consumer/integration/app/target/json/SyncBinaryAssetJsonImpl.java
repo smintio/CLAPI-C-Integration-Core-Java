@@ -56,7 +56,7 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
     private Provider<File> _downloadProvider = null;
     private File _downloadedFile = null;
 
-    @Override
+
     public String getRecommendedFileName() {
         return (String) this.getMetaData().get(JSON_KEY__RECOMMENDED_FILE_NAME);
     }
@@ -66,12 +66,6 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
     public ISyncBinaryAsset setRecommendedFileName(final String fileName) {
         this.putMetaDataValue(JSON_KEY__RECOMMENDED_FILE_NAME, fileName);
         return this;
-    }
-
-
-    @Override
-    public URL getDownloadUrl() {
-        return (URL) this.getMetaData().get(JSON_KEY__DOWNLOAD_URL);
     }
 
 
@@ -126,23 +120,9 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
 
 
     @Override
-    public int getBinaryVersion() {
-        final Object version = this.getMetaData().get(JSON_KEY__BINARY_VERSION);
-        return version == null ? 0 : ((Integer) version).intValue();
-    }
-
-
-    @Override
     public ISyncBinaryAsset setBinaryVersion(final int binaryVersion) {
         this.putMetaDataValue(JSON_KEY__BINARY_VERSION, new Integer(binaryVersion));
         return this;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<Locale, String> getBinaryUsage() {
-        return (Map<Locale, String>) this.getMetaData().get(JSON_KEY__BINARY_USAGE);
     }
 
 

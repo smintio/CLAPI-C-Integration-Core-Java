@@ -207,14 +207,9 @@ public class SyncTargetJson implements ISyncTarget {
                 this._binaryAssets.put(id, asset);
                 this._mapSmintIoIdToMyId.put("asset-" + asset.getUuid() + "_" + asset.getBinaryUuid(), id);
 
-                LOG.info("Downloading asset file: " + asset.getRecommendedFileName());
-
                 // download file
                 try {
-                    final File assetFile = asset.getDownloadedFile();
-                    LOG.finer(
-                        "Download asset to file (" + asset.getRecommendedFileName() + "): " + assetFile.getName()
-                    );
+                    asset.getDownloadedFile();
 
                 } catch (FileNotFoundException | SmintIoAuthenticatorException excp) {
                     LOG.log(Level.SEVERE, "Failed to download asset to file!", excp);

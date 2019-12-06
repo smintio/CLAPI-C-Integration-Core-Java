@@ -105,43 +105,12 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
 public interface ISyncBinaryAsset extends ISyncAsset {
 
     /**
-     * Retrieve the recommended file name to use on the synchronization target.
-     *
-     * <p>
-     * Usually the available character set to file names are restricted by the file system storage. So it is not useful
-     * to re-use the name of locally download files to determine the name of the binary on the target system. These
-     * local file names may contain hashes/IDs and other mechanism to uniquely identify the downloaded asset before
-     * uploading it to the target system. Hence the name provided by this function should be used as a base for the file
-     * name on the target.
-     * </p>
-     *
-     * @return a valid file name or {@code null} if none has been set yet.
-     */
-    String getRecommendedFileName();
-
-
-    /**
      * Set the recommended file name to use on the synchronization target.
      *
      * @param fileName a valid file name or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     * @see #getRecommendedFileName()
      */
     ISyncBinaryAsset setRecommendedFileName(final String fileName);
-
-
-    /**
-     * Provide the download URL for the binary of this asset.
-     *
-     * <p>
-     * The download URL merely is for tracking, logging or archiving purpose. There is no really need to store this on
-     * the target. Nevertheless this value might be used by the provider that will download the file for the
-     * implementing instance (see: {@link #setDownloadedFileProvider(Provider)})
-     * </p>
-     *
-     * @return a valid URL to download the binary from the Smint.io platform or {@code null} if none has been set yet.
-     */
-    URL getDownloadUrl();
 
 
     /**
@@ -232,7 +201,7 @@ public interface ISyncBinaryAsset extends ISyncAsset {
 
 
     /**
-     * Provide the version of the asset's binary file.
+     * Set the binary version to a new value.
      *
      * <p>
      * The binary version is used to detect changes on the binary file. Every change will increase the version number.
@@ -240,38 +209,12 @@ public interface ISyncBinaryAsset extends ISyncAsset {
      * will not sync back any changes to the Smint.io platform.
      * </p>
      *
-     *
-     * @return usually a positive value but initially 0 if no version has ever been stored/recorded. Must not be a value
-     *         lower than 0 (negative number) with the only exception that compound assets must return -1 to indicate
-     *         their compound state.
-     */
-    int getBinaryVersion();
-
-
-    /**
-     * Set the binary version to a new value.
-     *
      * @param binaryVersion the new binary version as a positive number, which must be greater or equal to 0.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @throws IllegalArgumentException in case the parameter is set to a negative value.
-     * @see #getBinaryVersion()
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
     ISyncBinaryAsset setBinaryVersion(int binaryVersion);
-
-
-    /**
-     * Provides a localized textual description of the usage definition for the binary.
-     *
-     * <p>
-     * This is used with the UI to display a description of the usage for a binary. It contains a all allowances and
-     * restrictions for the binary, the user must obey and understand.
-     * </p>
-     *
-     * @return a localized description of the usage definitions for the binary or {@code null}.
-     * @see <a href="two-types-of-assets">Two types of assets</a>
-     */
-    Map<Locale, String> getBinaryUsage();
 
 
     /**
@@ -279,7 +222,6 @@ public interface ISyncBinaryAsset extends ISyncAsset {
      *
      * @param binaryUsage a localized description of the usage definitions for the binary or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     * @see #getBinaryUsage()
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
     ISyncBinaryAsset setBinaryUsage(Map<Locale, String> binaryUsage);

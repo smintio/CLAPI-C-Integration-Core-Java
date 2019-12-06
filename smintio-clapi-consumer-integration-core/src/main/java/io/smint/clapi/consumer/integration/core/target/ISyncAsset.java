@@ -338,7 +338,7 @@ public interface ISyncAsset extends ISyncDataType {
      * The last update time is not used to compare for updated content. Times seem to be too prune to different settings
      * on servers of Smint.io and sync target. Hence all meta data of assets are updated, once Smint.io detects a
      * change. Binary data uses a simple, increasing counter as version number (see
-     * {@link ISyncBinaryAsset#getBinaryVersion()}) which can be used to see, which binary is the newest one. Only
+     * {@link ISyncBinaryAsset#setBinaryVersion(int)}) which can be used to see, which binary is the newest one. Only
      * Smint.io platform will update the binary data, though. Without a single source, increasing counter would not work
      * as they are not unique then.
      * </p>

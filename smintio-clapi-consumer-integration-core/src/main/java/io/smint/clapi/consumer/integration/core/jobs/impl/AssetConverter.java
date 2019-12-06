@@ -120,7 +120,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                         new File(
                             this._temporaryDownloadFolder,
                             targetAsset.getUuid() + "_" + targetAsset.getBinaryUuid() + "_"
-                                + targetAsset.getRecommendedFileName()
+                                + recommendedFileName
                         )
                     )
                 );
