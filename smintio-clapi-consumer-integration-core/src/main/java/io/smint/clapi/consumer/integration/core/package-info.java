@@ -27,9 +27,9 @@
  * In order to provide your implementation to the synchronization library framework, you need to provide a factory,
  * implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory}. There is a
  * default * implementation available as
- * {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncTargetFactoryFromDI}. This class can be used even if
- * you do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is an
- * example how to use {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncTargetFactoryFromDI} in the
+ * {@link io.smint.clapi.consumer.integration.core.factory.impl.DefaultSyncTargetFactory}. This class can be used even
+ * if you do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is
+ * an example how to use {@link io.smint.clapi.consumer.integration.core.factory.impl.DefaultSyncTargetFactory} in the
  * documentation for that class.
  * </p>
  *
@@ -40,12 +40,11 @@
  *
  * <pre>
  * new SmintIoSynchronization(
- *     new SyncTargetFactoryFromDI(
- *         new MyAuthTokenStorage(),
- *         new MySettingsProvider(),
- *         new MySyncTargetDataFactory(),
- *         () -&gt; new MySyncTargetImplementation()
- *     )
+ *     new DefaultSyncTargetFactory()
+ *         .setAuthTokenStorage(new MyAuthTokenStorage()),
+ *         .setSettingsProvider(new MySettingsProvider()),
+ *         .setDataFactory(new MySyncTargetDataFactory()),
+ *         .setSyncTargetProvider(() -&gt; new MySyncTargetImplementation())
  * )
  *     .start()
  *     .initialSync(false);

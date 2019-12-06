@@ -46,8 +46,8 @@ import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.AuthTokenJsonConverter;
+import io.smint.clapi.consumer.integration.core.factory.impl.DefaultSyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
-import io.smint.clapi.consumer.integration.core.factory.impl.SyncTargetFactoryFromDI;
 
 
 /**
@@ -155,12 +155,11 @@ public class ExampleApplication {
         final File assetsDir = new File(".", "downloaded-assets");
         final SyncTargetJson syncTarget = new SyncTargetJson(assetsDir);
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
-            new SyncTargetFactoryFromDI(
-                tokenStorage,
-                () -> settings,
-                new SyncTargetDataFactory(),
-                () -> syncTarget
-            )
+            new DefaultSyncTargetFactory()
+                .setAuthTokenStorage(tokenStorage)
+                .setSettingsProvider(() -> settings)
+                .setSyncTargetProvider(() -> syncTarget)
+                .setDataFactory(new SyncTargetDataFactory())
         );
 
 

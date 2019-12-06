@@ -19,12 +19,11 @@ Todo
 
     ```Java
     final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
-        new SyncTargetFactoryFromDI(
-            new MyTokenStorage,
-            () -> settings,
-            new MySyncTargetDataFactory(),
-            () -> new MySyncTarget()
-        )
+        new DefaultSyncTargetFactory()
+            .setAuthTokenStorage(new MyAuthTokenStorage())
+            .setSettingsProvider(() -> settings)
+            .setDataFactory(new MySyncTargetDataFactory())
+            .setSyncTargetProvider(() -> new MySyncTarget())
     ).start();
     smintIoSync.initialSync(false);
     ```

@@ -33,15 +33,14 @@ to do so, anyway.
 
 
 ```Java
-final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
-    new SyncTargetFactoryFromDI(
-        new MyTokenStorage,
-        () -> settings,
-        new MySyncTargetDataFactory(),
-        () -> new MySyncJson()
-    )
-).start();
-smintIoSync.initialSync(false);
+    final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
+        new DefaultSyncTargetFactory()
+            .setAuthTokenStorage(new MyAuthTokenStorage())
+            .setSettingsProvider(() -> settings)
+            .setDataFactory(new MySyncTargetDataFactory())
+            .setSyncTargetProvider(() -> new MySyncTarget())
+    ).start();
+    smintIoSync.initialSync(false);
 ```
 
 
