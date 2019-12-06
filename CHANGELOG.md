@@ -4,6 +4,7 @@ Changelog.
 ## v1.6.0
 ### attached to no issue
 
+* [fix: native scheduler test cases + NullPointer exception - 9ba9610279e91f2](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/9ba9610279e91f2)
 * [fix: (javadoc) recreate JavaDoc - 11da9b1ba74176c](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/11da9b1ba74176c)
 * [bump to version 1.6.0 - bd481a568f5d678](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/bd481a568f5d678)
 * [feature: introduce "notifyWhenFinished" on job execution queue - fea85f27da5d217](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/fea85f27da5d217)
