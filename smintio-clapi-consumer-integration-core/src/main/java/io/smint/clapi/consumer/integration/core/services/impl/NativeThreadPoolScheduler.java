@@ -119,6 +119,11 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
             LOG.finer(() -> "Job key to find job to stop is invalid: " + jobKey);
         }
 
+
+        if (!this.hasJob()) {
+            this._executor.shutdown();
+        }
+
         LOG.exiting(this.getClass().getName(), "stopSchedule", this);
         return this;
     }

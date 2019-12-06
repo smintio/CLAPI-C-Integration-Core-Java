@@ -161,6 +161,16 @@ public abstract class AbstractScheduler<T> implements IPlatformScheduler {
 
 
     /**
+     * Checks whether there is a scheduled job.
+     *
+     * @return {@code true} if at least one job is scheduled, {@code false} otherwise.
+     */
+    public boolean hasJob() {
+        return this._scheduledJobs.size() > 0;
+    }
+
+
+    /**
      * Get an array of all active job keys.
      *
      * @return An array of all keys of active jobs or {@code String[0]} if no job information is available. No
