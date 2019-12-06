@@ -62,7 +62,7 @@ public class TestNativeThreadPoolScheduler {
         scheduler.scheduleAtFixedRate(() -> wasCalled[0]++, period);
 
         TimeUnit.MILLISECONDS.sleep(period - 10);
-        Assertions.assertEquals(0, wasCalled[0], "Scheduled job was executed immediately!");
+        Assertions.assertEquals(1, wasCalled[0], "Scheduled job was NOT executed immediately!");
 
         scheduler.cancel();
     }
@@ -79,7 +79,7 @@ public class TestNativeThreadPoolScheduler {
         scheduler.scheduleAtFixedRate(() -> wasCalled[0]++, period);
 
         TimeUnit.MILLISECONDS.sleep(period + 10);
-        Assertions.assertEquals(1, wasCalled[0], "Scheduled job was not executed after first period!");
+        Assertions.assertEquals(2, wasCalled[0], "Scheduled job was not executed after first period!");
 
         scheduler.cancel();
     }
@@ -97,7 +97,7 @@ public class TestNativeThreadPoolScheduler {
 
         TimeUnit.MILLISECONDS.sleep(5);
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 2; i <= 10; i++) {
             TimeUnit.MILLISECONDS.sleep(period);
             Assertions.assertEquals(i, wasCalled[0], "Scheduled job was not executed after period nr " + i + "!");
         }
@@ -117,7 +117,7 @@ public class TestNativeThreadPoolScheduler {
 
         TimeUnit.MILLISECONDS.sleep(5);
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 2; i <= 5; i++) {
             TimeUnit.MILLISECONDS.sleep(period);
             Assertions.assertEquals(i, wasCalled[0], "Scheduled job was not executed after period nr " + i + "!");
         }

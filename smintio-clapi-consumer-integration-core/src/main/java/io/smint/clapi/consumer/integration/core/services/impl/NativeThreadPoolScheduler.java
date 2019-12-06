@@ -103,7 +103,7 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
         }
 
 
-        if (!this.hasJob()) {
+        if (this._executor != null && !this.hasJob()) {
             this._executor.shutdown();
         }
 
