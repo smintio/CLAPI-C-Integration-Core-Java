@@ -60,30 +60,13 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
             return null;
         }
 
-
-        if (this._executor == null) {
-            this._executor = Executors.newScheduledThreadPool(2);
-        }
-
-        Objects.requireNonNull(this._executor, "Failed to create a scheduled executor pool!");
-        if (this._executor instanceof ScheduledThreadPoolExecutor) {
-            ((ScheduledThreadPoolExecutor) this._executor).setRemoveOnCancelPolicy(true);
-        }
+        this.initScheduler();
 
 
         LOG.finer("Scheduling a new job.");
         final ScheduledFuture<?> scheduledJob = this._executor
             .scheduleAtFixedRate(
-                () -> {
-                    // CHECKSTYLE.OFF: IllegalCatch
-                    try {
-                        LOG.finer(() -> "Executing a timed job with key in new thread.");
-                        new Thread(job).start();
-                    } catch (final Exception ignore) {
-                        LOG.log(Level.SEVERE, "Executing a timed job has failed!", ignore);
-                    }
-                    // CHECKSTYLE.ON: IllegalCatch
-                },
+                this.createCheckedJob(job),
                 0, // execute immediately
                 period,
                 TimeUnit.MILLISECONDS
@@ -149,5 +132,55 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
 
         LOG.exiting(this.getClass().getName(), "cancel", this);
         return this;
+    }
+
+
+    @Override
+    public IPlatformScheduler scheduleForImmediateExecution(final Runnable job) {
+
+        LOG.entering(
+            this.getClass().getName(), "scheduleForImmediateExecution ", new Object[] { job }
+        );
+
+        if (job == null) {
+            LOG.finer("Ingoring invalid job and not scheduling it.");
+            LOG.exiting(this.getClass().getName(), "scheduleForImmediateExecution", null);
+            return null;
+        }
+
+
+        this.initScheduler();
+
+
+        LOG.finer("Executing a new job immediately.");
+        this._executor.schedule(this.createCheckedJob(job), 0, TimeUnit.MILLISECONDS);
+
+        LOG.exiting(this.getClass().getName(), "'scheduleForImmediateExecution'");
+        return this;
+    }
+
+
+    private void initScheduler() {
+        if (this._executor == null) {
+            this._executor = Executors.newScheduledThreadPool(3);
+        }
+
+        Objects.requireNonNull(this._executor, "Failed to create a scheduled executor pool!");
+        if (this._executor instanceof ScheduledThreadPoolExecutor) {
+            ((ScheduledThreadPoolExecutor) this._executor).setRemoveOnCancelPolicy(true);
+        }
+    }
+
+    private Runnable createCheckedJob(final Runnable job) {
+        return () -> {
+            // CHECKSTYLE.OFF: IllegalCatch
+            try {
+                LOG.finer(() -> "Executing a timed job with key in new thread.");
+                new Thread(job).start();
+            } catch (final Exception ignore) {
+                LOG.log(Level.SEVERE, "Executing a timed job has failed!", ignore);
+            }
+            // CHECKSTYLE.ON: IllegalCatch
+        };
     }
 }

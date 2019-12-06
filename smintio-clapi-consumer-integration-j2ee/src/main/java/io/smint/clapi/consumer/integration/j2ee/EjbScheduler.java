@@ -208,5 +208,17 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
         return this;
     }
 
+
+    @Override
+    public IPlatformScheduler scheduleForImmediateExecution(final Runnable job) {
+
+        final J2eeSchedulerJobData jobInfo = new J2eeSchedulerJobData();
+        jobInfo.job = job;
+
+        jobInfo.jobKey = this.putJob(jobInfo);
+        jobInfo.timer = this._timerService.createTimer(0, jobInfo.jobKey);
+
+        return this;
+    }
 }
 

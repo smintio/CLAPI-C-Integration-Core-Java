@@ -29,6 +29,19 @@ package io.smint.clapi.consumer.integration.core.services;
 public interface IPlatformScheduler {
 
     /**
+     * Schedule a single job for immediate background execution.
+     *
+     * <p>
+     * The job is started on a separate timer thread immediately, but only once.
+     * </p>
+     *
+     * @param job the runnable to to execute. In case it is {@code null}, the schedule is ignored.
+     * @return {@code this}.
+     */
+    IPlatformScheduler scheduleForImmediateExecution(final Runnable job);
+
+
+    /**
      * Schedule a re-occurring job with a timer at a fixed timing rate.
      *
      * <p>

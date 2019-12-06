@@ -273,6 +273,10 @@ public class TestAbstractScheduler {
             return null;
         }
 
+        @Override
+        public IPlatformScheduler scheduleForImmediateExecution(final Runnable job) {
+            return null;
+        }
 
         @SuppressWarnings("unchecked")
         public Map<String, String> getJobInfoMap() throws Exception {
@@ -308,6 +312,11 @@ public class TestAbstractScheduler {
 
         @Override
         public IPlatformScheduler cancel() {
+            return null;
+        }
+
+        @Override
+        public IPlatformScheduler scheduleForImmediateExecution(final Runnable job) {
             return null;
         }
     }
