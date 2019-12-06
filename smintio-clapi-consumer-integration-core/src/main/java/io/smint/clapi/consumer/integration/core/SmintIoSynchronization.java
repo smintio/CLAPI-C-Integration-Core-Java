@@ -22,7 +22,6 @@ package io.smint.clapi.consumer.integration.core;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -143,24 +142,18 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
 
     @Override
-    public Future<Void> initialSync(final boolean waitForTermination) {
+    public Future<Void> triggerSync(final boolean syncWithMetaData) {
 
-        final Runnable syncJob = this.createNewJob(true);
-        if (waitForTermination) {
+        final CompletableFuture<Void> future = new CompletableFuture<>();
+        final Runnable syncJob = this.createNewJob(syncWithMetaData, (ignore) -> future.complete(null));
+        this._scheduler.scheduleForImmediateExecution(syncJob);
+        return future;
+    }
 
-            // run in same thread - wait for termination
-            syncJob.run();
-            return CompletableFuture.completedFuture(null);
 
-        } else {
-
-            // do not wait for termination
-            final FutureTask<Void> task = new FutureTask<>(syncJob, null);
-            final Thread workerThread = new Thread(task);
-            workerThread.start();
-
-            return task;
-        }
+    @Override
+    public Future<Void> triggerSync() {
+        return this.triggerSync(true);
     }
 
 

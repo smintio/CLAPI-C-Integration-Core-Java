@@ -99,19 +99,31 @@ public interface ISmintIoSynchronization {
 
 
     /**
-     * Perform an initial synchronization of all meta data and assets.
+     * Perform a synchronization of all meta data and assets.
      *
      * <p>
-     * A new synchronization task will be executed. In case such a task is already being executed, no new one will be
-     * created but the returned {@code Future} is going to wait for the termination of the existing task. Beware that
-     * every {@link Future} will require the task to run in a different thread.
+     * A new synchronization task will be executed. In case such a task is already being executed, a new one will be put
+     * into the waiting queue. If there already is a job waiting for execution, no new job is being scheduled but the
+     * returned {@code Future} is going to wait for the termination of the already queued task.
      * </p>
      *
-     * @param waitForTermination if {@code true} the sync job is executed in the current thread and the function will
-     *                           return as soon as the task has terminated. There is no need to keep a reference to the
-     *                           result of this function in that case.
+     * @param syncWithMetaData if {@code true} the sync job will synchronize the meta data too. If {@code false}, only
+     *                         assets are synchronized.
      * @return a {@code Future} that will return {@code null} in its {@link Future#get()} function, once synchronization
      *         job has finished.
      */
-    Future<Void> initialSync(boolean waitForTermination);
+    Future<Void> triggerSync(boolean syncWithMetaData);
+
+
+    /**
+     * Perform a synchronization of all meta data and assets.
+     *
+     * <p>
+     * calls {@link #triggerSync(boolean)} with parameter {@code true}.
+     * </p>
+     *
+     * @return a {@code Future} that will return {@code null} in its {@link Future#get()} function, once synchronization
+     *         job has finished.
+     */
+    Future<Void> triggerSync();
 }

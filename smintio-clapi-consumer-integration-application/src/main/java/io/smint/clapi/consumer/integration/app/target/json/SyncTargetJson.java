@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,6 +62,9 @@ public class SyncTargetJson implements ISyncTarget {
     private transient final Map<String, ISyncAsset> _compoundAssets = new Hashtable<>();
 
     private final File _assetBinariesDir;
+
+    private Consumer<Void> _afterSyncCallback;
+
 
     public SyncTargetJson(final File assetBinaryDownloadsDirectory) {
         this._allData.put("binaryAssets", this._binaryAssets);
@@ -280,11 +284,16 @@ public class SyncTargetJson implements ISyncTarget {
     @Override
     public void handleSyncJobException(final SmintIoSyncJobException exception) {
         LOG.log(Level.SEVERE, "synchronization with Smint.io API failed!", exception);
+        if (this._afterSyncCallback != null) {
+            this._afterSyncCallback.accept(null);
+        }
     }
 
     @Override
     public void afterSync() {
-
+        if (this._afterSyncCallback != null) {
+            this._afterSyncCallback.accept(null);
+        }
     }
 
 
@@ -301,6 +310,17 @@ public class SyncTargetJson implements ISyncTarget {
             .stream()
             .map((i) -> (SyncCompoundAssetJsonImpl) i)
             .toArray(SyncCompoundAssetJsonImpl[]::new);
+    }
+
+
+    public Consumer<Void> getAfterAssetSyncCallback() {
+        return this._afterSyncCallback;
+    }
+
+
+    public SyncTargetJson setAfterSyncCallback(final Consumer<Void> afterSyncCallback) {
+        this._afterSyncCallback = afterSyncCallback;
+        return this;
     }
 
 
@@ -334,6 +354,7 @@ public class SyncTargetJson implements ISyncTarget {
             }
         }
     }
+
 }
 
 // CHECKSTYLE OFF: MethodCount

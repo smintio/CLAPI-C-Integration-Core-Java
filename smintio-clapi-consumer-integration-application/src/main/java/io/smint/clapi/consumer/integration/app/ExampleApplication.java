@@ -162,23 +162,27 @@ public class ExampleApplication {
                 .setDataFactory(new SyncTargetDataFactory())
         );
 
+        // set a callback to be executed after all asset sync
+        syncTarget.setAfterSyncCallback((i) -> {
 
-        smintIoSync.initialSync(true);
+            // stop schedule
+            smintIoSync.stop();
 
-        // just for testing, sync a second time to also test asset updates
-        smintIoSync.initialSync(true);
+            // now print out the collected JSON
+            final Gson gson = this.createGson();
+
+            try (final FileWriter out = new FileWriter(new File(".", "out-result.json"))) {
+                out.append(gson.toJson(syncTarget.getAllData()));
+            } catch (final IOException ignore) {
+                ignore.printStackTrace();
+            }
+            System.out.println("DONE DONE: " + new File(".", "out-result.json").getAbsolutePath());
+            System.out.println("asset downloaded to: " + assetsDir.getAbsolutePath());
+        });
 
 
-        // now print out the collected JSON
-        final Gson gson = this.createGson();
-
-        try (final FileWriter out = new FileWriter(new File(".", "out-result.json"))) {
-            out.append(gson.toJson(syncTarget.getAllData()));
-        }
-        System.out.println("DONE DONE: " + new File(".", "out-result.json").getAbsolutePath());
-
-
-        System.out.println("asset downloaded to: " + assetsDir.getAbsolutePath());
+        // now run everything
+        smintIoSync.start();
     }
 
 
