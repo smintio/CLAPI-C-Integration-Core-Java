@@ -38,8 +38,7 @@ public interface ISyncReleaseDetails extends ISyncDataType {
      * Sets the state of the release agreement with any human model visible.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getReleaseStateKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param modelReleaseStateKey the sync target ID or {@code null}.
@@ -52,8 +51,7 @@ public interface ISyncReleaseDetails extends ISyncDataType {
      * Sets the state of the release agreement with any property owner, whose property is visible.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getReleaseStateKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param propertyReleaseStateKey the sync target ID or {@code null}.

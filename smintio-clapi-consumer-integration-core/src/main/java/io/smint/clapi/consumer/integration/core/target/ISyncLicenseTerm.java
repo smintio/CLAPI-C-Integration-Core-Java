@@ -75,8 +75,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of exclusive rights that are granted and on that the restrictions in this instance applies to.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseExclusivityKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param exclusivityKeys the sync target ID of exclusivity granted or {@code null}.
@@ -89,8 +88,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed usages of the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseUsageKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param usageKeys the sync target key to store or {@code null}.
@@ -103,8 +101,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted/denied usages of the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseUsageKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param usageKeys the sync target key to store or {@code null}.
@@ -117,8 +114,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed sizes for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseSizeKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param sizeKeys the sync target key to store or {@code null}.
@@ -131,8 +127,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted sizes for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseSizeKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param sizeKeys the sync target key to store or {@code null}.
@@ -145,8 +140,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed placements for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicensePlacementKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param placementKeys the sync target key to store or {@code null}.
@@ -159,8 +153,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted placements for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicensePlacementKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param placementKeys the sync target key to store or {@code null}.
@@ -173,8 +166,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed kind of distribution for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseDistributionKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param distributionKeys the sync target key to store or {@code null}.
@@ -187,8 +179,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted kind of distribution for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseDistributionKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param distributionKeys the sync target key to store or {@code null}.
@@ -201,8 +192,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed geographic regions to use the related asset within.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseGeographyKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param geographyKeys the sync target key to store or {@code null}.
@@ -215,8 +205,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted geographic regions for the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseGeographyKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param geographyKeys the sync target key to store or {@code null}.
@@ -229,8 +218,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed industries to use the related asset within.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseIndustryKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param industryKeys the sync target key to store or {@code null}.
@@ -243,8 +231,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted industries to use the related asset with.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseIndustryKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param industryKeys the sync target key to store or {@code null}.
@@ -257,8 +244,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of allowed languages to use the related asset with.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseLanguageKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param languages the sync target key to store or {@code null}.
@@ -271,8 +257,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of restricted language to use the related asset with.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseLanguageKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param languages the sync target key to store or {@code null}.
@@ -285,8 +270,7 @@ public interface ISyncLicenseTerm extends ISyncDataType {
      * Sets a list of usage limits to apply to the usage of the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getLicenseUsageLimitKey(String)}.
+     * Each value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param usageLimitKeys the sync target key to store or {@code null}.

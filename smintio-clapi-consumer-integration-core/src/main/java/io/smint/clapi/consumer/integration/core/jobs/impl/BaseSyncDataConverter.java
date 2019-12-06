@@ -120,6 +120,11 @@ public abstract class BaseSyncDataConverter<FromTypeT extends ISmintIoDataType, 
         for (int i = 0; i < smintIoKeys.length; i++) {
             final String smintIoKey = smintIoKeys[i];
             targetKeys[i] = getTargetKeyForSmintIoKey.apply(smintIoKey);
+
+            if (smintIoKey != null && !smintIoKey.isEmpty()) {
+                Objects
+                    .requireNonNull(targetKeys[i], "Failed to get sync target key for Smint.io API key " + smintIoKey);
+            }
         }
 
         return targetKeys;

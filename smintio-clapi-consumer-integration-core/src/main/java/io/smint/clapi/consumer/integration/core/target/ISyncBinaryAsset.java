@@ -207,8 +207,7 @@ public interface ISyncBinaryAsset extends ISyncAsset {
      * Sets the type of the binary as a key.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getBinaryTypeKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param binaryTypeKey the sync target ID of exclusivity granted or {@code null}.

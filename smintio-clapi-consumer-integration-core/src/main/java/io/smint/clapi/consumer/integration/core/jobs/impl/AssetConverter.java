@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateEnum;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
@@ -17,6 +19,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
 import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
@@ -45,7 +48,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     private static final Logger LOG = Logger.getLogger(AssetConverter.class.getName());
 
     private final ISyncTargetDataFactory _syncTargetDataFactory;
-    private final ISyncTarget _syncTarget;
+    private final ISyncMetadataIdMapper _idMapper;
     private final ISmintIoDownloadProvider _downloadProvider;
     private final File _temporaryDownloadFolder;
 
@@ -54,7 +57,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
      *
      * @param syncTargetDataFactory   the sync target data factory to create the data instance. Must not be
      *                                {@code null}!
-     * @param syncTarget              the sync target implementation that is used to map the keys. Must not be
+     * @param idMapper                the utility to map the keys from Smint.io API ID to sync target ID. Must not be
      *                                {@code null}!
      * @param downloadProvider        an instance to create the file downloader.
      * @param temporaryDownloadFolder the temporary folder where to put all downloads.
@@ -63,17 +66,17 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     @Inject
     public AssetConverter(
         final ISyncTargetDataFactory syncTargetDataFactory,
-        final ISyncTarget syncTarget,
+        final ISyncMetadataIdMapper idMapper,
         final ISmintIoDownloadProvider downloadProvider,
         final File temporaryDownloadFolder
     ) {
         super(ISyncAsset.class);
-        this._syncTarget = syncTarget;
+        this._idMapper = idMapper;
         this._downloadProvider = downloadProvider;
         this._temporaryDownloadFolder = temporaryDownloadFolder;
         this._syncTargetDataFactory = syncTargetDataFactory;
 
-        Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
+        Objects.requireNonNull(idMapper, "Provided ID mapper is invalid <null>");
         Objects.requireNonNull(downloadProvider, "No creator of binary asset downloader has been provided.");
         Objects.requireNonNull(temporaryDownloadFolder, "Temporary download folder is invalid <null>");
         Objects.requireNonNull(syncTargetDataFactory, "Provided sync target data factory is invalid <null>!");
@@ -107,8 +110,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                 .setRecommendedFileName(recommendedFileName)
                 .setDownloadUrl(downloadUrl);
 
-            this.setContentMetadata(targetAsset, rawAsset, binary, this._syncTarget);
-            this.setLicenseMetadata(targetAsset, rawAsset, this._syncTarget, this._syncTargetDataFactory);
+            this.setContentMetadata(targetAsset, rawAsset, binary, this._idMapper);
+            this.setLicenseMetadata(targetAsset, rawAsset, this._idMapper, this._syncTargetDataFactory);
 
             targetAsset
                 .setDownloadedFileProvider(
@@ -138,8 +141,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                 .setUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
 
-            this.setContentMetadata(targetCompoundAsset, rawAsset, null, this._syncTarget);
-            this.setLicenseMetadata(targetCompoundAsset, rawAsset, this._syncTarget, this._syncTargetDataFactory);
+            this.setContentMetadata(targetCompoundAsset, rawAsset, null, this._idMapper);
+            this.setLicenseMetadata(targetCompoundAsset, rawAsset, this._idMapper, this._syncTargetDataFactory);
 
             assets.add(targetCompoundAsset);
         }
@@ -154,7 +157,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         final ISyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
         final ISmintIoBinary binary,
-        final ISyncTarget syncTarget
+        final ISyncMetadataIdMapper idMapper
     ) {
 
         final String contentTypeString = this.isNullOrEmpty(binary != null ? binary.getContentType() : null)
@@ -163,9 +166,27 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
         targetAsset
             .setContentElementUuid(rawAsset.getContentElementUuid())
-            .setContentProvider(syncTarget.getContentProviderKey(rawAsset.getContentProvider()))
-            .setContentType(syncTarget.getContentTypeKey(contentTypeString))
-            .setContentCategory(syncTarget.getContentCategoryKey(rawAsset.getContentCategory()))
+            .setContentProvider(
+                this.convertId(
+                    rawAsset.getContentProvider(),
+                    (id) -> idMapper.getContentProviderId(id),
+                    (id) -> "No sync target ID found for content provider ID: " + id
+                )
+            )
+            .setContentType(
+                this.convertId(
+                    contentTypeString,
+                    (id) -> idMapper.getContentTypeId(id),
+                    (id) -> "No sync target ID found for content type ID: " + id
+                )
+            )
+            .setContentCategory(
+                this.convertId(
+                    rawAsset.getContentCategory(),
+                    (id) -> idMapper.getContentCategoryId(id),
+                    (id) -> "No sync target ID found for content category ID: " + id
+                )
+            )
             .setSmintIoUrl(rawAsset.getSmintIoUrl())
             .setPurchasedAt(rawAsset.getPurchasedAt())
             .setCreatedAt(rawAsset.getCreatedAt())
@@ -220,7 +241,13 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
 
             if (!this.isNullOrEmpty(binary.getBinaryType())) {
-                binaryTargetAsset.setBinaryType(syncTarget.getBinaryTypeKey(binary.getBinaryType()));
+                binaryTargetAsset.setBinaryType(
+                    this.convertId(
+                        binary.getBinaryType(),
+                        (id) -> idMapper.getBinaryTypeId(id),
+                        (id) -> "No sync target ID found for binary asset type ID " + id
+                    )
+                );
             }
 
 
@@ -242,12 +269,18 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
     public void setLicenseMetadata(
         final ISyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
-        final ISyncTarget syncTarget,
+        final ISyncMetadataIdMapper idMapper,
         final ISyncTargetDataFactory syncTargetDataFactory
     ) {
 
         targetAsset
-            .setLicenseType(syncTarget.getLicenseTypeKey(rawAsset.getLicenseType()))
+            .setLicenseType(
+                this.convertId(
+                    rawAsset.getLicenseType(),
+                    (id) -> idMapper.getLicenseTypeId(id),
+                    (id) -> "No sync target ID found for license type ID " + id
+                )
+            )
             .setLicenseeUuid(rawAsset.getLicenseeUuid())
             .setLicenseeName(rawAsset.getLicenseeName());
 
@@ -265,7 +298,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         if (rawAsset.getLicenseTerms() != null && rawAsset.getLicenseTerms().length > 0) {
 
             targetAsset.setLicenseTerms(
-                new LicenseTermConverter(syncTargetDataFactory, syncTarget).convertAll(rawAsset.getLicenseTerms())
+                new LicenseTermConverter(syncTargetDataFactory, idMapper).convertAll(rawAsset.getLicenseTerms())
             );
 
         }
@@ -302,8 +335,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             );
 
             if (!this.isNullOrEmpty(rawReleaseDetails.getModelReleaseState())) {
-                final String modelReleaseState = syncTarget
-                    .getReleaseStateKey(rawReleaseDetails.getModelReleaseState());
+                final String modelReleaseState = idMapper
+                    .getReleaseStateId(rawReleaseDetails.getModelReleaseState());
 
                 if (!this.isNullOrEmpty(modelReleaseState)) {
                     targetReleaseDetails.setModelReleaseState(modelReleaseState);
@@ -311,8 +344,8 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             }
 
             if (!this.isNullOrEmpty(rawReleaseDetails.getPropertyReleaseState())) {
-                final String propertyReleaseState = syncTarget
-                    .getReleaseStateKey(rawReleaseDetails.getPropertyReleaseState());
+                final String propertyReleaseState = idMapper
+                    .getReleaseStateId(rawReleaseDetails.getPropertyReleaseState());
 
                 if (!this.isNullOrEmpty(propertyReleaseState)) {
                     targetReleaseDetails.setModelReleaseState(propertyReleaseState);
@@ -352,5 +385,28 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
     private boolean isNullOrEmpty(final Map<?, ?> value) {
         return value == null || value.isEmpty();
+    }
+
+
+    private String convertId(
+        final String id,
+        final Function<String, String> converter,
+        final Function<String, String> errorMessageProvider
+    ) {
+
+        if (!this.isNullOrEmpty(id)) {
+            return this.checkIdOrThrow(converter.apply(id), () -> errorMessageProvider.apply(id));
+        }
+
+        return null;
+    }
+
+
+    private String checkIdOrThrow(final String id, final Provider<String> messageProvider) {
+        if (this.isNullOrEmpty(id)) {
+            throw new NullPointerException(messageProvider.get());
+        }
+
+        return id;
     }
 }

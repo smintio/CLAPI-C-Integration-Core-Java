@@ -51,6 +51,13 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * values are available on the target before the binaries are transmitted.
  * </p>
  *
+ * <p>
+ * During synchronization of the meta data, an internal mapping of meta data's Smint.io API keys and sync target IDs are
+ * created. This mapping is vital for feeding the meta data sync target UUID to the assets to reference these values.
+ * This mapping is kept in memory as long as the synchronization is being scheduled. Nevertheless if this mapping is
+ * missing, a meta data sync is enforced to create it.
+ * </p>
+ *
  * <h2>Event driven notification for start and end of sync phases</h2>
  * <p>
  * The synchronization process is driven outside of instances of this interface. However, these are notified of some
@@ -59,13 +66,6 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * {@link #beforeGenericMetadataSync()}, {@link #beforeAssetsSync()}) instances may abort the synchronization process
  * immediately. At the end of every phase (see {@link #afterGenericMetadataSync()}, {@link #afterAssetsSync()})
  * instances may perform some clean-up.
- * </p>
- *
- * <p>
- * At the moment, cleaning of the meta data cache is requested by calling {@link #clearGenericMetadataCaches()}. This is
- * executed at the end of the sync process. However, the meta data cache might be called at any time. The asset sync
- * phase must not rely on an available and filled cache as a special sync task might be started on demand to synchronize
- * assets only - without any meta data.
  * </p>
  *
  * <h2>Two kinds of events for initiating an synchronization process</h2>
@@ -90,17 +90,27 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
  * Meta data is imported in categories, whereas each category will receive a list of Smint.io values as instances of
  * {@link ISmintIoMetadataElement}. The {@link ISmintIoMetadataElement#getKey()} of the list item will return the
  * Smint.io API key for that item and the {@link ISmintIoMetadataElement#getValues()} will hold a list of localized
- * names for that item. The localized name can be used with the UI. The list is not sorted in any way. See an example
- * with JSON.
+ * names for that item. The localized name can be used with the UI.
  * </p>
  *
  * <p>
- * For each Smint.io key (see {@link ISmintIoMetadataElement#getKey()}) a sync target ID must be created and a mapping
- * must be maintained. The sync target ID will be used with assets to import or update. Its value will be retrieved for
- * every Smint.io key! (eg: see {@link #getContentProviderKey(String)}). In case the Smint.io key already exists, just
- * update/overwrite the localized names retrieved by {@link ISmintIoMetadataElement#getValues()}. Implementing classes
- * must not create new sync target ID. It would lead to big mess with the meta data, as the strictly 1:1 relation
- * between these keys would be broken.
+ * The list is not sorted in any way. See an example with JSON.
+ * </p>
+ *
+ * <p>
+ * For each Smint.io key (see {@link ISmintIoMetadataElement#getKey()}) a sync target ID must be created and stored with
+ * the meta data element by setting it to {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. This sync
+ * target ID will be used with assets to import or update as references to the meta data item. In case the Smint.io key
+ * already exists, just update/overwrite the localized names retrieved by {@link ISmintIoMetadataElement#getValues()}
+ * and call {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. Implementing classes must not create new sync
+ * target ID. It would lead to big mess with the meta data, as the strictly 1:1 relation between these keys would be
+ * broken.
+ * </p>
+ *
+ * <p>
+ * <strong>IMPORTANT!</strong> a valid ID must be set to {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}.
+ * After an import of meta data, each meta data element will be checked for valid target UUID. If that is missing, the
+ * synchronization will immediately abort with an exception. These target UUIDs are vital!
  * </p>
  *
  * <p>
@@ -159,10 +169,14 @@ public interface ISyncTarget {
      * </p>
      *
      * <p>
-     * Although this task is executed in an asynchronous way, synchronization is only started after this tasks ends
-     * successfully. In case the tasks returns {@code false} synchronization of generic meta data is aborted
-     * immediately. In case the task crashes with an exception, overall synchronization is terminated without syncing
-     * any asset.
+     * In case the tasks returns {@code false} synchronization of generic meta data is aborted immediately. However, if
+     * the mapping of meta data Smint.io API IDs and sync target UUIDs is missing, synchronizing meta data is enforced
+     * anyway. In this case the return value is simply ignored. This happens on each first run of the synchronization.
+     * Later runs make use of already existing mapping, which is cached internally.
+     * </p>
+     *
+     * <p>
+     * In case the task crashes with an exception, overall synchronization is terminated without syncing any asset.
      * </p>
      *
      * <p>
@@ -225,37 +239,14 @@ public interface ISyncTarget {
      * ]
      * </pre>
      *
+     * <p>
+     * The synchronizations's target IDs must be set to each meta data element with
+     * {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. Otherwise the sync job will bail out.
+     * </p>
+     *
      * @param contentProviders the list of content providers used with Smint.io.
      */
     void importContentProviders(ISmintIoMetadataElement[] contentProviders);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>Content Provider</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * Each available content provider in the Smint.io platform needs a corresponding representation of the target side.
-     * This is necessary to track the origin of assets. Hence a one-to-one mapping is required. Therefore a direct
-     * translation of the IDs on both platforms (Smint.io + sync target) is necessary.
-     * </p>
-     *
-     * <p>
-     * Implementation of {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} will make use of this target ID
-     * to provide prepared assets that can be easily compared to the data already available on the sync target.
-     * </p>
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()}.
-     * </p>
-     *
-     * @param smintIoProviderId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()
-     */
-    String getContentProviderKey(String smintIoProviderId);
 
 
     /**
@@ -313,234 +304,36 @@ public interface ISyncTarget {
      * ]
      * </pre>
      *
+     * <p>
+     * The synchronizations's target IDs must be set to each meta data element with
+     * {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. Otherwise the sync job will bail out.
+     * </p>
+     *
      * @param contentTypes the list of content types used with Smint.io.
      */
     void importContentTypes(ISmintIoMetadataElement[] contentTypes);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>Content Type</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getContentType()}.
-     * </p>
-     *
-     * @param smintIoContentTypeId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getContentType()
-     */
-    String getContentTypeKey(String smintIoContentTypeId);
-
-
     void importBinaryTypes(ISmintIoMetadataElement[] binaryTypes);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>Binary Type</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getBinaryType()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getBinaryType()
-     */
-    String getBinaryTypeKey(String smintIoId);
 
     void importContentCategories(ISmintIoMetadataElement[] contentCategories);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>Content Category</em> to a synchronization target ID/key.
-     *
-     * @param smintIoContentCategoryId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target.
-     * @throws NullPointerException if parameter {@code smintIoContentCategoryId} is {@code null}.
-     * @see #getContentProviderKey(String)
-     */
-    String getContentCategoryKey(String smintIoContentCategoryId);
-
-
     void importLicenseTypes(ISmintIoMetadataElement[] licenseTypes);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>License Type</em> to a synchronization target ID/key.
-     *
-     * @param smintIoLicenseTypeId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target.
-     * @throws NullPointerException if parameter is {@code null}.
-     * @see #getContentProviderKey(String)
-     */
-    String getLicenseTypeKey(String smintIoLicenseTypeId);
-
 
     void importReleaseStates(ISmintIoMetadataElement[] releaseStates);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>Release State</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails#getModelReleaseState()}.
-     * </p>
-     *
-     * @param smintIoReleaseStateId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails#getModelReleaseState()
-     */
-    String getReleaseStateKey(String smintIoReleaseStateId);
-
-
     void importLicenseExclusivities(ISmintIoMetadataElement[] licenseExclusivities);
-
-
-    /**
-     * Maps the Smint.io ID of a license <em>Exclusivity</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getExclusivities()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform or {@code null}.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or the parameter is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getExclusivities()
-     */
-    String getLicenseExclusivityKey(final String smintIoId);
-
 
     void importLicenseUsages(ISmintIoMetadataElement[] licenseUsages);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>License Usage</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedUsages()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedUsages()
-     */
-    String getLicenseUsageKey(String smintIoId);
-
-
     void importLicenseSizes(ISmintIoMetadataElement[] licenseSizes);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>License Size</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedSizes()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedSizes()
-     */
-    String getLicenseSizeKey(String smintIoId);
-
 
     void importLicensePlacements(ISmintIoMetadataElement[] licensePlacements);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>License Placement</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedPlacements()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedPlacements()
-     */
-    String getLicensePlacementKey(String smintIoId);
-
-
     void importLicenseDistributions(ISmintIoMetadataElement[] licenseDistributions);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>License Distribution</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedDistributions()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedDistributions()
-     */
-    String getLicenseDistributionKey(String smintIoId);
-
 
     void importLicenseGeographies(ISmintIoMetadataElement[] licenseGeographies);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>License Geography</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedGeographies()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedGeographies()
-     */
-    String getLicenseGeographyKey(String smintIoId);
-
-
     void importLicenseIndustries(ISmintIoMetadataElement[] licenseIndustries);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>License Industry</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedIndustries()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedIndustries()
-     */
-    String getLicenseIndustryKey(String smintIoId);
-
 
     /**
      * Import the provided list of languages a license for an asset is restricted to.
@@ -660,47 +453,7 @@ public interface ISyncTarget {
      */
     void importLicenseLanguages(ISmintIoMetadataElement[] licenseLanguages);
 
-
-    /**
-     * Maps the Smint.io ID of a <em>License Language</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedLanguages()}.
-     * </p>
-     *
-     * <p>
-     * Beware that the value "{@code any}" is used in addition to the ISO 639-3 codes, in order to denote <em>any</em>
-     * language. There is not ISO code for that case.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getAllowedLanguages()
-     */
-    String getLicenseLanguageKey(String smintIoId);
-
-
     void importLicenseUsageLimits(ISmintIoMetadataElement[] licenseUsageLimits);
-
-
-    /**
-     * Maps the Smint.io ID of a <em>License Usage Limit</em> to a synchronization target ID/key.
-     *
-     * <p>
-     * The Smin.io ID to map is retrieved from
-     * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getUsageLimits()}.
-     * </p>
-     *
-     * @param smintIoId the ID on the Smint.io platform.
-     * @return the key on the synchronization target, or {@code null} in case the item does not exist yet on the target
-     *         or if parameter the is {@code null}.
-     * @see #getContentProviderKey(String)
-     * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm#getUsageLimits()
-     */
-    String getLicenseUsageLimitKey(String smintIoId);
 
 
     /**
@@ -708,12 +461,6 @@ public interface ISyncTarget {
      *
      * <p>
      * This hook is only called in case the generic meta data has been synchronized without any exception.
-     * </p>
-     *
-     * <p>
-     * Although this task is executed in an asynchronous way, synchronization of assets only starts after this tasks
-     * ends successfully. Any aborts, crashes or unsuccessfully endings are aborting the overall synchronization process
-     * immediately - without syncing assets. Such ending usually is indicated by throwing an exception.
      * </p>
      *
      * <p>
@@ -751,7 +498,6 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see #getContentProviderKey(String)
      * @see ISyncAsset
      */
     String getTargetCompoundAssetUuid(String assetUuid);
@@ -765,7 +511,6 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see #getContentProviderKey(String)
      * @see ISyncAsset
      */
     String getTargetAssetBinaryUuid(String assetUuid, String binaryUuid);
@@ -848,10 +593,9 @@ public interface ISyncTarget {
      * Is called in case an Smint.io API authentication exception has occurred.
      *
      * <p>
-     * This function is the final call after an authentication exception occurred. No resumption is possible. The idea
-     * is, to perform some clean-up and notify the user or the system administrator, that an exception has occurred.
-     * After that, the synchronizing is terminated immediately - even without calling
-     * {@link #clearGenericMetadataCaches()}.
+     * This function is the final call after an authentication exception occurred. No recovery is possible. The idea is,
+     * to perform some clean-up and notify the user or the system administrator, that an exception has occurred. After
+     * that, the synchronizing is terminated immediately.
      * </p>
      *
      * <p>
@@ -874,15 +618,14 @@ public interface ISyncTarget {
      * Is called in case any exception in the course of synchronizing occurs, besides an authentication exception.
      *
      * <p>
-     * This function is the final call after any exception occurred. No resumption is possible. The idea is, to perform
+     * This function is the final call after any exception occurred. No recovery is possible. The idea is, to perform
      * some clean-up and notify the user or the system administrator, that an exception has occurred. After that, the
-     * synchronizing is terminated immediately - even without calling {@link #clearGenericMetadataCaches()}.
+     * synchronizing is terminated immediately.
      * </p>
      *
      * <p>
      * Whenever any of the synchronization functions (like {@link #importNewTargetAssets(ISyncBinaryAsset[])}) throws an
-     * exception, synchronization is terminated immediately. Eventually this function is called but not other clean-up
-     * utility function, like {@link #clearGenericMetadataCaches()} or any {@code after...} function. So in case of any
+     * exception, synchronization is terminated immediately. Eventually this function is called. So in case of any
      * exception, this handler is the final chance to perform clean-up and prepare everything for the next run to work
      * better.
      * </p>
@@ -897,9 +640,8 @@ public interface ISyncTarget {
      * A hook to be called after all synchronization took place.
      *
      * <p>
-     * After all synchronization took place, some clean-up might be necessary, besides
-     * {@link #clearGenericMetadataCaches()}. This is executed after all synchronization has ended but <i>before</i>
-     * {@link #clearGenericMetadataCaches()} is called. So the running task still has access to all the created caches.
+     * After all synchronization took place, some clean-up might be necessary. This is executed after all
+     * synchronization has ended.
      * </p>
      *
      * <p>
@@ -908,20 +650,6 @@ public interface ISyncTarget {
      * </p>
      */
     void afterSync();
-
-
-    /**
-     * Clears all cached generic meta data.
-     *
-     * <p>
-     * During synchronization of license information, asset types, release states and content categories, a lot of meta
-     * data is usually cached locally to avoid multiple remote lookups. This speeds-up the synchronization of these meta
-     * data items. But before synchronization of content takes place and at the end of each synchronization process,
-     * this cache is cleared. In the former case it will guarantee a fresh start and will avoid any errors due to
-     * failure in meta data sync process. The latter releases all memory consumed by the cache.
-     * </p>
-     */
-    void clearGenericMetadataCaches();
 }
 
 // CHECKSTYLE OFF: MethodCount

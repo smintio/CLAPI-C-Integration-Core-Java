@@ -249,8 +249,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets the content type of this binary of the related asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getBinaryTypeKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param contentTypeKey the sync target ID or {@code null}.
@@ -264,8 +263,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Save the content provider with the asset.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getContentProviderKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param contentProviderKey the sync target ID or {@code null}.
@@ -279,8 +277,7 @@ public interface ISyncAsset extends ISyncDataType {
      * Sets the ID for the content category.
      *
      * <p>
-     * Each value is a sync target platform specific ID, mapped from Smint.io key by
-     * {@link ISyncTarget#getContentTypeKey(String)}.
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
      * </p>
      *
      * @param contentCategoryKey the sync target ID or {@code null}.

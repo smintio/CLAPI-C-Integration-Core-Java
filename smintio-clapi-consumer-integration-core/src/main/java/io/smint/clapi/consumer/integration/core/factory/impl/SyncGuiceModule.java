@@ -43,7 +43,9 @@ import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJobExecutionQueue;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
 import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.impl.DefaultSyncMetadataIdMapperImpl;
 import io.smint.clapi.consumer.integration.core.jobs.impl.SyncJobExecutionQueueImpl;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.impl.SmintIoApiClientImpl;
@@ -203,6 +205,7 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISmintIoApiClient.class).to(SmintIoApiClientImpl.class);
         this.bind(ISyncJobExecutionQueue.class).to(SyncJobExecutionQueueImpl.class).in(Singleton.class);
         this.bind(ISmintIoDownloadProvider.class).to(SmintIoDownloadProviderImpl.class).in(Singleton.class);
+        this.bind(ISyncMetadataIdMapper.class).to(DefaultSyncMetadataIdMapperImpl.class).in(Singleton.class);
 
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
         this.bind(ISettingsModel.class).toProvider(() -> this._syncTargetFactory.getSettings());

@@ -6,6 +6,7 @@ import java.util.function.Function;
 import javax.inject.Inject;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
@@ -28,27 +29,28 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
 
 
     private final ISyncTargetDataFactory _syncTargetDataFactory;
-    private final ISyncTarget _syncTarget;
+    private final ISyncMetadataIdMapper _idMapper;
 
     /**
      * Initializes a new converter, using the {@code syncTarget} to map to sync target keys.
      *
      * @param syncTargetDataFactory the sync target data factory implementation that is used to create the resulting
      *                              data instances. Must not be {@code null}!
-     * @param syncTarget            the sync target that is used to map the meta data keys. Must not be {@code null}!
+     * @param idMapper              the utility to map the keys from Smint.io API ID to sync target ID. Must not be
+     *                              {@code null}!
      * @throws NullPointerException if {@code syncTarget} or {@code syncTargetDataFactory} are {@code null}
      */
     @Inject
     public LicenseTermConverter(
         final ISyncTargetDataFactory syncTargetDataFactory,
-        final ISyncTarget syncTarget
+        final ISyncMetadataIdMapper idMapper
     ) {
         super(ISyncLicenseTerm.class);
         this._syncTargetDataFactory = syncTargetDataFactory;
-        this._syncTarget = syncTarget;
+        this._idMapper = idMapper;
 
+        Objects.requireNonNull(idMapper, "Provided ID mapper is invalid <null>");
         Objects.requireNonNull(syncTargetDataFactory, "Provided sync target data factory is invalid <null>");
-        Objects.requireNonNull(syncTarget, "Provided sync target is invalid <null>");
     }
 
 
@@ -179,10 +181,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseExclusivityKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseExclusivityId(String)}
      */
     public String[] getLicenseExclusivitiesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseExclusivityKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseExclusivityId);
     }
 
 
@@ -191,10 +193,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseUsageKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseUsageId(String)}
      */
     public String[] getLicenseUsagesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseUsageKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseUsageId);
     }
 
 
@@ -203,10 +205,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseSizeKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseSizeId(String)}
      */
     public String[] getLicenseSizesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseSizeKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseSizeId);
     }
 
 
@@ -215,10 +217,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicensePlacementKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicensePlacementId(String)}
      */
     public String[] getLicensePlacementsKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicensePlacementKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicensePlacementId);
     }
 
 
@@ -227,10 +229,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseDistributionKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseDistributionId(String)}
      */
     public String[] getLicenseDistributionsKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseDistributionKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseDistributionId);
     }
 
 
@@ -239,10 +241,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseGeographyKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseGeographyId(String)}
      */
     public String[] getLicenseGeographiesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseGeographyKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseGeographyId);
     }
 
 
@@ -251,10 +253,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseIndustryKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseIndustryId(String)}
      */
     public String[] getLicenseIndustriesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseIndustryKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseIndustryId);
     }
 
 
@@ -263,10 +265,10 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseLanguageKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseLanguageId(String)}
      */
     public String[] getLicenseLanguagesKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseLanguageKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseLanguageId);
     }
 
 
@@ -275,9 +277,9 @@ public class LicenseTermConverter extends BaseSyncDataConverter<ISmintIoLicenseT
      *
      * @param smintIoKeys the list of Smint.io keys.
      * @return the result of calling {@link #convertKeys(String[], Function)} with providing the mapping function
-     *         {@link ISyncTarget#getLicenseUsageKey(String)}
+     *         {@link ISyncMetadataIdMapper#getLicenseUsageId(String)}
      */
     public String[] getLicenseUsageLimitsKeys(final String[] smintIoKeys) {
-        return this.convertKeys(smintIoKeys, this._syncTarget::getLicenseUsageKey);
+        return this.convertKeys(smintIoKeys, this._idMapper::getLicenseUsageLimitId);
     }
 }

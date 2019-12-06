@@ -42,12 +42,14 @@ import io.smint.clapi.consumer.integration.core.configuration.models.impl.Settin
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.SyncJobDataModelImpl;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
+import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException.AuthenticatorError;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException.SyncJobError;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
+import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithContinuation;
 import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
@@ -92,6 +94,7 @@ public class DefaultSyncJob implements ISyncJob {
     private final ISyncTarget _syncTarget;
     private final ISyncTargetDataFactory _syncTargetDataFactory;
     private final ISmintIoDownloadProvider _downloadProvider;
+    private final ISyncMetadataIdMapper _idMapper;
 
 
     /**
@@ -105,6 +108,7 @@ public class DefaultSyncJob implements ISyncJob {
      * @param syncDataStorage       storage to save some data between synchronization steps. Used for fetching the list
      *                              of assets in chunks, as the list could be very long.
      * @param downloadProvider      an instance to create file downloader for binary asset files.
+     * @param idMapper              a utility class to map from meta data Smint.io API IDs to sync target IDs.
      */
     // CHECKSTYLE OFF: ParameterNumber
     @Inject
@@ -115,7 +119,8 @@ public class DefaultSyncJob implements ISyncJob {
         final ISyncTarget syncTarget,
         final ISyncTargetDataFactory syncTargetDataFactory,
         final ISyncJobDataStorage syncDataStorage,
-        final ISmintIoDownloadProvider downloadProvider
+        final ISmintIoDownloadProvider downloadProvider,
+        final ISyncMetadataIdMapper idMapper
     ) {
         this._settingsProvider = settings;
         this._tokenStorage = authTokenStorage;
@@ -124,6 +129,7 @@ public class DefaultSyncJob implements ISyncJob {
         this._syncTarget = syncTarget;
         this._syncTargetDataFactory = syncTargetDataFactory;
         this._downloadProvider = downloadProvider;
+        this._idMapper = idMapper;
 
 
         Objects.requireNonNull(this._syncTarget, "Synchronization target has not been provided!");
@@ -133,6 +139,7 @@ public class DefaultSyncJob implements ISyncJob {
         Objects.requireNonNull(this._settingsProvider, "Settings must not be null!");
         Objects.requireNonNull(this._settingsProvider.get(), "Settings must not be null!");
         Objects.requireNonNull(this._settingsProvider.get().getTenantId(), "Settings must provide a tenent ID!");
+        Objects.requireNonNull(this._idMapper, "ID mapper utility is missing!");
     }
     // CHECKSTYLE ON: ParameterNumber
 
@@ -165,7 +172,16 @@ public class DefaultSyncJob implements ISyncJob {
             }
 
 
-            if (syncMetaData) {
+            if (syncMetaData || this._idMapper.isEmpty()) {
+                // synchronizing meta data is enforced in case the ID map does not contain any mappings.
+                // The ID mappings are needed, so we MUST sync meta data in this case.
+                if (!syncMetaData) {
+                    LOG.log(
+                        Level.WARNING,
+                        "syncing meta data is enforced as the meta data ID mapping is empty and must be filled."
+                    );
+                }
+
                 this.synchronizeGenericMetadata(this._smintIoClient.getGenericMetadata(), this._syncTarget);
             }
 
@@ -347,33 +363,87 @@ public class DefaultSyncJob implements ISyncJob {
         LOG.info("Starting Smint.io generic metadata synchronization...");
 
         final boolean cancelMetadataSync = !this._syncTarget.beforeGenericMetadataSync();
-        if (cancelMetadataSync) {
+        if (cancelMetadataSync && !this._idMapper.isEmpty()) {
             LOG.warning("'beforeGenericMetadataSync' task aborted meta data sync");
             return;
+
+        } else if (cancelMetadataSync) {
+            // synchronizing meta data is enforced in case the ID map does not contain any mappings.
+            // The ID mappings are needed, so we MUST sync meta data in this case.
+            LOG.warning(
+                "'beforeGenericMetadataSync' task indicated to stop meta data sync but it is ignored. "
+                    + "Meta data ID map is missing and must be filled."
+            );
         }
 
 
-        syncTarget.importContentProviders(metaData.getContentProviders());
+        this._idMapper.clearMapping();
 
-        syncTarget.importContentTypes(metaData.getContentTypes());
-        syncTarget.importBinaryTypes(metaData.getBinaryTypes());
-        syncTarget.importContentCategories(metaData.getContentCategories());
 
-        syncTarget.importLicenseTypes(metaData.getLicenseTypes());
-        syncTarget.importReleaseStates(metaData.getReleaseStates());
+        ISmintIoMetadataElement[] items = metaData.getContentProviders();
+        syncTarget.importContentProviders(items);
+        this._idMapper.addMappingOfContentProviders(items);
 
-        syncTarget.importLicenseExclusivities(metaData.getLicenseExclusivities());
-        syncTarget.importLicenseUsages(metaData.getLicenseUsages());
-        syncTarget.importLicenseSizes(metaData.getLicenseSizes());
-        syncTarget.importLicensePlacements(metaData.getLicensePlacements());
-        syncTarget.importLicenseDistributions(metaData.getLicenseDistributions());
-        syncTarget.importLicenseGeographies(metaData.getLicenseGeographies());
-        syncTarget.importLicenseIndustries(metaData.getLicenseIndustries());
-        syncTarget.importLicenseLanguages(metaData.getLicenseLanguages());
-        syncTarget.importLicenseUsageLimits(metaData.getLicenseUsageLimits());
+        items = metaData.getContentTypes();
+        syncTarget.importContentTypes(items);
+        this._idMapper.addMappingOfContentTypes(items);
+
+        items = metaData.getBinaryTypes();
+        syncTarget.importBinaryTypes(items);
+        this._idMapper.addMappingOfBinaryTypes(items);
+
+        items = metaData.getContentCategories();
+        syncTarget.importContentCategories(items);
+        this._idMapper.addMappingOfContentCategories(items);
+
+
+        items = metaData.getLicenseTypes();
+        syncTarget.importLicenseTypes(items);
+        this._idMapper.addMappingOfLicenseTypes(items);
+
+        items = metaData.getReleaseStates();
+        syncTarget.importReleaseStates(items);
+        this._idMapper.addMappingOfReleaseStates(items);
+
+
+        items = metaData.getLicenseExclusivities();
+        syncTarget.importLicenseExclusivities(items);
+        this._idMapper.addMappingOfLicenseExclusivities(items);
+
+        items = metaData.getLicenseUsages();
+        syncTarget.importLicenseUsages(items);
+        this._idMapper.addMappingOfLicenseUsages(items);
+
+        items = metaData.getLicenseSizes();
+        syncTarget.importLicenseSizes(items);
+        this._idMapper.addMappingOfLicenseSizes(items);
+
+        items = metaData.getLicensePlacements();
+        syncTarget.importLicensePlacements(items);
+        this._idMapper.addMappingOfLicensePlacements(items);
+
+        items = metaData.getLicenseDistributions();
+        syncTarget.importLicenseDistributions(items);
+        this._idMapper.addMappingOfLicenseDistributions(items);
+
+        items = metaData.getLicenseGeographies();
+        syncTarget.importLicenseGeographies(items);
+        this._idMapper.addMappingOfLicenseGeographies(items);
+
+        items = metaData.getLicenseIndustries();
+        syncTarget.importLicenseIndustries(items);
+        this._idMapper.addMappingOfLicenseIndustries(items);
+
+        items = metaData.getLicenseLanguages();
+        syncTarget.importLicenseLanguages(items);
+        this._idMapper.addMappingOfLicenseLanguages(items);
+
+        items = metaData.getLicenseUsageLimits();
+        syncTarget.importLicenseUsageLimits(items);
+        this._idMapper.addMappingOfLicenseUsageLimits(items);
+
 
         syncTarget.afterGenericMetadataSync();
-        syncTarget.clearGenericMetadataCaches();
 
         LOG.info("Finished Smint.io generic metadata synchronization");
     }
@@ -453,7 +523,7 @@ public class DefaultSyncJob implements ISyncJob {
 
                     final ISyncAsset[] targetAssets = new AssetConverter(
                         this._syncTargetDataFactory,
-                        this._syncTarget,
+                        this._idMapper,
                         this._downloadProvider,
                         tempFolder
                     ).convertAll(rawAssets);
@@ -541,7 +611,6 @@ public class DefaultSyncJob implements ISyncJob {
             LOG.info("Finished Smint.io asset synchronization");
 
             syncTarget.afterAssetsSync();
-            syncTarget.clearGenericMetadataCaches();
         } finally {
 
             LOG.info(

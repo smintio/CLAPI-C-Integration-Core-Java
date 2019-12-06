@@ -36,6 +36,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElemen
  */
 public class SmintIoMetadataElementImpl implements ISmintIoMetadataElement {
 
+    private String _targetUuid = null;
     private String _key = null;
     private Map<Locale, String> _values = null;
 
@@ -75,4 +76,19 @@ public class SmintIoMetadataElementImpl implements ISmintIoMetadataElement {
         this._values = newValues;
         return this;
     }
+
+
+    @Override
+    public String getTargetMetadataUuid() {
+        return this._targetUuid;
+    }
+
+
+    @Override
+    public ISmintIoMetadataElement setTargetMetadataUuid(final String targetMetadataUuid) {
+        this._targetUuid = targetMetadataUuid;
+        return this;
+    }
+
+
 }

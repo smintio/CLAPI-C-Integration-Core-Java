@@ -30,15 +30,49 @@ import java.util.Map;
  * Each meta data element is a structured element, containing various properties. In effect it is like a JSON object
  * with a lot of properties ({@link #getValues()}), saved to the storage with the key {@link #getKey()}.
  * </p>
+ *
+ * <p>
+ * In order to speed up synchronization, provide a secure mapping and ease the work load on the sync target DAM
+ * abstraction layer {@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}, the meta data items are cached
+ * within the synchronization job. So instances are probably long living.
+ * </p>
  */
 public interface ISmintIoMetadataElement {
 
     /**
-     * The key/id of this meta data element.
+     * The Smint.io API key/id of this meta data element.
      *
      * @return the key used as ID.
      */
     String getKey();
+
+
+    /**
+     * Provides the ID, this meta data element uses on the sync target side.
+     *
+     * <p>
+     * This value provides a 1:1 mapping from the Smint.io API key ({@link #getKey()}) to the key on the sync target
+     * side. This is the value that is used when settings meta data to
+     * {@link io.smint.clapi.consumer.integration.core.target.ISyncAsset}s
+     * </p>
+     *
+     * @return the ID used on the sync target side.
+     */
+    String getTargetMetadataUuid();
+
+
+    /**
+     * Set the ID, this meta data element uses on the sync target side.
+     *
+     * <p>
+     * The value is retrieved from an instance of {@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}
+     * during meta data import and then set on this instance for later use.
+     * </p>
+     *
+     * @param targetMetadataUuid the ID of this meta data element on the sync target side.
+     * @return {@code this}
+     */
+    ISmintIoMetadataElement setTargetMetadataUuid(final String targetMetadataUuid);
 
 
     /**

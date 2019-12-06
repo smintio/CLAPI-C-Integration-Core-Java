@@ -104,18 +104,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getContentProviderKey(final String smintIoProviderId) {
-        return this.getSmintIoMetaDataKey("contentProviders", smintIoProviderId);
-    }
-
-    @Override
     public void importContentTypes(final ISmintIoMetadataElement[] contentTypes) {
         this.storeSmintIoMetaData("contentTypes", contentTypes);
-    }
-
-    @Override
-    public String getContentTypeKey(final String smintIoContentTypeId) {
-        return this.getSmintIoMetaDataKey("contentTypes", smintIoContentTypeId);
     }
 
     @Override
@@ -124,18 +114,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getBinaryTypeKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("binaryTypes", smintIoId);
-    }
-
-    @Override
     public void importContentCategories(final ISmintIoMetadataElement[] contentCategories) {
         this.storeSmintIoMetaData("contentCategories", contentCategories);
-    }
-
-    @Override
-    public String getContentCategoryKey(final String smintIoContentCategoryId) {
-        return this.getSmintIoMetaDataKey("contentCategories", smintIoContentCategoryId);
     }
 
     @Override
@@ -144,18 +124,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getLicenseTypeKey(final String smintIoLicenseTypeId) {
-        return this.getSmintIoMetaDataKey("licenseTypes", smintIoLicenseTypeId);
-    }
-
-    @Override
     public void importReleaseStates(final ISmintIoMetadataElement[] releaseStates) {
         this.storeSmintIoMetaData("releaseStates", releaseStates);
-    }
-
-    @Override
-    public String getReleaseStateKey(final String smintIoReleaseStateId) {
-        return this.getSmintIoMetaDataKey("releaseStates", smintIoReleaseStateId);
     }
 
     @Override
@@ -164,18 +134,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getLicenseExclusivityKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseExclusivities", smintIoId);
-    }
-
-    @Override
     public void importLicenseUsages(final ISmintIoMetadataElement[] licenseUsages) {
         this.storeSmintIoMetaData("licenseUsages", licenseUsages);
-    }
-
-    @Override
-    public String getLicenseUsageKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseUsages", smintIoId);
     }
 
     @Override
@@ -184,18 +144,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getLicenseSizeKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseSizes", smintIoId);
-    }
-
-    @Override
     public void importLicensePlacements(final ISmintIoMetadataElement[] licensePlacements) {
         this.storeSmintIoMetaData("licensePlacements", licensePlacements);
-    }
-
-    @Override
-    public String getLicensePlacementKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licensePlacements", smintIoId);
     }
 
     @Override
@@ -204,18 +154,8 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getLicenseDistributionKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseDistribution", smintIoId);
-    }
-
-    @Override
     public void importLicenseGeographies(final ISmintIoMetadataElement[] licenseGeographies) {
         this.storeSmintIoMetaData("licenseGeographies", licenseGeographies);
-    }
-
-    @Override
-    public String getLicenseGeographyKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseGeographies", smintIoId);
     }
 
     @Override
@@ -224,28 +164,13 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public String getLicenseIndustryKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseIndustries", smintIoId);
-    }
-
-    @Override
     public void importLicenseLanguages(final ISmintIoMetadataElement[] licenseLanguages) {
         this.storeSmintIoMetaData("licenseLanguages", licenseLanguages);
     }
 
     @Override
-    public String getLicenseLanguageKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseLanguages", smintIoId);
-    }
-
-    @Override
     public void importLicenseUsageLimits(final ISmintIoMetadataElement[] licenseUsageLimits) {
         this.storeSmintIoMetaData("licenseUsageLimit", licenseUsageLimits);
-    }
-
-    @Override
-    public String getLicenseUsageLimitKey(final String smintIoId) {
-        return this.getSmintIoMetaDataKey("licenseUsageLimit", smintIoId);
     }
 
     @Override
@@ -368,12 +293,6 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
 
-    @Override
-    public void clearGenericMetadataCaches() {
-
-    }
-
-
     public SyncBinaryAssetJsonImpl[] getAllBinaryAssets() {
         return this._binaryAssets.values()
             .stream()
@@ -416,12 +335,9 @@ public class SyncTargetJson implements ISyncTarget {
                 }
 
                 storage.put(id, item);
+                item.setTargetMetadataUuid(id);
             }
         }
-    }
-
-    private String getSmintIoMetaDataKey(final String storageName, final String smintIoId) {
-        return this._mapSmintIoIdToMyId.get(storageName + "-" + smintIoId);
     }
 }
 
