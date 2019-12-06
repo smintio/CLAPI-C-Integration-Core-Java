@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.smint</groupId>
         <artifactId>smintio-clapi-consumer-integration</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
     </parent>
 
     <artifactId>smintio-clapi-consumer-integration-application</artifactId>
@@ -28,7 +28,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git</connection>
-        <tag>1.5.0</tag>
+        <tag>1.6.0</tag>
         <url>https://github.com/smintio/CLAPI-C-Integration-Core-Java</url>
     </scm>
     

@@ -52,7 +52,7 @@ apply plugin: "eclipse"
 apply plugin: "com.github.b3er.local.properties"
 
 group = "io.smint"
-version = "${majorVersion}.5.0"
+version = "${majorVersion}.6.0"
 
 
 sourceCompatibility = 1.8
