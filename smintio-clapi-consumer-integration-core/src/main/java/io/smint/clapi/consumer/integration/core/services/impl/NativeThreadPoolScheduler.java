@@ -84,7 +84,7 @@ public class NativeThreadPoolScheduler extends AbstractScheduler<ScheduledFuture
                     }
                     // CHECKSTYLE.ON: IllegalCatch
                 },
-                period,
+                0, // execute immediately
                 period,
                 TimeUnit.MILLISECONDS
             );

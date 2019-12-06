@@ -75,6 +75,10 @@ public interface ISmintIoSynchronization {
      * garbage collection won't apply.
      * </p>
      *
+     * <p>
+     * The first job will be started immediately upon calling this method.
+     * </p>
+     *
      * @return {@code this} in order to support <em>Fluent Interface</em> paradigm.
      */
     ISmintIoSynchronization start();

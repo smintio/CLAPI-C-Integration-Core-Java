@@ -160,7 +160,7 @@ public class EjbScheduler extends AbstractScheduler<J2eeSchedulerJobData> implem
         jobInfo.job = job;
 
         jobInfo.jobKey = this.putJob(jobInfo);
-        jobInfo.timer = this._timerService.createTimer(period, period, jobInfo.jobKey);
+        jobInfo.timer = this._timerService.createTimer(0, period, jobInfo.jobKey);
 
         LOG.exiting(this.getClass().getName(), "'scheduleAtFixedRate'", jobInfo.jobKey);
         return jobInfo.jobKey;
