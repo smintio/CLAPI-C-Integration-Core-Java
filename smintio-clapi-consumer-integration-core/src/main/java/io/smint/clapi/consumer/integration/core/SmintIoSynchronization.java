@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,12 +113,12 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
         if (this._scheduledJobKey == null) {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
-                this.createNewJob(true), JOB_SCHEDULE_PERIOD_MILLISEC
+                this.createNewJob(true, null), JOB_SCHEDULE_PERIOD_MILLISEC
             );
 
             final IPushNotificationService pushService = this._factory.getNotificationService();
             if (pushService != null) {
-                pushService.startNotificationService(this.createNewJob(false));
+                pushService.startNotificationService(this.createNewJob(false, null));
             }
         }
 
@@ -196,7 +197,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     }
 
 
-    private Runnable createNewJob(final boolean syncMetadata) {
+    private Runnable createNewJob(final boolean syncMetadata, final Consumer<Boolean> callBackWhenFinished) {
 
         final boolean isPushEventJob = !syncMetadata;
         final ISyncJob job = this._factory.createSyncJob();
@@ -212,8 +213,10 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
         // first add the job to the queue, then execute the next item in the queue if any is waiting.
         return () -> {
-            this._executionQueue.addJob(isPushEventJob, checkedJob);
-            this._executionQueue.run();
+            this._executionQueue
+                .addJob(isPushEventJob, checkedJob)
+                .notifyWhenFinished(callBackWhenFinished)
+                .run();
         };
     }
 }
