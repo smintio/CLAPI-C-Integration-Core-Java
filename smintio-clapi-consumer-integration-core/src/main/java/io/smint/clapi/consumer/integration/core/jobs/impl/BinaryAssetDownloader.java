@@ -155,7 +155,8 @@ public class BinaryAssetDownloader implements Provider<File> {
 
                 throw new RuntimeException(
                     "Failed to write download to the temporary file from URL "
-                        + url
+                        + url,
+                    excp
                 );
 
             } finally {
