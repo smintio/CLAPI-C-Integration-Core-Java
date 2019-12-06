@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -201,22 +201,26 @@ implements io.smint.clapi.consumer.integration.core.services.IPlatformScheduler<
                    long&nbsp;period)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>io.smint.clapi.consumer.integration.core.services.IPlatformScheduler</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">scheduleForImmediateExecution</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#shutdown--">shutdown</a></span>()</code>
 <div class="block">Cancels all timers.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#startup--">startup</a></span>()</code>
 <div class="block">Stores a reference to <code>this</code>, which can be retrieved with <a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#getSchedulerBean--"><code>getSchedulerBean()</code></a>.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>io.smint.clapi.consumer.integration.core.services.IPlatformScheduler</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#stopSchedule-java.lang.String-">stopSchedule</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jobKey)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/j2ee/EjbScheduler.html#timerFired-javax.ejb.Timer-">timerFired</a></span>(<a href="https://javaee.github.io/javaee-spec/javadocs/javax/ejb/Timer.html?is-external=true" title="class or interface in javax.ejb">Timer</a>&nbsp;timer)</code>&nbsp;</td>
 </tr>
@@ -355,7 +359,7 @@ public&nbsp;void&nbsp;shutdown()</pre>
 <a name="cancel--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>cancel</h4>
 <pre>public&nbsp;io.smint.clapi.consumer.integration.core.services.IPlatformScheduler&nbsp;cancel()</pre>
@@ -363,6 +367,15 @@ public&nbsp;void&nbsp;shutdown()</pre>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>cancel</code>&nbsp;in interface&nbsp;<code>io.smint.clapi.consumer.integration.core.services.IPlatformScheduler</code></dd>
 </dl>
+</li>
+</ul>
+<a name="scheduleForImmediateExecution-java.lang.Runnable-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>scheduleForImmediateExecution</h4>
+<pre>public&nbsp;io.smint.clapi.consumer.integration.core.services.IPlatformScheduler&nbsp;scheduleForImmediateExecution(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</pre>
 </li>
 </ul>
 </li>

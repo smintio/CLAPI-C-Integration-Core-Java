@@ -148,9 +148,9 @@
  In order to provide your implementation to the synchronization library framework, you need to provide a factory,
  implementing the interface <a href="../../../../../../io/smint/clapi/consumer/integration/core/factory/ISyncTargetFactory.html" title="interface in io.smint.clapi.consumer.integration.core.factory"><code>ISyncTargetFactory</code></a>. There is a
  default * implementation available as
- <a href="../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/SyncTargetFactoryFromDI.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl"><code>SyncTargetFactoryFromDI</code></a>. This class can be used even if
- you do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is an
- example how to use <a href="../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/SyncTargetFactoryFromDI.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl"><code>SyncTargetFactoryFromDI</code></a> in the
+ <a href="../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl"><code>DefaultSyncTargetFactory</code></a>. This class can be used even
+ if you do not have any dependency injection available. Nevertheless using any DI framework would be helpful. There is
+ an example how to use <a href="../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl"><code>DefaultSyncTargetFactory</code></a> in the
  documentation for that class.
  </p>
 
@@ -161,12 +161,11 @@
 
  <pre>
  new SmintIoSynchronization(
-     new SyncTargetFactoryFromDI(
-         new MyAuthTokenStorage(),
-         new MySettingsProvider(),
-         new MySyncTargetDataFactory(),
-         () -&gt; new MySyncTargetImplementation()
-     )
+     new DefaultSyncTargetFactory()
+         .setAuthTokenStorage(new MyAuthTokenStorage()),
+         .setSettingsProvider(new MySettingsProvider()),
+         .setDataFactory(new MySyncTargetDataFactory()),
+         .setSyncTargetProvider(() -&gt; new MySyncTargetImplementation())
  )
      .start()
      .initialSync(false);

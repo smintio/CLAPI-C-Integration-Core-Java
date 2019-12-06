@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -222,12 +222,18 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#hasJob--">hasJob</a></span>()</code>
+<div class="block">Checks whether there is a scheduled job.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#putJob-T-">putJob</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html" title="type parameter in AbstractScheduler">T</a>&nbsp;jobInfo)</code>
 <div class="block">Stores the job information and assigns a unique ID/key for the data.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html" title="type parameter in AbstractScheduler">T</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#removeJob-java.lang.String-">removeJob</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jobKey)</code>
 <div class="block">Remove a previously stored job information.</div>
@@ -246,7 +252,7 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;io.smint.clapi.consumer.integration.core.services.<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></h3>
-<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#cancel--">cancel</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleAtFixedRate-java.lang.Runnable-long-">scheduleAtFixedRate</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#stopSchedule-java.lang.String-">stopSchedule</a></code></li>
+<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#cancel--">cancel</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleAtFixedRate-java.lang.Runnable-long-">scheduleAtFixedRate</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">scheduleForImmediateExecution</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#stopSchedule-java.lang.String-">stopSchedule</a></code></li>
 </ul>
 </li>
 </ul>
@@ -388,6 +394,20 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The information of the job as stored previously with <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#putJob-T-"><code>putJob(Object)</code></a> or <code>null</code> if none has
          been stored for that key.</dd>
+</dl>
+</li>
+</ul>
+<a name="hasJob--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasJob</h4>
+<pre>public&nbsp;boolean&nbsp;hasJob()</pre>
+<div class="block">Checks whether there is a scheduled job.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if at least one job is scheduled, <code>false</code> otherwise.</dd>
 </dl>
 </li>
 </ul>

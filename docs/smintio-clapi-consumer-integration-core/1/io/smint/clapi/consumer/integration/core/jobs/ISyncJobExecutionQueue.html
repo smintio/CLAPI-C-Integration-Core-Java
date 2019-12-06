@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -176,12 +176,18 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.ht
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncJobExecutionQueue</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html#notifyWhenFinished-java.util.function.Consumer-">notifyWhenFinished</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;callback)</code>
+<div class="block">Add a callback to be called as soon as the currently running job has finished.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html#run--">run</a></span>()</code>
 <div class="block">Execute the next waiting job on the same thread if no other job is running.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncJobExecutionQueue</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html#waitForJob--">waitForJob</a></span>()</code>
 <div class="block">Waits for the current running job to terminate.</div>
@@ -324,7 +330,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.ht
 <a name="waitForJob--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>waitForJob</h4>
 <pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncJobExecutionQueue</a>&nbsp;waitForJob()
@@ -339,6 +345,35 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.ht
 <dd><code>this</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang"><code>Object.wait()</code></a></dd>
+</dl>
+</li>
+</ul>
+<a name="notifyWhenFinished-java.util.function.Consumer-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>notifyWhenFinished</h4>
+<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/jobs/ISyncJobExecutionQueue.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncJobExecutionQueue</a>&nbsp;notifyWhenFinished(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;callback)</pre>
+<div class="block">Add a callback to be called as soon as the currently running job has finished.
+
+ <p>
+ In case no job is currently running, the callback will be called as soon as the next scheduled job has been run.
+ The callback will be called immediately in case no job has been added to the queue and no job is being executed.
+ This will avoid starvation with no more jobs on the queue.
+ </p>
+
+ <p>
+ The consumer function will receive the flag, whether the job was started as a push notification (<code>false</code>)
+ or a regular schedule (<code>true</code>).
+ </p>
+
+ <pre>
+ callback.accept(wasCalledAsRegularSchedule);
+ </pre></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>this</code>.</dd>
 </dl>
 </li>
 </ul>

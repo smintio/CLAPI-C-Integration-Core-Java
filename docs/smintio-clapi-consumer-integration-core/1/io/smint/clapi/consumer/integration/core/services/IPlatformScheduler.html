@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -144,6 +144,12 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">scheduleForImmediateExecution</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</code>
+<div class="block">Schedule a single job for immediate background execution.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#stopSchedule-java.lang.String-">stopSchedule</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jobKey)</code>
 <div class="block">Stop the scheduled job, identified with a key.</div>
 </td>
@@ -163,6 +169,26 @@ var activeTableTab = "activeTableTab";
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="scheduleForImmediateExecution-java.lang.Runnable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>scheduleForImmediateExecution</h4>
+<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a>&nbsp;scheduleForImmediateExecution(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</pre>
+<div class="block">Schedule a single job for immediate background execution.
+
+ <p>
+ The job is started on a separate timer thread immediately, but only once.
+ </p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>job</code> - the runnable to to execute. In case it is <code>null</code>, the schedule is ignored.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>this</code>.</dd>
+</dl>
+</li>
+</ul>
 <a name="scheduleAtFixedRate-java.lang.Runnable-long-">
 <!--   -->
 </a>

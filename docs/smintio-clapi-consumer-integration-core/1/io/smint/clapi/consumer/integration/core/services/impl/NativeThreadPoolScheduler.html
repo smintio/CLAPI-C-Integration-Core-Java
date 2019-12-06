@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -195,6 +195,12 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/NativeThreadPoolScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">scheduleForImmediateExecution</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</code>
+<div class="block">Schedule a single job for immediate background execution.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/NativeThreadPoolScheduler.html#stopSchedule-java.lang.String-">stopSchedule</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jobKey)</code>
 <div class="block">Stop the scheduled job, identified with a key.</div>
 </td>
@@ -205,7 +211,7 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;io.smint.clapi.consumer.integration.core.services.impl.<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html" title="class in io.smint.clapi.consumer.integration.core.services.impl">AbstractScheduler</a></h3>
-<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#createRandomKey--">createRandomKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#createUniqueRandomKey--">createUniqueRandomKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getAllJobKey--">getAllJobKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getJob-java.lang.String-">getJob</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getKey-T-">getKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#putJob-T-">putJob</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#removeJob-java.lang.String-">removeJob</a></code></li>
+<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#createRandomKey--">createRandomKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#createUniqueRandomKey--">createUniqueRandomKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getAllJobKey--">getAllJobKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getJob-java.lang.String-">getJob</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#getKey-T-">getKey</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#hasJob--">hasJob</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#putJob-T-">putJob</a>, <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/impl/AbstractScheduler.html#removeJob-java.lang.String-">removeJob</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -299,7 +305,7 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 <a name="cancel--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>cancel</h4>
 <pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a>&nbsp;cancel()</pre>
@@ -314,6 +320,29 @@ implements <a href="../../../../../../../../io/smint/clapi/consumer/integration/
 <dd><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#cancel--">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>this</code> to support Fluent Interface.</dd>
+</dl>
+</li>
+</ul>
+<a name="scheduleForImmediateExecution-java.lang.Runnable-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>scheduleForImmediateExecution</h4>
+<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a>&nbsp;scheduleForImmediateExecution(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;job)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">IPlatformScheduler</a></code></span></div>
+<div class="block">Schedule a single job for immediate background execution.
+
+ <p>
+ The job is started on a separate timer thread immediately, but only once.
+ </p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html#scheduleForImmediateExecution-java.lang.Runnable-">scheduleForImmediateExecution</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/services/IPlatformScheduler.html" title="interface in io.smint.clapi.consumer.integration.core.services">IPlatformScheduler</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>job</code> - the runnable to to execute. In case it is <code>null</code>, the schedule is ignored.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>this</code>.</dd>
 </dl>
 </li>
 </ul>

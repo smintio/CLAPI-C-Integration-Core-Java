@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -182,113 +182,121 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#beforeSync--">beforeSync</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAfterAssetSyncCallback--">getAfterAssetSyncCallback</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncBinaryAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncBinaryAssetJsonImpl</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAllBinaryAssets--">getAllBinaryAssets</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncCompoundAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncCompoundAssetJsonImpl</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAllCompoundAssets--">getAllCompoundAssets</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAllData--">getAllData</a></span>()</code>
 <div class="block">Provides all the internally collected data.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getCapabilities--">getCapabilities</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getTargetAssetBinaryUuid-java.lang.String-java.lang.String-">getTargetAssetBinaryUuid</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;assetUuid,
                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;binaryUuid)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getTargetCompoundAssetUuid-java.lang.String-">getTargetCompoundAssetUuid</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;assetUuid)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#handleAuthenticatorException-io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException-">handleAuthenticatorException</a></span>(io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException&nbsp;exception)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#handleSyncJobException-io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException-">handleSyncJobException</a></span>(io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException&nbsp;exception)</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importBinaryTypes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importBinaryTypes</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;binaryTypes)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importContentCategories-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importContentCategories</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;contentCategories)</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importContentProviders-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importContentProviders</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;contentProviders)</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importContentTypes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importContentTypes</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;contentTypes)</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseDistributions-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseDistributions</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseDistributions)</code>&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseExclusivities-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseExclusivities</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseExclusivities)</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseGeographies-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseGeographies</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseGeographies)</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseIndustries-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseIndustries</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseIndustries)</code>&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseLanguages-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseLanguages</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseLanguages)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicensePlacements-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicensePlacements</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licensePlacements)</code>&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseSizes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseSizes</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseSizes)</code>&nbsp;</td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseTypes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseTypes</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseTypes)</code>&nbsp;</td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseUsageLimits-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseUsageLimits</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseUsageLimits)</code>&nbsp;</td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importLicenseUsages-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseUsages</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;licenseUsages)</code>&nbsp;</td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">importNewTargetAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;newTargetAssets)</code>&nbsp;</td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">importNewTargetCompoundAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;newTargetCompoundAssets)</code>&nbsp;</td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importReleaseStates-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importReleaseStates</a></span>(io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement[]&nbsp;releaseStates)</code>&nbsp;</td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
+<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncTargetJson</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#setAfterSyncCallback-java.util.function.Consumer-">setAfterSyncCallback</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;afterSyncCallback)</code>&nbsp;</td>
+</tr>
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">updateTargetAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;updatedTargetAssets)</code>&nbsp;</td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">updateTargetCompoundAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;updatedTargetCompoundAssets)</code>&nbsp;</td>
 </tr>
@@ -755,10 +763,28 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 <a name="getAllCompoundAssets--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getAllCompoundAssets</h4>
 <pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncCompoundAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncCompoundAssetJsonImpl</a>[]&nbsp;getAllCompoundAssets()</pre>
+</li>
+</ul>
+<a name="getAfterAssetSyncCallback--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAfterAssetSyncCallback</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;getAfterAssetSyncCallback()</pre>
+</li>
+</ul>
+<a name="setAfterSyncCallback-java.util.function.Consumer-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setAfterSyncCallback</h4>
+<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncTargetJson</a>&nbsp;setAfterSyncCallback(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html?is-external=true" title="class or interface in java.util.function">Consumer</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;afterSyncCallback)</pre>
 </li>
 </ul>
 </li>

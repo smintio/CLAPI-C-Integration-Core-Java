@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -211,21 +211,27 @@ implements <a href="../../../../../../io/smint/clapi/consumer/integration/core/I
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html#initialSync-boolean-">initialSync</a></span>(boolean&nbsp;waitForTermination)</code>
-<div class="block">Perform an initial synchronization of all meta data and assets.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html" title="class in io.smint.clapi.consumer.integration.core">SmintIoSynchronization</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html#start--">start</a></span>()</code>
 <div class="block">Start a scheduled synchronization, register with channel listener and store a reference with the scheduler.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html" title="class in io.smint.clapi.consumer.integration.core">SmintIoSynchronization</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html#stop--">stop</a></span>()</code>
 <div class="block">Stop the scheduled synchronization process.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html#triggerSync--">triggerSync</a></span>()</code>
+<div class="block">Perform a synchronization of all meta data and assets.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html#triggerSync-boolean-">triggerSync</a></span>(boolean&nbsp;syncWithMetaData)</code>
+<div class="block">Perform a synchronization of all meta data and assets.</div>
 </td>
 </tr>
 </table>
@@ -337,6 +343,10 @@ public&nbsp;SmintIoSynchronization(<a href="../../../../../../io/smint/clapi/con
  <p>
  Beware: a reference to this instance is stored with the scheduler. So as long as there is an active schedule
  garbage collection won't apply.
+ </p>
+
+ <p>
+ The first job will be started immediately upon calling this method.
  </p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -369,28 +379,49 @@ public&nbsp;SmintIoSynchronization(<a href="../../../../../../io/smint/clapi/con
 </dl>
 </li>
 </ul>
-<a name="initialSync-boolean-">
+<a name="triggerSync-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>initialSync</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;initialSync(boolean&nbsp;waitForTermination)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#initialSync-boolean-">ISmintIoSynchronization</a></code></span></div>
-<div class="block">Perform an initial synchronization of all meta data and assets.
+<h4>triggerSync</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;triggerSync(boolean&nbsp;syncWithMetaData)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#triggerSync-boolean-">ISmintIoSynchronization</a></code></span></div>
+<div class="block">Perform a synchronization of all meta data and assets.
 
  <p>
- A new synchronization task will be executed. In case such a task is already being executed, no new one will be
- created but the returned <code>Future</code> is going to wait for the termination of the existing task. Beware that
- every <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> will require the task to run in a different thread.
+ A new synchronization task will be executed. In case such a task is already being executed, a new one will be put
+ into the waiting queue. If there already is a job waiting for execution, no new job is being scheduled but the
+ returned <code>Future</code> is going to wait for the termination of the already queued task.
  </p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#initialSync-boolean-">initialSync</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html" title="interface in io.smint.clapi.consumer.integration.core">ISmintIoSynchronization</a></code></dd>
+<dd><code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#triggerSync-boolean-">triggerSync</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html" title="interface in io.smint.clapi.consumer.integration.core">ISmintIoSynchronization</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>waitForTermination</code> - if <code>true</code> the sync job is executed in the current thread and the function will
-                           return as soon as the task has terminated. There is no need to keep a reference to the
-                           result of this function in that case.</dd>
+<dd><code>syncWithMetaData</code> - if <code>true</code> the sync job will synchronize the meta data too. If <code>false</code>, only
+                         assets are synchronized.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>Future</code> that will return <code>null</code> in its <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> function, once synchronization
+         job has finished.</dd>
+</dl>
+</li>
+</ul>
+<a name="triggerSync--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>triggerSync</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html?is-external=true" title="class or interface in java.lang">Void</a>&gt;&nbsp;triggerSync()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#triggerSync--">ISmintIoSynchronization</a></code></span></div>
+<div class="block">Perform a synchronization of all meta data and assets.
+
+ <p>
+ calls <a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#triggerSync-boolean-"><code>ISmintIoSynchronization.triggerSync(boolean)</code></a> with parameter <code>true</code>.
+ </p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html#triggerSync--">triggerSync</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../io/smint/clapi/consumer/integration/core/ISmintIoSynchronization.html" title="interface in io.smint.clapi.consumer.integration.core">ISmintIoSynchronization</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Future</code> that will return <code>null</code> in its <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> function, once synchronization
          job has finished.</dd>
