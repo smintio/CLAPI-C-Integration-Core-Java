@@ -28,8 +28,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
-import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
 import io.smint.clapi.consumer.integration.core.factory.impl.SyncGuiceModule;
@@ -203,11 +201,13 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         final boolean isPushEventJob = !syncMetadata;
         final ISyncJob job = this._factory.createSyncJob();
         final Runnable checkedJob = () -> {
+            // CHECKSTYLE OFF: IllegalCatch
             try {
                 job.synchronize(syncMetadata);
-            } catch (final SmintIoAuthenticatorException | SmintIoSyncJobException excp) {
+            } catch (final RuntimeException excp) {
                 LOG.log(Level.SEVERE, "Failed to execute synchronization job with Smint.io platform!", excp);
             }
+            // CHECKSTYLE ON: IllegalCatch
         };
 
         // first add the job to the queue, then execute the next item in the queue if any is waiting.
