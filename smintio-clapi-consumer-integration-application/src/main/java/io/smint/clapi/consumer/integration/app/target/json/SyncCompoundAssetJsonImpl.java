@@ -44,12 +44,6 @@ public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyn
 
 
     @Override
-    public ISyncBinaryAsset[] getAssetParts() {
-        return (ISyncBinaryAsset[]) this.getMetaData().get(JSON_KEY__ASSET_PARTS);
-    }
-
-
-    @Override
     public ISyncCompoundAsset setAssetParts(final ISyncBinaryAsset[] compoundParts) {
         this.putMetaDataValue(JSON_KEY__ASSET_PARTS, compoundParts);
         return this;

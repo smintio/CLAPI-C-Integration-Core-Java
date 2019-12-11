@@ -98,21 +98,6 @@ import java.util.Map;
  */
 public interface ISyncCompoundAsset extends ISyncAsset {
 
-
-    /**
-     * Provides the list of parts for this compound asset - only applicable if {@code this} is a compound asset.
-     *
-     * <p>
-     * This asset is only regarded as a compound asset, if this list returns at least a single value. A
-     * <em>compound</em> may consist of only a single value.
-     * </p>
-     *
-     * @return the list of parts or {@code null} if {@code this} is not a compound asset or none have been set yet.
-     *         Implementing classes must not return a list of length 0 but rather {@code null}.
-     */
-    ISyncBinaryAsset[] getAssetParts();
-
-
     /**
      * Sets a list of parts for this compound asset - only applicable if {@code this} is a compound asset.
      *
