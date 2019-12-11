@@ -168,23 +168,16 @@ public interface ISyncAsset extends ISyncDataType {
 
 
     /**
-     * Provides the synchronization target's ID for this asset.
+     * Sets a synchronization target's ID for this asset.
      *
      * <p>
      * Only assets that have already made persistent to the synchronization target have a <em>Target Asset UUID</em>.
-     * This value is used by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} to determine, whether the
-     * assets has ever been made persistent with the sync target or not. So newly created instances must not provide a
-     * UUID unless they have already been persisted.
+     * This value is set by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} as it asks
+     * {@link ISyncTarget#getTargetAssetBinaryUuid(String, String)} for the target asset ID for each asset, based on the
+     * Smint.io <em>License Purchase Transaction UUID</em> ({@link #getTransactionUuid()}), which is the effective
+     * Smint.io platform UUID for an asset. Assets that have never been made persistent with the sync target will not
+     * receive an sync target asset UUid.
      * </p>
-     *
-     * @return the sync target's ID for this asset or {@code null} in case none has been set yet. It must be
-     *         {@code null} if the asset has not been made persistent yet.
-     */
-    String getTargetAssetUuid();
-
-
-    /**
-     * Sets a synchronization target's ID for this asset.
      *
      * @param targetAssetUuid the sync target's ID for this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>

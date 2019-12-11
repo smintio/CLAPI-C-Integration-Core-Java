@@ -87,7 +87,6 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     }
 
 
-    @Override
     public String getTargetAssetUuid() {
         return (String) this.getMetaData().get(JSON_KEY__TARGET_ASSET_UUID);
     }
