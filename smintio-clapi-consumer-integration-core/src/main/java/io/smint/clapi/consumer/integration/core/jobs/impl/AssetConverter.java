@@ -103,12 +103,13 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             final URL downloadUrl = binary.getDownloadUrl();
             final String recommendedFileName = binary.getRecommendedFileName();
 
-            final ISyncBinaryAsset targetAsset = this._syncTargetDataFactory.createSyncBinaryAsset();
+            final ISyncBinaryAsset targetAsset = new WrapperSyncBinaryAsset(
+                this._syncTargetDataFactory.createSyncBinaryAsset()
+            );
 
             targetAsset
-                .setUuid(rawAsset.getLicensePurchaseTransactionUuid())
-                .setRecommendedFileName(recommendedFileName)
-                .setDownloadUrl(downloadUrl);
+                .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
+                .setRecommendedFileName(recommendedFileName);
 
             this.setContentMetadata(targetAsset, rawAsset, binary, this._idMapper);
             this.setLicenseMetadata(targetAsset, rawAsset, this._idMapper, this._syncTargetDataFactory);
@@ -119,7 +120,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                         downloadUrl,
                         new File(
                             this._temporaryDownloadFolder,
-                            targetAsset.getUuid() + "_" + targetAsset.getBinaryUuid() + "_"
+                            targetAsset.getTransactionUuid() + "_" + targetAsset.getBinaryUuid() + "_"
                                 + recommendedFileName
                         )
                     )
@@ -134,11 +135,13 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         if (assetPartAssets.size() > 1) {
             // we have a compound asset, consisting of more than one asset part
 
-            final ISyncCompoundAsset targetCompoundAsset = this._syncTargetDataFactory.createSyncCompoundAsset();
+            final ISyncCompoundAsset targetCompoundAsset = new WrapperSyncCompoundAsset(
+                this._syncTargetDataFactory.createSyncCompoundAsset()
+            );
 
             targetCompoundAsset
                 .setAssetParts(assetPartAssets.toArray(new ISyncBinaryAsset[assetPartAssets.size()]))
-                .setUuid(rawAsset.getLicensePurchaseTransactionUuid());
+                .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
 
             this.setContentMetadata(targetCompoundAsset, rawAsset, null, this._idMapper);
@@ -192,14 +195,14 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             .setCreatedAt(rawAsset.getCreatedAt())
             .setLastUpdatedAt(rawAsset.getLastUpdatedAt())
             .setCartPurchaseTransactionUuid(rawAsset.getCartPurchaseTransactionUuid())
-            .setLicensePurchaseTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
+            .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
             .setHasBeenCancelled(rawAsset.getState() == LicensePurchaseTransactionStateEnum.CANCELLED);
 
 
         if (binary != null && !this.isNullOrEmpty(binary.getName())) {
             targetAsset.setName(binary.getName());
 
-        } else if (!this.isNullOrEmpty(targetAsset.getName())) {
+        } else if (!this.isNullOrEmpty(rawAsset.getName())) {
             targetAsset.setName(rawAsset.getName());
         }
 

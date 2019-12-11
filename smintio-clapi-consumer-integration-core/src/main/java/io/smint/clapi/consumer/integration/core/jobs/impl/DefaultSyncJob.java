@@ -537,7 +537,7 @@ public class DefaultSyncJob implements ISyncJob {
 
                             // check for existing asset
                             final String targetCompoundAssetUuid = this._syncTarget.getTargetCompoundAssetUuid(
-                                compoundTargetAsset.getUuid()
+                                compoundTargetAsset.getTransactionUuid()
                             );
 
                             if (!this.isNullOrEmpty(targetCompoundAssetUuid)) {
@@ -555,7 +555,7 @@ public class DefaultSyncJob implements ISyncJob {
 
                             // check for existing asset
                             final String targetAssetUuid = this._syncTarget.getTargetAssetBinaryUuid(
-                                binaryTargetAsset.getUuid(),
+                                binaryTargetAsset.getTransactionUuid(),
                                 binaryTargetAsset.getBinaryUuid()
                             );
 
@@ -576,26 +576,45 @@ public class DefaultSyncJob implements ISyncJob {
 
                     if (!newTargetAssets.isEmpty()) {
                         syncTarget.importNewTargetAssets(
-                            newTargetAssets.toArray(new ISyncBinaryAsset[newTargetAssets.size()])
+                            newTargetAssets.stream()
+                                .map(
+                                    (asset) -> asset instanceof WrapperSyncBinaryAsset
+                                        ? ((WrapperSyncBinaryAsset) asset).getWrapped()
+                                        : asset
+                                ).toArray(ISyncBinaryAsset[]::new)
                         );
                     }
 
                     if (!updatedTargetAssets.isEmpty()) {
                         syncTarget.updateTargetAssets(
-                            updatedTargetAssets.toArray(new ISyncBinaryAsset[updatedTargetAssets.size()])
+                            updatedTargetAssets.stream()
+                                .map(
+                                    (asset) -> asset instanceof WrapperSyncBinaryAsset
+                                        ? ((WrapperSyncBinaryAsset) asset).getWrapped()
+                                        : asset
+                                ).toArray(ISyncBinaryAsset[]::new)
                         );
                     }
 
                     if (!newTargetCompoundAssets.isEmpty()) {
                         syncTarget.importNewTargetCompoundAssets(
-                            newTargetCompoundAssets.toArray(new ISyncCompoundAsset[newTargetCompoundAssets.size()])
+                            newTargetCompoundAssets.stream()
+                                .map(
+                                    (asset) -> asset instanceof WrapperSyncCompoundAsset
+                                        ? ((WrapperSyncCompoundAsset) asset).getWrapped()
+                                        : asset
+                                ).toArray(ISyncCompoundAsset[]::new)
                         );
                     }
 
                     if (!updatedTargetCompoundAssets.isEmpty()) {
                         syncTarget.updateTargetCompoundAssets(
-                            updatedTargetCompoundAssets
-                                .toArray(new ISyncCompoundAsset[updatedTargetCompoundAssets.size()])
+                            updatedTargetCompoundAssets.stream()
+                                .map(
+                                    (asset) -> asset instanceof WrapperSyncCompoundAsset
+                                        ? ((WrapperSyncCompoundAsset) asset).getWrapped()
+                                        : asset
+                                ).toArray(ISyncCompoundAsset[]::new)
                         );
                     }
 

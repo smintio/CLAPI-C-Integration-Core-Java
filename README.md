@@ -82,9 +82,10 @@ the core library.
 
         maven {
             url "https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1"
+            name "CLAPIC-API-Clients"
             credentials {
-                username "AZURE_ARTIFACTS"
-                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                username "smintio"
+                password "${smintIoAzureAccessToken}"
             }
         }
     }
@@ -97,6 +98,15 @@ the core library.
 
 ```
 
+The access token is stored in the gradle property `smintIoAzureAccessToken`.
+Of course, it would be straight forward to add the property to the file
+`gradle.properties`. Nevertheless preferable you should avoid to add the token to
+your version control system. Otherwise everybody coud use extract and use it.
+So use something like the plugin
+[`com.github.b3er.local.properties`](https://github.com/b3er/gradle-local-properties-plugin),
+which utilizes a file `local.properties`. This local file must not be added
+to your version control system (eg: git).
+
 
 ### Using Maven
 
@@ -108,7 +118,7 @@ the core library.
     <repositories>
         <!-- ... -->
         <repository>
-            <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+            <id>CLAPIC-API-Clients</id>
             <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
             <releases>
                 <enabled>true</enabled>
@@ -124,12 +134,12 @@ the core library.
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-core</artifactId>
-            <version>[1.5.0,2.0.0)</version>
+            <version>[1.6.0,2.0.0)</version>
         </dependency>
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-authorizer</artifactId>
-            <version>[1.5.0,2.0.0)</version>
+            <version>[1.6.0,2.0.0)</version>
         </dependency>
 
     </dependencies>
@@ -177,10 +187,11 @@ library.
 
     ```
     maven {
-        url 'https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1'
+        url "https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1"
+        name "CLAPIC-API-Clients"
         credentials {
-            username "AZURE_ARTIFACTS"
-            password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+            username "smintio"
+            password "${smintIoAzureAccessToken}"
         }
     }
     ```
@@ -197,8 +208,8 @@ the files and changes differ:
 
     ```
     <server>
-      <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
-      <username>CLAPIC-API-Clients</username>
+      <id>CLAPIC-API-Clients</id>
+      <username>smintio</username>
       <!-- Treat this auth token like a password. Do not share it with anyone, including Microsoft support. -->
       <password>FILL_IN_USER_ACCESS_TOKEN</password>
     </server>
@@ -208,7 +219,7 @@ the files and changes differ:
 
     ```
     <repository>
-      <id>smintio-visualstudio-com-smintio-clapic-api-clients</id>
+      <id>CLAPIC-API-Clients</id>
       <url>https://smintio.pkgs.visualstudio.com/_packaging/CLAPIC-API-Clients/maven/v1</url>
       <releases>
         <enabled>true</enabled>

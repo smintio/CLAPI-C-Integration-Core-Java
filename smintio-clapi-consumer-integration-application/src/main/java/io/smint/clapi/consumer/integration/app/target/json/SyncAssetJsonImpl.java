@@ -52,7 +52,6 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     public static final String JSON_KEY__LAST_UPDATED_AT = "lastUpdatedAt";
     public static final String JSON_KEY__PURCHASED_AT = "purchasedAt";
     public static final String JSON_KEY__CART_PURCHASE_TRANSACTION_UUID = "cartPurchaseTransactionUuid";
-    public static final String JSON_KEY__LICENSE_PURCHASE_TRANSACTION_UUID = "licensePurchaseTransactionUuid";
     public static final String JSON_KEY__HAS_BEEN_CANCELLED = "hasBeenCancelled";
 
     public static final String JSON_KEY__PROJECT_UUID = "projectUuid";
@@ -76,19 +75,18 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
 
 
     @Override
-    public String getUuid() {
+    public String getTransactionUuid() {
         return (String) this.getMetaData().get(JSON_KEY__UUID);
     }
 
 
     @Override
-    public ISyncAsset setUuid(final String smintIoId) throws NullPointerException {
+    public ISyncAsset setTransactionUuid(final String smintIoId) throws NullPointerException {
         this.putMetaDataValue(JSON_KEY__UUID, smintIoId);
         return this;
     }
 
 
-    @Override
     public String getTargetAssetUuid() {
         return (String) this.getMetaData().get(JSON_KEY__TARGET_ASSET_UUID);
     }
@@ -98,13 +96,6 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     public ISyncAsset setTargetAssetUuid(final String targetAssetUuid) {
         this.putMetaDataValue(JSON_KEY__TARGET_ASSET_UUID, targetAssetUuid);
         return this;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<Locale, String> getName() {
-        return (Map<Locale, String>) this.getMetaData().get(JSON_KEY__ASSET_NAME);
     }
 
 
@@ -181,13 +172,6 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     @Override
     public ISyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
         this.putMetaDataValue(JSON_KEY__CART_PURCHASE_TRANSACTION_UUID, cartPurchaseTransactionUuid);
-        return this;
-    }
-
-
-    @Override
-    public ISyncAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid) {
-        this.putMetaDataValue(JSON_KEY__LICENSE_PURCHASE_TRANSACTION_UUID, licensePurchaseTransactionUuid);
         return this;
     }
 

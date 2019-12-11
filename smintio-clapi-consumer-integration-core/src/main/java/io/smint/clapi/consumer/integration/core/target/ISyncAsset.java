@@ -45,9 +45,9 @@ import java.util.Map;
  *
  * <h2 id="two-types-of-assets">Two types of assets</h2>
  * <p>
- * On Smint.io an asset is a unique collection - with a unique ID {@link #getUuid()} - of its meta data (eg: name,
- * description, licenses, restrictions, etc.) and the attached binary data (eg: picture), where each binary data has its
- * own additional <em>Binary ID</em> (see {@link ISyncBinaryAsset#getBinaryUuid()}).<br>
+ * On Smint.io an asset is a unique collection - with a unique ID {@link #getTransactionUuid()()} - of its meta data
+ * (eg: name, description, licenses, restrictions, etc.) and the attached binary data (eg: picture), where each binary
+ * data has its own additional <em>Binary ID</em> (see {@link ISyncBinaryAsset#getBinaryUuid()}).<br>
  * With synchronization targets, the digital binary data is in the center of storing data, as this is what most
  * <em>DAM</em> are using. So synchronization creates a direct mapping between a binary data on the target platform to
  * the binary data on the Smint.io platform, although this is not straight forward as Smint.io uses a different notion
@@ -80,7 +80,7 @@ import java.util.Map;
  * <p>
  * <em>Compound Asset</em> is a container for a list of multiple binaries and maintains a strong connection between
  * these. It is so strong, that these binaries are never to be split-up. Because of this strong connection, all binaries
- * use the same asset ID (see {@link #getUuid()}). Nevertheless each binary has its <em>Binary ID</em> (see
+ * use the same asset ID (see {@link #getTransactionUuid()}). Nevertheless each binary has its <em>Binary ID</em> (see
  * {@link ISyncBinaryAsset#getBinaryUuid()}). The binaries that are part of this <em>Compound Asset</em> can be
  * retrieved by calling {@link ISyncCompoundAsset#getAssetParts()}. In case the synchronization target support the same
  * concept of a compound item, a single asset should be created on the target, too. Nevertheless each item in the list
@@ -102,11 +102,11 @@ import java.util.Map;
  * <h2>Mapping asset IDs between sync target and Smint.io</h2>
  * <p>
  * Each asset contains a unique ID on the synchronization target ({@link #getTargetAssetUuid()}). Nevertheless the
- * Smint.io platform ID ({@link #getUuid()}) does not address a single binary, and thus each asset on the sync target
- * must store a composite Smint.io key, consisting of <em>Asset ID ({@link #getUuid()})</em> and <em>Binary ID
- * ({@link ISyncBinaryAsset#getBinaryUuid()})</em>. Only this composite key allows a proper mapping of synchronization
- * target IDs and Smint.io binaries. However, <em>Virtual Assets</em> do not have any binary directly attached. So these
- * have to be identified on the target by some target dependent type identifier.
+ * Smint.io platform ID ({@link #getTransactionUuid()}) does not address a single binary, and thus each asset on the
+ * sync target must store a composite Smint.io key, consisting of <em>Asset ID ({@link #getTransactionUuid()})</em> and
+ * <em>Binary ID ({@link ISyncBinaryAsset#getBinaryUuid()})</em>. Only this composite key allows a proper mapping of
+ * synchronization target IDs and Smint.io binaries. However, <em>Virtual Assets</em> do not have any binary directly
+ * attached. So these have to be identified on the target by some target dependent type identifier.
  * </p>
  *
  * <pre>
@@ -140,39 +140,44 @@ public interface ISyncAsset extends ISyncDataType {
     /**
      * Provides the Smint.io platform ID for the asset.
      *
+     * <p>
+     * On Smint.io platform each purchased asset is related to the actual purchase context, which is called "license
+     * purchase transaction". Only this transaction contains the complete license context. Different license
+     * requirements may impose different costs. So the license heavily depends on the purchase context.
+     * </p>
+     *
      * @return the Smint.io platform ID or {@code null} in case none has been set yet.
      */
-    String getUuid();
+    String getTransactionUuid();
 
 
     /**
-     * Sets a Smint.io platform ID for the asset.
+     * Sets the <em>License Purchase Transaction UUID</em>, the effective Smint.io platform ID, for the asset.
+     *
+     * <p>
+     * On Smint.io platform each purchased asset is related to the actual purchase context, which is called "license
+     * purchase transaction". Only this transaction contains the complete license context. Different license
+     * requirements may impose different costs. So the license heavily depends on the purchase context.
+     * </p>
      *
      * @param smintIoId the Smint.io platform ID to set for the asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @throws NullPointerException if parameter {@code smintIoId} is {@code null}.
      */
-    ISyncAsset setUuid(final String smintIoId) throws NullPointerException;
-
-
-    /**
-     * Provides the synchronization target's ID for this asset.
-     *
-     * <p>
-     * Only assets that have already made persistent to the synchronization target have a <em>Target Asset UUID</em>.
-     * This value is used by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} to determine, whether the
-     * assets has ever been made persistent with the sync target or not. So newly created instances must not provide a
-     * UUID unless they have already been persisted.
-     * </p>
-     *
-     * @return the sync target's ID for this asset or {@code null} in case none has been set yet. It must be
-     *         {@code null} if the asset has not been made persistent yet.
-     */
-    String getTargetAssetUuid();
+    ISyncAsset setTransactionUuid(final String smintIoId) throws NullPointerException;
 
 
     /**
      * Sets a synchronization target's ID for this asset.
+     *
+     * <p>
+     * Only assets that have already made persistent to the synchronization target have a <em>Target Asset UUID</em>.
+     * This value is set by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} as it asks
+     * {@link ISyncTarget#getTargetAssetBinaryUuid(String, String)} for the target asset ID for each asset, based on the
+     * Smint.io <em>License Purchase Transaction UUID</em> ({@link #getTransactionUuid()}), which is the effective
+     * Smint.io platform UUID for an asset. Assets that have never been made persistent with the sync target will not
+     * receive an sync target asset UUid.
+     * </p>
      *
      * @param targetAssetUuid the sync target's ID for this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
@@ -181,7 +186,7 @@ public interface ISyncAsset extends ISyncDataType {
 
 
     /**
-     * Provides the name for the asset, translated to multiple languages.
+     * Sets a name for the asset, translated to multiple languages.
      *
      * <p>
      * The possible translations available are defined by the value of
@@ -189,19 +194,6 @@ public interface ISyncAsset extends ISyncDataType {
      * However, not all languages might have a valid translation. Languages without a translation might be omitted from
      * the map. Especially if this is a persistent asset and a new language has been added to the list of languages.
      * Then the new language might have not yet been stored to this persistent asset.
-     * </p>
-     *
-     * @return the multi-language name of the asset or {@code null} if none have been set yet.
-     */
-    Map<Locale, String> getName();
-
-
-    /**
-     * Sets a name for the asset, translated to multiple languages.
-     *
-     * <p>
-     * The translations available are defined by the value of
-     * {@link io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel#getImportLanguages()}.
      * </p>
      *
      * @param name the multi-language name of the asset.
@@ -371,26 +363,6 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
     ISyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid);
-
-
-    /**
-     * This is a Smint.io internal ID of the asset within the purchase.
-     *
-     * <p>
-     * The value itself does not have any practical use for the user of the sync target, but is necessary to retrieve
-     * further information about the asset from the Smint.io platform. Actually, it is the same value as
-     * {@code #getUuid()} but might be changed in the future to use a different value.
-     * </p>
-     *
-     * <p>
-     * With a purchase you actually buy a license to use the asset, hence the name of this value contains "license" and
-     * "purchase transaction".
-     * </p>
-     *
-     * @param licensePurchaseTransactionUuid the ID of the license purchase transaction.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     */
-    ISyncAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid);
 
 
     /**

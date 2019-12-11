@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.app.target.json;
+package io.smint.clapi.consumer.integration.core.jobs.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,89 +39,16 @@ import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 // CHECKSTYLE OFF: MethodCount
 
 /**
- * Represents a <em>Simple Asset</em> containing a single binary asset data.
+ * A wrapper for {@link ISyncBinaryAsset} instances to enrich the base implementation with some caching and values.
  */
-public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncBinaryAsset {
+class WrapperSyncBinaryAsset extends WrapperBaseSyncAsset<ISyncBinaryAsset> implements ISyncBinaryAsset {
 
 
-    public static final String JSON_KEY__RECOMMENDED_FILE_NAME = "recommendedFileName";
-
-    public static final String JSON_KEY__BINARY_UUID = "binaryUuid";
-    public static final String JSON_KEY__BINARY_TYPE = "binaryType";
-    public static final String JSON_KEY__BINARY_LOCALE = "binaryLocale";
-    public static final String JSON_KEY__BINARY_VERSION = "binaryVersion";
-    public static final String JSON_KEY__BINARY_USAGE = "binaryUsage";
-
-    private Provider<File> _downloadProvider = null;
-    private File _downloadedFile = null;
+    private String _binaryUuid;
 
 
-    public String getRecommendedFileName() {
-        return (String) this.getMetaData().get(JSON_KEY__RECOMMENDED_FILE_NAME);
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setRecommendedFileName(final String fileName) {
-        this.putMetaDataValue(JSON_KEY__RECOMMENDED_FILE_NAME, fileName);
-        return this;
-    }
-
-
-    @Override
-    public File getDownloadedFile() throws FileNotFoundException, SmintIoAuthenticatorException {
-        if (this._downloadedFile == null && this._downloadProvider != null) {
-            this._downloadedFile = this._downloadProvider.get();
-        }
-        return this._downloadedFile;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setDownloadedFileProvider(final Provider<File> downloadFileProvider) {
-        this._downloadProvider = downloadFileProvider;
-        return this;
-    }
-
-
-    @Override
-    public String getBinaryUuid() {
-        return (String) this.getMetaData().get(JSON_KEY__BINARY_UUID);
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setBinaryUuid(final String binaryUuid) {
-        this.putMetaDataValue(JSON_KEY__BINARY_UUID, binaryUuid);
-        return this;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setBinaryType(final String binaryTypeKey) {
-        this.putMetaDataValue(JSON_KEY__BINARY_TYPE, binaryTypeKey);
-        return this;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setBinaryLocale(final Locale binaryLocale) {
-        this.putMetaDataValue(JSON_KEY__BINARY_LOCALE, binaryLocale);
-        return this;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setBinaryVersion(final int binaryVersion) {
-        this.putMetaDataValue(JSON_KEY__BINARY_VERSION, new Integer(binaryVersion));
-        return this;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setBinaryUsage(final Map<Locale, String> binaryUsage) {
-        this.putMetaDataValue(JSON_KEY__BINARY_USAGE, binaryUsage);
-        return this;
+    public WrapperSyncBinaryAsset(final ISyncBinaryAsset assetToWrap) {
+        super(assetToWrap);
     }
 
 
@@ -130,6 +57,67 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
         return false;
     }
 
+
+    @Override
+    public ISyncBinaryAsset setRecommendedFileName(final String fileName) {
+        this.getWrapped().setRecommendedFileName(fileName);
+        return this;
+    }
+
+
+    @Override
+    public File getDownloadedFile() throws FileNotFoundException, SmintIoAuthenticatorException {
+        return this.getWrapped().getDownloadedFile();
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setDownloadedFileProvider(final Provider<File> downloadFileProvider) {
+        this.getWrapped().setDownloadedFileProvider(downloadFileProvider);
+        return this;
+    }
+
+
+    @Override
+    public String getBinaryUuid() {
+        return this._binaryUuid;
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setBinaryUuid(final String binaryUuid) {
+        this._binaryUuid = binaryUuid;
+        this.getWrapped().setBinaryUuid(binaryUuid);
+        return this;
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setBinaryType(final String binaryTypeKey) {
+        this.getWrapped().setBinaryType(binaryTypeKey);
+        return this;
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setBinaryLocale(final Locale binaryLocale) {
+        this.getWrapped().setBinaryLocale(binaryLocale);
+        return this;
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setBinaryVersion(final int binaryVersion) {
+        this.getWrapped().setBinaryVersion(binaryVersion);
+        return this;
+    }
+
+
+    @Override
+    public ISyncBinaryAsset setBinaryUsage(final Map<Locale, String> binaryUsage) {
+        this.getWrapped().setBinaryUsage(binaryUsage);
+        return this;
+    }
 
     @Override
     public ISyncBinaryAsset setContentType(final String contentTypeKey) {
@@ -331,7 +319,6 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
         super.setReleaseDetails(releaseDetails);
         return this;
     }
-
 }
 
 // CHECKSTYLE ON: MethodCount

@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.app.target.json;
+package io.smint.clapi.consumer.integration.core.jobs.impl;
 
 import java.net.URL;
 import java.time.OffsetDateTime;
@@ -35,18 +35,13 @@ import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 // CHECKSTYLE OFF: MethodCount
 
 /**
- * Implementing classes represent the notion of <em>Compound Asset</em>, which combines variants of the same content.
+ * A wrapper for {@link ISyncCompoundAsset} instances to enrich the base implementation with some caching and values.
  */
-public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyncCompoundAsset {
+class WrapperSyncCompoundAsset extends WrapperBaseSyncAsset<ISyncCompoundAsset> implements ISyncCompoundAsset {
 
 
-    public static final String JSON_KEY__ASSET_PARTS = "assetParts";
-
-
-    @Override
-    public ISyncCompoundAsset setAssetParts(final ISyncBinaryAsset[] compoundParts) {
-        this.putMetaDataValue(JSON_KEY__ASSET_PARTS, compoundParts);
-        return this;
+    public WrapperSyncCompoundAsset(final ISyncCompoundAsset assetToWrap) {
+        super(assetToWrap);
     }
 
 
@@ -55,6 +50,19 @@ public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyn
         return true;
     }
 
+
+    @Override
+    public ISyncCompoundAsset setAssetParts(final ISyncBinaryAsset[] compoundParts) {
+        this.getWrapped().setAssetParts(compoundParts);
+        return this;
+    }
+
+
+    @Override
+    public ISyncCompoundAsset setContentType(final String contentTypeKey) {
+        super.setContentType(contentTypeKey);
+        return this;
+    }
 
     @Override
     public ISyncCompoundAsset setTransactionUuid(final String smintIoId) {
@@ -77,12 +85,6 @@ public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyn
     @Override
     public ISyncCompoundAsset setContentElementUuid(final String contentElementUuid) {
         super.setContentElementUuid(contentElementUuid);
-        return this;
-    }
-
-    @Override
-    public ISyncCompoundAsset setContentType(final String contentTypeKey) {
-        super.setContentType(contentTypeKey);
         return this;
     }
 

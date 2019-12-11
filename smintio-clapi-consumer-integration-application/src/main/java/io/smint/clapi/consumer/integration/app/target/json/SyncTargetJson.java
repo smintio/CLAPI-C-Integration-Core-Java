@@ -205,11 +205,11 @@ public class SyncTargetJson implements ISyncTarget {
         if (newTargetAssets != null) {
             for (final ISyncBinaryAsset asset : newTargetAssets) {
 
-                LOG.finer("Importing new asset " + asset.getUuid() + ":" + asset.getBinaryUuid() + "!");
+                LOG.finer("Importing new asset " + asset.getTransactionUuid() + ":" + asset.getBinaryUuid() + "!");
 
                 final String id = this.getNextId();
                 this._binaryAssets.put(id, asset);
-                this._mapSmintIoIdToMyId.put("asset-" + asset.getUuid() + "_" + asset.getBinaryUuid(), id);
+                this._mapSmintIoIdToMyId.put("asset-" + asset.getTransactionUuid() + "_" + asset.getBinaryUuid(), id);
 
                 // download file
                 try {
@@ -227,7 +227,7 @@ public class SyncTargetJson implements ISyncTarget {
         if (updatedTargetAssets != null) {
             for (final ISyncBinaryAsset asset : updatedTargetAssets) {
                 final String id = this._mapSmintIoIdToMyId
-                    .get("asset-" + asset.getUuid() + "_" + asset.getBinaryUuid());
+                    .get("asset-" + asset.getTransactionUuid() + "_" + asset.getBinaryUuid());
                 this._binaryAssets.put(id, asset);
             }
         }
@@ -239,7 +239,7 @@ public class SyncTargetJson implements ISyncTarget {
             for (final ISyncCompoundAsset asset : newTargetCompoundAssets) {
                 final String id = this.getNextId();
                 this._compoundAssets.put(id, asset);
-                this._mapSmintIoIdToMyId.put("asset-" + asset.getUuid() + "_compound", id);
+                this._mapSmintIoIdToMyId.put("asset-" + asset.getTransactionUuid() + "_compound", id);
             }
         }
     }
@@ -248,7 +248,7 @@ public class SyncTargetJson implements ISyncTarget {
     public void updateTargetCompoundAssets(final ISyncCompoundAsset[] updatedTargetCompoundAssets) {
         if (updatedTargetCompoundAssets != null) {
             for (final ISyncCompoundAsset asset : updatedTargetCompoundAssets) {
-                final String id = this._mapSmintIoIdToMyId.get("asset-" + asset.getUuid() + "_compound");
+                final String id = this._mapSmintIoIdToMyId.get("asset-" + asset.getTransactionUuid() + "_compound");
                 this._binaryAssets.put(id, asset);
             }
         }

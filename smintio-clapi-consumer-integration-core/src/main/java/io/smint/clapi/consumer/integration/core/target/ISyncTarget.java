@@ -506,14 +506,14 @@ public interface ISyncTarget {
     /**
      * Maps the Smint.io ID of a <em>Binary Asset</em> to a synchronization target ID/key.
      *
-     * @param assetUuid  the ID of the asset on the Smint.io platform.
-     * @param binaryUuid the ID of the binary data on the Smint.io platform.
+     * @param assetTransactionUuid the ID of the asset on the Smint.io platform.
+     * @param binaryUuid           the ID of the binary data on the Smint.io platform.
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
      * @see ISyncAsset
      */
-    String getTargetAssetBinaryUuid(String assetUuid, String binaryUuid);
+    String getTargetAssetBinaryUuid(String assetTransactionUuid, String binaryUuid);
 
 
     /**
