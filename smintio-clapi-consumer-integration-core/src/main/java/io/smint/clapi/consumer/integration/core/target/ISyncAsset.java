@@ -386,26 +386,6 @@ public interface ISyncAsset extends ISyncDataType {
 
 
     /**
-     * This is a Smint.io internal ID of the asset within the purchase.
-     *
-     * <p>
-     * The value itself does not have any practical use for the user of the sync target, but is necessary to retrieve
-     * further information about the asset from the Smint.io platform. Actually, it is the same value as
-     * {@code #getUuid()} but might be changed in the future to use a different value.
-     * </p>
-     *
-     * <p>
-     * With a purchase you actually buy a license to use the asset, hence the name of this value contains "license" and
-     * "purchase transaction".
-     * </p>
-     *
-     * @param licensePurchaseTransactionUuid the ID of the license purchase transaction.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     */
-    ISyncAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid);
-
-
-    /**
      * Set to {@code true} if the purchase transaction has been cancelled prior to fulfillment of payment.
      *
      * <p>

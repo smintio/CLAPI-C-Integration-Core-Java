@@ -169,10 +169,6 @@ public interface ISyncCompoundAsset extends ISyncAsset {
 
 
     @Override
-    ISyncCompoundAsset setLicensePurchaseTransactionUuid(String licensePurchaseTransactionUuid);
-
-
-    @Override
     ISyncCompoundAsset setHasBeenCancelled(boolean hasBeenCancelled);
 
 

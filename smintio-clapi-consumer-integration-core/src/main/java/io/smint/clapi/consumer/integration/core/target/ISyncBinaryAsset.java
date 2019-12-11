@@ -271,10 +271,6 @@ public interface ISyncBinaryAsset extends ISyncAsset {
 
 
     @Override
-    ISyncBinaryAsset setLicensePurchaseTransactionUuid(String licensePurchaseTransactionUuid);
-
-
-    @Override
     ISyncBinaryAsset setHasBeenCancelled(boolean hasBeenCancelled);
 
 

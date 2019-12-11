@@ -146,13 +146,6 @@ public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyn
 
 
     @Override
-    public ISyncCompoundAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid) {
-        super.setLicensePurchaseTransactionUuid(licensePurchaseTransactionUuid);
-        return this;
-    }
-
-
-    @Override
     public ISyncCompoundAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
         super.setHasBeenCancelled(hasBeenCancelled);
         return this;

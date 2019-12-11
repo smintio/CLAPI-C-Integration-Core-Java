@@ -223,13 +223,6 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
 
 
     @Override
-    public ISyncBinaryAsset setLicensePurchaseTransactionUuid(final String licensePurchaseTransactionUuid) {
-        super.setLicensePurchaseTransactionUuid(licensePurchaseTransactionUuid);
-        return this;
-    }
-
-
-    @Override
     public ISyncBinaryAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
         super.setHasBeenCancelled(hasBeenCancelled);
         return this;
