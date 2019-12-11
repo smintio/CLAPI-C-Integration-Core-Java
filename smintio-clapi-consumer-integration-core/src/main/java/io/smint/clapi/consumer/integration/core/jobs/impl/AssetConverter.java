@@ -106,7 +106,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             final ISyncBinaryAsset targetAsset = this._syncTargetDataFactory.createSyncBinaryAsset();
 
             targetAsset
-                .setUuid(rawAsset.getLicensePurchaseTransactionUuid())
+                .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
                 .setRecommendedFileName(recommendedFileName)
                 .setDownloadUrl(downloadUrl);
 
@@ -119,7 +119,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
                         downloadUrl,
                         new File(
                             this._temporaryDownloadFolder,
-                            targetAsset.getUuid() + "_" + targetAsset.getBinaryUuid() + "_"
+                            targetAsset.getTransactionUuid() + "_" + targetAsset.getBinaryUuid() + "_"
                                 + recommendedFileName
                         )
                     )
@@ -138,7 +138,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
             targetCompoundAsset
                 .setAssetParts(assetPartAssets.toArray(new ISyncBinaryAsset[assetPartAssets.size()]))
-                .setUuid(rawAsset.getLicensePurchaseTransactionUuid());
+                .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
 
             this.setContentMetadata(targetCompoundAsset, rawAsset, null, this._idMapper);
@@ -192,7 +192,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
             .setCreatedAt(rawAsset.getCreatedAt())
             .setLastUpdatedAt(rawAsset.getLastUpdatedAt())
             .setCartPurchaseTransactionUuid(rawAsset.getCartPurchaseTransactionUuid())
-            .setLicensePurchaseTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
+            .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
             .setHasBeenCancelled(rawAsset.getState() == LicensePurchaseTransactionStateEnum.CANCELLED);
 
 

@@ -125,7 +125,7 @@ public interface ISyncCompoundAsset extends ISyncAsset {
 
 
     @Override
-    ISyncCompoundAsset setUuid(String smintIoId);
+    ISyncCompoundAsset setTransactionUuid(String smintIoId);
 
     @Override
     ISyncCompoundAsset setTargetAssetUuid(String targetAssetUuid);

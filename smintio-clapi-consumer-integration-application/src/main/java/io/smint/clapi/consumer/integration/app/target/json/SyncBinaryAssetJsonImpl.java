@@ -146,8 +146,8 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
     }
 
     @Override
-    public ISyncBinaryAsset setUuid(final String smintIoId) {
-        super.setUuid(smintIoId);
+    public ISyncBinaryAsset setTransactionUuid(final String smintIoId) {
+        super.setTransactionUuid(smintIoId);
         return this;
     }
 

@@ -63,8 +63,8 @@ public class SyncCompoundAssetJsonImpl extends SyncAssetJsonImpl implements ISyn
 
 
     @Override
-    public ISyncCompoundAsset setUuid(final String smintIoId) {
-        super.setUuid(smintIoId);
+    public ISyncCompoundAsset setTransactionUuid(final String smintIoId) {
+        super.setTransactionUuid(smintIoId);
         return this;
     }
 

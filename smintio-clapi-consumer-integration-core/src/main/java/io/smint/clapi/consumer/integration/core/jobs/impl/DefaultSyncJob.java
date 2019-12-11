@@ -537,7 +537,7 @@ public class DefaultSyncJob implements ISyncJob {
 
                             // check for existing asset
                             final String targetCompoundAssetUuid = this._syncTarget.getTargetCompoundAssetUuid(
-                                compoundTargetAsset.getUuid()
+                                compoundTargetAsset.getTransactionUuid()
                             );
 
                             if (!this.isNullOrEmpty(targetCompoundAssetUuid)) {
@@ -555,7 +555,7 @@ public class DefaultSyncJob implements ISyncJob {
 
                             // check for existing asset
                             final String targetAssetUuid = this._syncTarget.getTargetAssetBinaryUuid(
-                                binaryTargetAsset.getUuid(),
+                                binaryTargetAsset.getTransactionUuid(),
                                 binaryTargetAsset.getBinaryUuid()
                             );
 

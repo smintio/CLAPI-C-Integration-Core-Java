@@ -230,7 +230,7 @@ public interface ISyncBinaryAsset extends ISyncAsset {
     ISyncBinaryAsset setContentType(final String contentTypeKey);
 
     @Override
-    ISyncBinaryAsset setUuid(String smintIoId);
+    ISyncBinaryAsset setTransactionUuid(String smintIoId);
 
     @Override
     ISyncBinaryAsset setTargetAssetUuid(String targetAssetUuid);

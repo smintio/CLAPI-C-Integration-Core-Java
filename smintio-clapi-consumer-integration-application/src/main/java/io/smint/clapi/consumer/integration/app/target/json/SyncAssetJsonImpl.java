@@ -76,13 +76,13 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
 
 
     @Override
-    public String getUuid() {
+    public String getTransactionUuid() {
         return (String) this.getMetaData().get(JSON_KEY__UUID);
     }
 
 
     @Override
-    public ISyncAsset setUuid(final String smintIoId) throws NullPointerException {
+    public ISyncAsset setTransactionUuid(final String smintIoId) throws NullPointerException {
         this.putMetaDataValue(JSON_KEY__UUID, smintIoId);
         return this;
     }
