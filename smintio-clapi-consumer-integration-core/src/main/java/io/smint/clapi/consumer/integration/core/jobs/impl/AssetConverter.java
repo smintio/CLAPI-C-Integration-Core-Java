@@ -43,7 +43,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  */
-public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
+class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
 
     private static final Logger LOG = Logger.getLogger(AssetConverter.class.getName());
 

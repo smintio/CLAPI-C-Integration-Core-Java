@@ -24,7 +24,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  */
-public class LicenseOptionsConverter extends BaseSyncDataConverter<ISmintIoLicenseOptions, ISyncLicenseOption> {
+class LicenseOptionsConverter extends BaseSyncDataConverter<ISmintIoLicenseOptions, ISyncLicenseOption> {
 
 
     private final ISyncTargetDataFactory _syncTargetDataFactory;

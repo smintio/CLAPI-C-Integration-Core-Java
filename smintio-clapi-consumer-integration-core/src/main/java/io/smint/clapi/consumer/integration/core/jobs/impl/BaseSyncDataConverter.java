@@ -29,7 +29,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
  * @param <ToTypeT>   the new type from package {@link io.smint.clapi.consumer.integration.core.target} that will hold
  *                    all data prepared for the sync target.
  */
-public abstract class BaseSyncDataConverter<FromTypeT extends ISmintIoDataType, ToTypeT extends ISyncDataType> {
+abstract class BaseSyncDataConverter<FromTypeT extends ISmintIoDataType, ToTypeT extends ISyncDataType> {
 
 
     private final Class<ToTypeT> _targetType;
