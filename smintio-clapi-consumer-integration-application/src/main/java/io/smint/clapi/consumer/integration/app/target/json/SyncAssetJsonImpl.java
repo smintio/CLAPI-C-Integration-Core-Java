@@ -99,13 +99,6 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     }
 
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<Locale, String> getName() {
-        return (Map<Locale, String>) this.getMetaData().get(JSON_KEY__ASSET_NAME);
-    }
-
-
     @Override
     public ISyncAsset setName(final Map<Locale, String> name) {
         this.putMetaDataValue(JSON_KEY__ASSET_NAME, name);

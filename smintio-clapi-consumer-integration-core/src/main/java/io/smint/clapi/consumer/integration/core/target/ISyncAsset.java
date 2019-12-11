@@ -186,7 +186,7 @@ public interface ISyncAsset extends ISyncDataType {
 
 
     /**
-     * Provides the name for the asset, translated to multiple languages.
+     * Sets a name for the asset, translated to multiple languages.
      *
      * <p>
      * The possible translations available are defined by the value of
@@ -194,19 +194,6 @@ public interface ISyncAsset extends ISyncDataType {
      * However, not all languages might have a valid translation. Languages without a translation might be omitted from
      * the map. Especially if this is a persistent asset and a new language has been added to the list of languages.
      * Then the new language might have not yet been stored to this persistent asset.
-     * </p>
-     *
-     * @return the multi-language name of the asset or {@code null} if none have been set yet.
-     */
-    Map<Locale, String> getName();
-
-
-    /**
-     * Sets a name for the asset, translated to multiple languages.
-     *
-     * <p>
-     * The translations available are defined by the value of
-     * {@link io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel#getImportLanguages()}.
      * </p>
      *
      * @param name the multi-language name of the asset.
