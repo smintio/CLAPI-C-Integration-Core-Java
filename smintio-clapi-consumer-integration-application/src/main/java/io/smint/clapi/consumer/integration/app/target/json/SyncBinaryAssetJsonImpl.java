@@ -45,7 +45,6 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
 
 
     public static final String JSON_KEY__RECOMMENDED_FILE_NAME = "recommendedFileName";
-    public static final String JSON_KEY__DOWNLOAD_URL = "downloadUrl";
 
     public static final String JSON_KEY__BINARY_UUID = "binaryUuid";
     public static final String JSON_KEY__BINARY_TYPE = "binaryType";
@@ -65,13 +64,6 @@ public class SyncBinaryAssetJsonImpl extends SyncAssetJsonImpl implements ISyncB
     @Override
     public ISyncBinaryAsset setRecommendedFileName(final String fileName) {
         this.putMetaDataValue(JSON_KEY__RECOMMENDED_FILE_NAME, fileName);
-        return this;
-    }
-
-
-    @Override
-    public ISyncBinaryAsset setDownloadUrl(final URL downloadURL) {
-        this.putMetaDataValue(JSON_KEY__DOWNLOAD_URL, downloadURL);
         return this;
     }
 

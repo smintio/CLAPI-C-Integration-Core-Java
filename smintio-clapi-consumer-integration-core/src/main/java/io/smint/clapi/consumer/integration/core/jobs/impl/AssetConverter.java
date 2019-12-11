@@ -109,8 +109,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
 
             targetAsset
                 .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
-                .setRecommendedFileName(recommendedFileName)
-                .setDownloadUrl(downloadUrl);
+                .setRecommendedFileName(recommendedFileName);
 
             this.setContentMetadata(targetAsset, rawAsset, binary, this._idMapper);
             this.setLicenseMetadata(targetAsset, rawAsset, this._idMapper, this._syncTargetDataFactory);

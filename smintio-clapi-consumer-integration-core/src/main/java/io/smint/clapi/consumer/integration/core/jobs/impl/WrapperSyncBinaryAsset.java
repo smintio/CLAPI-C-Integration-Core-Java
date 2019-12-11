@@ -66,13 +66,6 @@ class WrapperSyncBinaryAsset extends WrapperBaseSyncAsset<ISyncBinaryAsset> impl
 
 
     @Override
-    public ISyncBinaryAsset setDownloadUrl(final URL downloadURL) {
-        this.getWrapped().setDownloadUrl(downloadURL);
-        return this;
-    }
-
-
-    @Override
     public File getDownloadedFile() throws FileNotFoundException, SmintIoAuthenticatorException {
         return this.getWrapped().getDownloadedFile();
     }

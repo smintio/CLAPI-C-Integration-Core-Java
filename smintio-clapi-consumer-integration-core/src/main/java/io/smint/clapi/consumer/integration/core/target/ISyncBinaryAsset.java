@@ -114,15 +114,6 @@ public interface ISyncBinaryAsset extends ISyncAsset {
 
 
     /**
-     * Sets the download URL for the binary of this asset.
-     *
-     * @param downloadURL a valid URL to download the binary from the Smint.io platform or {@code null}.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     */
-    ISyncBinaryAsset setDownloadUrl(final URL downloadURL);
-
-
-    /**
      * Downloads and provides the binary file of this <em>Simple Asset</em>.
      *
      * <p>
