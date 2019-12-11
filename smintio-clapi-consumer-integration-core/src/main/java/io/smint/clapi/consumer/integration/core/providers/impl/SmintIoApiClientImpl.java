@@ -801,7 +801,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
         Boolean isEditorialUse = null;
-        boolean hasLicenseTerms = false;
 
         List<SyncLicenseTerm> licenseTerms = apiAsset.getLicenseTerms();
         if (licenseTerms == null) {
@@ -823,27 +822,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     isEditorialUse = false;
                 }
             }
-
-
-            hasLicenseTerms |= licenceTerm.getRestrictedUsages() != null
-                && licenceTerm.getRestrictedUsages().size() > 0
-                || licenceTerm.getRestrictedSizes() != null && licenceTerm.getRestrictedUsages().size() > 0
-                || licenceTerm.getRestrictedPlacements() != null
-                    && licenceTerm.getRestrictedPlacements().size() > 0
-                || licenceTerm.getRestrictedDistributions() != null
-                    && licenceTerm.getRestrictedDistributions().size() > 0
-                || licenceTerm.getRestrictedGeographies() != null
-                    && licenceTerm.getRestrictedGeographies().size() > 0
-                || licenceTerm.getRestrictedIndustries() != null
-                    && licenceTerm.getRestrictedIndustries().size() > 0
-                || licenceTerm.getRestrictedLanguages() != null
-                    && licenceTerm.getRestrictedLanguages().size() > 0
-                || licenceTerm.getUsageLimits() != null && licenceTerm.getUsageLimits().size() > 0
-                || licenceTerm.getValidFrom() != null
-                    && licenceTerm.getValidFrom().isAfter(OffsetDateTime.now())
-                || licenceTerm.getValidUntil() != null
-                || licenceTerm.getToBeUsedUntil() != null
-                || licenceTerm.getIsEditorialUse() != null && licenceTerm.getIsEditorialUse().booleanValue();
         }
 
         final LocalizedContentElementDetail contentElement = apiAsset.getContentElement();
@@ -887,7 +865,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
 
             .setIsEditorialUse(isEditorialUse)
-            .setHasLicenseTerms(hasLicenseTerms)
+            .setHasLicenseTerms(apiAsset.getHasPotentiallyRestrictiveLicenseTerms())
             .setPurchasedAt(apiAsset.getPurchasedAt())
             .setCreatedAt(apiAsset.getCreatedAt())
             .setLastUpdatedAt(
