@@ -199,7 +199,7 @@ public class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAs
         if (binary != null && !this.isNullOrEmpty(binary.getName())) {
             targetAsset.setName(binary.getName());
 
-        } else if (!this.isNullOrEmpty(targetAsset.getName())) {
+        } else if (!this.isNullOrEmpty(rawAsset.getName())) {
             targetAsset.setName(rawAsset.getName());
         }
 
