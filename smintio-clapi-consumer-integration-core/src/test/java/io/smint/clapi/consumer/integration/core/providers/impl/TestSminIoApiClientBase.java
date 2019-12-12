@@ -21,12 +21,17 @@ package io.smint.clapi.consumer.integration.core.providers.impl;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 
 import org.junit.jupiter.api.DisplayName;
 
+import io.smint.clapi.consumer.integration.core.LocaleUtility;
 import io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
@@ -116,6 +121,15 @@ public abstract class TestSminIoApiClientBase {
     public Object fromJson(final String json, final Class<?> type) {
         final Gson gson = new SmintIoGsonProvider().get();
         return gson.fromJson(json, type);
+    }
+
+
+    public List<Locale> convertImportLanguages(final String[] importLanguages) {
+        return Arrays.asList(importLanguages)
+            .stream()
+            .map((lang) -> LocaleUtility.covertToISO2Locale(new Locale(lang)))
+            .collect(Collectors.toList());
+
     }
 }
 

@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.generated.models.LocalizedString;
-import io.smint.clapi.consumer.integration.core.LocaleUtility;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
@@ -168,12 +166,8 @@ public class TestSminIoApiClientImportValues extends TestSminIoApiClientBase {
             List.class, List.class
         );
 
-        final List<Locale> languages = Arrays.asList(importLanguages)
-            .stream()
-            .map((lang) -> LocaleUtility.covertToISO2Locale(new Locale(lang)))
-            .collect(Collectors.toList());
-
-        return (Map<Locale, String>) getGrouped.invoke(apiClient, languages, elements);
+        return (Map<Locale, String>) getGrouped
+            .invoke(apiClient, this.convertImportLanguages(importLanguages), elements);
     }
 
 

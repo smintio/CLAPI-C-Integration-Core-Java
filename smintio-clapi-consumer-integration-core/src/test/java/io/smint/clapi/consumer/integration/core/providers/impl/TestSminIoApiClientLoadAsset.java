@@ -71,11 +71,11 @@ public class TestSminIoApiClientLoadAsset extends TestSminIoApiClientBase {
 
         final SmintIoApiClientImpl clientApi = this.createApiClient(importLanguages);
         final Method getValuesForImportLanguages = this.getPrivateFunction(
-            clientApi, "getValuesForImportLanguages", String[].class, List.class
+            clientApi, "getValuesForImportLanguages", List.class, List.class
         );
         @SuppressWarnings("unchecked")
         final Map<Locale, String> convertedTexts = (Map<Locale, String>) getValuesForImportLanguages
-            .invoke(clientApi, importLanguages, Arrays.asList(localizedStrings));
+            .invoke(clientApi, this.convertImportLanguages(importLanguages), Arrays.asList(localizedStrings));
 
         Assertions.assertNotNull(convertedTexts, "Failed to convert API localized Strings to sync language texts!");
         Assertions.assertEquals(
@@ -147,11 +147,11 @@ public class TestSminIoApiClientLoadAsset extends TestSminIoApiClientBase {
 
         final SmintIoApiClientImpl clientApi = this.createApiClient(importLanguages);
         final Method getGroupedValuesForImportLanguages = this.getPrivateFunction(
-            clientApi, "getGroupedValuesForImportLanguages", String[].class, List.class
+            clientApi, "getGroupedValuesForImportLanguages", List.class, List.class
         );
         @SuppressWarnings("unchecked")
         final Map<Locale, String[]> convertedTexts = (Map<Locale, String[]>) getGroupedValuesForImportLanguages
-            .invoke(clientApi, importLanguages, Arrays.asList(localizedStrings));
+            .invoke(clientApi, this.convertImportLanguages(importLanguages), Arrays.asList(localizedStrings));
 
 
         Assertions.assertNotNull(convertedTexts, "Failed to convert API localized Strings to sync language texts!");
@@ -234,10 +234,10 @@ public class TestSminIoApiClientLoadAsset extends TestSminIoApiClientBase {
 
         final SmintIoApiClientImpl clientApi = this.createApiClient(importLanguages);
         final Method getReleaseDetails = this.getPrivateFunction(
-            clientApi, "getReleaseDetails", String[].class, SyncLicensePurchaseTransaction.class
+            clientApi, "getReleaseDetails", List.class, SyncLicensePurchaseTransaction.class
         );
         final ISmintIoReleaseDetails releaseDetail = (ISmintIoReleaseDetails) getReleaseDetails
-            .invoke(clientApi, importLanguages, this.loadTestAssetData());
+            .invoke(clientApi, this.convertImportLanguages(importLanguages), this.loadTestAssetData());
 
 
         Assertions.assertNull(releaseDetail, "Failed to extract release detail form API asset!");

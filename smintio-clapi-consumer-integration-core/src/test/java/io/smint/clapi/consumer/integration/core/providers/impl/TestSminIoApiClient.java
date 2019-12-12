@@ -22,8 +22,6 @@ package io.smint.clapi.consumer.integration.core.providers.impl;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
-import io.smint.clapi.consumer.integration.core.LocaleUtility;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 
 
@@ -902,12 +899,8 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
             List.class, List.class
         );
 
-        final List<Locale> languages = Arrays.asList(importLanguages)
-            .stream()
-            .map((lang) -> LocaleUtility.covertToISO2Locale(new Locale(lang)))
-            .collect(Collectors.toList());
-
-        return (ISmintIoMetadataElement[]) getGrouped.invoke(apiClient, languages, elements);
+        return (ISmintIoMetadataElement[]) getGrouped
+            .invoke(apiClient, this.convertImportLanguages(importLanguages), elements);
     }
 
 }
