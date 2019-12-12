@@ -38,7 +38,6 @@ import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorag
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDataModel;
-import io.smint.clapi.consumer.integration.core.configuration.models.impl.SettingsModelImpl;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.SyncJobDataModelImpl;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
@@ -247,13 +246,9 @@ public class DefaultSyncJob implements ISyncJob {
         }
 
         // validate import languages
-        final List<String> validLanguages = new ArrayList<>(languages.length);
         for (final String language : languages) {
             final Locale localeForLanguage = Locale.forLanguageTag(language);
-            if (localeForLanguage != null && localeForLanguage.getISO3Language() != null) {
-                validLanguages.add(localeForLanguage.getLanguage());
-
-            } else {
+            if (localeForLanguage == null || localeForLanguage.getISO3Language() == null) {
                 throw new SmintIoAuthenticatorException(
                     AuthenticatorError.SmintIoIntegrationWrongState,
                     "The import language '" + language + "' is invalid!"
@@ -261,8 +256,7 @@ public class DefaultSyncJob implements ISyncJob {
             }
         }
 
-        return new SettingsModelImpl(settings)
-            .setImportLanguages(validLanguages.toArray(new String[validLanguages.size()]));
+        return settings;
     }
 
 

@@ -475,7 +475,19 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         if (localizedMetadataElements != null) {
 
             return localizedMetadataElements.stream()
-                .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
+                .filter(
+                    (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
+                        && elem.getMetadataElement() != null
+                )
+                .filter(
+                    (elem) -> {
+                        final Locale language = new Locale(elem.getCulture());
+                        return langs == null || langs.size() == 0
+                            || langs.contains(elem.getCulture())
+                            || langs.contains(language.getISO3Language())
+                            || langs.contains(language.getLanguage());
+                    }
+                )
                 .collect(Collectors.groupingBy((elem) -> elem.getMetadataElement().getKey()))
                 .entrySet()
                 .stream()
@@ -510,14 +522,29 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
             return localizedString.stream()
-                .filter((elem) -> elem != null && elem.getMetadataElement() != null)
-                .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
-                .collect(Collectors.groupingBy(LocalizedMetadataElement::getCulture))
+                .filter(
+                    (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
+                        && elem.getMetadataElement() != null
+                )
+                .filter(
+                    (elem) -> {
+                        final Locale language = new Locale(elem.getCulture());
+                        return langs == null || langs.size() == 0
+                            || langs.contains(elem.getCulture())
+                            || langs.contains(language.getISO3Language())
+                            || langs.contains(language.getLanguage());
+                    }
+                )
+                .collect(
+                    Collectors.groupingBy(
+                        (elem) -> new Locale(elem.getCulture())
+                    )
+                )
                 .entrySet()
                 .stream()
                 .collect(
                     Collectors.toMap(
-                        (entry) -> new Locale(entry.getKey()),
+                        (entry) -> entry.getKey(),
                         (entry) -> entry.getValue().stream()
                             .map((localizedItem) -> localizedItem.getMetadataElement().getName())
                             .filter((name) -> name != null && !name.isEmpty())
@@ -539,8 +566,19 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
             final Map<Locale, String> result = localizedStrings.stream()
-                .filter((elem) -> elem != null && elem.getValue() != null)
-                .filter((elem) -> langs == null || langs.size() == 0 || langs.contains(elem.getCulture()))
+                .filter(
+                    (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
+                        && elem.getValue() != null
+                )
+                .filter(
+                    (elem) -> {
+                        final Locale language = new Locale(elem.getCulture());
+                        return langs == null || langs.size() == 0
+                            || langs.contains(elem.getCulture())
+                            || langs.contains(language.getISO3Language())
+                            || langs.contains(language.getLanguage());
+                    }
+                )
                 .collect(
                     Collectors.toMap(
                         (elem) -> new Locale(elem.getCulture()),
