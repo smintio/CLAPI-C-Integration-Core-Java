@@ -486,26 +486,32 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     (elem) -> {
                         final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
                         return importLanguages == null || importLanguages.size() == 0
-                            || importLanguages.contains(language);
+                            || importLanguages.contains(language)
+                            || Locale.ENGLISH.equals(language);
                     }
                 )
                 .collect(Collectors.groupingBy((elem) -> elem.getMetadataElement().getKey()))
                 .entrySet()
                 .stream()
                 .map(
-                    (group) -> new SmintIoMetadataElementImpl()
-                        .setKey(group.getKey())
-                        .setValues(
-                            group.getValue()
-                                .stream()
-                                .sorted((a, b) -> a.getCulture().compareTo(b.getCulture()))
-                                .collect(
-                                    Collectors.toMap(
-                                        (elem) -> new Locale(this.convertApiLanguage(elem.getCulture())),
-                                        (elem) -> elem.getMetadataElement().getName()
-                                    )
+                    (group) -> {
+
+                        Map<Locale, String> availableLocalizedTexts = group.getValue()
+                            .stream()
+                            .collect(
+                                Collectors.toMap(
+                                    (elem) -> LocaleUtility.covertToISO2Locale(
+                                        new Locale(this.convertApiLanguage(elem.getCulture()))
+                                    ),
+                                    (elem) -> elem.getMetadataElement().getName()
                                 )
-                        )
+                            );
+
+                        availableLocalizedTexts = this.addLanguageFallback(importLanguages, availableLocalizedTexts);
+                        return new SmintIoMetadataElementImpl()
+                            .setKey(group.getKey())
+                            .setValues(availableLocalizedTexts);
+                    }
                 )
                 .toArray(SmintIoMetadataElementImpl[]::new);
         }
@@ -515,13 +521,12 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private Map<Locale, String[]> getGroupedValuesForImportLanguages(
-        final List<Locale> importLanguages, final java.util.List<LocalizedMetadataElement> localizedString
+        final List<Locale> importLanguages, final List<LocalizedMetadataElement> localizedString
     ) {
 
         if (localizedString != null) {
 
-
-            return localizedString.stream()
+            final Map<Locale, String[]> availableTexts = localizedString.stream()
                 .filter(
                     (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
                         && elem.getMetadataElement() != null
@@ -530,12 +535,13 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     (elem) -> {
                         final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
                         return importLanguages == null || importLanguages.size() == 0
-                            || importLanguages.contains(language);
+                            || importLanguages.contains(language)
+                            || Locale.ENGLISH.equals(language);
                     }
                 )
                 .collect(
                     Collectors.groupingBy(
-                        (elem) -> new Locale(elem.getCulture())
+                        (elem) -> LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()))
                     )
                 )
                 .entrySet()
@@ -549,6 +555,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                             .toArray(String[]::new)
                     )
                 );
+
+
+            return this.addLanguageFallback(importLanguages, availableTexts);
         }
 
         return null;
@@ -556,38 +565,68 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private Map<Locale, String> getValuesForImportLanguages(
-        final String[] importLanguages, final List<LocalizedString> localizedStrings
+        final List<Locale> importLanguages, final List<LocalizedString> localizedStrings
     ) {
 
-        final List<String> langs = importLanguages != null ? Arrays.asList(importLanguages) : null;
         if (localizedStrings != null) {
 
-
-            final Map<Locale, String> result = localizedStrings.stream()
+            final Map<Locale, String> availableTexts = localizedStrings.stream()
                 .filter(
                     (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
                         && elem.getValue() != null
                 )
                 .filter(
                     (elem) -> {
-                        final Locale language = new Locale(elem.getCulture());
-                        return langs == null || langs.size() == 0
-                            || langs.contains(elem.getCulture())
-                            || langs.contains(language.getISO3Language())
-                            || langs.contains(language.getLanguage());
+                        final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
+                        return importLanguages == null || importLanguages.size() == 0
+                            || importLanguages.contains(language)
+                            || Locale.ENGLISH.equals(language);
                     }
                 )
                 .collect(
                     Collectors.toMap(
-                        (elem) -> new Locale(elem.getCulture()),
+                        (elem) -> LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture())),
                         (elem) -> elem.getValue()
                     )
                 );
 
-            return result.size() > 0 ? result : null;
+            return this.addLanguageFallback(importLanguages, availableTexts);
         }
 
         return null;
+    }
+
+
+    private <T> Map<Locale, T> addLanguageFallback(
+        final List<Locale> importLanguages, final Map<Locale, T> availableValues
+    ) {
+
+        if (importLanguages == null || importLanguages.size() == 0) {
+            return availableValues;
+        }
+
+        if (availableValues == null || availableValues.size() == 0) {
+            return null;
+        }
+
+        final boolean needEnglishFallback = importLanguages != null && importLanguages.size() > 0
+            && !importLanguages.contains(Locale.ENGLISH);
+
+
+        // copy over all languages to import
+        final Map<Locale, T> result = new HashMap<>();
+        for (final Locale importLanguage : importLanguages) {
+
+            if (availableValues.containsKey(importLanguage)) {
+                result.put(importLanguage, availableValues.get(importLanguage));
+
+            } else if (needEnglishFallback && availableValues.containsKey(Locale.ENGLISH)) {
+
+                // Add English as fallback for all languages not available
+                result.put(importLanguage, availableValues.get(Locale.ENGLISH));
+            }
+        }
+        return result;
     }
 
 

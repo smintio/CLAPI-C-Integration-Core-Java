@@ -40,12 +40,12 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElemen
 // CHECKSTYLE.OFF: MultipleStringLiterals
 // CHECKSTYLE.OFF: MagicNumber
 
-@DisplayName("Test Smint.io API provider: SmintIoApiClientImpl")
+@DisplayName("Test SmintIoApiClientImpl: getGroupedMetadataElementsForImportLanguages")
 public class TestSminIoApiClient extends TestSminIoApiClientBase {
 
 
     @Test
-    @DisplayName("converting API data to grouped meta data elements.")
+    @DisplayName("converting to grouped meta data elements.")
     public void testGroupedMetadataElementsForImportLanguages() throws Exception {
 
         final String[] importLanguages = new String[] { "en", "de" };
@@ -187,7 +187,438 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
 
 
     @Test
-    @DisplayName("converting API data to grouped meta data elements for single language.")
+    @DisplayName("converting to grouped meta data elements without fallback but missing language.")
+    public void testGroupedMetadataElements_WithMissingLanguageWithoutFallback() throws Exception {
+
+        final String[] importLanguages = new String[] { "en", "de", "zh" };
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final LocalizedMetadataElement[] metaData = gson.fromJson(
+            "[\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images EN\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images DE\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]",
+            LocalizedMetadataElement[].class
+        );
+        Assertions.assertNotNull(metaData, "Failed read test data from JSON!");
+
+
+        final String expectedResult = "[\n" +
+            "  {\n" +
+            "    \"_key\": \"adobestock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Adobe Stock\",\n" +
+            "      \"en\": \"Adobe Stock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"getty\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Getty Images DE\",\n" +
+            "      \"en\": \"Getty Images EN\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"iStock\",\n" +
+            "      \"en\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"PantherMedia\",\n" +
+            "      \"en\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Shutterstock\",\n" +
+            "      \"en\": \"Shutterstock\"\n" +
+            "    }\n" +
+            "  }\n" +
+            "]";
+
+        final ISmintIoMetadataElement[] groupedElements = this
+            .getGroupedMetadataElementsForImportLanguages(importLanguages, Arrays.asList(metaData));
+
+        Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
+        Assertions.assertEquals(
+            importLanguages.length - 1,
+            groupedElements[0].getValues().size(),
+            "Failed to acquire a value for each import language!"
+        );
+
+        Assertions.assertNotEquals(
+            importLanguages.length,
+            groupedElements[0].getValues().size(),
+            "Additional language received a transation although fallback should be disabled!"
+        );
+
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
+        Assertions.assertEquals(
+            expectedResult,
+            gson.toJson(groupedElements),
+            "conversion lead to unexpected result!"
+        );
+
+    }
+
+
+    @Test
+    @DisplayName("converting to grouped meta data elements without fallback but missing language.")
+    public void testGroupedMetadataElements_WithMissingLanguageWithFallback() throws Exception {
+
+        final String[] importLanguages = new String[] { "de", "zh" };
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final LocalizedMetadataElement[] metaData = gson.fromJson(
+            "[\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images EN\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images DE\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]",
+            LocalizedMetadataElement[].class
+        );
+        Assertions.assertNotNull(metaData, "Failed read test data from JSON!");
+
+
+        final String expectedResult = "[\n" +
+            "  {\n" +
+            "    \"_key\": \"adobestock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Adobe Stock\",\n" +
+            "      \"zh\": \"Adobe Stock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"getty\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Getty Images DE\",\n" +
+            "      \"zh\": \"Getty Images EN\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"iStock\",\n" +
+            "      \"zh\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"PantherMedia\",\n" +
+            "      \"zh\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Shutterstock\",\n" +
+            "      \"zh\": \"Shutterstock\"\n" +
+            "    }\n" +
+            "  }\n" +
+            "]";
+
+        final ISmintIoMetadataElement[] groupedElements = this
+            .getGroupedMetadataElementsForImportLanguages(importLanguages, Arrays.asList(metaData));
+
+        Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
+        Assertions.assertEquals(
+            importLanguages.length,
+            groupedElements[0].getValues().size(),
+            "Failed to acquire a value for each import language!"
+        );
+
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
+        Assertions.assertEquals(
+            expectedResult,
+            gson.toJson(groupedElements),
+            "conversion lead to unexpected result!"
+        );
+    }
+
+
+    @Test
+    @DisplayName("converting to grouped meta data elements ISO 639-3 language.")
+    public void testGroupedMetadataElementsForImportLanguagesWithIso3() throws Exception {
+
+        final String[] importLanguages = new String[] { "en", "deu" };
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final LocalizedMetadataElement[] metaData = gson.fromJson(
+            "[\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images EN\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images DE\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]",
+            LocalizedMetadataElement[].class
+        );
+        Assertions.assertNotNull(metaData, "Failed read test data from JSON!");
+
+
+        final String expectedResult = "[\n" +
+            "  {\n" +
+            "    \"_key\": \"adobestock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Adobe Stock\",\n" +
+            "      \"en\": \"Adobe Stock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"getty\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Getty Images DE\",\n" +
+            "      \"en\": \"Getty Images EN\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"iStock\",\n" +
+            "      \"en\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"PantherMedia\",\n" +
+            "      \"en\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"de\": \"Shutterstock\",\n" +
+            "      \"en\": \"Shutterstock\"\n" +
+            "    }\n" +
+            "  }\n" +
+            "]";
+
+        final ISmintIoMetadataElement[] groupedElements = this
+            .getGroupedMetadataElementsForImportLanguages(importLanguages, Arrays.asList(metaData));
+
+        Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
+        Assertions.assertEquals(
+            importLanguages.length,
+            groupedElements[0].getValues().size(),
+            "Failed to acquire a value for each import language!"
+        );
+
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
+        Assertions.assertEquals(
+            expectedResult,
+            gson.toJson(groupedElements),
+            "conversion lead to unexpected result!"
+        );
+
+    }
+
+
+    @Test
+    @DisplayName("converting to grouped meta data elements for single language.")
     public void testGroupedMetadataElementsForSingleLanguage() throws Exception {
 
         final String[] importLanguages = new String[] { "de" };
@@ -299,6 +730,143 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
             "    \"_key\": \"shutterstock\",\n" +
             "    \"_values\": {\n" +
             "      \"de\": \"Shutterstock\"\n" +
+            "    }\n" +
+            "  }\n" +
+            "]";
+
+        final ISmintIoMetadataElement[] groupedElements = this
+            .getGroupedMetadataElementsForImportLanguages(importLanguages, Arrays.asList(metaData));
+
+        Assertions.assertNotNull(groupedElements, "Failed to convert API meta data to internal sync data!");
+        Assertions.assertEquals(
+            importLanguages.length,
+            groupedElements[0].getValues().size(),
+            "Failed to acquire a value for each import language!"
+        );
+
+        Arrays.sort(groupedElements, (a, b) -> a.getKey().compareTo(b.getKey()));
+        Assertions.assertEquals(
+            expectedResult,
+            gson.toJson(groupedElements),
+            "conversion lead to unexpected result!"
+        );
+
+    }
+
+
+    @Test
+    @DisplayName("converting to grouped meta data with single language fallback.")
+    public void testGroupedMetadataElementsForSingleLanguageWithFallback() throws Exception {
+
+        final String[] importLanguages = new String[] { "it" };
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final LocalizedMetadataElement[] metaData = gson.fromJson(
+            "[\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images EN\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"getty\",\n" +
+                "                \"name\": \"Getty Images DE\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"istock\",\n" +
+                "                \"name\": \"iStock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"shutterstock\",\n" +
+                "                \"name\": \"Shutterstock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"adobestock\",\n" +
+                "                \"name\": \"Adobe Stock\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"en\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"culture\": \"de\",\n" +
+                "            \"metadata_element\": {\n" +
+                "                \"key\": \"panthermedia\",\n" +
+                "                \"name\": \"PantherMedia\"\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]",
+            LocalizedMetadataElement[].class
+        );
+        Assertions.assertNotNull(metaData, "Failed read test data from JSON!");
+
+
+        final String expectedResult = "[\n" +
+            "  {\n" +
+            "    \"_key\": \"adobestock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"it\": \"Adobe Stock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"getty\",\n" +
+            "    \"_values\": {\n" +
+            "      \"it\": \"Getty Images EN\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"istock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"it\": \"iStock\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"panthermedia\",\n" +
+            "    \"_values\": {\n" +
+            "      \"it\": \"PantherMedia\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"_key\": \"shutterstock\",\n" +
+            "    \"_values\": {\n" +
+            "      \"it\": \"Shutterstock\"\n" +
             "    }\n" +
             "  }\n" +
             "]";
