@@ -19,7 +19,10 @@
 
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ServiceLoader;
 
@@ -38,6 +41,9 @@ import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
 import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
+import io.smint.clapi.consumer.integration.core.configuration.models.impl.SettingsModelImpl;
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException.AuthenticatorError;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoSyncFactory;
 import io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory;
@@ -192,6 +198,64 @@ public class SyncGuiceModule extends AbstractModule {
     }
 
 
+    /**
+     * Provides settings with validated lanugages.
+     *
+     * <p>
+     * Fetches the settings from the sync target factory, validates the languages and returns a new instance with the
+     * same settings and validated languages. The result is not cached internally but this is done on every call.
+     * </p>
+     *
+     * @return settings with validated languages
+     */
+    @Provides
+    public ISettingsModel getSettings() {
+
+        final ISettingsModel settings = this._syncTargetFactory.getSettings();
+
+        final String[] languages = settings.getImportLanguages();
+        if (languages == null || languages.length == 0) {
+            return settings;
+        }
+
+        boolean hasFixedLanguages = false;
+        final List<String> validLanguages = new ArrayList<>(languages.length);
+        for (final String language : languages) {
+
+            if (language == null) {
+                hasFixedLanguages = true;
+                continue;
+            }
+
+
+            final Locale localeForLanguage = Locale.forLanguageTag(language);
+            if (localeForLanguage == null || localeForLanguage.getISO3Language() == null) {
+                throw new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "The import language '" + language + "' is invalid!"
+                );
+            }
+
+
+            if (language.equals(localeForLanguage.getISO3Language())) {
+                validLanguages.add(language);
+
+            } else {
+                hasFixedLanguages = true;
+                validLanguages.add(localeForLanguage.getISO3Language());
+            }
+        }
+
+        if (hasFixedLanguages) {
+            return new SettingsModelImpl(settings)
+                .setImportLanguages(validLanguages.toArray(new String[validLanguages.size()]));
+
+        } else {
+            return settings;
+        }
+    }
+
+
     @Override
     protected void configure() {
         super.configure();
@@ -208,7 +272,6 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISyncMetadataIdMapper.class).to(DefaultSyncMetadataIdMapperImpl.class).in(Singleton.class);
 
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
-        this.bind(ISettingsModel.class).toProvider(() -> this._syncTargetFactory.getSettings());
         this.bind(ISyncTargetDataFactory.class).toProvider(() -> this._syncTargetFactory.getTargetDataFactory());
 
         this.bind(IAuthTokenStorage.class).toInstance(this._syncTargetFactory.getAuthTokenStorage());
