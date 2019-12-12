@@ -49,6 +49,7 @@ import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransaction;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransactionQueryResult;
 import io.smint.clapi.consumer.generated.models.SyncLicenseTerm;
 import io.smint.clapi.consumer.generated.models.SyncOptionInstance;
+import io.smint.clapi.consumer.integration.core.LocaleUtility;
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
@@ -263,7 +264,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
         final ISettingsModel settings = this.getSettings();
-        final String[] importLanguages = settings.getImportLanguages();
+        final List<Locale> importLanguages = Arrays.asList(settings.getImportLanguages())
+            .stream()
+            .map((lang) -> LocaleUtility.covertToISO2Locale(new Locale(lang)))
+            .collect(Collectors.toList());
 
         final SmintIoGenericMetadataImpl smintIoGenericMetadata = new SmintIoGenericMetadataImpl()
             .setContentCategories(
@@ -468,10 +472,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private ISmintIoMetadataElement[] getGroupedMetadataElementsForImportLanguages(
-        final String[] importLanguages, final List<LocalizedMetadataElement> localizedMetadataElements
+        final List<Locale> importLanguages, final List<LocalizedMetadataElement> localizedMetadataElements
     ) {
 
-        final List<String> langs = importLanguages != null ? Arrays.asList(importLanguages) : null;
         if (localizedMetadataElements != null) {
 
             return localizedMetadataElements.stream()
@@ -481,11 +484,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
                 .filter(
                     (elem) -> {
-                        final Locale language = new Locale(elem.getCulture());
-                        return langs == null || langs.size() == 0
-                            || langs.contains(elem.getCulture())
-                            || langs.contains(language.getISO3Language())
-                            || langs.contains(language.getLanguage());
+                        final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
+                        return importLanguages == null || importLanguages.size() == 0
+                            || importLanguages.contains(language);
                     }
                 )
                 .collect(Collectors.groupingBy((elem) -> elem.getMetadataElement().getKey()))
@@ -514,10 +515,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private Map<Locale, String[]> getGroupedValuesForImportLanguages(
-        final String[] importLanguages, final java.util.List<LocalizedMetadataElement> localizedString
+        final List<Locale> importLanguages, final java.util.List<LocalizedMetadataElement> localizedString
     ) {
 
-        final List<String> langs = importLanguages != null ? Arrays.asList(importLanguages) : null;
         if (localizedString != null) {
 
 
@@ -528,11 +528,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
                 .filter(
                     (elem) -> {
-                        final Locale language = new Locale(elem.getCulture());
-                        return langs == null || langs.size() == 0
-                            || langs.contains(elem.getCulture())
-                            || langs.contains(language.getISO3Language())
-                            || langs.contains(language.getLanguage());
+                        final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
+                        return importLanguages == null || importLanguages.size() == 0
+                            || importLanguages.contains(language);
                     }
                 )
                 .collect(
@@ -683,7 +681,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private ISmintIoLicenseOptions[] getLicenseOptions(
-        final String[] importLanguages, final SyncLicensePurchaseTransaction lpt
+        final List<Locale> importLanguages, final SyncLicensePurchaseTransaction lpt
     ) {
 
         if (lpt == null || lpt.getOffering() == null
@@ -740,7 +738,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private ISmintIoLicenseTerm[] getLicenseTerms(
-        final String[] importLanguages, final SyncLicensePurchaseTransaction lpt
+        final List<Locale> importLanguages, final SyncLicensePurchaseTransaction lpt
     ) {
 
         if (lpt.getLicenseTerms() == null || lpt.getLicenseTerms().size() == 0) {
@@ -794,7 +792,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     private ISmintIoReleaseDetails getReleaseDetails(
-        final String[] importLanguages, final SyncLicensePurchaseTransaction lpt
+        final List<Locale> importLanguages, final SyncLicensePurchaseTransaction lpt
     ) {
         if (lpt == null || lpt.getContentElement() == null || lpt.getContentElement().getReleaseDetails() == null) {
             return null;
@@ -835,7 +833,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
         final ISettingsModel settings = this.getSettings();
-        final String[] importLanguages = settings.getImportLanguages();
+        final List<Locale> importLanguages = Arrays.asList(settings.getImportLanguages())
+            .stream()
+            .map((lang) -> LocaleUtility.covertToISO2Locale(new Locale(lang)))
+            .collect(Collectors.toList());
 
 
         Boolean isEditorialUse = null;
