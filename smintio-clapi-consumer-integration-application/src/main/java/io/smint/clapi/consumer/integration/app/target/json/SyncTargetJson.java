@@ -36,6 +36,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobExcepti
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
 import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.SyncTargetCapabilitiesEnum;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -84,10 +85,13 @@ public class SyncTargetJson implements ISyncTarget {
         return this._allData;
     }
 
-
     @Override
     public ISyncTargetCapabilities getCapabilities() {
-        return new SyncTargetCapabilitiesJson();
+        final SyncTargetCapabilitiesEnum[] capabilities = new SyncTargetCapabilitiesEnum[] {
+            SyncTargetCapabilitiesEnum.BinaryUpdatesEnum,
+            SyncTargetCapabilitiesEnum.MultiLanguageEnum,
+        };
+        return () -> capabilities;
     }
 
     @Override
