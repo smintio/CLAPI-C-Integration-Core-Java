@@ -186,11 +186,11 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAfterAssetSyncCallback--">getAfterAssetSyncCallback</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncBinaryAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncBinaryAssetJsonImpl</a>[]</code></td>
+<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncAssetJsonImpl</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAllBinaryAssets--">getAllBinaryAssets</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncCompoundAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncCompoundAssetJsonImpl</a>[]</code></td>
+<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncAssetJsonImpl</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#getAllCompoundAssets--">getAllCompoundAssets</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -278,11 +278,11 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 </tr>
 <tr id="i29" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">importNewTargetAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;newTargetAssets)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetAssets-SyncAsset:A-">importNewTargetAssets</a></span>(SyncAsset[]&nbsp;newTargetAssets)</code>&nbsp;</td>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">importNewTargetCompoundAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;newTargetCompoundAssets)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#importNewTargetCompoundAssets-SyncAsset:A-">importNewTargetCompoundAssets</a></span>(SyncAsset[]&nbsp;newTargetCompoundAssets)</code>&nbsp;</td>
 </tr>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -294,11 +294,11 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 </tr>
 <tr id="i33" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">updateTargetAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;updatedTargetAssets)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetAssets-SyncAsset:A-">updateTargetAssets</a></span>(SyncAsset[]&nbsp;updatedTargetAssets)</code>&nbsp;</td>
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">updateTargetCompoundAssets</a></span>(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;updatedTargetCompoundAssets)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncTargetJson.html#updateTargetCompoundAssets-SyncAsset:A-">updateTargetCompoundAssets</a></span>(SyncAsset[]&nbsp;updatedTargetCompoundAssets)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -307,13 +307,6 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
 <code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
-</ul>
-<ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.io.smint.clapi.consumer.integration.core.target.ISyncTarget">
-<!--   -->
-</a>
-<h3>Methods inherited from interface&nbsp;io.smint.clapi.consumer.integration.core.target.ISyncTarget</h3>
-<code>clearGenericMetadataCaches, createSyncBinaryAsset, createSyncCompoundAsset, createSyncDownloadConstraints, createSyncLicenseOption, createSyncLicenseTerm, createSyncReleaseDetails, getBinaryTypeKey, getContentCategoryKey, getContentProviderKey, getContentTypeKey, getLicenseDistributionKey, getLicenseExclusivityKey, getLicenseGeographyKey, getLicenseIndustryKey, getLicenseLanguageKey, getLicensePlacementKey, getLicenseSizeKey, getLicenseTypeKey, getLicenseUsageKey, getLicenseUsageLimitKey, getReleaseStateKey</code></li>
 </ul>
 </li>
 </ul>
@@ -647,52 +640,52 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 </dl>
 </li>
 </ul>
-<a name="importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">
+<a name="importNewTargetAssets-SyncAsset:A-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>importNewTargetAssets</h4>
-<pre>public&nbsp;void&nbsp;importNewTargetAssets(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;newTargetAssets)</pre>
+<pre>public&nbsp;void&nbsp;importNewTargetAssets(SyncAsset[]&nbsp;newTargetAssets)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>importNewTargetAssets</code>&nbsp;in interface&nbsp;<code>io.smint.clapi.consumer.integration.core.target.ISyncTarget</code></dd>
 </dl>
 </li>
 </ul>
-<a name="updateTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">
+<a name="updateTargetAssets-SyncAsset:A-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>updateTargetAssets</h4>
-<pre>public&nbsp;void&nbsp;updateTargetAssets(io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset[]&nbsp;updatedTargetAssets)</pre>
+<pre>public&nbsp;void&nbsp;updateTargetAssets(SyncAsset[]&nbsp;updatedTargetAssets)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>updateTargetAssets</code>&nbsp;in interface&nbsp;<code>io.smint.clapi.consumer.integration.core.target.ISyncTarget</code></dd>
 </dl>
 </li>
 </ul>
-<a name="importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">
+<a name="importNewTargetCompoundAssets-SyncAsset:A-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>importNewTargetCompoundAssets</h4>
-<pre>public&nbsp;void&nbsp;importNewTargetCompoundAssets(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;newTargetCompoundAssets)</pre>
+<pre>public&nbsp;void&nbsp;importNewTargetCompoundAssets(SyncAsset[]&nbsp;newTargetCompoundAssets)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>importNewTargetCompoundAssets</code>&nbsp;in interface&nbsp;<code>io.smint.clapi.consumer.integration.core.target.ISyncTarget</code></dd>
 </dl>
 </li>
 </ul>
-<a name="updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">
+<a name="updateTargetCompoundAssets-SyncAsset:A-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>updateTargetCompoundAssets</h4>
-<pre>public&nbsp;void&nbsp;updateTargetCompoundAssets(io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset[]&nbsp;updatedTargetCompoundAssets)</pre>
+<pre>public&nbsp;void&nbsp;updateTargetCompoundAssets(SyncAsset[]&nbsp;updatedTargetCompoundAssets)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>updateTargetCompoundAssets</code>&nbsp;in interface&nbsp;<code>io.smint.clapi.consumer.integration.core.target.ISyncTarget</code></dd>
@@ -757,7 +750,7 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllBinaryAssets</h4>
-<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncBinaryAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncBinaryAssetJsonImpl</a>[]&nbsp;getAllBinaryAssets()</pre>
+<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncAssetJsonImpl</a>[]&nbsp;getAllBinaryAssets()</pre>
 </li>
 </ul>
 <a name="getAllCompoundAssets--">
@@ -766,7 +759,7 @@ implements io.smint.clapi.consumer.integration.core.target.ISyncTarget</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllCompoundAssets</h4>
-<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncCompoundAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncCompoundAssetJsonImpl</a>[]&nbsp;getAllCompoundAssets()</pre>
+<pre>public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/app/target/json/SyncAssetJsonImpl.html" title="class in io.smint.clapi.consumer.integration.app.target.json">SyncAssetJsonImpl</a>[]&nbsp;getAllCompoundAssets()</pre>
 </li>
 </ul>
 <a name="getAfterAssetSyncCallback--">

@@ -113,16 +113,18 @@ var activeTableTab = "activeTableTab";
 extends <a href="../../../../../../../io/smint/clapi/consumer/integration/core/contracts/ISmintIoDataType.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoDataType</a></pre>
 <div class="block">Represents a single binary for an asset data.
 
- <h2>Override of values if part of a <em>Compound Asset</em> (see <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><code>ISyncCompoundAsset</code></a>)</h2>
+ <h2>Override of values if part of a <em>Compound Asset</em> (see
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><code>SyncAsset</code></a>)</h2>
  <p>
  If this asset is part of a <em>Compound Asset</em> and therefore has been retrieved as part of the list from
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#getAssetParts--"><code>ISyncCompoundAsset.getAssetParts()</code></a>, its values will override the values of it base compound asset. So, if
- both received values with something like <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setContentCategory-java.lang.String-"><code>ISyncAsset.setContentCategory(String)</code></a>, the asset part's value win
- and should be selected to be stored with the sync target's asset representation.
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#getAssetParts--"><code>SyncAsset.getAssetParts()</code></a>, its values will override the
+ values of it base compound asset. So, if both received values with something like
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setContentCategory-java.lang.String-"><code>SyncAsset.setContentCategory(String)</code></a>, the asset part's value
+ win and should be selected to be stored with the sync target's asset representation.
  </p></div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><code>ISyncAsset</code></a></dd>
+<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><code>SyncAsset</code></a></dd>
 </dl>
 </li>
 </ul>

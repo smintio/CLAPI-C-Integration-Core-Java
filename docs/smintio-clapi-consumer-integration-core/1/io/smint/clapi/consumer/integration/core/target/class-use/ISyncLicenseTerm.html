@@ -83,10 +83,6 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a href="#io.smint.clapi.consumer.integration.core.jobs.impl">io.smint.clapi.consumer.integration.core.jobs.impl</a></td>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><a href="#io.smint.clapi.consumer.integration.core.target">io.smint.clapi.consumer.integration.core.target</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -95,24 +91,6 @@
 </li>
 <li class="blockList">
 <ul class="blockList">
-<li class="blockList"><a name="io.smint.clapi.consumer.integration.core.jobs.impl">
-<!--   -->
-</a>
-<h3>Uses of <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a> in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></h3>
-<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a> that return <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Method and Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a>[]</code></td>
-<td class="colLast"><span class="typeNameLabel">LicenseTermConverter.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#convert-io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm-">convert</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/contracts/ISmintIoLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoLicenseTerm</a>&nbsp;rawLicenseTerm)</code>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</li>
 <li class="blockList"><a name="io.smint.clapi.consumer.integration.core.target">
 <!--   -->
 </a>
@@ -272,18 +250,10 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></code></td>
-<td class="colLast"><span class="typeNameLabel">ISyncAsset.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a>[]&nbsp;licenseTerms)</code>
+<td class="colFirst"><code>abstract <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></code></td>
+<td class="colLast"><span class="typeNameLabel">SyncAsset.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a>[]&nbsp;licenseTerms)</code>
 <div class="block">Sets a list of license terms to apply to this asset.</div>
 </td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></code></td>
-<td class="colLast"><span class="typeNameLabel">ISyncCompoundAsset.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a>[]&nbsp;licenseTerms)</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></code></td>
-<td class="colLast"><span class="typeNameLabel">ISyncBinaryAsset.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a>[]&nbsp;licenseTerms)</code>&nbsp;</td>
 </tr>
 </tbody>
 </table>

@@ -200,14 +200,6 @@
 <dd>
 <div class="block">A hook to be called after all synchronization took place.</div>
 </dd>
-<dt><a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl"><span class="typeNameLink">AssetConverter</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></dt>
-<dd>
-<div class="block">Converts an instance from <a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html" title="interface in io.smint.clapi.consumer.integration.core.contracts"><code>ISmintIoAsset</code></a> to <a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><code>ISyncAsset</code></a>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html#AssetConverter-io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory-io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper-io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider-java.io.File-">AssetConverter(ISyncTargetDataFactory, ISyncMetadataIdMapper, ISmintIoDownloadProvider, File)</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">AssetConverter</a></dt>
-<dd>
-<div class="block">Initializes a new converter, using the <code>syncTarget</code> to map to sync target keys.</div>
-</dd>
 <dt><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl"><span class="typeNameLink">AuthTokenImpl</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/package-summary.html">io.smint.clapi.consumer.integration.core.configuration.models.impl</a></dt>
 <dd>
 <div class="block">Default implementation of OAuth data to access the Smint.io RESTful API.</div>
@@ -240,14 +232,6 @@
 </a>
 <h2 class="title">B</h2>
 <dl>
-<dt><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl"><span class="typeNameLink">BaseSyncDataConverter</span></a>&lt;<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">FromTypeT</a> extends <a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoDataType.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoDataType</a>,<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">ToTypeT</a> extends <a href="io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a>&gt; - Class in <a href="io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></dt>
-<dd>
-<div class="block">Abstract base for converters that convert instances of <code>&lt;FromTypeT&gt;</code> to <code>&lt;ToTypeT&gt;</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#BaseSyncDataConverter-java.lang.Class-">BaseSyncDataConverter(Class&lt;ToTypeT&gt;)</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BaseSyncDataConverter</a></dt>
-<dd>
-<div class="block">Initializes a new converter, using the <code>syncTarget</code> to map to sync target keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeAssetsSync--">beforeAssetsSync()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Is called right before assets are about to be synced but after <a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeSync--"><code>ISyncTarget.beforeSync()</code></a> and after
@@ -287,23 +271,9 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html#configure--">configure()</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">SyncGuiceModule</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html#convert-io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset-">convert(ISmintIoAsset)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">AssetConverter</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convert-FromTypeT-">convert(FromTypeT)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BaseSyncDataConverter</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/LocaleUtility.html#covertToISO2Locale-java.util.Locale-">covertToISO2Locale(Locale)</a></span> - Static method in class io.smint.clapi.consumer.integration.core.<a href="io/smint/clapi/consumer/integration/core/LocaleUtility.html" title="class in io.smint.clapi.consumer.integration.core">LocaleUtility</a></dt>
 <dd>
-<div class="block">Converts a single raw instance of <code>FromType</code> to a new instance of <code>ToType</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseOptionsConverter.html#convert-io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions-">convert(ISmintIoLicenseOptions)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseOptionsConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseOptionsConverter</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#convert-io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm-">convert(ISmintIoLicenseTerm)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convertAll-FromTypeT:A-">convertAll(FromTypeT[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BaseSyncDataConverter</a></dt>
-<dd>
-<div class="block">Converts each item in the list, using <a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convert-FromTypeT-"><code>BaseSyncDataConverter.convert(ISmintIoDataType)</code></a>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convertKeys-java.lang.String:A-java.util.function.Function-">convertKeys(String[], Function&lt;String, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BaseSyncDataConverter</a></dt>
-<dd>
-<div class="block">Maps a Smint.io list of keys to a list of keys on the sync target.</div>
+<div class="block">Converts the provided locale to an instance with ISO 639-1 two letter code - if possible.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/SmintIoDownloadProviderImpl.html#createDownloaderForSmintIoUrl-java.net.URL-java.io.File-">createDownloaderForSmintIoUrl(URL, File)</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/SmintIoDownloadProviderImpl.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">SmintIoDownloadProviderImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -497,9 +467,9 @@
 <dd>
 <div class="block">Provide the Smint.io platform API client read from <a href="io/smint/clapi/consumer/integration/core/providers/impl/SmintIoApiClientImpl.html#getMetadataApiClient--"><code>SmintIoApiClientImpl.getMetadataApiClient()</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#getAssetParts--">getAssetParts()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#getAssetParts--">getAssetParts()</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
-<div class="block">Provides the list of parts for this compound asset - only applicable if <code>this</code> is a compound asset.</div>
+<div class="block">provides the list of parts for this compound asset - only applicable if <code>this</code> is a compound asset.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/providers/impl/SmintIoApiClientImpl.html#getAssets-java.lang.String-boolean-boolean-">getAssets(String, boolean, boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.providers.impl.<a href="io/smint/clapi/consumer/integration/core/providers/impl/SmintIoApiClientImpl.html" title="class in io.smint.clapi.consumer.integration.core.providers.impl">SmintIoApiClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -555,10 +525,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getBinaryTypes--">getBinaryTypes()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#getBinaryUuid--">getBinaryUuid()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>
-<div class="block">Provide the Smint.io UUID to the single binary for the asset.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getCapabilities--">getCapabilities()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Provides information about features this sync target supports and thus is capable of.</div>
@@ -697,7 +663,7 @@
 <dd>
 <div class="block">Provides download constraints to apply to this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#getDownloadedFile--">getDownloadedFile()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#getDownloadedFile--">getDownloadedFile()</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Downloads and provides the binary file of this <em>Simple Asset</em>.</div>
 </dd>
@@ -816,10 +782,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseDistributions--">getLicenseDistributions()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseDistributionsKeys-java.lang.String:A-">getLicenseDistributionsKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license distribution keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#getLicenseeName--">getLicenseeName()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html#getLicenseeName--">getLicenseeName()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoAsset</a></dt>
@@ -836,10 +798,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseExclusivities--">getLicenseExclusivities()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseExclusivitiesKeys-java.lang.String:A-">getLicenseExclusivitiesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps licence exclusivities keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html#getLicenseExclusivityId-java.lang.String-">getLicenseExclusivityId(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">DefaultSyncMetadataIdMapperImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html#getLicenseExclusivityId-java.lang.String-">getLicenseExclusivityId(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.jobs.<a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncMetadataIdMapper</a></dt>
@@ -850,10 +808,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseGeographies--">getLicenseGeographies()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseGeographiesKeys-java.lang.String:A-">getLicenseGeographiesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license geographical distribution keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html#getLicenseGeographyId-java.lang.String-">getLicenseGeographyId(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">DefaultSyncMetadataIdMapperImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html#getLicenseGeographyId-java.lang.String-">getLicenseGeographyId(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.jobs.<a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncMetadataIdMapper</a></dt>
@@ -864,10 +818,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseIndustries--">getLicenseIndustries()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseIndustriesKeys-java.lang.String:A-">getLicenseIndustriesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license industry keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html#getLicenseIndustryId-java.lang.String-">getLicenseIndustryId(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/DefaultSyncMetadataIdMapperImpl.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">DefaultSyncMetadataIdMapperImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html#getLicenseIndustryId-java.lang.String-">getLicenseIndustryId(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.jobs.<a href="io/smint/clapi/consumer/integration/core/jobs/ISyncMetadataIdMapper.html" title="interface in io.smint.clapi.consumer.integration.core.jobs">ISyncMetadataIdMapper</a></dt>
@@ -884,10 +834,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseLanguages--">getLicenseLanguages()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseLanguagesKeys-java.lang.String:A-">getLicenseLanguagesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license language keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#getLicenseOptions--">getLicenseOptions()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html#getLicenseOptions--">getLicenseOptions()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoAsset</a></dt>
@@ -904,10 +850,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicensePlacements--">getLicensePlacements()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicensePlacementsKeys-java.lang.String:A-">getLicensePlacementsKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license placement keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#getLicensePurchaseTransactionUuid--">getLicensePurchaseTransactionUuid()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html#getLicensePurchaseTransactionUuid--">getLicensePurchaseTransactionUuid()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoAsset</a></dt>
@@ -924,10 +866,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseSizes--">getLicenseSizes()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseSizesKeys-java.lang.String:A-">getLicenseSizesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license size keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#getLicenseTerms--">getLicenseTerms()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html#getLicenseTerms--">getLicenseTerms()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoAsset.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoAsset</a></dt>
@@ -978,18 +916,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseUsageLimits--">getLicenseUsageLimits()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseUsageLimitsKeys-java.lang.String:A-">getLicenseUsageLimitsKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license usage keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#getLicenseUsages--">getLicenseUsages()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html#getLicenseUsages--">getLicenseUsages()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoGenericMetadata.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoGenericMetadata</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#getLicenseUsagesKeys-java.lang.String:A-">getLicenseUsagesKeys(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Maps license usages keys.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html#getLocale--">getLocale()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoBinaryImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoBinary.html#getLocale--">getLocale()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoBinary.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoBinary</a></dt>
@@ -1041,10 +971,6 @@
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoLicenseTerm.html#getName--">getName()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoLicenseTerm</a></dt>
 <dd>
 <div class="block">Get the localized name of this license in multiple languages.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#getName--">getName()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Provides the name for the asset, translated to multiple languages.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/SmintIoSyncFactoryFromDI.html#getNotificationService--">getNotificationService()</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/SmintIoSyncFactoryFromDI.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">SmintIoSyncFactoryFromDI</a></dt>
 <dd>&nbsp;</dd>
@@ -1134,6 +1060,10 @@
 <dd>
 <div class="block">Retrieve the recommended file name to use on the synchronization target.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#getRecommendedFileName--">getRecommendedFileName()</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>
+<div class="block">Provides the recommended file name to use on the file system storage.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/IAuthTokenModel.html#getRefreshToken--">getRefreshToken()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.configuration.models.<a href="io/smint/clapi/consumer/integration/core/configuration/models/IAuthTokenModel.html" title="interface in io.smint.clapi.consumer.integration.core.configuration.models">IAuthTokenModel</a></dt>
 <dd>
 <div class="block">Returns the refresh token as (optionally) returned by Smint.io OAuth authorization server.</div>
@@ -1214,6 +1144,10 @@
 <dd>
 <div class="block">Return the current settings for the synchronization process, which may have changed in the meantime.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html#getSettings--">getSettings()</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">SyncGuiceModule</a></dt>
+<dd>
+<div class="block">Provides settings with validated lanugages.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/ISyncTargetFactory.html#getSettings--">getSettings()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.factory.<a href="io/smint/clapi/consumer/integration/core/factory/ISyncTargetFactory.html" title="interface in io.smint.clapi.consumer.integration.core.factory">ISyncTargetFactory</a></dt>
 <dd>
 <div class="block">Return the current settings for the synchronization process, which may have changed in the meantime.</div>
@@ -1261,9 +1195,9 @@
 <dd>
 <div class="block">Maps the Smint.io ID of a <em>Binary Asset</em> to a synchronization target ID/key.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#getTargetAssetUuid--">getTargetAssetUuid()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#getTargetAssetUuid--">getTargetAssetUuid()</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
-<div class="block">Provides the synchronization target's ID for this asset.</div>
+<div class="block">provides the a synchronization target's ID for this asset as set with <a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setTargetAssetUuid-java.lang.String-"><code>SyncAsset.setTargetAssetUuid(String)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getTargetCompoundAssetUuid-java.lang.String-">getTargetCompoundAssetUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
@@ -1320,10 +1254,6 @@
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoBinary.html#getUuid--">getUuid()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoBinary.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoBinary</a></dt>
 <dd>
 <div class="block">Get the unique universal identifier of this asset within the Smint.io platform.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#getUuid--">getUuid()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Provides the Smint.io platform ID for the asset.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html#getValidFrom--">getValidFrom()</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoLicenseTermImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -1437,11 +1367,11 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importLicenseUsages-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">importLicenseUsages(ISmintIoMetadataElement[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">importNewTargetAssets(ISyncBinaryAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-">importNewTargetAssets(SyncAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Stores new entries for assets on the synchronization target, these must be created on the target.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">importNewTargetCompoundAssets(ISyncCompoundAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-">importNewTargetCompoundAssets(SyncAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Creates new entries for assets on the synchronization target.</div>
 </dd>
@@ -1510,7 +1440,7 @@
 <dd>
 <div class="block">Indicates whether binary updates are supported by this sync target implementation.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#isCompoundAsset--">isCompoundAsset()</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#isCompoundAsset--">isCompoundAsset()</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Determines whether this asset is a <em>Compound Asset</em> or an <em>Binary Asset</em>.</div>
 </dd>
@@ -1616,18 +1546,6 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html#isSuccess--">isSuccess()</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">AuthTokenImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">ISyncAsset</span></a> - Interface in <a href="io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a></dt>
-<dd>
-<div class="block">Interface sync target asset instances need to implement.</div>
-</dd>
-<dt><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">ISyncBinaryAsset</span></a> - Interface in <a href="io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a></dt>
-<dd>
-<div class="block">Represents a <em>Simple Asset</em> containing a single binary asset data.</div>
-</dd>
-<dt><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">ISyncCompoundAsset</span></a> - Interface in <a href="io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a></dt>
-<dd>
-<div class="block">Implementing classes represent the notion of <em>Compound Asset</em>, which combines variants of the same content.</div>
-</dd>
 <dt><a href="io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">ISyncDataType</span></a> - Interface in <a href="io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a></dt>
 <dd>
 <div class="block">Interface that is solely used as an abstract categorizer of sync related interfaces.</div>
@@ -1700,22 +1618,12 @@
 </a>
 <h2 class="title">L</h2>
 <dl>
-<dt><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseOptionsConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl"><span class="typeNameLink">LicenseOptionsConverter</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></dt>
+<dt><a href="io/smint/clapi/consumer/integration/core/LocaleUtility.html" title="class in io.smint.clapi.consumer.integration.core"><span class="typeNameLink">LocaleUtility</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/package-summary.html">io.smint.clapi.consumer.integration.core</a></dt>
 <dd>
-<div class="block">Converts an instance from <a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoLicenseOptions.html" title="interface in io.smint.clapi.consumer.integration.core.contracts"><code>ISmintIoLicenseOptions</code></a> to <a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html" title="interface in io.smint.clapi.consumer.integration.core.target"><code>ISyncLicenseOption</code></a>.</div>
+<div class="block">Implements utility tools to handle Java Locale peculiarities.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseOptionsConverter.html#LicenseOptionsConverter-io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory-">LicenseOptionsConverter(ISyncTargetDataFactory)</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseOptionsConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseOptionsConverter</a></dt>
-<dd>
-<div class="block">Initializes a new converter, using the <code>syncTarget</code> to map to sync target keys.</div>
-</dd>
-<dt><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl"><span class="typeNameLink">LicenseTermConverter</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></dt>
-<dd>
-<div class="block">Converts an instance from <a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.contracts"><code>ISmintIoLicenseTerm</code></a> to <a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target"><code>ISyncLicenseTerm</code></a>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html#LicenseTermConverter-io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory-io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper-">LicenseTermConverter(ISyncTargetDataFactory, ISyncMetadataIdMapper)</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/LicenseTermConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">LicenseTermConverter</a></dt>
-<dd>
-<div class="block">Initializes a new converter, using the <code>syncTarget</code> to map to sync target keys.</div>
-</dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/LocaleUtility.html#LocaleUtility--">LocaleUtility()</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.<a href="io/smint/clapi/consumer/integration/core/LocaleUtility.html" title="class in io.smint.clapi.consumer.integration.core">LocaleUtility</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:M">
 <!--   -->
@@ -1906,7 +1814,7 @@
 <dd>
 <div class="block">Sets a list of allowed usages of the related asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setAssetParts-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">setAssetParts(ISyncBinaryAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setAssetParts-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-">setAssetParts(SyncAsset[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a list of parts for this compound asset - only applicable if <code>this</code> is a compound asset.</div>
 </dd>
@@ -1916,7 +1824,7 @@
 <dd>
 <div class="block">Sets a new value to Binaries.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setBinaryLocale-java.util.Locale-">setBinaryLocale(Locale)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setBinaryLocale-java.util.Locale-">setBinaryLocale(Locale)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the locale (language) this binary contains.</div>
 </dd>
@@ -1924,7 +1832,7 @@
 <dd>
 <div class="block">Sets a new value to binary type.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setBinaryType-java.lang.String-">setBinaryType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setBinaryType-java.lang.String-">setBinaryType(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the type of the binary as a key.</div>
 </dd>
@@ -1932,15 +1840,15 @@
 <dd>
 <div class="block">Sets a new value to BinaryTypes.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setBinaryUsage-java.util.Map-">setBinaryUsage(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setBinaryUsage-java.util.Map-">setBinaryUsage(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a localized textual description of the usage definition for the binary.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setBinaryUuid-java.lang.String-">setBinaryUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setBinaryUuid-java.lang.String-">setBinaryUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Set the Smint.io UUID to the single binary for the asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setBinaryVersion-int-">setBinaryVersion(int)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setBinaryVersion-int-">setBinaryVersion(int)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Set the binary version to a new value.</div>
 </dd>
@@ -1948,14 +1856,10 @@
 <dd>
 <div class="block">Sets a new value to CartPurchaseTransactionUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setCartPurchaseTransactionUuid-java.lang.String-">setCartPurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setCartPurchaseTransactionUuid-java.lang.String-">setCartPurchaseTransactionUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the unique Smint.io platform ID of the purchase cart this asset was part of.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setCartPurchaseTransactionUuid-java.lang.String-">setCartPurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setCartPurchaseTransactionUuid-java.lang.String-">setCartPurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/SettingsModelImpl.html#setChannelId-int-">setChannelId(int)</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/SettingsModelImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">SettingsModelImpl</a></dt>
 <dd>
 <div class="block">sets a new channel ID and returns <code>this</code> for Fluent Interface.</div>
@@ -1968,26 +1872,18 @@
 <dd>
 <div class="block">Sets a new value to CollectionName.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setCollectionName-java.util.Map-">setCollectionName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setCollectionName-java.util.Map-">setCollectionName(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the Smint.io localized name of the collection this asset is part of.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setCollectionName-java.util.Map-">setCollectionName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setCollectionName-java.util.Map-">setCollectionName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setCollectionUuid-java.lang.String-">setCollectionUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to CollectionUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setCollectionUuid-java.lang.String-">setCollectionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setCollectionUuid-java.lang.String-">setCollectionUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the Smint.io ID of the collection this asset is part of.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setCollectionUuid-java.lang.String-">setCollectionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setCollectionUuid-java.lang.String-">setCollectionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setContentCategories-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setContentCategories(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ContentCategories.</div>
@@ -1996,40 +1892,26 @@
 <dd>
 <div class="block">Sets a new value to Category.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setContentCategory-java.lang.String-">setContentCategory(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setContentCategory-java.lang.String-">setContentCategory(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the ID for the content category.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setContentCategory-java.lang.String-">setContentCategory(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setContentCategory-java.lang.String-">setContentCategory(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setContentElementUuid-java.lang.String-">setContentElementUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ContentElementUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setContentElementUuid-java.lang.String-">setContentElementUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setContentElementUuid-java.lang.String-">setContentElementUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the UUID of the content element this asset is a copy of.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setContentElementUuid-java.lang.String-">setContentElementUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setContentElementUuid-java.lang.String-">setContentElementUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html#setContentMetadata-io.smint.clapi.consumer.integration.core.target.ISyncAsset-io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset-io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary-io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper-">setContentMetadata(ISyncAsset, ISmintIoAsset, ISmintIoBinary, ISyncMetadataIdMapper)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">AssetConverter</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setContentProvider-java.lang.String-">setContentProvider(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to Provider.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setContentProvider-java.lang.String-">setContentProvider(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setContentProvider-java.lang.String-">setContentProvider(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Save the content provider with the asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setContentProvider-java.lang.String-">setContentProvider(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setContentProvider-java.lang.String-">setContentProvider(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setContentProviders-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setContentProviders(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value as list of content providers.</div>
@@ -2042,14 +1924,10 @@
 <dd>
 <div class="block">Sets a new value to content type.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setContentType-java.lang.String-">setContentType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setContentType-java.lang.String-">setContentType(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the content type of this binary of the related asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setContentType-java.lang.String-">setContentType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setContentType-java.lang.String-">setContentType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setContentTypes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setContentTypes(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ContentTypes.</div>
@@ -2064,26 +1942,18 @@
 <dd>
 <div class="block">Sets a new value to CopyrightNotices.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setCopyrightNotices-java.util.Map-">setCopyrightNotices(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setCopyrightNotices-java.util.Map-">setCopyrightNotices(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a localized list of copyright notices to indicate the copyright owner of this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setCopyrightNotices-java.util.Map-">setCopyrightNotices(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setCopyrightNotices-java.util.Map-">setCopyrightNotices(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setCreatedAt-java.time.OffsetDateTime-">setCreatedAt(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to CreatedAt.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setCreatedAt-java.time.OffsetDateTime-">setCreatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setCreatedAt-java.time.OffsetDateTime-">setCreatedAt(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the date, when this asset has been created.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setCreatedAt-java.time.OffsetDateTime-">setCreatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setCreatedAt-java.time.OffsetDateTime-">setCreatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html#setDataFactory-io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory-">setDataFactory(ISyncTargetDataFactory)</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">DefaultSyncTargetFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setDescription-java.util.Map-">setDescription(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
@@ -2094,37 +1964,25 @@
 <dd>
 <div class="block">Sets a new value to the translated version of descriptions.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setDescription-java.util.Map-">setDescription(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setDescription-java.util.Map-">setDescription(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets an arbitrary localized description for the content.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setDescription-java.util.Map-">setDescription(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setDescription-java.util.Map-">setDescription(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints-">setDownloadConstraints(ISmintIoDownloadConstraints)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to DownloadConstraints.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-">setDownloadConstraints(ISyncDownloadConstraints)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-">setDownloadConstraints(ISyncDownloadConstraints)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets download constraints to apply to this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-">setDownloadConstraints(ISyncDownloadConstraints)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-">setDownloadConstraints(ISyncDownloadConstraints)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setDownloadedFileProvider-javax.inject.Provider-">setDownloadedFileProvider(Provider&lt;File&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setDownloadedFileProvider-javax.inject.Provider-">setDownloadedFileProvider(Provider&lt;File&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a provider for the binary file of this <em>Simple Asset</em> that will download the binary data.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html#setDownloadUrl-java.net.URL-">setDownloadUrl(URL)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoBinaryImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to the download URL.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setDownloadUrl-java.net.URL-">setDownloadUrl(URL)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>
-<div class="block">Sets the download URL for the binary of this asset.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html#setExclusivities-java.lang.String:A-">setExclusivities(String[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoLicenseTermImpl</a></dt>
 <dd>
@@ -2142,26 +2000,18 @@
 <dd>
 <div class="block">Sets a new flag to indicate the sync job must continue with next batch/chunk.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setHasBeenCancelled-boolean-">setHasBeenCancelled(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setHasBeenCancelled-boolean-">setHasBeenCancelled(boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Set to <code>true</code> if the purchase transaction has been cancelled prior to fulfillment of payment.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setHasBeenCancelled-boolean-">setHasBeenCancelled(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setHasBeenCancelled-boolean-">setHasBeenCancelled(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setHasLicenseTerms-boolean-">setHasLicenseTerms(boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to SmintIoUrl.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setHasLicenseTerms-boolean-">setHasLicenseTerms(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setHasLicenseTerms-boolean-">setHasLicenseTerms(boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a flag whether this asset has license terms attached or not.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setHasLicenseTerms-boolean-">setHasLicenseTerms(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setHasLicenseTerms-boolean-">setHasLicenseTerms(boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/BinaryAssetDownloader.html#setHttpClient-okhttp3.OkHttpClient-">setHttpClient(OkHttpClient)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/BinaryAssetDownloader.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BinaryAssetDownloader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html#setIdentityToken-java.lang.String-">setIdentityToken(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">AuthTokenImpl</a></dt>
@@ -2180,17 +2030,13 @@
 <dd>
 <div class="block">Sets whether this asset is for editorial use only.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setIsEditorialUse-java.lang.Boolean-">setIsEditorialUse(Boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Sets a flag that this asset can only be used for editorial use.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setIsEditorialUse-java.lang.Boolean-">setIsEditorialUse(Boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setIsEditorialUse-java.lang.Boolean-">setIsEditorialUse(Boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html#setIsEditorialUse-java.lang.Boolean-">setIsEditorialUse(Boolean)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a></dt>
 <dd>
 <div class="block">Sets a flag that this term restricts the use of the related asset to editorial usage.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setIsEditorialUse-java.lang.Boolean-">setIsEditorialUse(Boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>
+<div class="block">Sets a flag that this asset can only be used for editorial use.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html#setIsSuccess-boolean-">setIsSuccess(boolean)</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">AuthTokenImpl</a></dt>
 <dd>
@@ -2206,26 +2052,18 @@
 <dd>
 <div class="block">Sets a new value to Keywords.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setKeywords-java.util.Map-">setKeywords(Map&lt;Locale, String[]&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setKeywords-java.util.Map-">setKeywords(Map&lt;Locale, String[]&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a list of localized keywords to be used for keyword searches.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setKeywords-java.util.Map-">setKeywords(Map&lt;Locale, String[]&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setKeywords-java.util.Map-">setKeywords(Map&lt;Locale, String[]&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setLastUpdatedAt-java.time.OffsetDateTime-">setLastUpdatedAt(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LastUpdatedAt.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLastUpdatedAt-java.time.OffsetDateTime-">setLastUpdatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLastUpdatedAt-java.time.OffsetDateTime-">setLastUpdatedAt(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the date, when this asset has been updated the last time.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLastUpdatedAt-java.time.OffsetDateTime-">setLastUpdatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLastUpdatedAt-java.time.OffsetDateTime-">setLastUpdatedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setLicenseDistributions-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setLicenseDistributions(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseDistributions.</div>
@@ -2234,26 +2072,18 @@
 <dd>
 <div class="block">Sets a new value to LicenseeName.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseeName-java.lang.String-">setLicenseeName(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseeName-java.lang.String-">setLicenseeName(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the name of the licensee.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseeName-java.lang.String-">setLicenseeName(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseeName-java.lang.String-">setLicenseeName(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setLicenseeUuid-java.lang.String-">setLicenseeUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseeUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseeUuid-java.lang.String-">setLicenseeUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseeUuid-java.lang.String-">setLicenseeUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a Smint.io ID for the licensee.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseeUuid-java.lang.String-">setLicenseeUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseeUuid-java.lang.String-">setLicenseeUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setLicenseExclusivities-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setLicenseExclusivities(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseExclusivities.</div>
@@ -2270,20 +2100,14 @@
 <dd>
 <div class="block">Sets a new value to LicenseLanguages.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html#setLicenseMetadata-io.smint.clapi.consumer.integration.core.target.ISyncAsset-io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset-io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper-io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory-">setLicenseMetadata(ISyncAsset, ISmintIoAsset, ISyncMetadataIdMapper, ISyncTargetDataFactory)</a></span> - Method in class io.smint.clapi.consumer.integration.core.jobs.impl.<a href="io/smint/clapi/consumer/integration/core/jobs/impl/AssetConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">AssetConverter</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions:A-">setLicenseOptions(ISmintIoLicenseOptions[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseOptions.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-">setLicenseOptions(ISyncLicenseOption[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-">setLicenseOptions(ISyncLicenseOption[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a list of options for the applying licenses.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-">setLicenseOptions(ISyncLicenseOption[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-">setLicenseOptions(ISyncLicenseOption[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setLicensePlacements-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setLicensePlacements(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicensePlacements.</div>
@@ -2292,14 +2116,6 @@
 <dd>
 <div class="block">Sets a new value to LicensePurchaseTransactionUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicensePurchaseTransactionUuid-java.lang.String-">setLicensePurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">This is a Smint.io internal ID of the asset within the purchase.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicensePurchaseTransactionUuid-java.lang.String-">setLicensePurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicensePurchaseTransactionUuid-java.lang.String-">setLicensePurchaseTransactionUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setLicenseSizes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setLicenseSizes(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseSizes.</div>
@@ -2308,14 +2124,10 @@
 <dd>
 <div class="block">Sets a new value to LicenseTerms.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms(ISyncLicenseTerm[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms(ISyncLicenseTerm[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a list of license terms to apply to this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms(ISyncLicenseTerm[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-">setLicenseTerms(ISyncLicenseTerm[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseText.</div>
@@ -2324,30 +2136,22 @@
 <dd>
 <div class="block">Sets a new value to license text.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Sets a localized text of the license that applies to this asset.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseOption</a></dt>
 <dd>
 <div class="block">Set an arbitrary localized licensing text for this licensing option.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseText-java.util.Map-">setLicenseText(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>
+<div class="block">Sets a localized text of the license that applies to this asset.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setLicenseType-java.lang.String-">setLicenseType(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseType.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setLicenseType-java.lang.String-">setLicenseType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseType-java.lang.String-">setLicenseType(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a general type ID of the kind license applying to this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setLicenseType-java.lang.String-">setLicenseType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setLicenseType-java.lang.String-">setLicenseType(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setLicenseTypes-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setLicenseTypes(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to LicenseTypes.</div>
@@ -2408,14 +2212,6 @@
 <dd>
 <div class="block">Sets a new value to name.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Sets a name for the asset, translated to multiple languages.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseOption</a></dt>
 <dd>
 <div class="block">Set the localized name for this licensing option.</div>
@@ -2423,6 +2219,10 @@
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a></dt>
 <dd>
 <div class="block">Sets a localized name for this license term.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setName-java.util.Map-">setName(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>
+<div class="block">Sets a name for the asset, translated to multiple languages.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/SettingsModelImpl.html#setOAuthClientId-java.lang.String-">setOAuthClientId(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/SettingsModelImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">SettingsModelImpl</a></dt>
 <dd>
@@ -2444,26 +2244,18 @@
 <dd>
 <div class="block">Sets a new value to ProjectName.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setProjectName-java.util.Map-">setProjectName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setProjectName-java.util.Map-">setProjectName(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the Smint.io localized name of the project this asset has been purchased for.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setProjectName-java.util.Map-">setProjectName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setProjectName-java.util.Map-">setProjectName(Map&lt;Locale, String&gt;)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setProjectUuid-java.lang.String-">setProjectUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ProjectUuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setProjectUuid-java.lang.String-">setProjectUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setProjectUuid-java.lang.String-">setProjectUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the Smint.io ID of the project this asset has been purchased for.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setProjectUuid-java.lang.String-">setProjectUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setProjectUuid-java.lang.String-">setProjectUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoReleaseDetailsImpl.html#setPropertyReleaseState-java.lang.String-">setPropertyReleaseState(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoReleaseDetailsImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoReleaseDetailsImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to PropertyReleaseState.</div>
@@ -2500,21 +2292,17 @@
 <dd>
 <div class="block">Sets a new value to PurchasedAt.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setPurchasedAt-java.time.OffsetDateTime-">setPurchasedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setPurchasedAt-java.time.OffsetDateTime-">setPurchasedAt(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the date, when this asset has been purchased.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setPurchasedAt-java.time.OffsetDateTime-">setPurchasedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setPurchasedAt-java.time.OffsetDateTime-">setPurchasedAt(OffsetDateTime)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html#setRecommendedFileName-java.lang.String-">setRecommendedFileName(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoBinaryImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to the recommended file name.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setRecommendedFileName-java.lang.String-">setRecommendedFileName(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setRecommendedFileName-java.lang.String-">setRecommendedFileName(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
-<div class="block">Set the recommended file name to use on the synchronization target.</div>
+<div class="block">Set the recommended file name to use on the file system storage.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html#setRefreshToken-java.lang.String-">setRefreshToken(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.configuration.models.impl.<a href="io/smint/clapi/consumer/integration/core/configuration/models/impl/AuthTokenImpl.html" title="class in io.smint.clapi.consumer.integration.core.configuration.models.impl">AuthTokenImpl</a></dt>
 <dd>
@@ -2524,14 +2312,10 @@
 <dd>
 <div class="block">Sets a new value to ReleaseDetails.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-">setReleaseDetails(ISyncReleaseDetails)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-">setReleaseDetails(ISyncReleaseDetails)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets some release details of this asset, regarding agreements with visible models or property owners.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-">setReleaseDetails(ISyncReleaseDetails)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-">setReleaseDetails(ISyncReleaseDetails)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html#setReleaseStates-io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement:A-">setReleaseStates(ISmintIoMetadataElement[])</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoGenericMetadataImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoGenericMetadataImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ReleaseStates.</div>
@@ -2616,28 +2400,20 @@
 <dd>
 <div class="block">Sets a new value to SmintIoUrl.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setSmintIoUrl-java.net.URL-">setSmintIoUrl(URL)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setSmintIoUrl-java.net.URL-">setSmintIoUrl(URL)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets the Web URL to view the asset on the Smint.io platform in the browser.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setSmintIoUrl-java.net.URL-">setSmintIoUrl(URL)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setSmintIoUrl-java.net.URL-">setSmintIoUrl(URL)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html#setState-io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateEnum-">setState(LicensePurchaseTransactionStateEnum)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoAssetImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoAssetImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to State.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html#setSyncTargetProvider-javax.inject.Provider-">setSyncTargetProvider(Provider&lt;ISyncTarget&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.factory.impl.<a href="io/smint/clapi/consumer/integration/core/factory/impl/DefaultSyncTargetFactory.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl">DefaultSyncTargetFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setTargetAssetUuid-java.lang.String-">setTargetAssetUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setTargetAssetUuid-java.lang.String-">setTargetAssetUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
 <dd>
 <div class="block">Sets a synchronization target's ID for this asset.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setTargetAssetUuid-java.lang.String-">setTargetAssetUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setTargetAssetUuid-java.lang.String-">setTargetAssetUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoMetadataElementImpl.html#setTargetMetadataUuid-java.lang.String-">setTargetMetadataUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoMetadataElementImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoMetadataElementImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoMetadataElement.html#setTargetMetadataUuid-java.lang.String-">setTargetMetadataUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.contracts.<a href="io/smint/clapi/consumer/integration/core/contracts/ISmintIoMetadataElement.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoMetadataElement</a></dt>
@@ -2666,6 +2442,10 @@
 <dd>
 <div class="block">Sets the date until making use of the related asset for the first time must be started.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setTransactionUuid-java.lang.String-">setTransactionUuid(String)</a></span> - Method in class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>
+<div class="block">Sets the <em>License Purchase Transaction UUID</em>, the effective Smint.io platform ID, for the asset.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html#setUsage-java.util.Map-">setUsage(Map&lt;Locale, String&gt;)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoBinaryImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoBinaryImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to the translated version of usage description.</div>
@@ -2682,14 +2462,6 @@
 <dd>
 <div class="block">Sets a new value to uuid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html#setUuid-java.lang.String-">setUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></dt>
-<dd>
-<div class="block">Sets a Smint.io platform ID for the asset.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html#setUuid-java.lang.String-">setUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html#setUuid-java.lang.String-">setUuid(String)</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html#setValidFrom-java.time.OffsetDateTime-">setValidFrom(OffsetDateTime)</a></span> - Method in class io.smint.clapi.consumer.integration.core.contracts.impl.<a href="io/smint/clapi/consumer/integration/core/contracts/impl/SmintIoLicenseTermImpl.html" title="class in io.smint.clapi.consumer.integration.core.contracts.impl">SmintIoLicenseTermImpl</a></dt>
 <dd>
 <div class="block">Sets a new value to ValidFrom.</div>
@@ -2927,6 +2699,12 @@
 <dd>
 <div class="block">Sets a new set of process data that need to be made persistent and made available to the next run.</div>
 </dd>
+<dt><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">SyncAsset</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a></dt>
+<dd>
+<div class="block">Base abstract class a sync target asset instance need to inherit from.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html#SyncAsset--">SyncAsset()</a></span> - Constructor for class io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html" title="class in io.smint.clapi.consumer.integration.core.factory.impl"><span class="typeNameLink">SyncGuiceModule</span></a> - Class in <a href="io/smint/clapi/consumer/integration/core/factory/impl/package-summary.html">io.smint.clapi.consumer.integration.core.factory.impl</a></dt>
 <dd>
 <div class="block">Configures a module for <a href="./io/smint/clapi/consumer/integration/core/factory/impl/github.com/google/guice">Google's Guice</a> dependency injector.</div>
@@ -3001,11 +2779,11 @@
 </a>
 <h2 class="title">U</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset:A-">updateTargetAssets(ISyncBinaryAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-">updateTargetAssets(SyncAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Updates already existing entries for assets on the synchronization target.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset:A-">updateTargetCompoundAssets(ISyncCompoundAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
+<dt><span class="memberNameLink"><a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-">updateTargetCompoundAssets(SyncAsset[])</a></span> - Method in interface io.smint.clapi.consumer.integration.core.target.<a href="io/smint/clapi/consumer/integration/core/target/ISyncTarget.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncTarget</a></dt>
 <dd>
 <div class="block">Updates already existing entries for compound assets on the synchronization target.</div>
 </dd>
