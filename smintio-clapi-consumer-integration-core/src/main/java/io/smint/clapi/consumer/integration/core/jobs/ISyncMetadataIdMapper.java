@@ -26,7 +26,7 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElemen
  * Implementing classes manage a cache for mapping meta data's Smint.io API id to sync target ID - one-way, though.
  *
  * <p>
- * All assets ({@link io.smint.clapi.consumer.integration.core.target.ISyncAsset}) have some structured meta data.
+ * All assets ({@link io.smint.clapi.consumer.integration.core.target.SyncAsset}) have some structured meta data.
  * Ideally the applied meta data are a bunch of references to the meta data definitions, stored elsewhere. Each storage
  * uses IDs to enable references to it. Since we have two storage system to keep in sync, there are two regimes of IDs,
  * the Smint.io API IDs and the sync target IDs. A mapping is required and this is what this cache is about. During

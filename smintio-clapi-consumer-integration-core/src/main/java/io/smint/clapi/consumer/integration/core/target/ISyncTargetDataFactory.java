@@ -36,13 +36,13 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
      * this instance, it will be passed to this sync target via
-     * {@link ISyncTarget#importNewTargetAssets(ISyncBinaryAsset[])}.
+     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])}.
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
-     * @see ISyncAsset
+     * @see SyncAsset
      */
-    ISyncBinaryAsset createSyncBinaryAsset();
+    SyncAsset createSyncBinaryAsset();
 
 
     /**
@@ -51,13 +51,13 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
      * this instance, it will be passed to this sync target via
-     * {@link ISyncTarget#importNewTargetCompoundAssets(ISyncCompoundAsset[])}.
+     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])}.
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
-     * @see ISyncAsset
+     * @see SyncAsset
      */
-    ISyncCompoundAsset createSyncCompoundAsset();
+    SyncAsset createSyncCompoundAsset();
 
 
     /**
@@ -66,11 +66,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link ISyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
-     * {@link ISyncTarget#importNewTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(ISyncCompoundAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * {@link SyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
+     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -83,11 +83,11 @@ public interface ISyncTargetDataFactory {
      *
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
-     * storing this instance, it will be attached to an asset via {@link ISyncAsset#setLicenseTerms(ISyncLicenseTerm[])}
-     * and thus passed to this sync target via one of {@link ISyncTarget#importNewTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(ISyncCompoundAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * storing this instance, it will be attached to an asset via {@link SyncAsset#setLicenseTerms(ISyncLicenseTerm[])}
+     * and thus passed to this sync target via one of {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -101,11 +101,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link ISyncAsset#setReleaseDetails(ISyncReleaseDetails)} and thus passed to this sync target via one of
-     * {@link ISyncTarget#importNewTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(ISyncCompoundAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * {@link SyncAsset#setReleaseDetails(ISyncReleaseDetails)} and thus passed to this sync target via one of
+     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -119,11 +119,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link ISyncAsset#setDownloadConstraints(ISyncDownloadConstraints)} and thus passed to this sync target via one
-     * of {@link ISyncTarget#importNewTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(ISyncCompoundAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(ISyncBinaryAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(ISyncCompoundAsset[])}
+     * {@link SyncAsset#setDownloadConstraints(ISyncDownloadConstraints)} and thus passed to this sync target via one
+     * of {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.

@@ -498,7 +498,7 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see ISyncAsset
+     * @see SyncAsset
      */
     String getTargetCompoundAssetUuid(String assetUuid);
 
@@ -511,7 +511,7 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see ISyncAsset
+     * @see SyncAsset
      */
     String getTargetAssetBinaryUuid(String assetTransactionUuid, String binaryUuid);
 
@@ -528,7 +528,7 @@ public interface ISyncTarget {
      * @param newTargetAssets the list of new assets to create on the sync target. Ignore in case the list is empty ore
      *                        {@code null}.
      */
-    void importNewTargetAssets(ISyncBinaryAsset[] newTargetAssets);
+    void importNewTargetAssets(SyncAsset[] newTargetAssets);
 
 
     /**
@@ -544,7 +544,7 @@ public interface ISyncTarget {
      * @param updatedTargetAssets the list of updates, existing assets to create on the sync target. Ignore in case the
      *                            list is empty ore {@code null}.
      */
-    void updateTargetAssets(ISyncBinaryAsset[] updatedTargetAssets);
+    void updateTargetAssets(SyncAsset[] updatedTargetAssets);
 
 
     /**
@@ -559,7 +559,7 @@ public interface ISyncTarget {
      * @param newTargetCompoundAssets the list of new compound assets to create on the sync target. Ignore in case the
      *                                list is empty ore {@code null}.
      */
-    void importNewTargetCompoundAssets(ISyncCompoundAsset[] newTargetCompoundAssets);
+    void importNewTargetCompoundAssets(SyncAsset[] newTargetCompoundAssets);
 
 
     /**
@@ -575,7 +575,7 @@ public interface ISyncTarget {
      * @param updatedTargetCompoundAssets the list of updates, existing assets to create on the sync target. Ignore in
      *                                    case the list is empty ore {@code null}.
      */
-    void updateTargetCompoundAssets(ISyncCompoundAsset[] updatedTargetCompoundAssets);
+    void updateTargetCompoundAssets(SyncAsset[] updatedTargetCompoundAssets);
 
 
     /**
@@ -624,7 +624,7 @@ public interface ISyncTarget {
      * </p>
      *
      * <p>
-     * Whenever any of the synchronization functions (like {@link #importNewTargetAssets(ISyncBinaryAsset[])}) throws an
+     * Whenever any of the synchronization functions (like {@link #importNewTargetAssets(SyncAsset[])}) throws an
      * exception, synchronization is terminated immediately. Eventually this function is called. So in case of any
      * exception, this handler is the final chance to perform clean-up and prepare everything for the next run to work
      * better.

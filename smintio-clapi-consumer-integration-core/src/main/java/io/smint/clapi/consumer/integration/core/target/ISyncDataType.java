@@ -28,7 +28,6 @@ package io.smint.clapi.consumer.integration.core.target;
  * instances of this type.
  * </p>
  *
- * @see io.smint.clapi.consumer.integration.core.jobs.impl.BaseSyncDataConverter
  * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoDataType
  */
 public interface ISyncDataType {

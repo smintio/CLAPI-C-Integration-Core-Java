@@ -67,9 +67,7 @@ import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateE
  * </p>
  *
  *
- * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset
- * @see io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset
- * @see io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset
+ * @see io.smint.clapi.consumer.integration.core.target.SyncAsset
  */
 public interface ISmintIoAsset extends ISmintIoDataType {
 
@@ -175,7 +173,7 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      * </p>
      *
      * @return an enumeration key or {@code null} if none has been set.
-     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentProvider(String)
+     * @see io.smint.clapi.consumer.integration.core.target.SyncAsset#setContentProvider(String)
      */
     String getContentProvider();
 
@@ -198,7 +196,7 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      * </ul>
      *
      * @return an enumeration key or {@code null} if none has been set.
-     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentType(String)
+     * @see io.smint.clapi.consumer.integration.core.target.SyncAsset#setContentType(String)
      */
     String getContentType();
 
@@ -220,7 +218,7 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      * </p>
      *
      * @return a key of the category of this content or {@code null} if unknown.
-     * @see io.smint.clapi.consumer.integration.core.target.ISyncAsset#setContentCategory(String)
+     * @see io.smint.clapi.consumer.integration.core.target.SyncAsset#setContentCategory(String)
      */
     String getContentCategory();
 

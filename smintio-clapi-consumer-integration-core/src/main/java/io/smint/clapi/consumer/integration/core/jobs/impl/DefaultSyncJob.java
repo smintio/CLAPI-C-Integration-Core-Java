@@ -51,12 +51,10 @@ import io.smint.clapi.consumer.integration.core.jobs.ISyncJob;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiClient;
 import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithContinuation;
-import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
+import io.smint.clapi.consumer.integration.core.target.SyncAsset;
 
 
 /**
@@ -510,12 +508,12 @@ public class DefaultSyncJob implements ISyncJob {
 
                     moreChunksToLoad = true;
 
-                    final List<ISyncBinaryAsset> newTargetAssets = new ArrayList<>();
-                    final List<ISyncBinaryAsset> updatedTargetAssets = new ArrayList<>();
-                    final List<ISyncCompoundAsset> newTargetCompoundAssets = new ArrayList<>();
-                    final List<ISyncCompoundAsset> updatedTargetCompoundAssets = new ArrayList<>();
+                    final List<WrapperSyncAsset> newTargetAssets = new ArrayList<>();
+                    final List<WrapperSyncAsset> updatedTargetAssets = new ArrayList<>();
+                    final List<WrapperSyncAsset> newTargetCompoundAssets = new ArrayList<>();
+                    final List<WrapperSyncAsset> updatedTargetCompoundAssets = new ArrayList<>();
 
-                    final ISyncAsset[] targetAssets = new AssetConverter(
+                    final WrapperSyncAsset[] targetAssets = new AssetConverter(
                         this._syncTargetDataFactory,
                         this._idMapper,
                         this._downloadProvider,
@@ -523,42 +521,38 @@ public class DefaultSyncJob implements ISyncJob {
                     ).convertAll(rawAssets);
                     Objects.requireNonNull(targetAssets, "Conversion of assets from Smint.io failed.");
 
-                    for (final ISyncAsset targetAsset : targetAssets) {
+                    for (final WrapperSyncAsset targetAsset : targetAssets) {
 
-                        if (targetAsset.isCompoundAsset() && targetAsset instanceof ISyncCompoundAsset) {
-
-                            final ISyncCompoundAsset compoundTargetAsset = (ISyncCompoundAsset) targetAsset;
+                        if (targetAsset.isCompoundAsset()) {
 
                             // check for existing asset
                             final String targetCompoundAssetUuid = this._syncTarget.getTargetCompoundAssetUuid(
-                                compoundTargetAsset.getTransactionUuid()
+                                targetAsset.getTransactionUuid()
                             );
 
                             if (!this.isNullOrEmpty(targetCompoundAssetUuid)) {
-                                compoundTargetAsset.setTargetAssetUuid(targetCompoundAssetUuid);
-                                updatedTargetCompoundAssets.add(compoundTargetAsset);
+                                targetAsset.setTargetAssetUuid(targetCompoundAssetUuid);
+                                updatedTargetCompoundAssets.add(targetAsset);
 
                             } else {
-                                newTargetCompoundAssets.add(compoundTargetAsset);
+                                newTargetCompoundAssets.add(targetAsset);
                             }
 
 
-                        } else if (!targetAsset.isCompoundAsset() && targetAsset instanceof ISyncBinaryAsset) {
-
-                            final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
+                        } else if (!targetAsset.isCompoundAsset()) {
 
                             // check for existing asset
                             final String targetAssetUuid = this._syncTarget.getTargetAssetBinaryUuid(
-                                binaryTargetAsset.getTransactionUuid(),
-                                binaryTargetAsset.getBinaryUuid()
+                                targetAsset.getTransactionUuid(),
+                                targetAsset.getBinaryUuid()
                             );
 
                             if (!this.isNullOrEmpty(targetAssetUuid)) {
-                                binaryTargetAsset.setTargetAssetUuid(targetAssetUuid);
-                                updatedTargetAssets.add(binaryTargetAsset);
+                                targetAsset.setTargetAssetUuid(targetAssetUuid);
+                                updatedTargetAssets.add(targetAsset);
 
                             } else {
-                                newTargetAssets.add(binaryTargetAsset);
+                                newTargetAssets.add(targetAsset);
                             }
 
                         } else {
@@ -571,44 +565,32 @@ public class DefaultSyncJob implements ISyncJob {
                     if (!newTargetAssets.isEmpty()) {
                         syncTarget.importNewTargetAssets(
                             newTargetAssets.stream()
-                                .map(
-                                    (asset) -> asset instanceof WrapperSyncBinaryAsset
-                                        ? ((WrapperSyncBinaryAsset) asset).getWrapped()
-                                        : asset
-                                ).toArray(ISyncBinaryAsset[]::new)
+                                .map((asset) -> asset.getWrapped())
+                                .toArray(SyncAsset[]::new)
                         );
                     }
 
                     if (!updatedTargetAssets.isEmpty()) {
                         syncTarget.updateTargetAssets(
                             updatedTargetAssets.stream()
-                                .map(
-                                    (asset) -> asset instanceof WrapperSyncBinaryAsset
-                                        ? ((WrapperSyncBinaryAsset) asset).getWrapped()
-                                        : asset
-                                ).toArray(ISyncBinaryAsset[]::new)
+                                .map((asset) -> asset.getWrapped())
+                                .toArray(SyncAsset[]::new)
                         );
                     }
 
                     if (!newTargetCompoundAssets.isEmpty()) {
                         syncTarget.importNewTargetCompoundAssets(
                             newTargetCompoundAssets.stream()
-                                .map(
-                                    (asset) -> asset instanceof WrapperSyncCompoundAsset
-                                        ? ((WrapperSyncCompoundAsset) asset).getWrapped()
-                                        : asset
-                                ).toArray(ISyncCompoundAsset[]::new)
+                                .map((asset) -> asset.getWrapped())
+                                .toArray(SyncAsset[]::new)
                         );
                     }
 
                     if (!updatedTargetCompoundAssets.isEmpty()) {
                         syncTarget.updateTargetCompoundAssets(
                             updatedTargetCompoundAssets.stream()
-                                .map(
-                                    (asset) -> asset instanceof WrapperSyncCompoundAsset
-                                        ? ((WrapperSyncCompoundAsset) asset).getWrapped()
-                                        : asset
-                                ).toArray(ISyncCompoundAsset[]::new)
+                                .map((asset) -> asset.getWrapped())
+                                .toArray(SyncAsset[]::new)
                         );
                     }
 

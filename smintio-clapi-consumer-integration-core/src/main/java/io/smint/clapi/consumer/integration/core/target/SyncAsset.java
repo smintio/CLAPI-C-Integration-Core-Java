@@ -19,35 +19,50 @@
 
 package io.smint.clapi.consumer.integration.core.target;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.inject.Provider;
+
+import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
+
 
 // CHECKSTYLE OFF: MethodCount
 
 /**
- * Interface sync target asset instances need to implement.
+ * Base abstract class a sync target asset instance need to inherit from.
  *
  * <p>
- * In order to make it easier for synchronization target implementation, all data for assets are directly applied to an
- * asset instance, representing the data structure of the target system. These instances need to implement this
- * interface, too. Then the <em>Smint.io Integration Core Library</em> is able to pass all related data to it.
+ * In order to make it easier for synchronization target implementation, all data for assets to make persistent are
+ * directly applied to an asset instance, representing the data structure of the target system. These instances need to
+ * implement the abstract functions of this base class to store the data. Then the <em>Smint.io Integration Core
+ * Library</em> is able to pass all related data to it.
  * </p>
  *
  * <p>
- * Instances implementing this interface are created utilizing a factory function like
+ * Since some more transient data is needed, there are some base functions implemented by this base class, to handle
+ * these transient data. Derived classes do not need to take care of this transient data and thus do not need to
+ * override these functions. In order to avoid unintended overriding, these functions are marked as <em>final</em>.
+ * </p>
+ *
+ * <p>
+ * Instances derived from this base class are created utilizing a factory function like
  * {@link ISyncTargetDataFactory#createSyncBinaryAsset()} or {@link ISyncTargetDataFactory#createSyncCompoundAsset()}.
- * Since synchronizing is performed one-way, at the moment, these instances are never used to read data. So only setters
- * must be made available to {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob}
+ * Although this single base class handles <em>Binary Assets</em> and <em>Compound Assets</em> simultaneously, there
+ * might be requirements to use different implementations on the sync target. It is totally up to the sync target. Since
+ * synchronizing is performed one-way, at the moment, these instances are never used to read data. So only the abstract
+ * setters must be implemented.
  * </p>
  *
  * <h2 id="two-types-of-assets">Two types of assets</h2>
  * <p>
- * On Smint.io an asset is a unique collection - with a unique ID {@link #getTransactionUuid()()} - of its meta data
+ * On Smint.io an asset is a unique collection - with a unique ID {@link #setTransactionUuid(String)} - of its meta data
  * (eg: name, description, licenses, restrictions, etc.) and the attached binary data (eg: picture), where each binary
- * data has its own additional <em>Binary ID</em> (see {@link ISyncBinaryAsset#getBinaryUuid()}).<br>
+ * data has its own additional <em>Binary ID</em> (see {@link #setBinaryUuid(String)}).<br>
  * With synchronization targets, the digital binary data is in the center of storing data, as this is what most
  * <em>DAM</em> are using. So synchronization creates a direct mapping between a binary data on the target platform to
  * the binary data on the Smint.io platform, although this is not straight forward as Smint.io uses a different notion
@@ -55,13 +70,14 @@ import java.util.Map;
  * </p>
  *
  * <p>
- * There are two type of assets in use with Smint.io.
+ * There are two type of assets in use with Smint.io. This base class is intended to handle both type of assets but the
+ * kind of asset is determined by {@link #isCompoundAsset()}.
  * </p>
  * <ol>
- * <li><em>Binary Asset</em> ({@link ISyncBinaryAsset}) - assets with a single binary attached.</li>
- * <li><em>Compound Asset</em> ({@link ISyncCompoundAsset}) - assets that contain multiple binaries, each being a
- * variant. eg: pictures might be available in various resolutions and dimensions or maybe even localized. Nevertheless
- * all picture have the same image, scene, etc.</li>
+ * <li><em>Binary Asset</em> ({@link SyncAsset}) - assets with a single binary attached.</li>
+ * <li><em>Compound Asset</em> ({@link }) - assets that contain multiple binaries, each being a variant. eg: pictures
+ * might be available in various resolutions and dimensions or maybe even localized. Nevertheless all picture have the
+ * same image, scene, etc.</li>
  * </ol>
  *
  * <p>
@@ -73,18 +89,18 @@ import java.util.Map;
  * <h3>Storage of <em>Binary Asset</em></h3>
  * <p>
  * <em>Single Asset</em> can be stored straight forward. Although it might seem unnecessary, it is strongly advised to
- * store the <em>Binary ID</em> (see {@link ISyncBinaryAsset#getBinaryUuid()}) with each binary, too.
+ * store the <em>Binary ID</em> (see {@link #setBinaryUuid(String)}) with each binary, too.
  * </p>
  *
  * <h3>Storage of <em>Compound Asset</em></h3>
  * <p>
  * <em>Compound Asset</em> is a container for a list of multiple binaries and maintains a strong connection between
  * these. It is so strong, that these binaries are never to be split-up. Because of this strong connection, all binaries
- * use the same asset ID (see {@link #getTransactionUuid()}). Nevertheless each binary has its <em>Binary ID</em> (see
- * {@link ISyncBinaryAsset#getBinaryUuid()}). The binaries that are part of this <em>Compound Asset</em> can be
- * retrieved by calling {@link ISyncCompoundAsset#getAssetParts()}. In case the synchronization target support the same
- * concept of a compound item, a single asset should be created on the target, too. Nevertheless each item in the list
- * of asset parts may contain meta data additional to that of the asset.
+ * use the same asset ID (see {@link #setTransactionUuid(String)}). Nevertheless each binary has its <em>Binary ID</em>
+ * (see {@link #setBinaryUuid(String)}). The binaries that are part of this <em>Compound Asset</em> can be retrieved by
+ * calling {@link #getAssetParts()}. In case the synchronization target support the same concept of a compound item, a
+ * single asset should be created on the target, too. Nevertheless each item in the list of asset parts may contain meta
+ * data additional to that of the asset.
  * </p>
  *
  * <p>
@@ -94,19 +110,20 @@ import java.util.Map;
  * most of these systems have some form of <em>Virtual Asset</em>, that can be used instead to simulate a <em>Compound
  * Asset</em>. The <em>Virtual Asset</em> usually do not show up in the UI but can be used to store some data. In this
  * case, to store the list of IDs of the binaries that are part of this <em>Compound Asset</em> (see
- * {@link ISyncCompoundAsset#getAssetParts()}). For that case, all asset parts (a.k.a. binaries) contain a complete set
- * of meta data, as they are stored as a separate entity with the synchronization target. As these binaries share the
- * same asset ID, their unique identifier is the combination of the asset ID and the binary ID.
+ * {@link #getAssetParts()}). For that case, all asset parts (a.k.a. binaries) contain a complete set of meta data, as
+ * they are stored as a separate entity with the synchronization target. As these binaries share the same asset ID,
+ * their unique identifier is the combination of the asset ID and the binary ID.
  * </p>
  *
  * <h2>Mapping asset IDs between sync target and Smint.io</h2>
  * <p>
- * Each asset contains a unique ID on the synchronization target ({@link #getTargetAssetUuid()}). Nevertheless the
- * Smint.io platform ID ({@link #getTransactionUuid()}) does not address a single binary, and thus each asset on the
- * sync target must store a composite Smint.io key, consisting of <em>Asset ID ({@link #getTransactionUuid()})</em> and
- * <em>Binary ID ({@link ISyncBinaryAsset#getBinaryUuid()})</em>. Only this composite key allows a proper mapping of
- * synchronization target IDs and Smint.io binaries. However, <em>Virtual Assets</em> do not have any binary directly
- * attached. So these have to be identified on the target by some target dependent type identifier.
+ * Each asset contains a unique ID on the synchronization target ({@link #setTargetAssetUuid(String)}). Nevertheless the
+ * Smint.io platform ID ({@link #setTargetAssetUuid(String)}) does not address a single binary, and thus each asset on
+ * the sync target must store a composite Smint.io key, consisting of <em>Asset ID
+ * ({@link #setTransactionUuid(String)})</em> and <em>Binary ID ({@link #setBinaryUuid(String)})</em>. Only this
+ * composite key allows a proper mapping of synchronization target IDs and Smint.io binaries. However, <em>Virtual
+ * Assets</em> do not have any binary directly attached. So these have to be identified on the target by some target
+ * dependent type identifier.
  * </p>
  *
  * <pre>
@@ -127,28 +144,150 @@ import java.util.Map;
  *
  * <h2>Displaying localized texts</h2>
  * <p>
- * All texts of this asset are localized (see {@link #getName()}. However, not all texts are available in all languages.
- * To display such a text need to take this into consideration. In case a text is not available in the target language,
- * a default language should be used and if the text is not available with it, the first language in the list should be
- * used instead.
+ * All texts of this asset are localized (see {@link #setName(Map)}. However, not all texts are available in all
+ * languages. To display such a text need to take this into consideration. In case a text is not available in the target
+ * language, a default language should be used and if the text is not available with it, the first language in the list
+ * should be used instead.
  * </p>
  *
  */
-public interface ISyncAsset extends ISyncDataType {
+public abstract class SyncAsset implements ISyncDataType {
+
+    private SyncAsset[] _binaryAssets;
+    private boolean _isCompondAsset = false;
+    private String _recommendedFileName;
+    private String _targetAssetUuid;
+
+    private Provider<File> _downloadFileProvider;
+    private File _downloadedFile = null;
 
 
     /**
-     * Provides the Smint.io platform ID for the asset.
+     * Sets a synchronization target's ID for this asset.
      *
      * <p>
-     * On Smint.io platform each purchased asset is related to the actual purchase context, which is called "license
-     * purchase transaction". Only this transaction contains the complete license context. Different license
-     * requirements may impose different costs. So the license heavily depends on the purchase context.
+     * Only assets that have already made persistent to the synchronization target have a <em>Target Asset UUID</em>.
+     * This value is set by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} as it asks
+     * {@link ISyncTarget#getTargetAssetBinaryUuid(String, String)} for the target asset ID for each asset, based on the
+     * Smint.io <em>License Purchase Transaction UUID</em> ({@link #setTransactionUuid(String)}), which is the effective
+     * Smint.io platform UUID for an asset. Assets that have never been made persistent with the sync target will not
+     * receive an sync target asset UUid.
      * </p>
      *
-     * @return the Smint.io platform ID or {@code null} in case none has been set yet.
+     * @param targetAssetUuid the sync target's ID for this asset or {@code null}.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    String getTransactionUuid();
+    public final SyncAsset setTargetAssetUuid(final String targetAssetUuid) {
+        this._targetAssetUuid = targetAssetUuid;
+        return this;
+    }
+
+
+    /**
+     * provides the a synchronization target's ID for this asset as set with {@link #setTargetAssetUuid(String)}.
+     *
+     * @return the target asset uuid or {@code null}.
+     */
+    public final String getTargetAssetUuid() {
+        return this._targetAssetUuid;
+    }
+
+
+    /**
+     * Set the recommended file name to use on the file system storage.
+     *
+     * @param fileName a valid file name or {@code null}.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public SyncAsset setRecommendedFileName(final String fileName) {
+        this._recommendedFileName = fileName;
+        return this;
+    }
+
+
+    /**
+     * Provides the recommended file name to use on the file system storage.
+     *
+     * @return a valid file name or {@code null}.
+     */
+    public final String getRecommendedFileName() {
+        return this._recommendedFileName;
+    }
+
+
+    /**
+     * Sets a provider for the binary file of this <em>Simple Asset</em> that will download the binary data.
+     *
+     * <p>
+     * The provider is utilized in {@link #getDownloadedFile()} to download the binary data to a temporary file.
+     * </p>
+     *
+     * @param downloadFileProvider a provider that will download the binary data from the Smint.io API and store it into
+     *                             a temporary file. This temporary file will then be returned.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public SyncAsset setDownloadedFileProvider(final Provider<File> downloadFileProvider) {
+        this._downloadFileProvider = downloadFileProvider;
+        return this;
+    }
+
+
+    /**
+     * Downloads and provides the binary file of this <em>Simple Asset</em>.
+     *
+     * <p>
+     * Downloading the file happens only once, at the first call to this function. For the actual download, the provider
+     * set by {@link #setDownloadedFileProvider(Provider)} is used. Further calls will return the same downloaded file
+     * and bypass the provider - even if the file has been deleted meanwhile.
+     * </p>
+     *
+     * @return a valid file or {@code null} if no download provider has been set yet.
+     * @throws FileNotFoundException         if the file system failed to store the download, thus it can not be found
+     *                                       after the download has started. This is also thrown if the download URL is
+     *                                       wrong and the file can not be found on the Smint.io platform.
+     * @throws SmintIoAuthenticatorException if authentication to the Smint.io API has failed.
+     */
+    public final File getDownloadedFile() throws FileNotFoundException, SmintIoAuthenticatorException {
+        if (this._downloadedFile == null) {
+
+            if (this._downloadFileProvider == null) {
+                throw new FileNotFoundException("No downloader has been set to download the file from Smint.io API.");
+            }
+
+            this._downloadedFile = this._downloadFileProvider.get();
+        }
+        return this._downloadedFile;
+    }
+
+
+    /**
+     * Sets a list of parts for this compound asset - only applicable if {@code this} is a compound asset.
+     *
+     * <p>
+     * Calling this function marks this asset as a compound asset - no matter whether asset parts are being set or not.
+     * </p>
+     *
+     * @param compoundParts the parts that form the compound asset. If {@code null} or an empty list, this asset is not
+     *                      regarded as a <em>Compound Asset</em> anymore.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     * @see #getAssetParts()
+     */
+    public final SyncAsset setAssetParts(final SyncAsset[] compoundParts) {
+        this._binaryAssets = compoundParts;
+        this._isCompondAsset = true;
+        return this;
+    }
+
+
+    /**
+     * provides the list of parts for this compound asset - only applicable if {@code this} is a compound asset.
+     *
+     * @return the parts that form the compound asset. If {@code null} or an empty list, this asset is not regarded as a
+     *         <em>Compound Asset</em> anymore.
+     */
+    public final SyncAsset[] getAssetParts() {
+        return this._binaryAssets;
+    }
 
 
     /**
@@ -162,27 +301,8 @@ public interface ISyncAsset extends ISyncDataType {
      *
      * @param smintIoId the Smint.io platform ID to set for the asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     * @throws NullPointerException if parameter {@code smintIoId} is {@code null}.
      */
-    ISyncAsset setTransactionUuid(final String smintIoId) throws NullPointerException;
-
-
-    /**
-     * Sets a synchronization target's ID for this asset.
-     *
-     * <p>
-     * Only assets that have already made persistent to the synchronization target have a <em>Target Asset UUID</em>.
-     * This value is set by {@link io.smint.clapi.consumer.integration.core.jobs.ISyncJob} as it asks
-     * {@link ISyncTarget#getTargetAssetBinaryUuid(String, String)} for the target asset ID for each asset, based on the
-     * Smint.io <em>License Purchase Transaction UUID</em> ({@link #getTransactionUuid()}), which is the effective
-     * Smint.io platform UUID for an asset. Assets that have never been made persistent with the sync target will not
-     * receive an sync target asset UUid.
-     * </p>
-     *
-     * @param targetAssetUuid the sync target's ID for this asset or {@code null}.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     */
-    ISyncAsset setTargetAssetUuid(final String targetAssetUuid);
+    public abstract SyncAsset setTransactionUuid(final String smintIoId);
 
 
     /**
@@ -199,27 +319,25 @@ public interface ISyncAsset extends ISyncDataType {
      * @param name the multi-language name of the asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setName(final Map<Locale, String> name);
+    public abstract SyncAsset setName(final Map<Locale, String> name);
 
 
     /**
      * Determines whether this asset is a <em>Compound Asset</em> or an <em>Binary Asset</em>.
      *
      * <p>
-     * The type is determined by the implemented interface, usually. But in case a single class is used for both type of
-     * assets, the implementation of this function will check for the existence of asset parts, retrieved with
-     * {@link ISyncCompoundAsset#getAssetParts()}. If a valid list with at least 1 asset part is available, then this is
-     * a <em>Compound Asset</em>
+     * The implementation of this function will check for the existence of asset parts, retrieved with
+     * {@link #getAssetParts()}. If a valid list with at least 1 asset part is available, then this is a <em>Compound
+     * Asset</em>
      * </p>
      *
      *
-     * @return {@code true} if only the interface {@link ISyncCompoundAsset} is implemented by the instance or the list
-     *         of {@link ISyncCompoundAsset#getAssetParts()} contains at least 1 valid asset part, {@code false}
-     *         otherwise. Also if both are missing - no asset parts and no simple binary (check with
-     *         {@link ISyncBinaryAsset#getBinaryUuid()}) - {@code false} must be returned, too.
+     * @return {@code true} if {@link #setAssetParts(SyncAsset[])} has already been called.
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
-    boolean isCompoundAsset();
+    public boolean isCompoundAsset() {
+        return this._isCompondAsset;
+    }
 
 
     /**
@@ -234,7 +352,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param contentElementUuid the Smint.io ID of the original source this asset is a copy of or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setContentElementUuid(final String contentElementUuid);
+    public abstract SyncAsset setContentElementUuid(final String contentElementUuid);
 
 
     /**
@@ -248,7 +366,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentType()
      */
-    ISyncAsset setContentType(final String contentTypeKey);
+    public abstract SyncAsset setContentType(final String contentTypeKey);
 
 
     /**
@@ -262,7 +380,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()
      */
-    ISyncAsset setContentProvider(final String contentProviderKey);
+    public abstract SyncAsset setContentProvider(final String contentProviderKey);
 
 
     /**
@@ -276,7 +394,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()
      */
-    ISyncAsset setContentCategory(final String contentCategoryKey);
+    public abstract SyncAsset setContentCategory(final String contentCategoryKey);
 
 
     /**
@@ -285,7 +403,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param description a localized descriptions for the content or {@code null} if unknown.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setDescription(final Map<Locale, String> description);
+    public abstract SyncAsset setDescription(final Map<Locale, String> description);
 
 
     /**
@@ -311,7 +429,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param smintIoUrl the URL to the web page on the Smint.io platform for this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setSmintIoUrl(final URL smintIoUrl);
+    public abstract SyncAsset setSmintIoUrl(final URL smintIoUrl);
 
 
     /**
@@ -320,7 +438,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param createdAt the date of creation of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setCreatedAt(OffsetDateTime createdAt);
+    public abstract SyncAsset setCreatedAt(OffsetDateTime createdAt);
 
 
     /**
@@ -329,16 +447,15 @@ public interface ISyncAsset extends ISyncDataType {
      * <p>
      * The last update time is not used to compare for updated content. Times seem to be too prune to different settings
      * on servers of Smint.io and sync target. Hence all meta data of assets are updated, once Smint.io detects a
-     * change. Binary data uses a simple, increasing counter as version number (see
-     * {@link ISyncBinaryAsset#setBinaryVersion(int)}) which can be used to see, which binary is the newest one. Only
-     * Smint.io platform will update the binary data, though. Without a single source, increasing counter would not work
-     * as they are not unique then.
+     * change. Binary data uses a simple, increasing counter as version number (see {@link #setBinaryVersion(int)})
+     * which can be used to see, which binary is the newest one. Only Smint.io platform will update the binary data,
+     * though. Without a single source, increasing counter would not work as they are not unique then.
      * </p>
      *
      * @param lastUpdatedAt the date of last update of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt);
+    public abstract SyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt);
 
 
     /**
@@ -347,7 +464,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param purchasedAt the date of purchase of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setPurchasedAt(final OffsetDateTime purchasedAt);
+    public abstract SyncAsset setPurchasedAt(final OffsetDateTime purchasedAt);
 
 
     /**
@@ -362,7 +479,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param cartPurchaseTransactionUuid the ID of the purchase or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid);
+    public abstract SyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid);
 
 
     /**
@@ -383,7 +500,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param hasBeenCancelled if {@code true} the purchase transaction for new licenses has been cancelled.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setHasBeenCancelled(boolean hasBeenCancelled);
+    public abstract SyncAsset setHasBeenCancelled(boolean hasBeenCancelled);
 
 
     /**
@@ -399,7 +516,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setProjectName(Map)
      */
-    ISyncAsset setProjectUuid(final String projectUuid);
+    public abstract SyncAsset setProjectUuid(final String projectUuid);
 
 
     /**
@@ -415,7 +532,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setProjectUuid(String)
      */
-    ISyncAsset setProjectName(final Map<Locale, String> projectName);
+    public abstract SyncAsset setProjectName(final Map<Locale, String> projectName);
 
 
     /**
@@ -435,7 +552,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setCollectionName(Map)
      */
-    ISyncAsset setCollectionUuid(final String collectionUuid);
+    public abstract SyncAsset setCollectionUuid(final String collectionUuid);
 
 
     /**
@@ -455,7 +572,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setCollectionUuid(String)
      */
-    ISyncAsset setCollectionName(final Map<Locale, String> collectionName);
+    public abstract SyncAsset setCollectionName(final Map<Locale, String> collectionName);
 
 
     /**
@@ -470,7 +587,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param keywords the localized list of keywords or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setKeywords(final Map<Locale, String[]> keywords);
+    public abstract SyncAsset setKeywords(final Map<Locale, String[]> keywords);
 
 
     /**
@@ -485,7 +602,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param copyrightNotices the localized copyright notices or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices);
+    public abstract SyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices);
 
 
     /**
@@ -503,7 +620,7 @@ public interface ISyncAsset extends ISyncDataType {
      *                       can not be determined, than {@code null} is being set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setIsEditorialUse(final Boolean isEditorialUse);
+    public abstract SyncAsset setIsEditorialUse(final Boolean isEditorialUse);
 
 
     /**
@@ -523,7 +640,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param hasLicenseTerms {@code true} in case any license term/restriction applies to this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setHasLicenseTerms(final boolean hasLicenseTerms);
+    public abstract SyncAsset setHasLicenseTerms(final boolean hasLicenseTerms);
 
 
     /**
@@ -548,7 +665,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseTypeKey the key of the type of license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseType(final String licenseTypeKey);
+    public abstract SyncAsset setLicenseType(final String licenseTypeKey);
 
 
     /**
@@ -561,7 +678,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseeUuid the Smint.io ID of the licensee or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseeUuid(final String licenseeUuid);
+    public abstract SyncAsset setLicenseeUuid(final String licenseeUuid);
 
 
     /**
@@ -575,7 +692,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseeName the name of the licensee or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseeName(final String licenseeName);
+    public abstract SyncAsset setLicenseeName(final String licenseeName);
 
 
     /**
@@ -589,7 +706,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseText the localized text of the license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseText(final Map<Locale, String> licenseText);
+    public abstract SyncAsset setLicenseText(final Map<Locale, String> licenseText);
 
 
     /**
@@ -602,7 +719,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseOptions the list of options for the license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions);
+    public abstract SyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions);
 
 
     /**
@@ -615,7 +732,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param licenseTerms the list of license terms of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms);
+    public abstract SyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms);
 
 
     /**
@@ -628,7 +745,7 @@ public interface ISyncAsset extends ISyncDataType {
      * @param downloadConstraints the download constraints of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints);
+    public abstract SyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints);
 
 
     /**
@@ -641,7 +758,71 @@ public interface ISyncAsset extends ISyncDataType {
      * @param releaseDetails release details of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    ISyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails);
+    public abstract SyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails);
+
+
+    /**
+     * Set the Smint.io UUID to the single binary for the asset.
+     *
+     * @param binaryUuid the Smint.io platform UUID for the binary file of this asset.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public abstract SyncAsset setBinaryUuid(String binaryUuid);
+
+
+    /**
+     * Sets the type of the binary as a key.
+     *
+     * <p>
+     * The value is a sync target platform specific ID, mapped from Smint.io key.
+     * </p>
+     *
+     * @param binaryTypeKey the sync target ID of exclusivity granted or {@code null}.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public abstract SyncAsset setBinaryType(String binaryTypeKey);
+
+
+    /**
+     * Sets the locale (language) this binary contains.
+     *
+     * <p>
+     * Binary data may contain language specific symbols or other data, or be a translated variant of another binary
+     * data. In these cases, the language this asset is closely related and best suited for, can be set. Its value can
+     * be used for filtered searches.
+     * </p>
+     *
+     * @param binaryLocale the locale to set or {@code null} if none is applicable.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     */
+    public abstract SyncAsset setBinaryLocale(final Locale binaryLocale);
+
+
+    /**
+     * Set the binary version to a new value.
+     *
+     * <p>
+     * The binary version is used to detect changes on the binary file. Every change will increase the version number.
+     * So the newest version will be the one with the highest version number. Nevertheless this one-way synchronization
+     * will not sync back any changes to the Smint.io platform.
+     * </p>
+     *
+     * @param binaryVersion the new binary version as a positive number, which must be greater or equal to 0.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     * @throws IllegalArgumentException in case the parameter is set to a negative value.
+     * @see <a href="two-types-of-assets">Two types of assets</a>
+     */
+    public abstract SyncAsset setBinaryVersion(int binaryVersion);
+
+
+    /**
+     * Sets a localized textual description of the usage definition for the binary.
+     *
+     * @param binaryUsage a localized description of the usage definitions for the binary or {@code null}.
+     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
+     * @see <a href="two-types-of-assets">Two types of assets</a>
+     */
+    public abstract SyncAsset setBinaryUsage(Map<Locale, String> binaryUsage);
 
 }
 
