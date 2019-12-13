@@ -63,7 +63,7 @@
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-core</artifactId>
-            <version>[0.0.5,)</version>
+            <version>${project.fullVersion}</version>
         </dependency>
 
         <dependency>
