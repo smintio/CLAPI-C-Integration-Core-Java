@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -188,6 +188,12 @@ extends com.google.inject.AbstractModule</pre>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html" title="interface in io.smint.clapi.consumer.integration.core.configuration.models">ISettingsModel</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html#getSettings--">getSettings</a></span>()</code>
+<div class="block">Provides settings with validated lanugages.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/factory/ISyncTargetFactory.html" title="interface in io.smint.clapi.consumer.integration.core.factory">ISyncTargetFactory</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/factory/impl/SyncGuiceModule.html#getSyncTargetFactory--">getSyncTargetFactory</a></span>()</code>
 <div class="block">Returns the value passed to the constructor.</div>
@@ -337,6 +343,26 @@ public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first service found or <code>null</code> if there is none.</dd>
+</dl>
+</li>
+</ul>
+<a name="getSettings--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSettings</h4>
+<pre>@Provides
+public&nbsp;<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html" title="interface in io.smint.clapi.consumer.integration.core.configuration.models">ISettingsModel</a>&nbsp;getSettings()</pre>
+<div class="block">Provides settings with validated lanugages.
+
+ <p>
+ Fetches the settings from the sync target factory, validates the languages and returns a new instance with the
+ same settings and validated languages. The result is not cached internally but this is done on every call.
+ </p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>settings with validated languages</dd>
 </dl>
 </li>
 </ul>

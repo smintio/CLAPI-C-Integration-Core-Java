@@ -24,11 +24,11 @@ import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Map;
 
-import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -36,7 +36,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 /**
  * JSON based container for asset data.
  */
-public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements ISyncAsset {
+public class SyncAssetJsonImpl extends BaseSyncAsset {
 
 
     public static final String JSON_KEY__UUID = "uuid";
@@ -73,228 +73,278 @@ public abstract class SyncAssetJsonImpl extends BaseSyncDataTypeJson implements 
     public static final String JSON_KEY__DOWNLOAD_CONSTRAINTS = "downloadConstraints";
     public static final String JSON_KEY__RELEASE_DETAILS = "releaseDetails";
 
+    public static final String JSON_KEY__BINARY_UUID = "binaryUuid";
+    public static final String JSON_KEY__BINARY_TYPE = "binaryType";
+    public static final String JSON_KEY__BINARY_LOCALE = "binaryLocale";
+    public static final String JSON_KEY__BINARY_VERSION = "binaryVersion";
+    public static final String JSON_KEY__BINARY_USAGE = "binaryUsage";
 
-    @Override
+
+    private final BaseSyncDataTypeJson _data = new BaseSyncDataTypeJson();
+
+
     public String getTransactionUuid() {
         return (String) this.getMetaData().get(JSON_KEY__UUID);
     }
 
 
     @Override
-    public ISyncAsset setTransactionUuid(final String smintIoId) throws NullPointerException {
+    public SyncAssetJsonImpl setTransactionUuid(final String smintIoId) throws NullPointerException {
         this.putMetaDataValue(JSON_KEY__UUID, smintIoId);
         return this;
     }
 
 
-    public String getTargetAssetUuid() {
-        return (String) this.getMetaData().get(JSON_KEY__TARGET_ASSET_UUID);
-    }
-
-
     @Override
-    public ISyncAsset setTargetAssetUuid(final String targetAssetUuid) {
-        this.putMetaDataValue(JSON_KEY__TARGET_ASSET_UUID, targetAssetUuid);
-        return this;
-    }
-
-
-    @Override
-    public ISyncAsset setName(final Map<Locale, String> name) {
+    public SyncAssetJsonImpl setName(final Map<Locale, String> name) {
         this.putMetaDataValue(JSON_KEY__ASSET_NAME, name);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setContentElementUuid(final String contentElementUuid) {
+    public SyncAssetJsonImpl setContentElementUuid(final String contentElementUuid) {
         this.putMetaDataValue(JSON_KEY__CONTENT_ELEMENT_UUID, contentElementUuid);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setContentType(final String contentTypeKey) {
+    public SyncAssetJsonImpl setContentType(final String contentTypeKey) {
         this.putMetaDataValue(JSON_KEY__CONTENT_TYPE, contentTypeKey);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setContentProvider(final String contentProviderKey) {
+    public SyncAssetJsonImpl setContentProvider(final String contentProviderKey) {
         this.putMetaDataValue(JSON_KEY__CONTENT_PROVIDER, contentProviderKey);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setContentCategory(final String contentCategoryKey) {
+    public SyncAssetJsonImpl setContentCategory(final String contentCategoryKey) {
         this.putMetaDataValue(JSON_KEY__CONTENT_CATEGORY, contentCategoryKey);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setDescription(final Map<Locale, String> description) {
+    public SyncAssetJsonImpl setDescription(final Map<Locale, String> description) {
         this.putMetaDataValue(JSON_KEY__DESCRIPTION, description);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setSmintIoUrl(final URL smintIoUrl) {
+    public SyncAssetJsonImpl setSmintIoUrl(final URL smintIoUrl) {
         this.putMetaDataValue(JSON_KEY__SMINT_IO_URL, smintIoUrl);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setCreatedAt(final OffsetDateTime createdAt) {
+    public SyncAssetJsonImpl setCreatedAt(final OffsetDateTime createdAt) {
         this.putMetaDataValue(JSON_KEY__CREATE_AT, createdAt);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt) {
+    public SyncAssetJsonImpl setLastUpdatedAt(final OffsetDateTime lastUpdatedAt) {
         this.putMetaDataValue(JSON_KEY__LAST_UPDATED_AT, lastUpdatedAt);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setPurchasedAt(final OffsetDateTime purchasedAt) {
+    public SyncAssetJsonImpl setPurchasedAt(final OffsetDateTime purchasedAt) {
         this.putMetaDataValue(JSON_KEY__PURCHASED_AT, purchasedAt);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
+    public SyncAssetJsonImpl setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
         this.putMetaDataValue(JSON_KEY__CART_PURCHASE_TRANSACTION_UUID, cartPurchaseTransactionUuid);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
+    public SyncAssetJsonImpl setHasBeenCancelled(final boolean hasBeenCancelled) {
         this.putMetaDataValue(JSON_KEY__HAS_BEEN_CANCELLED, hasBeenCancelled);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setProjectUuid(final String projectUuid) {
+    public SyncAssetJsonImpl setProjectUuid(final String projectUuid) {
         this.putMetaDataValue(JSON_KEY__PROJECT_UUID, projectUuid);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setProjectName(final Map<Locale, String> projectName) {
+    public SyncAssetJsonImpl setProjectName(final Map<Locale, String> projectName) {
         this.putMetaDataValue(JSON_KEY__PROJECT_NAME, projectName);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setCollectionUuid(final String collectionUuid) {
+    public SyncAssetJsonImpl setCollectionUuid(final String collectionUuid) {
         this.putMetaDataValue(JSON_KEY__COLLECTION_UUID, collectionUuid);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setCollectionName(final Map<Locale, String> collectionName) {
+    public SyncAssetJsonImpl setCollectionName(final Map<Locale, String> collectionName) {
         this.putMetaDataValue(JSON_KEY__COLLECTION_NAME, collectionName);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setKeywords(final Map<Locale, String[]> keywords) {
+    public SyncAssetJsonImpl setKeywords(final Map<Locale, String[]> keywords) {
         this.putMetaDataValue(JSON_KEY__KEYWORDS, keywords);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices) {
+    public SyncAssetJsonImpl setCopyrightNotices(final Map<Locale, String> copyrightNotices) {
         this.putMetaDataValue(JSON_KEY__COPYRIGHT_NOTICE, copyrightNotices);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setIsEditorialUse(final Boolean isEditorialUse) {
+    public SyncAssetJsonImpl setIsEditorialUse(final Boolean isEditorialUse) {
         this.putMetaDataValue(JSON_KEY__IS_EDITORIAL_USE, isEditorialUse);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setHasLicenseTerms(final boolean hasLicenseTerms) {
+    public SyncAssetJsonImpl setHasLicenseTerms(final boolean hasLicenseTerms) {
         this.putMetaDataValue(JSON_KEY__HAS_LICENSE_TERM, hasLicenseTerms);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseType(final String licenseTypeKey) {
+    public SyncAssetJsonImpl setLicenseType(final String licenseTypeKey) {
         this.putMetaDataValue(JSON_KEY__LICENSE_TYPE, licenseTypeKey);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseeUuid(final String licenseeUuid) {
+    public SyncAssetJsonImpl setLicenseeUuid(final String licenseeUuid) {
         this.putMetaDataValue(JSON_KEY__LICENSEE_UUID, licenseeUuid);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseeName(final String licenseeName) {
+    public SyncAssetJsonImpl setLicenseeName(final String licenseeName) {
         this.putMetaDataValue(JSON_KEY__LICENSEE_NAME, licenseeName);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseText(final Map<Locale, String> licenseText) {
+    public SyncAssetJsonImpl setLicenseText(final Map<Locale, String> licenseText) {
         this.putMetaDataValue(JSON_KEY__LICENSE_TEXT, licenseText);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
+    public SyncAssetJsonImpl setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
         this.putMetaDataValue(JSON_KEY__LICENSE_OPTION, licenseOptions);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
+    public SyncAssetJsonImpl setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
         this.putMetaDataValue(JSON_KEY__LICENSE_TERMS, licenseTerms);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints) {
+    public SyncAssetJsonImpl setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints) {
         this.putMetaDataValue(JSON_KEY__DOWNLOAD_CONSTRAINTS, downloadConstraints);
         return this;
     }
 
 
     @Override
-    public ISyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails) {
+    public SyncAssetJsonImpl setReleaseDetails(final ISyncReleaseDetails releaseDetails) {
         this.putMetaDataValue(JSON_KEY__RELEASE_DETAILS, releaseDetails);
         return this;
     }
 
 
+    public Map<String, Object> getMetaData() {
+        return this._data.getMetaData();
+    }
+
+
+    public SyncAssetJsonImpl setMetaData(final Map<String, Object> newMetaData) {
+        this._data.setMetaData(newMetaData);
+        return this;
+    }
+
+
+    public SyncAssetJsonImpl putMetaDataValue(final String key, final Object newValue) {
+        this._data.putMetaDataValue(key, newValue);
+        return this;
+    }
+
+    @Override
+    public SyncAssetJsonImpl setBinaryUuid(final String binaryUuid) {
+        this.putMetaDataValue(JSON_KEY__BINARY_UUID, binaryUuid);
+        return this;
+    }
+
+
+    public String getBinaryUuid() {
+        return (String) this.getMetaData().get(JSON_KEY__BINARY_UUID);
+    }
+
+
+    @Override
+    public SyncAssetJsonImpl setBinaryType(final String binaryTypeKey) {
+        this.putMetaDataValue(JSON_KEY__BINARY_TYPE, binaryTypeKey);
+        return this;
+    }
+
+
+    @Override
+    public SyncAssetJsonImpl setBinaryLocale(final Locale binaryLocale) {
+        this.putMetaDataValue(JSON_KEY__BINARY_LOCALE, binaryLocale);
+        return this;
+    }
+
+
+    @Override
+    public SyncAssetJsonImpl setBinaryVersion(final int binaryVersion) {
+        this.putMetaDataValue(JSON_KEY__BINARY_VERSION, new Integer(binaryVersion));
+        return this;
+    }
+
+
+    @Override
+    public SyncAssetJsonImpl setBinaryUsage(final Map<Locale, String> binaryUsage) {
+        this.putMetaDataValue(JSON_KEY__BINARY_USAGE, binaryUsage);
+        return this;
+    }
 }
 
 // CHECKSTYLE ON: MethodCount

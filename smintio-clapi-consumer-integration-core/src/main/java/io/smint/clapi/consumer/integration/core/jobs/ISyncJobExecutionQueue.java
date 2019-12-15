@@ -150,6 +150,7 @@ public interface ISyncJobExecutionQueue extends Runnable {
      * callback.accept(wasCalledAsRegularSchedule);
      * </pre>
      *
+     * @param callback the function to call as soon as the job has finished.
      * @return {@code this}.
      */
     ISyncJobExecutionQueue notifyWhenFinished(final Consumer<Boolean> callback);

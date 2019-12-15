@@ -46,6 +46,7 @@ public abstract class LocaleUtility {
      * already uses two letter language code, then the provided locale is returned unchanged.
      * </p>
      *
+     * @param locale the locale to check whether conversion is necessary and possible.
      * @return a converted locale if an ISO 639-1 two letter code exists.
      */
     public static Locale covertToISO2Locale(final Locale locale) {

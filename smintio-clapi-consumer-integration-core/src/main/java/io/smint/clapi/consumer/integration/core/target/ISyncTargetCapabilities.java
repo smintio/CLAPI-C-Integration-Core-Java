@@ -20,6 +20,8 @@
 
 package io.smint.clapi.consumer.integration.core.target;
 
+import java.util.Arrays;
+
 
 /**
  * Synchronization targets indicate their capabilities by providing an instance of this interface.
@@ -63,7 +65,15 @@ public interface ISyncTargetCapabilities {
      *
      * @return {@code true} in case the target system is capable of handling translations into various languages.
      */
-    boolean isMultiLanguageSupported();
+    default boolean isMultiLanguageSupported() {
+        final SyncTargetCapabilitiesEnum[] capabilities = this.getCapabilities();
+        if (capabilities == null || capabilities.length == 0) {
+            return false;
+        }
+
+        return Arrays.asList(capabilities).contains(SyncTargetCapabilitiesEnum.MultiLanguageEnum);
+    }
+
 
     /**
      * Indicates whether compound assets are supported by this sync target implementation.
@@ -74,7 +84,15 @@ public interface ISyncTargetCapabilities {
      *
      * @return {@code true} in case the target system is capable of handling compound assets.
      */
-    boolean isCompoundAssetsSupported();
+    default boolean isCompoundAssetsSupported() {
+        final SyncTargetCapabilitiesEnum[] capabilities = this.getCapabilities();
+        if (capabilities == null || capabilities.length == 0) {
+            return false;
+        }
+
+        return Arrays.asList(capabilities).contains(SyncTargetCapabilitiesEnum.CompoundAssetsEnum);
+    }
+
 
     /**
      * Indicates whether binary updates are supported by this sync target implementation.
@@ -85,6 +103,13 @@ public interface ISyncTargetCapabilities {
      *
      * @return {@code true} in case the target system is capable of updating assets (binaries) besides its meta data.
      */
-    boolean isBinaryUpdatesSupported();
+    default boolean isBinaryUpdatesSupported() {
+        final SyncTargetCapabilitiesEnum[] capabilities = this.getCapabilities();
+        if (capabilities == null || capabilities.length == 0) {
+            return false;
+        }
+
+        return Arrays.asList(capabilities).contains(SyncTargetCapabilitiesEnum.BinaryUpdatesEnum);
+    }
 
 }

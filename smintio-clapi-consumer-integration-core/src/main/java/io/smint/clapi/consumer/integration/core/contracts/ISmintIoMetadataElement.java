@@ -53,7 +53,7 @@ public interface ISmintIoMetadataElement {
      * <p>
      * This value provides a 1:1 mapping from the Smint.io API key ({@link #getKey()}) to the key on the sync target
      * side. This is the value that is used when settings meta data to
-     * {@link io.smint.clapi.consumer.integration.core.target.ISyncAsset}s
+     * {@link io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset}s
      * </p>
      *
      * @return the ID used on the sync target side.

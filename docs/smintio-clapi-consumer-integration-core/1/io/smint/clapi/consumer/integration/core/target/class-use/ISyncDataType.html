@@ -83,10 +83,6 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a href="#io.smint.clapi.consumer.integration.core.jobs.impl">io.smint.clapi.consumer.integration.core.jobs.impl</a></td>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><a href="#io.smint.clapi.consumer.integration.core.target">io.smint.clapi.consumer.integration.core.target</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -95,47 +91,6 @@
 </li>
 <li class="blockList">
 <ul class="blockList">
-<li class="blockList"><a name="io.smint.clapi.consumer.integration.core.jobs.impl">
-<!--   -->
-</a>
-<h3>Uses of <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a> in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a></h3>
-<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing classes, and an explanation">
-<caption><span>Classes in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a> with type parameters of type <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Class and Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="class in io.smint.clapi.consumer.integration.core.jobs.impl">BaseSyncDataConverter</a>&lt;FromTypeT extends <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/contracts/ISmintIoDataType.html" title="interface in io.smint.clapi.consumer.integration.core.contracts">ISmintIoDataType</a>,ToTypeT extends <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a>&gt;</span></code>
-<div class="block">Abstract base for converters that convert instances of <code>&lt;FromTypeT&gt;</code> to <code>&lt;ToTypeT&gt;</code>.</div>
-</td>
-</tr>
-</tbody>
-</table>
-<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/package-summary.html">io.smint.clapi.consumer.integration.core.jobs.impl</a> that return <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Method and Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">ToTypeT</a>[]</code></td>
-<td class="colLast"><span class="typeNameLabel">BaseSyncDataConverter.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convert-FromTypeT-">convert</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">FromTypeT</a>&nbsp;source)</code>
-<div class="block">Converts a single raw instance of <code>FromType</code> to a new instance of <code>ToType</code>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">ToTypeT</a>[]</code></td>
-<td class="colLast"><span class="typeNameLabel">BaseSyncDataConverter.</span><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convertAll-FromTypeT:A-">convertAll</a></span>(<a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html" title="type parameter in BaseSyncDataConverter">FromTypeT</a>[]&nbsp;sources)</code>
-<div class="block">Converts each item in the list, using <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/jobs/impl/BaseSyncDataConverter.html#convert-FromTypeT-"><code>BaseSyncDataConverter.convert(ISmintIoDataType)</code></a>.</div>
-</td>
-</tr>
-</tbody>
-</table>
-</li>
 <li class="blockList"><a name="io.smint.clapi.consumer.integration.core.target">
 <!--   -->
 </a>
@@ -149,44 +104,41 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncAsset</a></span></code>
-<div class="block">Interface sync target asset instances need to implement.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncBinaryAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncBinaryAsset</a></span></code>
-<div class="block">Represents a <em>Simple Asset</em> containing a single binary asset data.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncCompoundAsset.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncCompoundAsset</a></span></code>
-<div class="block">Implementing classes represent the notion of <em>Compound Asset</em>, which combines variants of the same content.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDownloadConstraints.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDownloadConstraints</a></span></code>
 <div class="block">Defines some download constraints on an asset.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseOption.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseOption</a></span></code>
 <div class="block">Defines values for custom licensing options as created and provided by upstream content providers.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncLicenseTerm</a></span></code>
 <div class="block">Defines a license term composing restrictions and allowances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncReleaseDetails.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncReleaseDetails</a></span></code>
 <div class="block">Defines some asset release details.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing classes, and an explanation">
+<caption><span>Classes in <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/package-summary.html">io.smint.clapi.consumer.integration.core.target</a> that implement <a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></span></code>
+<div class="block">Base abstract class a sync target asset instance need to inherit from.</div>
 </td>
 </tr>
 </tbody>

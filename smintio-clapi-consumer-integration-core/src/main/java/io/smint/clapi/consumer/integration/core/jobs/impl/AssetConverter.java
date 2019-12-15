@@ -20,18 +20,16 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstr
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
 import io.smint.clapi.consumer.integration.core.factory.ISmintIoDownloadProvider;
 import io.smint.clapi.consumer.integration.core.jobs.ISyncMetadataIdMapper;
-import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 /**
- * Converts an instance from {@link ISmintIoAsset} to {@link ISyncAsset}.
+ * Converts an instance from {@link ISmintIoAsset} to {@link BaseSyncAsset}.
  *
  * <p>
  * Conversion involve the replacement of Smint.io specific ID with synchronization target keys. Hence this
@@ -43,7 +41,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * {@link ISyncTargetDataFactory#createSyncLicenseTerm()}.
  * </p>
  */
-class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
+class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAsset> {
 
     private static final Logger LOG = Logger.getLogger(AssetConverter.class.getName());
 
@@ -70,7 +68,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
         final ISmintIoDownloadProvider downloadProvider,
         final File temporaryDownloadFolder
     ) {
-        super(ISyncAsset.class);
+        super(WrapperSyncAsset.class);
         this._idMapper = idMapper;
         this._downloadProvider = downloadProvider;
         this._temporaryDownloadFolder = temporaryDownloadFolder;
@@ -84,48 +82,48 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
 
 
     @Override
-    public ISyncAsset[] convert(final ISmintIoAsset rawAsset) {
+    public WrapperSyncAsset[] convert(final ISmintIoAsset rawAsset) {
 
         final ISmintIoBinary[] binaries = rawAsset != null ? rawAsset.getBinaries() : null;
         if (rawAsset == null || binaries == null || binaries.length == 0) {
             return null;
         }
 
-        final List<ISyncAsset> assets = new ArrayList<>();
+        final List<BaseSyncAsset> assets = new ArrayList<>();
 
 
         LOG.info(() -> "Transforming Smint.io LPT " + rawAsset.getLicensePurchaseTransactionUuid() + " ...");
 
 
-        final List<ISyncBinaryAsset> assetPartAssets = new ArrayList<>();
+        final List<BaseSyncAsset> assetPartAssets = new ArrayList<>();
         for (final ISmintIoBinary binary : binaries) {
 
             final URL downloadUrl = binary.getDownloadUrl();
             final String recommendedFileName = binary.getRecommendedFileName();
 
-            final ISyncBinaryAsset targetAsset = new WrapperSyncBinaryAsset(
+            final WrapperSyncAsset targetAsset = new WrapperSyncAsset(
                 this._syncTargetDataFactory.createSyncBinaryAsset()
             );
 
-            targetAsset
-                .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid())
-                .setRecommendedFileName(recommendedFileName);
+            targetAsset.setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
             this.setContentMetadata(targetAsset, rawAsset, binary, this._idMapper);
             this.setLicenseMetadata(targetAsset, rawAsset, this._idMapper, this._syncTargetDataFactory);
 
-            targetAsset
-                .setDownloadedFileProvider(
-                    this._downloadProvider.createDownloaderForSmintIoUrl(
-                        downloadUrl,
-                        new File(
-                            this._temporaryDownloadFolder,
-                            targetAsset.getTransactionUuid() + "_" + targetAsset.getBinaryUuid() + "_"
-                                + recommendedFileName
-                        )
-                    )
-                );
 
+            final Provider<File> downloader = this._downloadProvider.createDownloaderForSmintIoUrl(
+                downloadUrl,
+                new File(
+                    this._temporaryDownloadFolder,
+                    targetAsset.getTransactionUuid() + "_" + targetAsset.getBinaryUuid() + "_"
+                        + recommendedFileName
+                )
+            );
+
+            // set to both, as these functions might be disconnected.
+            targetAsset
+                .setRecommendedFileName(recommendedFileName)
+                .setDownloadedFileProvider(downloader);
 
             assetPartAssets.add(targetAsset);
             assets.add(targetAsset);
@@ -135,12 +133,12 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
         if (assetPartAssets.size() > 1) {
             // we have a compound asset, consisting of more than one asset part
 
-            final ISyncCompoundAsset targetCompoundAsset = new WrapperSyncCompoundAsset(
+            final WrapperSyncAsset targetCompoundAsset = new WrapperSyncAsset(
                 this._syncTargetDataFactory.createSyncCompoundAsset()
             );
 
             targetCompoundAsset
-                .setAssetParts(assetPartAssets.toArray(new ISyncBinaryAsset[assetPartAssets.size()]))
+                .setAssetParts(assetPartAssets.toArray(new BaseSyncAsset[assetPartAssets.size()]))
                 .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
 
@@ -152,12 +150,12 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
 
         LOG.info(() -> "Transformed Smint.io LPT " + rawAsset.getLicensePurchaseTransactionUuid());
 
-        return assets.toArray(new ISyncAsset[assets.size()]);
+        return assets.toArray(new WrapperSyncAsset[assets.size()]);
     }
 
 
     public void setContentMetadata(
-        final ISyncAsset targetAsset,
+        final BaseSyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
         final ISmintIoBinary binary,
         final ISyncMetadataIdMapper idMapper
@@ -240,11 +238,9 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
         }
 
 
-        if (binary != null && targetAsset instanceof ISyncBinaryAsset) {
-            final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
-
+        if (binary != null) {
             if (!this.isNullOrEmpty(binary.getBinaryType())) {
-                binaryTargetAsset.setBinaryType(
+                targetAsset.setBinaryType(
                     this.convertId(
                         binary.getBinaryType(),
                         (id) -> idMapper.getBinaryTypeId(id),
@@ -254,23 +250,23 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
             }
 
 
-            binaryTargetAsset
+            targetAsset
                 .setBinaryUuid(binary.getUuid())
                 .setBinaryVersion(binary.getVersion());
 
             if (!this.isNullOrEmpty(binary.getUsage())) {
-                binaryTargetAsset.setBinaryUsage(binary.getUsage());
+                targetAsset.setBinaryUsage(binary.getUsage());
             }
 
             final Locale binaryCultureLocale = binary.getLocale();
             if (binaryCultureLocale != null) {
-                binaryTargetAsset.setBinaryLocale(binaryCultureLocale);
+                targetAsset.setBinaryLocale(binaryCultureLocale);
             }
         }
     }
 
     public void setLicenseMetadata(
-        final ISyncAsset targetAsset,
+        final BaseSyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
         final ISyncMetadataIdMapper idMapper,
         final ISyncTargetDataFactory syncTargetDataFactory
@@ -306,7 +302,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
 
         }
 
-        if (targetAsset instanceof ISyncBinaryAsset && rawAsset.getDownloadConstraints() != null) {
+        if (rawAsset.getDownloadConstraints() != null) {
 
             final ISmintIoDownloadConstraints rawDownloadConstraints = rawAsset.getDownloadConstraints();
 
@@ -323,8 +319,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, ISyncAsset> {
                 .setMaxDownloads(rawDownloadConstraints.getMaxDownloads())
                 .setMaxReuses(rawDownloadConstraints.getMaxReuses());
 
-            final ISyncBinaryAsset binaryTargetAsset = (ISyncBinaryAsset) targetAsset;
-            binaryTargetAsset.setDownloadConstraints(targetDownloadConstraints);
+            targetAsset.setDownloadConstraints(targetDownloadConstraints);
         }
 
 

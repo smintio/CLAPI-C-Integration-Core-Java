@@ -26,12 +26,6 @@
         </license>
     </licenses>
 
-    <scm>
-        <connection>scm:git:https://github.com/smintio/CLAPI-C-Integration-Core-Java.git</connection>
-        <tag>1.6.0</tag>
-        <url>https://github.com/smintio/CLAPI-C-Integration-Core-Java</url>
-    </scm>
-    
     <dependencies>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -49,13 +43,13 @@
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-core</artifactId>
-            <version>[0.0.5,)</version>
+            <version>${project.fullVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-authorizer</artifactId>
-            <version>[0.0.5,)</version>
+            <version>${project.fullVersion}</version>
         </dependency>
 
         <dependency>

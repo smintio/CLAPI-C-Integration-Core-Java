@@ -33,11 +33,10 @@ import com.google.common.io.Files;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
-import io.smint.clapi.consumer.integration.core.target.ISyncAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncBinaryAsset;
-import io.smint.clapi.consumer.integration.core.target.ISyncCompoundAsset;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
+import io.smint.clapi.consumer.integration.core.target.SyncTargetCapabilitiesEnum;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -58,8 +57,8 @@ public class SyncTargetJson implements ISyncTarget {
     private long _nextId = 1;
     private final Map<String, String> _mapSmintIoIdToMyId = new Hashtable<>();
     private final Map<String, Object> _allData = new Hashtable<>();
-    private transient final Map<String, ISyncAsset> _binaryAssets = new Hashtable<>();
-    private transient final Map<String, ISyncAsset> _compoundAssets = new Hashtable<>();
+    private transient final Map<String, BaseSyncAsset> _binaryAssets = new Hashtable<>();
+    private transient final Map<String, BaseSyncAsset> _compoundAssets = new Hashtable<>();
 
     private final File _assetBinariesDir;
 
@@ -86,10 +85,13 @@ public class SyncTargetJson implements ISyncTarget {
         return this._allData;
     }
 
-
     @Override
     public ISyncTargetCapabilities getCapabilities() {
-        return new SyncTargetCapabilitiesJson();
+        final SyncTargetCapabilitiesEnum[] capabilities = new SyncTargetCapabilitiesEnum[] {
+            SyncTargetCapabilitiesEnum.BinaryUpdatesEnum,
+            SyncTargetCapabilitiesEnum.MultiLanguageEnum,
+        };
+        return () -> capabilities;
     }
 
     @Override
@@ -197,23 +199,34 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public void importNewTargetAssets(final ISyncBinaryAsset[] newTargetAssets) {
+    public void importNewTargetAssets(final BaseSyncAsset[] newTargetAssets) {
 
         LOG.finer("Importing new asset!");
 
 
         if (newTargetAssets != null) {
-            for (final ISyncBinaryAsset asset : newTargetAssets) {
+            for (final BaseSyncAsset asset : newTargetAssets) {
 
-                LOG.finer("Importing new asset " + asset.getTransactionUuid() + ":" + asset.getBinaryUuid() + "!");
+                if (!(asset instanceof SyncAssetJsonImpl)) {
+                    LOG.log(Level.WARNING, "invalid asset instance type found: " + asset.getClass().getName());
+                    continue;
+                }
+
+                final SyncAssetJsonImpl newAsset = (SyncAssetJsonImpl) asset;
+
+
+                LOG.finer(
+                    "Importing new asset " + newAsset.getTransactionUuid() + ":" + newAsset.getBinaryUuid() + "!"
+                );
 
                 final String id = this.getNextId();
-                this._binaryAssets.put(id, asset);
-                this._mapSmintIoIdToMyId.put("asset-" + asset.getTransactionUuid() + "_" + asset.getBinaryUuid(), id);
+                this._binaryAssets.put(id, newAsset);
+                this._mapSmintIoIdToMyId
+                    .put("asset-" + newAsset.getTransactionUuid() + "_" + newAsset.getBinaryUuid(), id);
 
                 // download file
                 try {
-                    asset.getDownloadedFile();
+                    newAsset.getDownloadedFile();
 
                 } catch (FileNotFoundException | SmintIoAuthenticatorException excp) {
                     LOG.log(Level.SEVERE, "Failed to download asset to file!", excp);
@@ -223,33 +236,44 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
     @Override
-    public void updateTargetAssets(final ISyncBinaryAsset[] updatedTargetAssets) {
+    public void updateTargetAssets(final BaseSyncAsset[] updatedTargetAssets) {
         if (updatedTargetAssets != null) {
-            for (final ISyncBinaryAsset asset : updatedTargetAssets) {
+            for (final BaseSyncAsset asset : updatedTargetAssets) {
+
+                if (!(asset instanceof SyncAssetJsonImpl)) {
+                    LOG.log(Level.WARNING, "invalid asset instance type found: " + asset.getClass().getName());
+                    continue;
+                }
+
+                final SyncAssetJsonImpl newAsset = (SyncAssetJsonImpl) asset;
                 final String id = this._mapSmintIoIdToMyId
-                    .get("asset-" + asset.getTransactionUuid() + "_" + asset.getBinaryUuid());
+                    .get("asset-" + newAsset.getTransactionUuid() + "_" + newAsset.getBinaryUuid());
                 this._binaryAssets.put(id, asset);
             }
         }
     }
 
     @Override
-    public void importNewTargetCompoundAssets(final ISyncCompoundAsset[] newTargetCompoundAssets) {
+    public void importNewTargetCompoundAssets(final BaseSyncAsset[] newTargetCompoundAssets) {
         if (newTargetCompoundAssets != null) {
-            for (final ISyncCompoundAsset asset : newTargetCompoundAssets) {
+            for (final BaseSyncAsset asset : newTargetCompoundAssets) {
+
+                final SyncAssetJsonImpl newAsset = (SyncAssetJsonImpl) asset;
                 final String id = this.getNextId();
-                this._compoundAssets.put(id, asset);
-                this._mapSmintIoIdToMyId.put("asset-" + asset.getTransactionUuid() + "_compound", id);
+                this._compoundAssets.put(id, newAsset);
+                this._mapSmintIoIdToMyId.put("asset-" + newAsset.getTransactionUuid() + "_compound", id);
             }
         }
     }
 
     @Override
-    public void updateTargetCompoundAssets(final ISyncCompoundAsset[] updatedTargetCompoundAssets) {
+    public void updateTargetCompoundAssets(final BaseSyncAsset[] updatedTargetCompoundAssets) {
         if (updatedTargetCompoundAssets != null) {
-            for (final ISyncCompoundAsset asset : updatedTargetCompoundAssets) {
-                final String id = this._mapSmintIoIdToMyId.get("asset-" + asset.getTransactionUuid() + "_compound");
-                this._binaryAssets.put(id, asset);
+            for (final BaseSyncAsset asset : updatedTargetCompoundAssets) {
+
+                final SyncAssetJsonImpl newAsset = (SyncAssetJsonImpl) asset;
+                final String id = this._mapSmintIoIdToMyId.get("asset-" + newAsset.getTransactionUuid() + "_compound");
+                this._binaryAssets.put(id, newAsset);
             }
         }
     }
@@ -261,7 +285,7 @@ public class SyncTargetJson implements ISyncTarget {
         final File assetsDir = this._assetBinariesDir;
         assetsDir.mkdirs();
 
-        for (final SyncBinaryAssetJsonImpl asset : this.getAllBinaryAssets()) {
+        for (final SyncAssetJsonImpl asset : this.getAllBinaryAssets()) {
             try {
                 final File assetFile = asset.getDownloadedFile();
                 final File targetFile = new File(assetsDir, assetFile.getName());
@@ -297,19 +321,19 @@ public class SyncTargetJson implements ISyncTarget {
     }
 
 
-    public SyncBinaryAssetJsonImpl[] getAllBinaryAssets() {
+    public SyncAssetJsonImpl[] getAllBinaryAssets() {
         return this._binaryAssets.values()
             .stream()
-            .map((i) -> (SyncBinaryAssetJsonImpl) i)
-            .toArray(SyncBinaryAssetJsonImpl[]::new);
+            .map((i) -> (SyncAssetJsonImpl) i)
+            .toArray(SyncAssetJsonImpl[]::new);
     }
 
 
-    public SyncCompoundAssetJsonImpl[] getAllCompoundAssets() {
+    public SyncAssetJsonImpl[] getAllCompoundAssets() {
         return this._compoundAssets.values()
             .stream()
-            .map((i) -> (SyncCompoundAssetJsonImpl) i)
-            .toArray(SyncCompoundAssetJsonImpl[]::new);
+            .map((i) -> (SyncAssetJsonImpl) i)
+            .toArray(SyncAssetJsonImpl[]::new);
     }
 
 
