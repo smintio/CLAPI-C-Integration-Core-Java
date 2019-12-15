@@ -17,3 +17,4 @@ io.smint.clapi.consumer.integration.core.providers.impl
 io.smint.clapi.consumer.integration.core.services
 io.smint.clapi.consumer.integration.core.services.impl
 io.smint.clapi.consumer.integration.core.target
+io.smint.clapi.consumer.integration.core.target.impl

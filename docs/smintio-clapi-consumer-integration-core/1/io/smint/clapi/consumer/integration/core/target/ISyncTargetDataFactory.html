@@ -50,7 +50,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetCapabilities.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncTargetCapabilitiesEnum.html" title="enum in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../../../index.html?io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html" target="_top">Frames</a></li>
@@ -127,13 +127,13 @@ var activeTableTab = "activeTableTab";
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></code></td>
+<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl">BaseSyncAsset</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html#createSyncBinaryAsset--">createSyncBinaryAsset</a></span>()</code>
 <div class="block">Factory function to create a new instance representing target's data structure for a <em>Binary Assets</em>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a></code></td>
+<td class="colFirst"><code><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl">BaseSyncAsset</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html#createSyncCompoundAsset--">createSyncCompoundAsset</a></span>()</code>
 <div class="block">Factory function to create a new instance representing target's compound assets.</div>
 </td>
@@ -183,19 +183,19 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>createSyncBinaryAsset</h4>
-<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a>&nbsp;createSyncBinaryAsset()</pre>
+<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl">BaseSyncAsset</a>&nbsp;createSyncBinaryAsset()</pre>
 <div class="block">Factory function to create a new instance representing target's data structure for a <em>Binary Assets</em>.
 
  <p>
  The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
  this instance, it will be passed to this sync target via
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(SyncAsset[])</code></a>.
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(BaseSyncAsset[])</code></a>.
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>must return a fresh instance for every call and must not ever return <code>null</code>.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><code>SyncAsset</code></a></dd>
+<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl"><code>BaseSyncAsset</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -205,19 +205,19 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>createSyncCompoundAsset</h4>
-<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target">SyncAsset</a>&nbsp;createSyncCompoundAsset()</pre>
+<pre><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl">BaseSyncAsset</a>&nbsp;createSyncCompoundAsset()</pre>
 <div class="block">Factory function to create a new instance representing target's compound assets.
 
  <p>
  The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
  this instance, it will be passed to this sync target via
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(SyncAsset[])</code></a>.
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(BaseSyncAsset[])</code></a>.
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>must return a fresh instance for every call and must not ever return <code>null</code>.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><code>SyncAsset</code></a></dd>
+<dd><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target.impl"><code>BaseSyncAsset</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -233,11 +233,11 @@ var activeTableTab = "activeTableTab";
  <p>
  The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
  storing this instance, it will be attached to an asset via
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-"><code>SyncAsset.setLicenseOptions(ISyncLicenseOption[])</code></a> and thus passed to this sync target via one of
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(SyncAsset[])</code></a>
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html#setLicenseOptions-io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption:A-"><code>BaseSyncAsset.setLicenseOptions(ISyncLicenseOption[])</code></a> and thus passed to this sync target via one of
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(BaseSyncAsset[])</code></a>
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -256,11 +256,11 @@ var activeTableTab = "activeTableTab";
 
  <p>
  The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
- storing this instance, it will be attached to an asset via <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-"><code>SyncAsset.setLicenseTerms(ISyncLicenseTerm[])</code></a>
- and thus passed to this sync target via one of <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(SyncAsset[])</code></a>
+ storing this instance, it will be attached to an asset via <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html#setLicenseTerms-io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm:A-"><code>BaseSyncAsset.setLicenseTerms(ISyncLicenseTerm[])</code></a>
+ and thus passed to this sync target via one of <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(BaseSyncAsset[])</code></a>
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -280,11 +280,11 @@ var activeTableTab = "activeTableTab";
  <p>
  The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
  storing this instance, it will be attached to an asset via
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-"><code>SyncAsset.setReleaseDetails(ISyncReleaseDetails)</code></a> and thus passed to this sync target via one of
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(SyncAsset[])</code></a>
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html#setReleaseDetails-io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails-"><code>BaseSyncAsset.setReleaseDetails(ISyncReleaseDetails)</code></a> and thus passed to this sync target via one of
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(BaseSyncAsset[])</code></a>
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -304,11 +304,11 @@ var activeTableTab = "activeTableTab";
  <p>
  The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
  storing this instance, it will be attached to an asset via
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-"><code>SyncAsset.setDownloadConstraints(ISyncDownloadConstraints)</code></a> and thus passed to this sync target via one
- of <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetAssets(SyncAsset[])</code></a>,
- <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.SyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(SyncAsset[])</code></a>
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/impl/BaseSyncAsset.html#setDownloadConstraints-io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints-"><code>BaseSyncAsset.setDownloadConstraints(ISyncDownloadConstraints)</code></a> and thus passed to this sync target via one
+ of <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#importNewTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.importNewTargetCompoundAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetAssets(BaseSyncAsset[])</code></a>,
+ <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#updateTargetCompoundAssets-io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset:A-"><code>ISyncTarget.updateTargetCompoundAssets(BaseSyncAsset[])</code></a>
  </p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -345,7 +345,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetCapabilities.html" title="interface in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncAsset.html" title="class in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/SyncTargetCapabilitiesEnum.html" title="enum in io.smint.clapi.consumer.integration.core.target"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../../../index.html?io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html" target="_top">Frames</a></li>
