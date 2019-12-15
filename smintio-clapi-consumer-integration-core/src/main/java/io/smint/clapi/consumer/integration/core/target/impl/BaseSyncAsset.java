@@ -28,6 +28,8 @@ import java.util.Map;
 
 import javax.inject.Provider;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.target.ISyncDataType;
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
@@ -160,7 +162,8 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  */
 public abstract class BaseSyncAsset implements ISyncDataType {
 
-    private BaseSyncAsset[] _binaryAssets;
+    @SerializedName("assetParts")
+    private BaseSyncAsset[] _assetParts;
 
     private transient boolean _isCompondAsset = false;
     private transient String _recommendedFileName;
@@ -281,7 +284,7 @@ public abstract class BaseSyncAsset implements ISyncDataType {
      * @see #getAssetParts()
      */
     public final BaseSyncAsset setAssetParts(final BaseSyncAsset[] compoundParts) {
-        this._binaryAssets = compoundParts;
+        this._assetParts = compoundParts;
         this._isCompondAsset = true;
         return this;
     }
@@ -294,7 +297,7 @@ public abstract class BaseSyncAsset implements ISyncDataType {
      *         <em>Compound Asset</em> anymore.
      */
     public final BaseSyncAsset[] getAssetParts() {
-        return this._binaryAssets;
+        return this._assetParts;
     }
 
 
