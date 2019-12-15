@@ -161,12 +161,13 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 public abstract class BaseSyncAsset implements ISyncDataType {
 
     private BaseSyncAsset[] _binaryAssets;
-    private boolean _isCompondAsset = false;
-    private String _recommendedFileName;
-    private String _targetAssetUuid;
 
-    private Provider<File> _downloadFileProvider;
-    private File _downloadedFile = null;
+    private transient boolean _isCompondAsset = false;
+    private transient String _recommendedFileName;
+    private transient String _targetAssetUuid;
+
+    private transient Provider<File> _downloadFileProvider;
+    private transient File _downloadedFile = null;
 
 
     /**
