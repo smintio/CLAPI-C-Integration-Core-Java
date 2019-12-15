@@ -28,16 +28,16 @@ import java.util.Map;
  * Represents a single binary for an asset data.
  *
  * <h2>Override of values if part of a <em>Compound Asset</em> (see
- * {@link io.smint.clapi.consumer.integration.core.target.SyncAsset})</h2>
+ * {@link io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset})</h2>
  * <p>
  * If this asset is part of a <em>Compound Asset</em> and therefore has been retrieved as part of the list from
- * {@link io.smint.clapi.consumer.integration.core.target.SyncAsset#getAssetParts()}, its values will override the
+ * {@link io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset#getAssetParts()}, its values will override the
  * values of it base compound asset. So, if both received values with something like
- * {@link io.smint.clapi.consumer.integration.core.target.SyncAsset#setContentCategory(String)}, the asset part's value
+ * {@link io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset#setContentCategory(String)}, the asset part's value
  * win and should be selected to be stored with the sync target's asset representation.
  * </p>
  *
- * @see io.smint.clapi.consumer.integration.core.target.SyncAsset
+ * @see io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset
  */
 public interface ISmintIoBinary extends ISmintIoDataType {
 

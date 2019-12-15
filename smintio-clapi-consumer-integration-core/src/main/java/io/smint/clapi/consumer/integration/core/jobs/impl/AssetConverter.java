@@ -25,11 +25,11 @@ import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
-import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 /**
- * Converts an instance from {@link ISmintIoAsset} to {@link SyncAsset}.
+ * Converts an instance from {@link ISmintIoAsset} to {@link BaseSyncAsset}.
  *
  * <p>
  * Conversion involve the replacement of Smint.io specific ID with synchronization target keys. Hence this
@@ -89,13 +89,13 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
             return null;
         }
 
-        final List<SyncAsset> assets = new ArrayList<>();
+        final List<BaseSyncAsset> assets = new ArrayList<>();
 
 
         LOG.info(() -> "Transforming Smint.io LPT " + rawAsset.getLicensePurchaseTransactionUuid() + " ...");
 
 
-        final List<SyncAsset> assetPartAssets = new ArrayList<>();
+        final List<BaseSyncAsset> assetPartAssets = new ArrayList<>();
         for (final ISmintIoBinary binary : binaries) {
 
             final URL downloadUrl = binary.getDownloadUrl();
@@ -138,7 +138,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
             );
 
             targetCompoundAsset
-                .setAssetParts(assetPartAssets.toArray(new SyncAsset[assetPartAssets.size()]))
+                .setAssetParts(assetPartAssets.toArray(new BaseSyncAsset[assetPartAssets.size()]))
                 .setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
 
@@ -155,7 +155,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
 
 
     public void setContentMetadata(
-        final SyncAsset targetAsset,
+        final BaseSyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
         final ISmintIoBinary binary,
         final ISyncMetadataIdMapper idMapper
@@ -266,7 +266,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
     }
 
     public void setLicenseMetadata(
-        final SyncAsset targetAsset,
+        final BaseSyncAsset targetAsset,
         final ISmintIoAsset rawAsset,
         final ISyncMetadataIdMapper idMapper,
         final ISyncTargetDataFactory syncTargetDataFactory

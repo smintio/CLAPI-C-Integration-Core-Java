@@ -32,13 +32,13 @@ import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
-import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 // CHECKSTYLE OFF: MethodCount
 
 /**
- * A wrapper for {@link SyncAsset} instances to enrich the base implementation with some caching and values.
+ * A wrapper for {@link BaseSyncAsset} instances to enrich the base implementation with some caching and values.
  *
  * <p>
  * In order to make it easier for synchronization target implementation, all data for assets are directly applied to an
@@ -47,23 +47,23 @@ import io.smint.clapi.consumer.integration.core.target.SyncAsset;
  * </p>
  *
  */
-class WrapperSyncAsset extends SyncAsset {
+class WrapperSyncAsset extends BaseSyncAsset {
 
 
     private String _binaryUuid;
-    private final SyncAsset _wrapped;
+    private final BaseSyncAsset _wrapped;
     private String _uuid;
     private Map<Locale, String> _name;
 
 
-    public WrapperSyncAsset(final SyncAsset assetToWrap) {
+    public WrapperSyncAsset(final BaseSyncAsset assetToWrap) {
         this._wrapped = assetToWrap;
 
         Objects.requireNonNull(assetToWrap, "Invalid asset instance to wrap!");
     }
 
 
-    public SyncAsset getWrapped() {
+    public BaseSyncAsset getWrapped() {
         return this._wrapped;
     }
 
@@ -85,14 +85,14 @@ class WrapperSyncAsset extends SyncAsset {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @throws NullPointerException if parameter {@code smintIoId} is {@code null}.
      */
-    public SyncAsset setUuid(final String smintIoId) throws NullPointerException {
+    public BaseSyncAsset setUuid(final String smintIoId) throws NullPointerException {
         this.setTransactionUuid(smintIoId);
         return this;
     }
 
 
     @Override
-    public SyncAsset setTransactionUuid(final String smintIoId) {
+    public BaseSyncAsset setTransactionUuid(final String smintIoId) {
         this._uuid = smintIoId;
         this.getWrapped().setTransactionUuid(smintIoId);
         return this;
@@ -123,7 +123,7 @@ class WrapperSyncAsset extends SyncAsset {
 
 
     @Override
-    public SyncAsset setName(final Map<Locale, String> name) {
+    public BaseSyncAsset setName(final Map<Locale, String> name) {
         this._name = name;
         this.getWrapped().setName(name);
         return this;
@@ -137,49 +137,49 @@ class WrapperSyncAsset extends SyncAsset {
 
 
     @Override
-    public SyncAsset setContentElementUuid(final String contentElementUuid) {
+    public BaseSyncAsset setContentElementUuid(final String contentElementUuid) {
         this.getWrapped().setContentElementUuid(contentElementUuid);
         return this;
     }
 
 
     @Override
-    public SyncAsset setContentType(final String contentTypeKey) {
+    public BaseSyncAsset setContentType(final String contentTypeKey) {
         this.getWrapped().setContentType(contentTypeKey);
         return this;
     }
 
 
     @Override
-    public SyncAsset setContentProvider(final String contentProviderKey) {
+    public BaseSyncAsset setContentProvider(final String contentProviderKey) {
         this.getWrapped().setContentProvider(contentProviderKey);
         return this;
     }
 
 
     @Override
-    public SyncAsset setContentCategory(final String contentCategoryKey) {
+    public BaseSyncAsset setContentCategory(final String contentCategoryKey) {
         this.getWrapped().setContentCategory(contentCategoryKey);
         return this;
     }
 
 
     @Override
-    public SyncAsset setDescription(final Map<Locale, String> description) {
+    public BaseSyncAsset setDescription(final Map<Locale, String> description) {
         this.getWrapped().setDescription(description);
         return this;
     }
 
 
     @Override
-    public SyncAsset setSmintIoUrl(final URL smintIoUrl) {
+    public BaseSyncAsset setSmintIoUrl(final URL smintIoUrl) {
         this.getWrapped().setSmintIoUrl(smintIoUrl);
         return this;
     }
 
 
     @Override
-    public SyncAsset setCreatedAt(final OffsetDateTime createdAt) {
+    public BaseSyncAsset setCreatedAt(final OffsetDateTime createdAt) {
         this.getWrapped().setCreatedAt(createdAt);
         return this;
 
@@ -187,140 +187,140 @@ class WrapperSyncAsset extends SyncAsset {
 
 
     @Override
-    public SyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt) {
+    public BaseSyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt) {
         this.getWrapped().setLastUpdatedAt(lastUpdatedAt);
         return this;
     }
 
 
     @Override
-    public SyncAsset setPurchasedAt(final OffsetDateTime purchasedAt) {
+    public BaseSyncAsset setPurchasedAt(final OffsetDateTime purchasedAt) {
         this.getWrapped().setPurchasedAt(purchasedAt);
         return this;
     }
 
 
     @Override
-    public SyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
+    public BaseSyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid) {
         this.getWrapped().setCartPurchaseTransactionUuid(cartPurchaseTransactionUuid);
         return this;
     }
 
 
     @Override
-    public SyncAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
+    public BaseSyncAsset setHasBeenCancelled(final boolean hasBeenCancelled) {
         this.getWrapped().setHasBeenCancelled(hasBeenCancelled);
         return this;
     }
 
 
     @Override
-    public SyncAsset setProjectUuid(final String projectUuid) {
+    public BaseSyncAsset setProjectUuid(final String projectUuid) {
         this.getWrapped().setProjectUuid(projectUuid);
         return this;
     }
 
 
     @Override
-    public SyncAsset setProjectName(final Map<Locale, String> projectName) {
+    public BaseSyncAsset setProjectName(final Map<Locale, String> projectName) {
         this.getWrapped().setProjectName(projectName);
         return this;
     }
 
 
     @Override
-    public SyncAsset setCollectionUuid(final String collectionUuid) {
+    public BaseSyncAsset setCollectionUuid(final String collectionUuid) {
         this.getWrapped().setCollectionUuid(collectionUuid);
         return this;
     }
 
 
     @Override
-    public SyncAsset setCollectionName(final Map<Locale, String> collectionName) {
+    public BaseSyncAsset setCollectionName(final Map<Locale, String> collectionName) {
         this.getWrapped().setCollectionName(collectionName);
         return this;
     }
 
 
     @Override
-    public SyncAsset setKeywords(final Map<Locale, String[]> keywords) {
+    public BaseSyncAsset setKeywords(final Map<Locale, String[]> keywords) {
         this.getWrapped().setKeywords(keywords);
         return this;
     }
 
 
     @Override
-    public SyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices) {
+    public BaseSyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices) {
         this.getWrapped().setCopyrightNotices(copyrightNotices);
         return this;
     }
 
 
     @Override
-    public SyncAsset setIsEditorialUse(final Boolean isEditorialUse) {
+    public BaseSyncAsset setIsEditorialUse(final Boolean isEditorialUse) {
         this.getWrapped().setIsEditorialUse(isEditorialUse);
         return this;
     }
 
 
     @Override
-    public SyncAsset setHasLicenseTerms(final boolean hasLicenseTerms) {
+    public BaseSyncAsset setHasLicenseTerms(final boolean hasLicenseTerms) {
         this.getWrapped().setHasLicenseTerms(hasLicenseTerms);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseType(final String licenseTypeKey) {
+    public BaseSyncAsset setLicenseType(final String licenseTypeKey) {
         this.getWrapped().setLicenseType(licenseTypeKey);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseeUuid(final String licenseeUuid) {
+    public BaseSyncAsset setLicenseeUuid(final String licenseeUuid) {
         this.getWrapped().setLicenseeUuid(licenseeUuid);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseeName(final String licenseeName) {
+    public BaseSyncAsset setLicenseeName(final String licenseeName) {
         this.getWrapped().setLicenseeName(licenseeName);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseText(final Map<Locale, String> licenseText) {
+    public BaseSyncAsset setLicenseText(final Map<Locale, String> licenseText) {
         this.getWrapped().setLicenseText(licenseText);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
+    public BaseSyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
         this.getWrapped().setLicenseOptions(licenseOptions);
         return this;
     }
 
 
     @Override
-    public SyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
+    public BaseSyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
         this.getWrapped().setLicenseTerms(licenseTerms);
         return this;
     }
 
 
     @Override
-    public SyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints) {
+    public BaseSyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints) {
         this.getWrapped().setDownloadConstraints(downloadConstraints);
         return this;
     }
 
 
     @Override
-    public SyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails) {
+    public BaseSyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails) {
         this.getWrapped().setReleaseDetails(releaseDetails);
         return this;
     }

@@ -24,7 +24,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
-import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 /**
@@ -33,12 +33,12 @@ import io.smint.clapi.consumer.integration.core.target.SyncAsset;
 public class SyncTargetDataFactory implements ISyncTargetDataFactory {
 
     @Override
-    public SyncAsset createSyncBinaryAsset() {
+    public BaseSyncAsset createSyncBinaryAsset() {
         return new SyncAssetJsonImpl();
     }
 
     @Override
-    public SyncAsset createSyncCompoundAsset() {
+    public BaseSyncAsset createSyncCompoundAsset() {
         return new SyncAssetJsonImpl();
     }
 

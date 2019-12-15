@@ -54,7 +54,7 @@ import io.smint.clapi.consumer.integration.core.providers.ISmintIoApiDataWithCon
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetCapabilities;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
-import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 /**
@@ -566,7 +566,7 @@ public class DefaultSyncJob implements ISyncJob {
                         syncTarget.importNewTargetAssets(
                             newTargetAssets.stream()
                                 .map((asset) -> asset.getWrapped())
-                                .toArray(SyncAsset[]::new)
+                                .toArray(BaseSyncAsset[]::new)
                         );
                     }
 
@@ -574,7 +574,7 @@ public class DefaultSyncJob implements ISyncJob {
                         syncTarget.updateTargetAssets(
                             updatedTargetAssets.stream()
                                 .map((asset) -> asset.getWrapped())
-                                .toArray(SyncAsset[]::new)
+                                .toArray(BaseSyncAsset[]::new)
                         );
                     }
 
@@ -582,7 +582,7 @@ public class DefaultSyncJob implements ISyncJob {
                         syncTarget.importNewTargetCompoundAssets(
                             newTargetCompoundAssets.stream()
                                 .map((asset) -> asset.getWrapped())
-                                .toArray(SyncAsset[]::new)
+                                .toArray(BaseSyncAsset[]::new)
                         );
                     }
 
@@ -590,7 +590,7 @@ public class DefaultSyncJob implements ISyncJob {
                         syncTarget.updateTargetCompoundAssets(
                             updatedTargetCompoundAssets.stream()
                                 .map((asset) -> asset.getWrapped())
-                                .toArray(SyncAsset[]::new)
+                                .toArray(BaseSyncAsset[]::new)
                         );
                     }
 

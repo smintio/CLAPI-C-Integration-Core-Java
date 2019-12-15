@@ -28,7 +28,7 @@ import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
-import io.smint.clapi.consumer.integration.core.target.SyncAsset;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -36,7 +36,7 @@ import io.smint.clapi.consumer.integration.core.target.SyncAsset;
 /**
  * JSON based container for asset data.
  */
-public class SyncAssetJsonImpl extends SyncAsset {
+public class SyncAssetJsonImpl extends BaseSyncAsset {
 
 
     public static final String JSON_KEY__UUID = "uuid";

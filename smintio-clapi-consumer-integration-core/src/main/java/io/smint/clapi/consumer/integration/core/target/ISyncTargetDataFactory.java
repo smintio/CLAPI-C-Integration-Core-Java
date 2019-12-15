@@ -19,6 +19,8 @@
 
 package io.smint.clapi.consumer.integration.core.target;
 
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
+
 /**
  * Factory to create target specific data instances to write meta data to.
  *
@@ -36,13 +38,13 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
      * this instance, it will be passed to this sync target via
-     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])}.
+     * {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])}.
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
-     * @see SyncAsset
+     * @see BaseSyncAsset
      */
-    SyncAsset createSyncBinaryAsset();
+    BaseSyncAsset createSyncBinaryAsset();
 
 
     /**
@@ -51,13 +53,13 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance MUST NOT be stored automatically on the sync target prior to returning it. For storing
      * this instance, it will be passed to this sync target via
-     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])}.
+     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])}.
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
-     * @see SyncAsset
+     * @see BaseSyncAsset
      */
-    SyncAsset createSyncCompoundAsset();
+    BaseSyncAsset createSyncCompoundAsset();
 
 
     /**
@@ -66,11 +68,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link SyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
-     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
+     * {@link BaseSyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
+     * {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(BaseSyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -83,11 +85,11 @@ public interface ISyncTargetDataFactory {
      *
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
-     * storing this instance, it will be attached to an asset via {@link SyncAsset#setLicenseTerms(ISyncLicenseTerm[])}
-     * and thus passed to this sync target via one of {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
+     * storing this instance, it will be attached to an asset via {@link BaseSyncAsset#setLicenseTerms(ISyncLicenseTerm[])}
+     * and thus passed to this sync target via one of {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(BaseSyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -101,11 +103,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link SyncAsset#setReleaseDetails(ISyncReleaseDetails)} and thus passed to this sync target via one of
-     * {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
+     * {@link BaseSyncAsset#setReleaseDetails(ISyncReleaseDetails)} and thus passed to this sync target via one of
+     * {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(BaseSyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.
@@ -119,11 +121,11 @@ public interface ISyncTargetDataFactory {
      * <p>
      * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
      * storing this instance, it will be attached to an asset via
-     * {@link SyncAsset#setDownloadConstraints(ISyncDownloadConstraints)} and thus passed to this sync target via one
-     * of {@link ISyncTarget#importNewTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(SyncAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(SyncAsset[])}
+     * {@link BaseSyncAsset#setDownloadConstraints(ISyncDownloadConstraints)} and thus passed to this sync target via one
+     * of {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetAssets(BaseSyncAsset[])},
+     * {@link ISyncTarget#updateTargetCompoundAssets(BaseSyncAsset[])}
      * </p>
      *
      * @return must return a fresh instance for every call and must not ever return {@code null}.

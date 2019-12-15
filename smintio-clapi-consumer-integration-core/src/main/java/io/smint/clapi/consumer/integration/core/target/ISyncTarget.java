@@ -22,6 +22,7 @@ package io.smint.clapi.consumer.integration.core.target;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoSyncJobException;
+import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -498,7 +499,7 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see SyncAsset
+     * @see BaseSyncAsset
      */
     String getTargetCompoundAssetUuid(String assetUuid);
 
@@ -511,7 +512,7 @@ public interface ISyncTarget {
      * @return the key on the synchronization target, or {@code null} in case the element does not exist yet on the
      *         target.
      * @throws NullPointerException if parameter is {@code null}.
-     * @see SyncAsset
+     * @see BaseSyncAsset
      */
     String getTargetAssetBinaryUuid(String assetTransactionUuid, String binaryUuid);
 
@@ -528,7 +529,7 @@ public interface ISyncTarget {
      * @param newTargetAssets the list of new assets to create on the sync target. Ignore in case the list is empty ore
      *                        {@code null}.
      */
-    void importNewTargetAssets(SyncAsset[] newTargetAssets);
+    void importNewTargetAssets(BaseSyncAsset[] newTargetAssets);
 
 
     /**
@@ -544,7 +545,7 @@ public interface ISyncTarget {
      * @param updatedTargetAssets the list of updates, existing assets to create on the sync target. Ignore in case the
      *                            list is empty ore {@code null}.
      */
-    void updateTargetAssets(SyncAsset[] updatedTargetAssets);
+    void updateTargetAssets(BaseSyncAsset[] updatedTargetAssets);
 
 
     /**
@@ -559,7 +560,7 @@ public interface ISyncTarget {
      * @param newTargetCompoundAssets the list of new compound assets to create on the sync target. Ignore in case the
      *                                list is empty ore {@code null}.
      */
-    void importNewTargetCompoundAssets(SyncAsset[] newTargetCompoundAssets);
+    void importNewTargetCompoundAssets(BaseSyncAsset[] newTargetCompoundAssets);
 
 
     /**
@@ -575,7 +576,7 @@ public interface ISyncTarget {
      * @param updatedTargetCompoundAssets the list of updates, existing assets to create on the sync target. Ignore in
      *                                    case the list is empty ore {@code null}.
      */
-    void updateTargetCompoundAssets(SyncAsset[] updatedTargetCompoundAssets);
+    void updateTargetCompoundAssets(BaseSyncAsset[] updatedTargetCompoundAssets);
 
 
     /**
@@ -624,7 +625,7 @@ public interface ISyncTarget {
      * </p>
      *
      * <p>
-     * Whenever any of the synchronization functions (like {@link #importNewTargetAssets(SyncAsset[])}) throws an
+     * Whenever any of the synchronization functions (like {@link #importNewTargetAssets(BaseSyncAsset[])}) throws an
      * exception, synchronization is terminated immediately. Eventually this function is called. So in case of any
      * exception, this handler is the final chance to perform clean-up and prepare everything for the next run to work
      * better.

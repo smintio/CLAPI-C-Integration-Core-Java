@@ -17,7 +17,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package io.smint.clapi.consumer.integration.core.target;
+package io.smint.clapi.consumer.integration.core.target.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +29,13 @@ import java.util.Map;
 import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
+import io.smint.clapi.consumer.integration.core.target.ISyncDataType;
+import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
+import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
+import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
+import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
+import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
+import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
 
 
 // CHECKSTYLE OFF: MethodCount
@@ -74,7 +81,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  * kind of asset is determined by {@link #isCompoundAsset()}.
  * </p>
  * <ol>
- * <li><em>Binary Asset</em> ({@link SyncAsset}) - assets with a single binary attached.</li>
+ * <li><em>Binary Asset</em> ({@link BaseSyncAsset}) - assets with a single binary attached.</li>
  * <li><em>Compound Asset</em> ({@link }) - assets that contain multiple binaries, each being a variant. eg: pictures
  * might be available in various resolutions and dimensions or maybe even localized. Nevertheless all picture have the
  * same image, scene, etc.</li>
@@ -151,9 +158,9 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  * </p>
  *
  */
-public abstract class SyncAsset implements ISyncDataType {
+public abstract class BaseSyncAsset implements ISyncDataType {
 
-    private SyncAsset[] _binaryAssets;
+    private BaseSyncAsset[] _binaryAssets;
     private boolean _isCompondAsset = false;
     private String _recommendedFileName;
     private String _targetAssetUuid;
@@ -177,7 +184,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param targetAssetUuid the sync target's ID for this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public final SyncAsset setTargetAssetUuid(final String targetAssetUuid) {
+    public final BaseSyncAsset setTargetAssetUuid(final String targetAssetUuid) {
         this._targetAssetUuid = targetAssetUuid;
         return this;
     }
@@ -199,7 +206,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param fileName a valid file name or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SyncAsset setRecommendedFileName(final String fileName) {
+    public BaseSyncAsset setRecommendedFileName(final String fileName) {
         this._recommendedFileName = fileName;
         return this;
     }
@@ -226,7 +233,7 @@ public abstract class SyncAsset implements ISyncDataType {
      *                             a temporary file. This temporary file will then be returned.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SyncAsset setDownloadedFileProvider(final Provider<File> downloadFileProvider) {
+    public BaseSyncAsset setDownloadedFileProvider(final Provider<File> downloadFileProvider) {
         this._downloadFileProvider = downloadFileProvider;
         return this;
     }
@@ -272,7 +279,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #getAssetParts()
      */
-    public final SyncAsset setAssetParts(final SyncAsset[] compoundParts) {
+    public final BaseSyncAsset setAssetParts(final BaseSyncAsset[] compoundParts) {
         this._binaryAssets = compoundParts;
         this._isCompondAsset = true;
         return this;
@@ -285,7 +292,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return the parts that form the compound asset. If {@code null} or an empty list, this asset is not regarded as a
      *         <em>Compound Asset</em> anymore.
      */
-    public final SyncAsset[] getAssetParts() {
+    public final BaseSyncAsset[] getAssetParts() {
         return this._binaryAssets;
     }
 
@@ -302,7 +309,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param smintIoId the Smint.io platform ID to set for the asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setTransactionUuid(final String smintIoId);
+    public abstract BaseSyncAsset setTransactionUuid(final String smintIoId);
 
 
     /**
@@ -319,7 +326,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param name the multi-language name of the asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setName(final Map<Locale, String> name);
+    public abstract BaseSyncAsset setName(final Map<Locale, String> name);
 
 
     /**
@@ -332,7 +339,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * </p>
      *
      *
-     * @return {@code true} if {@link #setAssetParts(SyncAsset[])} has already been called.
+     * @return {@code true} if {@link #setAssetParts(BaseSyncAsset[])} has already been called.
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
     public boolean isCompoundAsset() {
@@ -352,7 +359,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param contentElementUuid the Smint.io ID of the original source this asset is a copy of or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setContentElementUuid(final String contentElementUuid);
+    public abstract BaseSyncAsset setContentElementUuid(final String contentElementUuid);
 
 
     /**
@@ -366,7 +373,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentType()
      */
-    public abstract SyncAsset setContentType(final String contentTypeKey);
+    public abstract BaseSyncAsset setContentType(final String contentTypeKey);
 
 
     /**
@@ -380,7 +387,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()
      */
-    public abstract SyncAsset setContentProvider(final String contentProviderKey);
+    public abstract BaseSyncAsset setContentProvider(final String contentProviderKey);
 
 
     /**
@@ -394,7 +401,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset#getContentProvider()
      */
-    public abstract SyncAsset setContentCategory(final String contentCategoryKey);
+    public abstract BaseSyncAsset setContentCategory(final String contentCategoryKey);
 
 
     /**
@@ -403,7 +410,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param description a localized descriptions for the content or {@code null} if unknown.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setDescription(final Map<Locale, String> description);
+    public abstract BaseSyncAsset setDescription(final Map<Locale, String> description);
 
 
     /**
@@ -429,7 +436,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param smintIoUrl the URL to the web page on the Smint.io platform for this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setSmintIoUrl(final URL smintIoUrl);
+    public abstract BaseSyncAsset setSmintIoUrl(final URL smintIoUrl);
 
 
     /**
@@ -438,7 +445,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param createdAt the date of creation of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setCreatedAt(OffsetDateTime createdAt);
+    public abstract BaseSyncAsset setCreatedAt(OffsetDateTime createdAt);
 
 
     /**
@@ -455,7 +462,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param lastUpdatedAt the date of last update of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt);
+    public abstract BaseSyncAsset setLastUpdatedAt(final OffsetDateTime lastUpdatedAt);
 
 
     /**
@@ -464,7 +471,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param purchasedAt the date of purchase of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setPurchasedAt(final OffsetDateTime purchasedAt);
+    public abstract BaseSyncAsset setPurchasedAt(final OffsetDateTime purchasedAt);
 
 
     /**
@@ -479,7 +486,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param cartPurchaseTransactionUuid the ID of the purchase or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid);
+    public abstract BaseSyncAsset setCartPurchaseTransactionUuid(final String cartPurchaseTransactionUuid);
 
 
     /**
@@ -500,7 +507,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param hasBeenCancelled if {@code true} the purchase transaction for new licenses has been cancelled.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setHasBeenCancelled(boolean hasBeenCancelled);
+    public abstract BaseSyncAsset setHasBeenCancelled(boolean hasBeenCancelled);
 
 
     /**
@@ -516,7 +523,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setProjectName(Map)
      */
-    public abstract SyncAsset setProjectUuid(final String projectUuid);
+    public abstract BaseSyncAsset setProjectUuid(final String projectUuid);
 
 
     /**
@@ -532,7 +539,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setProjectUuid(String)
      */
-    public abstract SyncAsset setProjectName(final Map<Locale, String> projectName);
+    public abstract BaseSyncAsset setProjectName(final Map<Locale, String> projectName);
 
 
     /**
@@ -552,7 +559,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setCollectionName(Map)
      */
-    public abstract SyncAsset setCollectionUuid(final String collectionUuid);
+    public abstract BaseSyncAsset setCollectionUuid(final String collectionUuid);
 
 
     /**
@@ -572,7 +579,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see #setCollectionUuid(String)
      */
-    public abstract SyncAsset setCollectionName(final Map<Locale, String> collectionName);
+    public abstract BaseSyncAsset setCollectionName(final Map<Locale, String> collectionName);
 
 
     /**
@@ -587,7 +594,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param keywords the localized list of keywords or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setKeywords(final Map<Locale, String[]> keywords);
+    public abstract BaseSyncAsset setKeywords(final Map<Locale, String[]> keywords);
 
 
     /**
@@ -602,7 +609,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param copyrightNotices the localized copyright notices or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices);
+    public abstract BaseSyncAsset setCopyrightNotices(final Map<Locale, String> copyrightNotices);
 
 
     /**
@@ -620,7 +627,7 @@ public abstract class SyncAsset implements ISyncDataType {
      *                       can not be determined, than {@code null} is being set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setIsEditorialUse(final Boolean isEditorialUse);
+    public abstract BaseSyncAsset setIsEditorialUse(final Boolean isEditorialUse);
 
 
     /**
@@ -640,7 +647,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param hasLicenseTerms {@code true} in case any license term/restriction applies to this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setHasLicenseTerms(final boolean hasLicenseTerms);
+    public abstract BaseSyncAsset setHasLicenseTerms(final boolean hasLicenseTerms);
 
 
     /**
@@ -665,7 +672,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseTypeKey the key of the type of license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseType(final String licenseTypeKey);
+    public abstract BaseSyncAsset setLicenseType(final String licenseTypeKey);
 
 
     /**
@@ -678,7 +685,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseeUuid the Smint.io ID of the licensee or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseeUuid(final String licenseeUuid);
+    public abstract BaseSyncAsset setLicenseeUuid(final String licenseeUuid);
 
 
     /**
@@ -692,7 +699,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseeName the name of the licensee or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseeName(final String licenseeName);
+    public abstract BaseSyncAsset setLicenseeName(final String licenseeName);
 
 
     /**
@@ -706,7 +713,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseText the localized text of the license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseText(final Map<Locale, String> licenseText);
+    public abstract BaseSyncAsset setLicenseText(final Map<Locale, String> licenseText);
 
 
     /**
@@ -719,7 +726,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseOptions the list of options for the license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions);
+    public abstract BaseSyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions);
 
 
     /**
@@ -732,7 +739,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param licenseTerms the list of license terms of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms);
+    public abstract BaseSyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms);
 
 
     /**
@@ -745,7 +752,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param downloadConstraints the download constraints of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints);
+    public abstract BaseSyncAsset setDownloadConstraints(final ISyncDownloadConstraints downloadConstraints);
 
 
     /**
@@ -758,7 +765,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param releaseDetails release details of this asset or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails);
+    public abstract BaseSyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails);
 
 
     /**
@@ -767,7 +774,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param binaryUuid the Smint.io platform UUID for the binary file of this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setBinaryUuid(String binaryUuid);
+    public abstract BaseSyncAsset setBinaryUuid(String binaryUuid);
 
 
     /**
@@ -780,7 +787,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param binaryTypeKey the sync target ID of exclusivity granted or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setBinaryType(String binaryTypeKey);
+    public abstract BaseSyncAsset setBinaryType(String binaryTypeKey);
 
 
     /**
@@ -795,7 +802,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @param binaryLocale the locale to set or {@code null} if none is applicable.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract SyncAsset setBinaryLocale(final Locale binaryLocale);
+    public abstract BaseSyncAsset setBinaryLocale(final Locale binaryLocale);
 
 
     /**
@@ -812,7 +819,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @throws IllegalArgumentException in case the parameter is set to a negative value.
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
-    public abstract SyncAsset setBinaryVersion(int binaryVersion);
+    public abstract BaseSyncAsset setBinaryVersion(int binaryVersion);
 
 
     /**
@@ -822,7 +829,7 @@ public abstract class SyncAsset implements ISyncDataType {
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      * @see <a href="two-types-of-assets">Two types of assets</a>
      */
-    public abstract SyncAsset setBinaryUsage(Map<Locale, String> binaryUsage);
+    public abstract BaseSyncAsset setBinaryUsage(Map<Locale, String> binaryUsage);
 
 }
 
