@@ -89,21 +89,20 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         final ISettingsModel settings, final IAuthTokenStorage authTokenStorage
     ) throws SmintIoAuthenticatorException {
 
-        if (settings == null || settings.getTenantId() == null || settings.getTenantId().isEmpty()) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "No tenant ID found in the settings."
-            );
-        }
-
-
-        if (authTokenStorage == null) {
+    	if (authTokenStorage == null) {
             LOG.warning("No access token can be renewed, as no token storage has been provided.");
             return this;
         }
+    	
+    	this.validateForTokenRefresh(authTokenStorage.getAuthData());
+    	
+    	if (settings == null) {
+    		LOG.warning("No access token can be renewed, as no settings storage has been provided.");
+            return this;
+    	}
+    	
+    	this.validateForAuthenticator(settings);
 
-
-        this.validateForTokenRefresh(authTokenStorage.getAuthData());
 
         final JSONObject response = this.performSmintIoApiRequest(settings, authTokenStorage);
 
@@ -312,15 +311,57 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         if (authData == null) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
-                "No authentication data is available, holding a refresh token."
+                "No authentication data is available."
             );
         }
 
 
-        final String accessToken = authData.getAccessToken();
-        if (accessToken == null) {
+        final String refreshToken = authData.getRefreshToken();
+        if (!authData.isSuccess() || refreshToken == null || refreshToken.isEmpty()) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState, "The refresh token is missing"
+            );
+        }
+    }
+    
+    /**
+     * Validates the available settings data for authenticator.
+     *
+     * <p>
+     * Validates that the settings are valid.
+     * </p>
+     *
+     * @param setttings the settingsa to validate.
+     * @throws SmintIoAuthenticatorException in case the settings are invalid.
+     */
+    private void validateForAuthenticator(final ISettingsModel settings) throws SmintIoAuthenticatorException {
+
+        if (settings == null) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState,
+                "No available available."
+            );
+        }
+
+
+        final String tenantId = settings.getTenantId();
+        if (tenantId == null || tenantId.isEmpty()) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState, "The tenant ID is missing"
+            );
+        }
+        
+        final String clientId = settings.getOAuthClientId();
+        if (clientId == null || clientId.isEmpty()) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState, "The client ID is missing"
+            );
+        }
+        
+        final String clientSecret = settings.getOAuthClientSecret();
+        if (clientSecret == null || clientSecret.isEmpty()) {
+            throw new SmintIoAuthenticatorException(
+                AuthenticatorError.SmintIoIntegrationWrongState, "The client secret is missing"
             );
         }
     }
