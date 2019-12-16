@@ -677,8 +677,11 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final TransactionHistoryApi transactionApi = this.getTransactionApiClient();
         final SyncLicensePurchaseTransactionQueryResult syncLptQueryResult = this.retryApiRequest(
             ThrowingSupplier.unchecked(
-                () -> transactionApi
-                    .getLicensePurchaseTransactionsForSync(continuationUuid, SMINT_IO_ASSET_LIST_CHUNKSIZE)
+                () -> {
+                    transactionApi.getApiClient().setAccessToken(this.getAuthToken().getAccessToken());
+                    return transactionApi
+                        .getLicensePurchaseTransactionsForSync(continuationUuid, SMINT_IO_ASSET_LIST_CHUNKSIZE);
+                }
             )
         );
 
