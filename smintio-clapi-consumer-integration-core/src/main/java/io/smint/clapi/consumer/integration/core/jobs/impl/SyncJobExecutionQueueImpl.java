@@ -52,9 +52,9 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
     private static final int JOB_QUEUE_MAX_LENGTH = JOB_QUEUE_LENGTH + JOB_QUEUE_EXTRA_SLOTS;
 
 
-    private JobDescription _runningJob = null;
     private final List<JobDescription> _jobWaitingQueue = new ArrayList<>();
     private final Object _runningJobSemaphore = new Object();
+    private boolean _isRunning = false;
 
     @Override
     public SyncJobExecutionQueueImpl addJobForScheduleEvent(final Runnable job) {
@@ -134,7 +134,7 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
 
 
         synchronized (this._runningJobSemaphore) {
-            this._runningJob = nextJob;
+            this._isRunning = true;
         }
 
 
@@ -149,18 +149,15 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
                 synchronized (currentJob) {
                     currentJob.notifyAll();
                 }
-
-                // remove the "running" flag AFTER reading all consumers waiting for notification
-                synchronized (this._runningJobSemaphore) {
-                    if (this._runningJob == currentJob) {
-                        this._runningJob = null;
-                    }
-                }
             }
 
         };
 
         jobWrapper.run();
+
+        synchronized (this._runningJobSemaphore) {
+            this._isRunning = false;
+        }
     }
 
 
@@ -174,7 +171,9 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
 
     @Override
     public boolean isRunning() {
-        return this._runningJob != null;
+        synchronized (this._runningJobSemaphore) {
+            return this._isRunning;
+        }
     }
 
 
