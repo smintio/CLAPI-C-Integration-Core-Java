@@ -19,9 +19,6 @@
 
 package io.smint.clapi.consumer.integration.core.jobs;
 
-import java.util.function.Consumer;
-
-
 /**
  * Handles collision of execution of jobs to copy data from Smint.io platform to sync targets.
  *
@@ -117,41 +114,4 @@ public interface ISyncJobExecutionQueue extends Runnable {
      * @return {@code true} if at least one job is waiting or {@code false}.
      */
     boolean isRunning();
-
-
-    /**
-     * Waits for the current running job to terminate.
-     *
-     * <p>
-     * The call is blocking. If no job is currently running, the function will return immediately.
-     * </p>
-     *
-     * @return {@code this}.
-     * @throws InterruptedException see {@link java.lang.Object#wait()}
-     */
-    ISyncJobExecutionQueue waitForJob() throws InterruptedException;
-
-
-    /**
-     * Add a callback to be called as soon as the currently running job has finished.
-     *
-     * <p>
-     * In case no job is currently running, the callback will be called as soon as the next scheduled job has been run.
-     * The callback will be called immediately in case no job has been added to the queue and no job is being executed.
-     * This will avoid starvation with no more jobs on the queue.
-     * </p>
-     *
-     * <p>
-     * The consumer function will receive the flag, whether the job was started as a push notification ({@code false})
-     * or a regular schedule ({@code true}).
-     * </p>
-     *
-     * <pre>
-     * callback.accept(wasCalledAsRegularSchedule);
-     * </pre>
-     *
-     * @param callback the function to call as soon as the job has finished.
-     * @return {@code this}.
-     */
-    ISyncJobExecutionQueue notifyWhenFinished(final Consumer<Boolean> callback);
 }

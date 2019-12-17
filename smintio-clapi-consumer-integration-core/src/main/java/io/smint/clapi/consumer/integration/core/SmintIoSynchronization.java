@@ -127,6 +127,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
     @Override
     public SmintIoSynchronization stop() {
+
         if (this._scheduledJobKey != null) {
 
             final IPushNotificationService pushService = this._factory.getNotificationService();
@@ -137,6 +138,7 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
             this._scheduler.stopSchedule(this._scheduledJobKey);
             this._scheduledJobKey = null;
         }
+
         return this;
     }
 
@@ -197,9 +199,17 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         final Runnable checkedJob = () -> {
             // CHECKSTYLE OFF: IllegalCatch
             try {
+
                 job.synchronize(syncMetadata);
             } catch (final RuntimeException excp) {
                 LOG.log(Level.SEVERE, "Failed to execute synchronization job with Smint.io platform!", excp);
+            }
+            if (callBackWhenFinished != null) {
+                try {
+                    callBackWhenFinished.accept(syncMetadata);
+                } catch (final RuntimeException excp) {
+                    LOG.log(Level.WARNING, "Exception in execution of job callback if job finished!", excp);
+                }
             }
             // CHECKSTYLE ON: IllegalCatch
         };
@@ -208,7 +218,6 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         return () -> {
             this._executionQueue
                 .addJob(isPushEventJob, checkedJob)
-                .notifyWhenFinished(callBackWhenFinished)
                 .run();
         };
     }

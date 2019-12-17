@@ -21,8 +21,6 @@ package io.smint.clapi.consumer.integration.core.jobs.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-import java.util.function.Consumer;
 
 import javax.inject.Singleton;
 
@@ -57,8 +55,6 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
     private JobDescription _runningJob = null;
     private final List<JobDescription> _jobWaitingQueue = new ArrayList<>();
     private final Object _runningJobSemaphore = new Object();
-
-    private final List<Consumer<Boolean>> _waitingForNotification = new Vector<>();
 
     @Override
     public SyncJobExecutionQueueImpl addJobForScheduleEvent(final Runnable job) {
@@ -154,26 +150,6 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
                     currentJob.notifyAll();
                 }
 
-                // notify all waiting callback of ending job
-                if (!this._waitingForNotification.isEmpty()) {
-
-                    final List<Consumer<Boolean>> notifications = new ArrayList<>();
-                    notifications.addAll(this._waitingForNotification);
-                    this._waitingForNotification.clear();
-
-                    new Thread(() -> {
-                        for (final Consumer<Boolean> notify : notifications) {
-                            // CHECKSTYLE OFF: IllegalCatch
-                            try {
-                                notify.accept(!currentJob._isPushEventJob);
-                            } catch (final RuntimeException ignore) {
-                                // ignore
-                            }
-                            // CHECKSTYLE ON: IllegalCatch
-                        }
-                    });
-                }
-
                 // remove the "running" flag AFTER reading all consumers waiting for notification
                 synchronized (this._runningJobSemaphore) {
                     if (this._runningJob == currentJob) {
@@ -199,51 +175,6 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
     @Override
     public boolean isRunning() {
         return this._runningJob != null;
-    }
-
-
-    @Override
-    public ISyncJobExecutionQueue waitForJob() throws InterruptedException {
-
-        JobDescription nextJob = null;
-        synchronized (this._jobWaitingQueue) {
-            if (this._runningJob == null) {
-                return this;
-            }
-            nextJob = this._runningJob;
-        }
-
-        synchronized (nextJob) {
-            nextJob.wait();
-        }
-        return this;
-    }
-
-
-    @Override
-    public ISyncJobExecutionQueue notifyWhenFinished(final Consumer<Boolean> callback) {
-
-        if (callback == null) {
-            return this;
-        }
-
-        boolean executeImmediately = false;
-        synchronized (this._runningJobSemaphore) {
-            executeImmediately |= this._runningJob == null;
-        }
-
-        synchronized (this._jobWaitingQueue) {
-            executeImmediately |= this._jobWaitingQueue.size() == 0;
-        }
-
-        if (executeImmediately) {
-            callback.accept(true);
-
-        } else {
-            this._waitingForNotification.add(callback);
-        }
-
-        return this;
     }
 
 
