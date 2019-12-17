@@ -121,39 +121,36 @@ public class SyncJobExecutionQueueImpl implements ISyncJobExecutionQueue {
         }
 
 
-        JobDescription nextJob = null;
-        synchronized (this._jobWaitingQueue) {
-            if (this._jobWaitingQueue.size() > 0) {
-                nextJob = this._jobWaitingQueue.remove(0);
-            }
-        }
-
-        if (nextJob == null || nextJob.getJob() == null) {
-            return;
-        }
-
-
         synchronized (this._runningJobSemaphore) {
             this._isRunning = true;
         }
 
 
-        // run outside of semaphore to avoid blocking other calls to run()
-        final JobDescription currentJob = nextJob;
-        final Runnable jobWrapper = () -> {
-            try {
-                currentJob.getJob().run();
+        do {
 
-            } finally {
-
-                synchronized (currentJob) {
-                    currentJob.notifyAll();
+            JobDescription nextJob = null;
+            synchronized (this._jobWaitingQueue) {
+                if (this._jobWaitingQueue.size() > 0) {
+                    nextJob = this._jobWaitingQueue.remove(0);
                 }
             }
 
-        };
+            if (nextJob == null || nextJob.getJob() == null) {
+                break;
+            }
 
-        jobWrapper.run();
+
+            try {
+                nextJob.getJob().run();
+
+            } finally {
+
+                synchronized (nextJob) {
+                    nextJob.notifyAll();
+                }
+            }
+        } while (true);
+
 
         synchronized (this._runningJobSemaphore) {
             this._isRunning = false;
