@@ -104,6 +104,7 @@ public class TestSmintIoAuthenticator {
         lenient().when(settings.getOAuthClientSecret()).thenReturn(CLIENT_SECRET);
         lenient().when(authData.getAccessToken()).thenReturn(ACCESS_TOKEN_OLD);
         lenient().when(authData.getRefreshToken()).thenReturn(REFRESH_TOKEN_OLD);
+        lenient().when(authData.isSuccess()).thenReturn(true);
 
 
         if (jsonAnswer != null && !jsonAnswer.isEmpty()) {
