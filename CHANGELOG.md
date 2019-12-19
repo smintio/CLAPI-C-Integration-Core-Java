@@ -1,7 +1,28 @@
 # Changelog
 
 
-## release/v1.7.0 (2019-12-15)
+## release/v1.7.1 (2019-12-19)
+
+### Changes
+
+* Rename to "hasRestrictiveLicenseTerms()" <-- from "hasLicenseTerms()" ( 9388dbfba8736f29aa151ec61f70de095d1ec73c )
+* Loop the job execution queue until the queue is empty. ( ec111b0bd12352053269b2474ce9af3b3ad5261d )
+* Job scheduler use new internal flag for running state. ( ee59deb43b10aea7e497014546d1226f01523093 )
+* Remove unused funcs to wait for queued jobs. ( bc73fd14bdde344d4ef4b8551bb50a5a7c46d65e )
+
+### Fix
+
+* Implement additional checks for the target provided instances in SmintIoSynchronization. ( 7f9f91c560e3dd3b7ab61cb0adef8e6f169b8400 )
+* Testing of SmintIoAuthenticator, which checked for missing value. ( 142d48822b3c62df6942e157b9ffff7a51dc2889 )
+* Implicit conversion from Boolean to boolean failed, because of "null" value. ( 9398c520955597f7a0f131545e4053665bc42cee )
+* Set refreshed access token for loading assets. ( 2d31a8b8e44118eb5f64c66c1d4a5f3cdcef8325 )
+
+### Other
+
+* * Fix semantic differences to C# in SmintIoAuthenticatorImpl. ( dcf6b09786911d3f95c9c5a806f3dedcd234f3ac )
+
+
+## release/v1.7.0 (2019-12-16)
 
 ### New
 
