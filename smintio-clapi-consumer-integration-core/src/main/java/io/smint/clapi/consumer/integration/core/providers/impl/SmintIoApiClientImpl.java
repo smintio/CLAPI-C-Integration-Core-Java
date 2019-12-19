@@ -946,7 +946,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
 
             .setIsEditorialUse(isEditorialUse)
-            .setHasLicenseTerms(
+            .setHasRestrictiveLicenseTerms(
                 apiAsset.getHasPotentiallyRestrictiveLicenseTerms() != null
                     ? apiAsset.getHasPotentiallyRestrictiveLicenseTerms()
                     : false

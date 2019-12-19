@@ -470,7 +470,7 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      *
      * @return {@code true} in case any licensing restriction has been applied to the asset or not.
      */
-    boolean hasLicenseTerms();
+    boolean hasRestrictiveLicenseTerms();
 
 
     /**

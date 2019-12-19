@@ -373,7 +373,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
             targetAsset.setIsEditorialUse(rawAsset.isEditorialUse());
         }
 
-        targetAsset.setHasLicenseTerms(rawAsset.hasLicenseTerms());
+        targetAsset.setHasRestrictiveLicenseTerms(rawAsset.hasRestrictiveLicenseTerms());
     }
 
 

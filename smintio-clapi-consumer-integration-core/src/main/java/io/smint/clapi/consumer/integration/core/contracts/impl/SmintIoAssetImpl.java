@@ -65,7 +65,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     private ISmintIoLicenseTerm[] _licenseTerms = null;
     private ISmintIoDownloadConstraints _downloadConstraints = null;
     private Boolean _isEditorialUse = null;
-    private boolean _hasLicenceTerms = false;
+    private boolean _hasRestrictiveLicenceTerms = false;
     private ISmintIoBinary[] _binaries = null;
     private URL _smintIoUrl = null;
     private OffsetDateTime _purchasedAt = null;
@@ -506,19 +506,19 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public boolean hasLicenseTerms() {
-        return this._hasLicenceTerms;
+    public boolean hasRestrictiveLicenseTerms() {
+        return this._hasRestrictiveLicenceTerms;
     }
 
 
     /**
      * Sets a new value to SmintIoUrl.
      *
-     * @param newHasLicenceTerms the new value to set.
+     * @param newHasRestrictiveLicenceTerms the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setHasLicenseTerms(final boolean newHasLicenceTerms) {
-        this._hasLicenceTerms = newHasLicenceTerms;
+    public SmintIoAssetImpl setHasRestrictiveLicenseTerms(final boolean newHasRestrictiveLicenceTerms) {
+        this._hasRestrictiveLicenceTerms = newHasRestrictiveLicenceTerms;
         return this;
     }
 

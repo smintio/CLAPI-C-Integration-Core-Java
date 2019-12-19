@@ -635,23 +635,23 @@ public abstract class BaseSyncAsset implements ISyncDataType {
 
 
     /**
-     * Sets a flag whether this asset has license terms attached or not.
+     * Sets a flag whether this asset has additional restrictive license terms attached or not.
      *
      * <p>
      * With many sync targets the license information is being stored in an unstructured way, that its data can not be
      * easily analyzed. Then it is hard to tell, whether license terms are applied to this asset or not. Smint.io stores
      * all license terms in a structured way and is able to detect such terms. Hence this flag is being set by Smint.io
-     * to lift this burden from sync targets.
+     * to indicate that additional structured license terms are attached to this asset.
      * </p>
      *
      * <p>
      * Until a value has been passed to this function, assume {@code false} as default.
      * </p>
      *
-     * @param hasLicenseTerms {@code true} in case any license term/restriction applies to this asset.
+     * @param hasLicenseRestrictiveTerms {@code true} in case any license term/restriction applies to this asset.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract BaseSyncAsset setHasLicenseTerms(final boolean hasLicenseTerms);
+    public abstract BaseSyncAsset setHasRestrictiveLicenseTerms(final boolean hasLicenseRestrictiveTerms);
 
 
     /**

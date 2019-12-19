@@ -62,7 +62,7 @@ public class SyncAssetJsonImpl extends BaseSyncAsset {
     public static final String JSON_KEY__KEYWORDS = "keywords";
     public static final String JSON_KEY__COPYRIGHT_NOTICE = "copyrightNotices";
     public static final String JSON_KEY__IS_EDITORIAL_USE = "isEditorialUse";
-    public static final String JSON_KEY__HAS_LICENSE_TERM = "hasLicenseTerms";
+    public static final String JSON_KEY__HAS_RESTRICTIVE_LICENSE_TERM = "hasRestrictiveLicenseTerms";
     public static final String JSON_KEY__LICENSE_TYPE = "licenseType";
     public static final String JSON_KEY__LICENSEE_UUID = "licenseeUuid";
     public static final String JSON_KEY__LICENSEE_NAME = "licenseeName";
@@ -229,8 +229,8 @@ public class SyncAssetJsonImpl extends BaseSyncAsset {
 
 
     @Override
-    public SyncAssetJsonImpl setHasLicenseTerms(final boolean hasLicenseTerms) {
-        this.putMetaDataValue(JSON_KEY__HAS_LICENSE_TERM, hasLicenseTerms);
+    public SyncAssetJsonImpl setHasRestrictiveLicenseTerms(final boolean hasLicenseTerms) {
+        this.putMetaDataValue(JSON_KEY__HAS_RESTRICTIVE_LICENSE_TERM, hasLicenseTerms);
         return this;
     }
 

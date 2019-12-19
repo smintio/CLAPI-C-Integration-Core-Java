@@ -264,8 +264,8 @@ class WrapperSyncAsset extends BaseSyncAsset {
 
 
     @Override
-    public BaseSyncAsset setHasLicenseTerms(final boolean hasLicenseTerms) {
-        this.getWrapped().setHasLicenseTerms(hasLicenseTerms);
+    public BaseSyncAsset setHasRestrictiveLicenseTerms(final boolean hasLicenseTerms) {
+        this.getWrapped().setHasRestrictiveLicenseTerms(hasLicenseTerms);
         return this;
     }
 
