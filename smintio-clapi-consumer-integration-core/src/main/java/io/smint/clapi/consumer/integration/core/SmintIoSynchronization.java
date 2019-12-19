@@ -176,6 +176,30 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     public SmintIoSynchronization init(final ISyncTargetFactory syncTargetFactory) {
 
         Objects.requireNonNull(syncTargetFactory, "The provided sync target factory is null!");
+
+
+        Objects.requireNonNull(
+            syncTargetFactory.getSettings(),
+            "No settings are made available by the provided sync target factory!"
+        );
+        Objects.requireNonNull(
+            syncTargetFactory.getTargetDataFactory(),
+            "No sync target data factory is made available by the provided sync target factory!"
+        );
+        Objects.requireNonNull(
+            syncTargetFactory.createSyncTarget(),
+            "No sync target is creates by the provided sync target factory!"
+        );
+        Objects.requireNonNull(
+            syncTargetFactory.getAuthTokenStorage(),
+            "No OAuth token storage is made available by the provided sync target factory!"
+        );
+        Objects.requireNonNull(
+            syncTargetFactory.getAuthTokenStorage().getAuthData(),
+            "No OAuth data is made available by the provided sync target factory!"
+        );
+
+
         this._factory = SyncGuiceModule.createSmintIoSyncFactory(syncTargetFactory);
 
         Objects.requireNonNull(this._factory, "No synchronization factory available!");

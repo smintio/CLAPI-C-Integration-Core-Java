@@ -101,10 +101,14 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
             final URL downloadUrl = binary.getDownloadUrl();
             final String recommendedFileName = binary.getRecommendedFileName();
 
-            final WrapperSyncAsset targetAsset = new WrapperSyncAsset(
-                this._syncTargetDataFactory.createSyncBinaryAsset()
+            final BaseSyncAsset syncTargetAsset = this._syncTargetDataFactory.createSyncBinaryAsset();
+            Objects.requireNonNull(
+                syncTargetAsset,
+                "The sync target data factory is not capable of creating a binary asset!"
             );
 
+
+            final WrapperSyncAsset targetAsset = new WrapperSyncAsset(syncTargetAsset);
             targetAsset.setTransactionUuid(rawAsset.getLicensePurchaseTransactionUuid());
 
             this.setContentMetadata(targetAsset, rawAsset, binary, this._idMapper);
@@ -133,9 +137,13 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
         if (assetPartAssets.size() > 1) {
             // we have a compound asset, consisting of more than one asset part
 
-            final WrapperSyncAsset targetCompoundAsset = new WrapperSyncAsset(
-                this._syncTargetDataFactory.createSyncCompoundAsset()
+            final BaseSyncAsset syncTargetAsset = this._syncTargetDataFactory.createSyncCompoundAsset();
+            Objects.requireNonNull(
+                syncTargetAsset,
+                "The sync target data factory is not capable of creating a compound asset!"
             );
+
+            final WrapperSyncAsset targetCompoundAsset = new WrapperSyncAsset(syncTargetAsset);
 
             targetCompoundAsset
                 .setAssetParts(assetPartAssets.toArray(new BaseSyncAsset[assetPartAssets.size()]))
@@ -310,7 +318,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
                 .createSyncDownloadConstraints();
             Objects.requireNonNull(
                 targetDownloadConstraints,
-                "ISyncTarget did not create an enitity with 'createSyncDownloadConstraints'"
+                "ISyncTargetDataFactory did not create an enitity with 'createSyncDownloadConstraints'"
             );
 
 
