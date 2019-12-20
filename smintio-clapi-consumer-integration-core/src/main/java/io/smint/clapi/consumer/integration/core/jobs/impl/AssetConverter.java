@@ -117,11 +117,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
 
             final Provider<File> downloader = this._downloadProvider.createDownloaderForSmintIoUrl(
                 downloadUrl,
-                new File(
-                    this._temporaryDownloadFolder,
-                    targetAsset.getTransactionUuid() + "_" + targetAsset.getBinaryUuid() + "_"
-                        + recommendedFileName
-                )
+                new File(this._temporaryDownloadFolder, recommendedFileName)
             );
 
             // set to both, as these functions might be disconnected.
