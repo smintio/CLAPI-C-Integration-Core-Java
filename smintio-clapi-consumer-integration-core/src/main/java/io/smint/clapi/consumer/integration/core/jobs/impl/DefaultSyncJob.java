@@ -539,7 +539,7 @@ public class DefaultSyncJob implements ISyncJob {
                             }
 
 
-                        } else if (!targetAsset.isCompoundAsset()) {
+                        } else {
 
                             // check for existing asset
                             final String targetAssetUuid = this._syncTarget.getTargetAssetBinaryUuid(
@@ -555,8 +555,6 @@ public class DefaultSyncJob implements ISyncJob {
                                 newTargetAssets.add(targetAsset);
                             }
 
-                        } else {
-                            throw new SmintIoSyncJobException(SyncJobError.Generic, "Invalid converted asset found!");
                         }
 
                     }
