@@ -124,7 +124,6 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private final IAuthTokenStorage _tokenStorage;
     private Pusher _pusher;
     private final List<Runnable> _jobsToNotify = new Vector<>();
-    private boolean _isSubcribedToChannel = false;
     private String _customApplicationKey;
 
 
@@ -156,7 +155,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
                 this._settings,
                 this._tokenStorage != null ? this._tokenStorage.get() : null
             );
-            this._pusher.connect(this);
+            this.subscribeToPusherChannel(this._settings.getChannelId());
 
             final Pusher pusher = this._pusher;
             final PusherService pusherService = this;
@@ -179,6 +178,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             };
             this._pusher.getConnection().bind(ConnectionState.CONNECTED, eventListener[0]);
 
+            this._pusher.connect(this);
             return result;
         } else {
             return CompletableFuture.completedFuture(this);
@@ -210,17 +210,12 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     @Override
     public void onConnectionStateChange(final ConnectionStateChange change) {
         LOG.info(() -> "Pusher connection state changed to " + change.getCurrentState());
-
-        if (!this._isSubcribedToChannel && change != null && change.getCurrentState() == ConnectionState.CONNECTED) {
-            this._isSubcribedToChannel = true;
-            this.subscribeToPusherChannel(this._settings.getChannelId());
-        }
     }
 
 
     @Override
     public void onError(final String message, final String code, final Exception excp) {
-        LOG.log(Level.WARNING, "An Pusher exception occured", excp);
+        LOG.log(Level.WARNING, "An Pusher exception occured: " + message + " [" + code + "]", excp);
     }
 
 

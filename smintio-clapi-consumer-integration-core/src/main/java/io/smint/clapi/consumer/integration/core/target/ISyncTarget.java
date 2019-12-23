@@ -132,7 +132,7 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  *            }
  *
  *            final String contentProviderSmintIoID = metadataToImport.getKey();
- *            final Map<Locale, String> localizedNameOfProviderForUIDisplay =  metadataToImport.getValues();
+ *            final Map&lt;Locale, String&gt; localizedNameOfProviderForUIDisplay =  metadataToImport.getValues();
  *
  *            // NOW import the key and its UI translation for each content provider
  *            // store the data somewhere - the storage should return an ID to
