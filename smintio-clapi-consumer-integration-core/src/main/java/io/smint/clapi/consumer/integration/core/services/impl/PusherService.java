@@ -193,6 +193,13 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
             final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
             this._pusher.unsubscribe(channelName);
+
+            try {
+                // wait for the final processing of all events.
+                Thread.sleep(1);
+            } catch (final InterruptedException ignore) {
+                // ignore
+            }
             this._pusher.disconnect();
         }
 
