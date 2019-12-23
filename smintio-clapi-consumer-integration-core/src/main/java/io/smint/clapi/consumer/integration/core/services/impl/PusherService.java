@@ -223,13 +223,6 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             );
         }
 
-        if (settings.getImportLanguages() == null || settings.getImportLanguages().length == 0) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "The import languages are missing"
-            );
-        }
-
         if (settings.getChannelId() <= 0) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState,
