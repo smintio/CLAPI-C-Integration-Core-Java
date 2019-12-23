@@ -86,7 +86,7 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * content.
  * </p>
  *
- * <h2 id="import-meta-information">Importing meta data information</h2>
+ * <h2 id="import-meta-information">Importing meta data information - set sync target ID on meta data item</h2>
  * <p>
  * Meta data is imported in categories, whereas each category will receive a list of Smint.io values as instances of
  * {@link ISmintIoMetadataElement}. The {@link ISmintIoMetadataElement#getKey()} of the list item will return the
@@ -98,6 +98,7 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * The list is not sorted in any way. See an example with JSON.
  * </p>
  *
+ * <h3>Set sync target ID on meta data item</h3>
  * <p>
  * For each Smint.io key (see {@link ISmintIoMetadataElement#getKey()}) a sync target ID must be created and stored with
  * the meta data element by setting it to {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. This sync
@@ -111,8 +112,40 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * <p>
  * <strong>IMPORTANT!</strong> a valid ID must be set to {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}.
  * After an import of meta data, each meta data element will be checked for valid target UUID. If that is missing, the
- * synchronization will immediately abort with an exception. These target UUIDs are vital!
+ * synchronization will immediately abort with an exception. These target UUIDs are vital! So for every import of meta
+ * data items, something like the following pseudo-code should be used (see
+ * {@link #importContentProviders(ISmintIoMetadataElement[])}):
  * </p>
+ *
+ * <pre>
+ *
+ *    void importContentProviders(final ISmintIoMetadataElement[] contentProviders) {
+ *
+ *        if (contentProviders == null || contentProviders.length == 0) {
+ *            return;
+ *        }
+ *
+ *
+ *        for (final ISmintIoMetadataElement metadataToImport : contentProviders) {
+ *            if (metadataToImport == null) {
+ *                continue;
+ *            }
+ *
+ *            final String contentProviderSmintIoID = metadataToImport.getKey();
+ *            final Map<Locale, String> localizedNameOfProviderForUIDisplay =  metadataToImport.getValues();
+ *
+ *            // NOW import the key and its UI translation for each content provider
+ *            // store the data somewhere - the storage should return an ID to
+ *            // find this value again.
+ *
+ *
+ *            // finished storing this data ..
+ *            final String myIdOfThisMetaDataElement = .....
+ *            metadataToImport.setTargetMetadataUuid(myIdOfThisMetaDataElement);
+ *        }
+ *    }
+ * </pre>
+ *
  *
  * <p>
  * Whenever meta data is synchronized, ALL data will be written to the sync target. There is no detection of already
