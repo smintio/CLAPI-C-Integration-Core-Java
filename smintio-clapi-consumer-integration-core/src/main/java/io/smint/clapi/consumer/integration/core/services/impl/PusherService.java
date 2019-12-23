@@ -35,6 +35,8 @@ import javax.inject.Singleton;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PrivateChannelEventListener;
+import com.pusher.client.channel.PusherEvent;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
@@ -218,20 +220,38 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private PusherService subscribeToPusherChannel(final int channelId) {
 
         final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
-        LOG.info(() -> "Pusher: subscribing to channel " + channelName);
+        LOG.info(() -> "Pusher: subscribing to channel '" + channelName + "'");
 
 
+        final List<Runnable> jobs = this._jobsToNotify;
         final Channel channel = this._pusher.subscribePrivate(channelName);
-        channel.bind(PUSHER__EVENT_NAME, event -> {
+        channel.bind(PUSHER__EVENT_NAME, new PrivateChannelEventListener() {
 
-            // call all jobs
-            final Runnable[] allJobs = this._jobsToNotify.toArray(new Runnable[this._jobsToNotify.size()]);
-            for (final Runnable job : allJobs) {
-                try {
-                    job.run();
-                } catch (final RuntimeException ignore) {
-                    // ignore
+            @Override
+            public void onSubscriptionSucceeded(final String arg0) {
+                LOG.info(() -> "Pusher: subscribing to channel '" + channelName + "' succeeded!");
+            }
+
+            @Override
+            public void onEvent(final PusherEvent arg0) {
+                // call all jobs
+                final Runnable[] allJobs = jobs.toArray(new Runnable[jobs.size()]);
+                for (final Runnable job : allJobs) {
+                    try {
+                        job.run();
+                    } catch (final RuntimeException ignore) {
+                        // ignore
+                    }
                 }
+            }
+
+            @Override
+            public void onAuthenticationFailure(final String message, final Exception excp) {
+                LOG.log(
+                    Level.WARNING,
+                    excp,
+                    () -> "Pusher: subscribing to channel '" + channelName + "' failed! " + message
+                );
             }
 
         });
