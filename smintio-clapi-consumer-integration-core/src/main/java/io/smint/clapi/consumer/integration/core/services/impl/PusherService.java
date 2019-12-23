@@ -21,8 +21,9 @@ package io.smint.clapi.consumer.integration.core.services.impl;
 
 import java.text.MessageFormat;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,6 +119,9 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private final ISettingsModel _settings;
     private final IAuthTokenStorage _tokenStorage;
     private Pusher _pusher;
+    private final List<Runnable> _jobsToNotify = new Vector<>();
+    private boolean _isSubcribedToChannel = false;
+
 
     @Inject
     public PusherService(final ISettingsModel settings, final IAuthTokenStorage authTokenStorage) {
@@ -129,40 +133,17 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     @Override
     public PusherService startNotificationService(final Runnable job) {
 
-        if (this._pusher == null) {
-
-            final IAuthTokenModel authToken = this._tokenStorage != null ? this._tokenStorage.get() : null;
-
-            this.validateSettings(this._settings);
-            this.validateAuthToken(authToken);
-
-            final String pusherAuthEndpoint = MessageFormat.format(
-                PUSHER__OAUTH_SMINTIO_ENDPOINT, this._settings.getTenantId()
-            );
-
-            final HttpAuthorizer authorizer = new HttpAuthorizer(pusherAuthEndpoint);
-
-            final String accessToken = authToken.getAccessToken();
-            if (accessToken != null && !accessToken.isEmpty()) {
-
-                final Map<String, String> authorizationHeaders = new Hashtable<>();
-                authorizationHeaders.put("Authorization", "Bearer " + accessToken);
-                authorizer.setHeaders(authorizationHeaders);
-            }
-
-            this._pusher = new Pusher(
-                PUSHER__APPLICATION_KEY,
-                new PusherOptions().setCluster(PUSHER__CLUSTER).setAuthorizer(authorizer)
-            );
-
-            this._pusher.connect(this);
-
-        } else {
-            this._pusher.connect();
+        if (job != null) {
+            this._jobsToNotify.add(job);
         }
 
-        if (this._pusher.getConnection().getState() == ConnectionState.CONNECTED) {
-            this.subscribeToPusherChannel(this._settings.getChannelId(), job);
+
+        if (this._pusher == null) {
+            this._pusher = this.createPusherService(
+                this._settings,
+                this._tokenStorage != null ? this._tokenStorage.get() : null
+            );
+            this._pusher.connect(this);
         }
 
         return this;
@@ -186,6 +167,11 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     @Override
     public void onConnectionStateChange(final ConnectionStateChange change) {
         LOG.info(() -> "Pusher connection state changed to " + change.getCurrentState());
+
+        if (!this._isSubcribedToChannel && change != null && change.getCurrentState() == ConnectionState.CONNECTED) {
+            this._isSubcribedToChannel = true;
+            this.subscribeToPusherChannel(this._settings.getChannelId());
+        }
     }
 
 
@@ -195,15 +181,54 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     }
 
 
-    private PusherService subscribeToPusherChannel(final int channelId, final Runnable job) {
-
-        Objects.requireNonNull(job, "Invalid job (null) provided to be executed for notification events");
+    private PusherService subscribeToPusherChannel(final int channelId) {
 
         final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
+        LOG.info(() -> "Pusher: subscribing to channel " + channelName);
+
+
         final Channel channel = this._pusher.subscribePrivate(channelName);
-        channel.bind(PUSHER__EVENT_NAME, event -> new Thread(job));
+        channel.bind(PUSHER__EVENT_NAME, event -> {
+
+            // call all jobs
+            final Runnable[] allJobs = this._jobsToNotify.toArray(new Runnable[this._jobsToNotify.size()]);
+            for (final Runnable job : allJobs) {
+                try {
+                    job.run();
+                } catch (final RuntimeException ignore) {
+                    // ignore
+                }
+            }
+
+        });
 
         return this;
+    }
+
+
+    private Pusher createPusherService(final ISettingsModel settings, final IAuthTokenModel authToken) {
+
+        this.validateSettings(settings);
+        this.validateAuthToken(authToken);
+
+        final String pusherAuthEndpoint = MessageFormat.format(
+            PUSHER__OAUTH_SMINTIO_ENDPOINT, settings.getTenantId()
+        );
+
+        final HttpAuthorizer authorizer = new HttpAuthorizer(pusherAuthEndpoint);
+
+        final String accessToken = authToken.getAccessToken();
+        if (accessToken != null && !accessToken.isEmpty()) {
+
+            final Map<String, String> authorizationHeaders = new Hashtable<>();
+            authorizationHeaders.put("Authorization", "Bearer " + accessToken);
+            authorizer.setHeaders(authorizationHeaders);
+        }
+
+        return new Pusher(
+            PUSHER__APPLICATION_KEY,
+            new PusherOptions().setCluster(PUSHER__CLUSTER).setAuthorizer(authorizer)
+        );
     }
 
 
