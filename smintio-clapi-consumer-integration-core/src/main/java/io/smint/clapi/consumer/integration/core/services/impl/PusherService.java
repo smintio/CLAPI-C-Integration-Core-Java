@@ -24,6 +24,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -131,7 +133,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
 
     @Override
-    public PusherService startNotificationService(final Runnable job) {
+    public Future<IPushNotificationService> startNotificationService(final Runnable job) {
 
         if (job != null) {
             this._jobsToNotify.add(job);
@@ -144,9 +146,32 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
                 this._tokenStorage != null ? this._tokenStorage.get() : null
             );
             this._pusher.connect(this);
-        }
 
-        return this;
+            final Pusher pusher = this._pusher;
+            final PusherService pusherService = this;
+            final CompletableFuture<IPushNotificationService> result = new CompletableFuture<>();
+            final ConnectionEventListener[] eventListener = new ConnectionEventListener[1];
+
+            eventListener[0] = new ConnectionEventListener() {
+
+                @Override
+                public void onConnectionStateChange(final ConnectionStateChange change) {
+                    pusher.getConnection().unbind(ConnectionState.CONNECTED, eventListener[0]);
+                    result.complete(pusherService);
+                }
+
+                @Override
+                public void onError(final String arg0, final String arg1, final Exception excp) {
+                    pusher.getConnection().unbind(ConnectionState.CONNECTED, eventListener[0]);
+                    result.completeExceptionally(excp);
+                }
+            };
+            this._pusher.getConnection().bind(ConnectionState.CONNECTED, eventListener[0]);
+
+            return result;
+        } else {
+            return CompletableFuture.completedFuture(this);
+        }
     }
 
 

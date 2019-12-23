@@ -19,6 +19,9 @@
 
 package io.smint.clapi.consumer.integration.core.services;
 
+import java.util.concurrent.Future;
+
+
 /**
  * Defines a push notification service to execute a synchronization job as soon as a notification is received.
  *
@@ -28,16 +31,16 @@ public interface IPushNotificationService {
 
     /**
      * Connects to the push notification service and starts receiving notification.
-     * 
+     *
      * @param executeOnNotification the task to execute in the event of receiving a notification.
      * @return {@code this} for Fluent Interface
      */
-    IPushNotificationService startNotificationService(final Runnable executeOnNotification);
+    Future<IPushNotificationService> startNotificationService(final Runnable executeOnNotification);
 
 
     /**
      * Disconnects from the push notification service and stops receiving notification.
-     * 
+     *
      * @return {@code this} for Fluent Interface
      */
     IPushNotificationService stopNotificationService();
