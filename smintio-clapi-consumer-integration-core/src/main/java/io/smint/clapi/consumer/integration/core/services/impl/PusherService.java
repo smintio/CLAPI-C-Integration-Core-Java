@@ -123,12 +123,21 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private Pusher _pusher;
     private final List<Runnable> _jobsToNotify = new Vector<>();
     private boolean _isSubcribedToChannel = false;
+    private String _customApplicationKey;
 
 
     @Inject
     public PusherService(final ISettingsModel settings, final IAuthTokenStorage authTokenStorage) {
         this._settings = settings;
         this._tokenStorage = authTokenStorage;
+    }
+
+
+    public PusherService(
+        final String customApplicationKey, final ISettingsModel settings, final IAuthTokenStorage authTokenStorage
+    ) {
+        this(settings, authTokenStorage);
+        this._customApplicationKey = customApplicationKey;
     }
 
 
@@ -251,7 +260,9 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
         }
 
         return new Pusher(
-            PUSHER__APPLICATION_KEY,
+            this._customApplicationKey != null && !this._customApplicationKey.isEmpty()
+                ? this._customApplicationKey
+                : PUSHER__APPLICATION_KEY,
             new PusherOptions().setCluster(PUSHER__CLUSTER).setAuthorizer(authorizer)
         );
     }
