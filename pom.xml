@@ -6,7 +6,7 @@
 
     <groupId>io.smint</groupId>
     <artifactId>smintio-clapi-consumer-integration</artifactId>
-    <version>1.7.1</version><!-- when changed, change property "majorVersion" and "project.fullVersion"  accordingly -->
+    <version>1.7.2</version><!-- when changed, change property "majorVersion" and "project.fullVersion"  accordingly -->
     <packaging>pom</packaging>
 
     <name>smintio-clapi-consumer-integration</name>
@@ -86,7 +86,7 @@
 
     <properties>
         <project.majorVersion>1</project.majorVersion>
-        <project.fullVersion>${project.majorVersion}.7.1</project.fullVersion>
+        <project.fullVersion>${project.majorVersion}.7.2</project.fullVersion>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
