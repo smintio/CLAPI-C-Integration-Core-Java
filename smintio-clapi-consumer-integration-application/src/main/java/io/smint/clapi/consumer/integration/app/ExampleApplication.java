@@ -162,8 +162,16 @@ public class ExampleApplication {
                 .setDataFactory(new SyncTargetDataFactory())
         );
 
+        final int[] syncCounter = new int[1];
+        syncCounter[0] = 0;
+
         // set a callback to be executed after all asset sync
         syncTarget.setAfterSyncCallback((i) -> {
+
+            syncCounter[0]++;
+            if (syncCounter[0] < 2) {
+                return;
+            }
 
             // stop schedule
             smintIoSync.stop();
