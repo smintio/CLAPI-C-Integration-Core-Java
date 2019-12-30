@@ -226,6 +226,23 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
 
         final List<Runnable> jobs = this._jobsToNotify;
+        final Runnable notifyAllJobs = () -> {
+
+            LOG.info(() -> "Pusher['" + channelName + "'] notifying all jobs: " + jobs.size());
+
+            final Runnable[] allJobs = jobs.toArray(new Runnable[jobs.size()]);
+            for (int i = 0; i < allJobs.length; i++) {
+                final Runnable job = allJobs[i];
+                try {
+                    LOG.info("Pusher['" + channelName + "'] executing job " + i);
+                    job.run();
+                } catch (final RuntimeException ignore) {
+                    // ignore
+                }
+            }
+        };
+
+
         final Channel channel = this._pusher.subscribePrivate(channelName);
         channel.bind(PUSHER__EVENT_NAME, new PrivateChannelEventListener() {
 
@@ -237,14 +254,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             @Override
             public void onEvent(final PusherEvent arg0) {
                 // call all jobs
-                final Runnable[] allJobs = jobs.toArray(new Runnable[jobs.size()]);
-                for (final Runnable job : allJobs) {
-                    try {
-                        job.run();
-                    } catch (final RuntimeException ignore) {
-                        // ignore
-                    }
-                }
+                notifyAllJobs.run();
             }
 
             @Override
