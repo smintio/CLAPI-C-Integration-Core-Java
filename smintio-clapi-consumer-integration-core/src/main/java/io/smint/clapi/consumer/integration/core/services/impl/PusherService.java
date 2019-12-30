@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.pusher.client.Authorizer;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
@@ -125,6 +126,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private Pusher _pusher;
     private final List<Runnable> _jobsToNotify = new Vector<>();
     private String _customApplicationKey;
+    private Authorizer _customAuthorizer;
 
 
     @Inject
@@ -135,10 +137,14 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
 
     public PusherService(
-        final String customApplicationKey, final ISettingsModel settings, final IAuthTokenStorage authTokenStorage
+        final Authorizer customPusherAuthorizer,
+        final String customApplicationKey,
+        final ISettingsModel settings,
+        final IAuthTokenStorage authTokenStorage
     ) {
         this(settings, authTokenStorage);
         this._customApplicationKey = customApplicationKey;
+        this._customAuthorizer = customPusherAuthorizer;
     }
 
 
@@ -281,21 +287,26 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             PUSHER__OAUTH_SMINTIO_ENDPOINT, settings.getTenantId()
         );
 
-        final HttpAuthorizer authorizer = new HttpAuthorizer(pusherAuthEndpoint);
+        Authorizer authorizer = this._customAuthorizer;
+        if (authorizer == null) {
+            authorizer = new HttpAuthorizer(pusherAuthEndpoint);
 
-        final String accessToken = authToken.getAccessToken();
-        if (accessToken != null && !accessToken.isEmpty()) {
+            final String accessToken = authToken.getAccessToken();
+            if (accessToken != null && !accessToken.isEmpty()) {
 
-            final Map<String, String> authorizationHeaders = new Hashtable<>();
-            authorizationHeaders.put("Authorization", "Bearer " + accessToken);
-            authorizer.setHeaders(authorizationHeaders);
+                final Map<String, String> authorizationHeaders = new Hashtable<>();
+                authorizationHeaders.put("Authorization", "Bearer " + accessToken);
+                ((HttpAuthorizer) authorizer).setHeaders(authorizationHeaders);
+            }
         }
 
         return new Pusher(
             this._customApplicationKey != null && !this._customApplicationKey.isEmpty()
                 ? this._customApplicationKey
                 : PUSHER__APPLICATION_KEY,
-            new PusherOptions().setCluster(PUSHER__CLUSTER).setAuthorizer(authorizer)
+            new PusherOptions()
+                .setCluster(PUSHER__CLUSTER)
+                .setAuthorizer(authorizer)
         );
     }
 
