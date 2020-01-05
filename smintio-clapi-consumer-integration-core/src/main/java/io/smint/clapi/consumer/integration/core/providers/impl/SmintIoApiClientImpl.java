@@ -561,6 +561,50 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     }
 
 
+    private Map<Locale, String[]> getGroupedUrlValuesForImportLanguages(
+        final List<Locale> importLanguages, final List<LocalizedMetadataElement> localizedString
+    ) {
+
+        if (localizedString != null) {
+
+            final Map<Locale, String[]> availableTexts = localizedString.stream()
+                .filter(
+                    (elem) -> elem != null && elem.getCulture() != null && !elem.getCulture().isEmpty()
+                        && elem.getMetadataElement() != null
+                )
+                .filter(
+                    (elem) -> {
+                        final Locale language = LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()));
+                        return importLanguages == null || importLanguages.size() == 0
+                            || importLanguages.contains(language)
+                            || Locale.ENGLISH.equals(language);
+                    }
+                )
+                .collect(
+                    Collectors.groupingBy(
+                        (elem) -> LocaleUtility.covertToISO2Locale(new Locale(elem.getCulture()))
+                    )
+                )
+                .entrySet()
+                .stream()
+                .collect(
+                    Collectors.toMap(
+                        (entry) -> entry.getKey(),
+                        (entry) -> entry.getValue().stream()
+                            .map((localizedItem) -> localizedItem.getMetadataElement().getUrl())
+                            .filter((url) -> url != null && !url.isEmpty())
+                            .toArray(String[]::new)
+                    )
+                );
+
+
+            return this.addLanguageFallback(importLanguages, availableTexts);
+        }
+
+        return null;
+    }
+    
+    
     private Map<Locale, String> getValuesForImportLanguages(
         final List<Locale> importLanguages, final List<LocalizedString> localizedStrings
     ) {
@@ -882,7 +926,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
             )
 
-            .setLicenseUrls(this.getGroupedValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls()))
+            .setLicenseUrls(this.getGroupedUrlValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls()))
             
             .setLicenseTerms(this.getLicenseTerms(importLanguages, apiAsset))
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
