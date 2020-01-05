@@ -1004,7 +1004,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         .setVersion(binary.getVersion() != null ? binary.getVersion() : 0)
                         .setUuid(binary.getUuid())
                         .setContentType(binary.getContentType())
-                        .setBinaryType(binary.getContentType())
+                        .setBinaryType(binary.getBinaryType())
                         .setName(this.getValuesForImportLanguages(importLanguages, binary.getName()))
                         .setDescription(this.getValuesForImportLanguages(importLanguages, binary.getDescription()))
                         .setUsage(this.getValuesForImportLanguages(importLanguages, binary.getUsage()))
