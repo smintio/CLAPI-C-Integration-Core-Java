@@ -69,7 +69,7 @@
                        <outputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</outputDirectory>
                        <reportOutputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</reportOutputDirectory>
                        <detectJavaApiLink>true</detectJavaApiLink>
-                       <doctitle>Smint.io Content Licensing API Consumer (CLAPI-C) Integration library - version ${project.majorVersion}</doctitle>
+                       <doctitle>Smint.io Content Licensing Consumer Java Integration Core package - version ${project.majorVersion}</doctitle>
                    </configuration>
                 <executions>
                     <execution>
