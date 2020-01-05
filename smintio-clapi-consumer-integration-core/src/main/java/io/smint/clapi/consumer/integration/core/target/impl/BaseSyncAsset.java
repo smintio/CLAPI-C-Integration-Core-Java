@@ -83,9 +83,8 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * </p>
  * <ol>
  * <li><em>Binary Asset</em> ({@link BaseSyncAsset}) - assets with a single binary attached.</li>
- * <li><em>Compound Asset</em> ({@link }) - assets that contain multiple binaries, each being a variant. eg: pictures
- * might be available in various resolutions and dimensions or maybe even localized. Nevertheless all picture have the
- * same image, scene, etc.</li>
+ * <li><em>Compound Asset</em> ({@link }) - assets that contain multiple binaries e.g. a recipe containing a picture, some text
+ * and some calories information - three binaries in total.</li>
  * </ol>
  *
  * <p>
