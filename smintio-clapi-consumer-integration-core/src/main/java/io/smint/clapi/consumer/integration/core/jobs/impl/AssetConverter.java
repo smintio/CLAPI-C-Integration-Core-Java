@@ -165,7 +165,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
         final ISyncMetadataIdMapper idMapper
     ) {
 
-        final String contentTypeString = this.isNullOrEmpty(binary != null ? binary.getContentType() : null)
+        final String contentTypeString = !this.isNullOrEmpty(binary != null ? binary.getContentType() : null)
             ? binary.getContentType()
             : rawAsset.getContentType();
 
