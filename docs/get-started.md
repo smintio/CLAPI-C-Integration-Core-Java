@@ -52,11 +52,6 @@ Todo
         }
 
         @Override
-        public ISyncLicenseOption createSyncLicenseOption() {
-            return new MySyncLicenseOptionImpl();
-        }
-
-        @Override
         public ISyncLicenseTerm createSyncLicenseTerm() {
             return new MySyncLicenseTermImpl();
         }
