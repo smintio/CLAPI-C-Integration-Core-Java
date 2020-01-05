@@ -2,6 +2,28 @@ Changelog
 ==================================
 
 
+release/v1.8.0 (2020-01-05)
+----------------------------------
+
+### New
+
+* (BREAKING) Add license URLs which contain links to further information on licenses (e.g. provider license term pages, links to documents etc.)
+* Consume rolled-up license texts instead of handling license options separately (no changes needed on consumer side)
+
+### Changes
+
+* (BREAKING) Remove license options to reduce complexity in overall metadata structure set-up
+
+### Fix
+
+* Add allowed geographies to the asset converter - was missing before
+* Fix documentation of license term sequence number
+
+### Dependencies
+
+* Update Smint.io CLAPI-C client version to 1.4.4 to enable consumption of rolled-up license texts
+
+
 release/v1.7.2 (2019-12-30)
 ----------------------------------
 
