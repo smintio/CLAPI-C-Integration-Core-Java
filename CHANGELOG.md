@@ -18,6 +18,7 @@ release/v1.8.0 (2020-01-05)
 
 * Add allowed geographies to the asset converter - was missing before
 * Fix documentation of license term sequence number
+* Content type now delivers correct value - was always NULL before
 
 ### Dependencies
 
