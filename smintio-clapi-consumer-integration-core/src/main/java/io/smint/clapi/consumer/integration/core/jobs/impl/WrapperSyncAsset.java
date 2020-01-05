@@ -29,7 +29,6 @@ import java.util.Objects;
 import javax.inject.Provider;
 
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
@@ -299,11 +298,11 @@ class WrapperSyncAsset extends BaseSyncAsset {
 
 
     @Override
-    public BaseSyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
-        this.getWrapped().setLicenseOptions(licenseOptions);
+    public BaseSyncAsset setLicenseUrls(final Map<Locale, String[]> licenseUrls) {
+        this.getWrapped().setLicenseUrls(licenseUrls);
         return this;
     }
-
+    
 
     @Override
     public BaseSyncAsset setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {
@@ -325,7 +324,7 @@ class WrapperSyncAsset extends BaseSyncAsset {
         return this;
     }
 
-
+    
     @Override
     public WrapperSyncAsset setRecommendedFileName(final String fileName) {
         this.getWrapped().setRecommendedFileName(fileName);

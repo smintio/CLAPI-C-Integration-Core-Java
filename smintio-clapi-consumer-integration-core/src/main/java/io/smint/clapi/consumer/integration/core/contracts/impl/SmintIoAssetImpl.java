@@ -28,7 +28,6 @@ import io.smint.clapi.consumer.generated.models.LicensePurchaseTransactionStateE
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
 
@@ -61,7 +60,7 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
     private String _licenseeName = null;
     private String _licenseType = null;
     private Map<Locale, String> _licenseText = null;
-    private ISmintIoLicenseOptions[] _licenseOptions = null;
+    private Map<Locale, String[]> _licenseUrls = null;
     private ISmintIoLicenseTerm[] _licenseTerms = null;
     private ISmintIoDownloadConstraints _downloadConstraints = null;
     private Boolean _isEditorialUse = null;
@@ -434,23 +433,23 @@ public class SmintIoAssetImpl implements ISmintIoAsset {
 
 
     @Override
-    public ISmintIoLicenseOptions[] getLicenseOptions() {
-        return this._licenseOptions;
+    public Map<Locale, String[]> getLicenseUrls() {
+        return this._licenseUrls;
     }
-
-
+    
+    
     /**
-     * Sets a new value to LicenseOptions.
+     * Sets a new value to LicenseUrls.
      *
-     * @param newLicenseOptions the new value to set.
+     * @param newLicenseUrls the new value to set.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public SmintIoAssetImpl setLicenseOptions(final ISmintIoLicenseOptions[] newLicenseOptions) {
-        this._licenseOptions = newLicenseOptions;
+    public SmintIoAssetImpl setLicenseUrls(final Map<Locale, String[]> newLicenseUrls) {
+        this._licenseUrls = newLicenseUrls;
         return this;
     }
-
-
+    
+    
     @Override
     public ISmintIoLicenseTerm[] getLicenseTerms() {
         return this._licenseTerms;

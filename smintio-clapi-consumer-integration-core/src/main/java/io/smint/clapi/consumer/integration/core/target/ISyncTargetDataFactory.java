@@ -63,24 +63,6 @@ public interface ISyncTargetDataFactory {
 
 
     /**
-     * Factory function to create a new instance representing target's license option data structure.
-     *
-     * <p>
-     * The newly created instance SHOULD NOT be stored automatically on the sync target prior to returning it. For
-     * storing this instance, it will be attached to an asset via
-     * {@link BaseSyncAsset#setLicenseOptions(ISyncLicenseOption[])} and thus passed to this sync target via one of
-     * {@link ISyncTarget#importNewTargetAssets(BaseSyncAsset[])},
-     * {@link ISyncTarget#importNewTargetCompoundAssets(BaseSyncAsset[])},
-     * {@link ISyncTarget#updateTargetAssets(BaseSyncAsset[])},
-     * {@link ISyncTarget#updateTargetCompoundAssets(BaseSyncAsset[])}
-     * </p>
-     *
-     * @return must return a fresh instance for every call and must not ever return {@code null}.
-     */
-    ISyncLicenseOption createSyncLicenseOption();
-
-
-    /**
      * Factory function to create a new instance representing target's lincense terms data structure.
      *
      * <p>

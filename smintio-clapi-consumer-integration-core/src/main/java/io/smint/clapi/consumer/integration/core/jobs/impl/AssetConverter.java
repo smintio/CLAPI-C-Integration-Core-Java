@@ -292,12 +292,10 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
             targetAsset.setLicenseText(rawAsset.getLicenseText());
         }
 
-        if (rawAsset.getLicenseOptions() != null && rawAsset.getLicenseOptions().length > 0) {
-            targetAsset.setLicenseOptions(
-                new LicenseOptionsConverter(syncTargetDataFactory).convertAll(rawAsset.getLicenseOptions())
-            );
+        if (!this.isNullOrEmpty(rawAsset.getLicenseUrls())) {
+        	targetAsset.setLicenseUrls(rawAsset.getLicenseUrls());
         }
-
+        
         if (rawAsset.getLicenseTerms() != null && rawAsset.getLicenseTerms().length > 0) {
 
             targetAsset.setLicenseTerms(

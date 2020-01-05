@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
@@ -68,7 +67,7 @@ public class SyncAssetJsonImpl extends BaseSyncAsset {
     public static final String JSON_KEY__LICENSEE_NAME = "licenseeName";
 
     public static final String JSON_KEY__LICENSE_TEXT = "licenseText";
-    public static final String JSON_KEY__LICENSE_OPTION = "licenseOptions";
+    public static final String JSON_KEY__LICENSE_URLS = "licenseUrls";
     public static final String JSON_KEY__LICENSE_TERMS = "licenseTerms";
     public static final String JSON_KEY__DOWNLOAD_CONSTRAINTS = "downloadConstraints";
     public static final String JSON_KEY__RELEASE_DETAILS = "releaseDetails";
@@ -262,13 +261,13 @@ public class SyncAssetJsonImpl extends BaseSyncAsset {
         return this;
     }
 
-
+    
     @Override
-    public SyncAssetJsonImpl setLicenseOptions(final ISyncLicenseOption[] licenseOptions) {
-        this.putMetaDataValue(JSON_KEY__LICENSE_OPTION, licenseOptions);
+    public SyncAssetJsonImpl setLicenseUrls(final Map<Locale, String[]> licenseUrls) {
+        this.putMetaDataValue(JSON_KEY__LICENSE_URLS, licenseUrls);
         return this;
     }
-
+    
 
     @Override
     public SyncAssetJsonImpl setLicenseTerms(final ISyncLicenseTerm[] licenseTerms) {

@@ -48,7 +48,6 @@ import io.smint.clapi.consumer.generated.models.SyncGenericMetadata;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransaction;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransactionQueryResult;
 import io.smint.clapi.consumer.generated.models.SyncLicenseTerm;
-import io.smint.clapi.consumer.generated.models.SyncOptionInstance;
 import io.smint.clapi.consumer.integration.core.LocaleUtility;
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
@@ -58,7 +57,6 @@ import io.smint.clapi.consumer.integration.core.contracts.ISmintIoAsset;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoDownloadConstraints;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoGenericMetadata;
-import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseOptions;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoLicenseTerm;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoReleaseDetails;
@@ -66,7 +64,6 @@ import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoAssetImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoBinaryImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoDownloadConstraintsImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoGenericMetadataImpl;
-import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoLicenseOptionsImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoLicenseTermImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoMetadataElementImpl;
 import io.smint.clapi.consumer.integration.core.contracts.impl.SmintIoReleaseDetailsImpl;
@@ -722,63 +719,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     }
 
 
-    private ISmintIoLicenseOptions[] getLicenseOptions(
-        final List<Locale> importLanguages, final SyncLicensePurchaseTransaction lpt
-    ) {
-
-        if (lpt == null || lpt.getOffering() == null
-            || !lpt.getOffering().getHasOptions() || lpt.getOffering().getOptions() == null) {
-            return null;
-        }
-
-
-        final List<ISmintIoLicenseOptions> result = new ArrayList<>();
-        for (final SyncOptionInstance option : lpt.getOffering().getOptions()) {
-
-            final SmintIoLicenseOptionsImpl licenseOption = new SmintIoLicenseOptionsImpl();
-
-            if (option.getOptionName() != null) {
-
-                final Map<Locale, String> optionName = this
-                    .getValuesForImportLanguages(importLanguages, option.getOptionName());
-                if (optionName != null && optionName.size() > 0) {
-                    licenseOption.setOptionName(
-                        optionName.entrySet().stream()
-                            .collect(
-                                Collectors.toMap(
-                                    (key) -> new Locale(key.toString()),
-                                    (value) -> value.toString()
-                                )
-                            )
-                    );
-                }
-            }
-
-            if (option.getLicenseText() != null && option.getLicenseText().getEffectiveText() != null) {
-                final Map<Locale, String> licenseText = this.getValuesForImportLanguages(
-                    importLanguages,
-                    option.getLicenseText().getEffectiveText()
-                );
-                if (licenseText != null && licenseText.size() > 0) {
-                    licenseOption.setLicenseText(
-                        licenseText.entrySet().stream()
-                            .collect(
-                                Collectors.toMap(
-                                    (key) -> new Locale(key.toString()),
-                                    (value) -> value.toString()
-                                )
-                            )
-                    );
-                }
-            }
-
-            result.add(licenseOption);
-        }
-
-        return result.size() > 0 ? result.toArray(new ISmintIoLicenseOptions[result.size()]) : null;
-    }
-
-
     private ISmintIoLicenseTerm[] getLicenseTerms(
         final List<Locale> importLanguages, final SyncLicensePurchaseTransaction lpt
     ) {
@@ -804,6 +744,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                     .setRestrictedDistributions(
                         this.convertFromListToStringArray(licenseTerm.getRestrictedDistributions())
                     )
+                    .setAllowedGeographies(this.convertFromListToStringArray(licenseTerm.getAllowedGeographies()))
                     .setRestrictedGeographies(this.convertFromListToStringArray(licenseTerm.getRestrictedGeographies()))
                     .setAllowedIndustries(this.convertFromListToStringArray(licenseTerm.getAllowedIndustries()))
                     .setRestrictedIndustries(this.convertFromListToStringArray(licenseTerm.getRestrictedIndustries()))
@@ -935,16 +876,17 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
             .setLicenseText(
                 this.getValuesForImportLanguages(
                     importLanguages,
-                    apiAsset.getOffering() != null && apiAsset.getOffering().getLicenseText() != null
-                        ? apiAsset.getOffering().getLicenseText().getEffectiveText()
+                    apiAsset.getLicenseText() != null
+                        ? apiAsset.getLicenseText().getEffectiveText()
                         : null
                 )
             )
 
-            .setLicenseOptions(this.getLicenseOptions(importLanguages, apiAsset))
+            .setLicenseUrls(this.getGroupedValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls()))
+            
             .setLicenseTerms(this.getLicenseTerms(importLanguages, apiAsset))
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
-
+            
             .setIsEditorialUse(isEditorialUse)
             .setHasRestrictiveLicenseTerms(
                 apiAsset.getHasPotentiallyRestrictiveLicenseTerms() != null

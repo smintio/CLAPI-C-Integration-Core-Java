@@ -20,7 +20,6 @@
 package io.smint.clapi.consumer.integration.app.target.json;
 
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
@@ -40,11 +39,6 @@ public class SyncTargetDataFactory implements ISyncTargetDataFactory {
     @Override
     public BaseSyncAsset createSyncCompoundAsset() {
         return new SyncAssetJsonImpl();
-    }
-
-    @Override
-    public ISyncLicenseOption createSyncLicenseOption() {
-        return new SyncLicenseOptionJsonImpl();
     }
 
     @Override

@@ -33,7 +33,6 @@ import com.google.gson.annotations.SerializedName;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
 import io.smint.clapi.consumer.integration.core.target.ISyncDataType;
 import io.smint.clapi.consumer.integration.core.target.ISyncDownloadConstraints;
-import io.smint.clapi.consumer.integration.core.target.ISyncLicenseOption;
 import io.smint.clapi.consumer.integration.core.target.ISyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.target.ISyncReleaseDetails;
 import io.smint.clapi.consumer.integration.core.target.ISyncTarget;
@@ -721,18 +720,19 @@ public abstract class BaseSyncAsset implements ISyncDataType {
 
 
     /**
-     * Sets a list of options for the applying licenses.
+     * Sets localized links to further information regarding the license (e.g. provider license term pages, links to documents, etc.).
      *
      * <p>
-     * Every instance part of the list has been created with {@link ISyncTargetDataFactory#createSyncLicenseOption()}.
+     * Sets localized links to further information regarding the license (e.g. provider license term pages, links to documents, etc.).
+     * This text is intended to be displayed in the UI along the asset.
      * </p>
      *
-     * @param licenseOptions the list of options for the license or {@code null}.
+     * @param licenseUrls the localized URLs of the license or {@code null}.
      * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
      */
-    public abstract BaseSyncAsset setLicenseOptions(final ISyncLicenseOption[] licenseOptions);
-
-
+    public abstract BaseSyncAsset setLicenseUrls(final Map<Locale, String[]> licenseUrls);
+    
+    
     /**
      * Sets a list of license terms to apply to this asset.
      *
@@ -771,7 +771,7 @@ public abstract class BaseSyncAsset implements ISyncDataType {
      */
     public abstract BaseSyncAsset setReleaseDetails(final ISyncReleaseDetails releaseDetails);
 
-
+    
     /**
      * Set the Smint.io UUID to the single binary for the asset.
      *

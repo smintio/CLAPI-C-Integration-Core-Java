@@ -421,13 +421,18 @@ public interface ISmintIoAsset extends ISmintIoDataType {
 
 
     /**
-     * Provides a list of options for the applying licenses.
+     * Provides localized links to further information regarding the license (e.g. provider license term pages, links to documents, etc.).
      *
-     * @return the list of options for the license or {@code null}.
+     * <p>
+     * Provides localized links to further information regarding the license (e.g. provider license term pages, links to documents, etc.).
+     * This text is intended to be displayed in the UI along the asset.
+     * </p>
+     *
+     * @return the localized URLs of the license or {@code null}.
      */
-    ISmintIoLicenseOptions[] getLicenseOptions();
-
-
+    Map<Locale, String[]> getLicenseUrls();
+    
+    
     /**
      * Provides a list of license terms to apply to this asset.
      *
@@ -442,7 +447,6 @@ public interface ISmintIoAsset extends ISmintIoDataType {
      * @return the download constraints of this asset or {@code null}.
      */
     ISmintIoDownloadConstraints getDownloadConstraints();
-
 
     /**
      * Defines whether the content is for editorial use only.

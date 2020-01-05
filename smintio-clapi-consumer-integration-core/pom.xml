@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.smint</groupId>
         <artifactId>smintio-clapi-consumer-integration</artifactId>
-        <version>1.7.2</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>smintio-clapi-consumer-integration-core</artifactId>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-client</artifactId>
-            <version>1.4.3</version>
+            <version>1.4.4</version>
         </dependency>
 
         <dependency>

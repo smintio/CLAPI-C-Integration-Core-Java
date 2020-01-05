@@ -41,12 +41,10 @@ public interface ISmintIoLicenseTerm extends ISmintIoDataType {
 
 
     /**
-     * Provides the sequence number of this license term, which is unique only for the current tenant.
+     * Provides the sequence number of this license term, unique within the current asset (e.g. 1, 2, 3).
      *
      * <p>
-     * License terms use a Smint.io sequence number to be unique for a single tenant. License that become invalid (see
-     * {@link #getValidUntil()} are not deleted but kept for archiving reasons. New license terms are created with a
-     * next available sequence number. There is no ID for license terms which is unique with Smint.io platform.
+     * License terms use a Smint.io sequence number to be unique within the current asset (e.g. 1, 2, 3).
      * </p>
      *
      * <p>
