@@ -8,21 +8,31 @@ release/v1.8.1 (2020-01-07)
 ### New
 
 * (BREAKING) Add license URLs which contain links to further information on licenses (e.g. provider license term pages, links to documents etc.)
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
+  ([1780b64](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/1780b6484db98ec7b9b8964a02a18639670f4439))
 * Consume rolled-up license texts instead of handling license options separately (no changes needed on consumer side)
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 
 ### Changes
 
 * (BREAKING) Remove license options to reduce complexity in overall metadata structure set-up
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 
 ### Fix
 
 * Add allowed geographies to the asset converter - was missing before
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 * Fix documentation of license term sequence number
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 * Content type now delivers correct value - was always NULL before
+  ([0dd244c](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/0dd244c5e5147710c42dfd21d36821a1a574d46a))
+* Binary type was set to wrong value
+  ([311b487](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/311b4874cce115021d87b5e512b1c012403605a8))
 
 ### Dependencies
 
 * Update Smint.io CLAPI-C client version to 1.4.4 to enable consumption of rolled-up license texts
+  ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 
 
 release/v1.8.0 (2020-01-05)
