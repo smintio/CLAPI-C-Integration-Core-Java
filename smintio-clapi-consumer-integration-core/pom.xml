@@ -95,6 +95,7 @@
                        <reportOutputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</reportOutputDirectory>
                        <detectJavaApiLink>true</detectJavaApiLink>
                        <doctitle>Smint.io Content Licensing Consumer Java Integration Core package - version ${project.majorVersion}</doctitle>
+                       <notimestamp>true</notimestamp>
                    </configuration>
                 <executions>
                     <execution>

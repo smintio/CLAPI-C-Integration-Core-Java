@@ -235,29 +235,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                       <outputDirectory>${project.basedir}/docs</outputDirectory>
-                       <destDir>/</destDir>
-                       <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
-                       <detectJavaApiLink>true</detectJavaApiLink>
-                       <links>
-                           <link>https://javaee.github.io/javaee-spec/javadocs/</link>
-                       </links>
-                       <notimestamp>true</notimestamp>
-                   </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>

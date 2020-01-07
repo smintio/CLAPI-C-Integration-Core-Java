@@ -70,6 +70,7 @@
                        <reportOutputDirectory>${project.parent.basedir}/docs/${project.name}/${project.majorVersion}</reportOutputDirectory>
                        <detectJavaApiLink>true</detectJavaApiLink>
                        <doctitle>Smint.io Content Licensing API Consumer (CLAPI-C) Authorization Library - version ${project.majorVersion}</doctitle>
+                       <notimestamp>true</notimestamp>
                    </configuration>
                 <executions>
                     <execution>
