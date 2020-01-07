@@ -9,7 +9,7 @@ common codebase for integration to
 Web2Print, WCM or other systems, written in Java.
 
 
-Current version is: 1.8.0
+Current version is: 1.8.1
 
 see documentation: https://smintio.github.io/CLAPI-C-Integration-Core-Java/
 

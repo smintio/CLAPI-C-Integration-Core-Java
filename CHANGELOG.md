@@ -2,7 +2,7 @@ Changelog
 ==================================
 
 
-release/v1.8.0 (2020-01-05)
+release/v1.8.1 (2020-01-07)
 ----------------------------------
 
 ### New
@@ -23,6 +23,13 @@ release/v1.8.0 (2020-01-05)
 ### Dependencies
 
 * Update Smint.io CLAPI-C client version to 1.4.4 to enable consumption of rolled-up license texts
+
+
+release/v1.8.0 (2020-01-05)
+----------------------------------
+
+**skipped due to deployment issues**
+
 
 
 release/v1.7.2 (2019-12-30)
