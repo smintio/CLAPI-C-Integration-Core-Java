@@ -66,30 +66,6 @@ class WrapperSyncAsset extends BaseSyncAsset {
         return this._wrapped;
     }
 
-
-    /**
-     * Provides the Smint.io platform ID for the asset.
-     *
-     * @return the Smint.io platform ID or {@code null} in case none has been set yet.
-     */
-    public String getUuid() {
-        return this.getTransactionUuid();
-    }
-
-
-    /**
-     * Sets a Smint.io platform ID for the asset.
-     *
-     * @param smintIoId the Smint.io platform ID to set for the asset.
-     * @return {@code this} to support <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interface</a>
-     * @throws NullPointerException if parameter {@code smintIoId} is {@code null}.
-     */
-    public BaseSyncAsset setUuid(final String smintIoId) throws NullPointerException {
-        this.setTransactionUuid(smintIoId);
-        return this;
-    }
-
-
     @Override
     public BaseSyncAsset setTransactionUuid(final String smintIoId) {
         this._uuid = smintIoId;
