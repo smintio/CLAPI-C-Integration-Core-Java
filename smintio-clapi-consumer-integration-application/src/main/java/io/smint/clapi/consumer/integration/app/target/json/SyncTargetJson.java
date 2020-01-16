@@ -19,16 +19,20 @@
 
 package io.smint.clapi.consumer.integration.app.target.json;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.common.io.Files;
 
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
@@ -290,8 +294,20 @@ public class SyncTargetJson implements ISyncTarget {
                 final File assetFile = asset.getDownloadedFile();
                 final File targetFile = new File(assetsDir, assetFile.getName());
 
-                if (!targetFile.exists()) {
-                    Files.move(assetFile, targetFile);
+                if (!targetFile.exists() && !assetFile.renameTo(targetFile)) {
+                    // copy file and then delete
+                    try (
+                        final OutputStream target = new BufferedOutputStream(new FileOutputStream(targetFile));
+                        final InputStream source = new BufferedInputStream(new FileInputStream(assetFile));) {
+
+                        int chr = source.read();
+                        while (chr >= 0) {
+                            target.write(chr);
+                            chr = source.read();
+                        }
+                    }
+
+                    assetFile.delete();
                 }
 
             } catch (SmintIoAuthenticatorException | IOException excp) {

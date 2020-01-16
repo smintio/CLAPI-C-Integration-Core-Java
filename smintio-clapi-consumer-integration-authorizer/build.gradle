@@ -8,11 +8,11 @@ description = """Library to help authorizing Smint.io API access via OAuth 2.0
 
 
 dependencies {
-    compile project (":smintio-clapi-consumer-integration-core")
-    compile ("javax.inject:javax.inject:[1,2)")
+    implementation project (":smintio-clapi-consumer-integration-core")
+    implementation ("javax.inject:javax.inject:[1,2)")
 
-    compile ("com.github.scribejava:scribejava-apis:[6.4.0,7.0.0)")
-    compile ("com.github.scribejava:scribejava-httpclient-okhttp:[6.4.0,7.0.0)")
+    implementation ("com.github.scribejava:scribejava-apis:[6.4.0,7.0.0)")
+    implementation ("com.github.scribejava:scribejava-httpclient-okhttp:[6.4.0,7.0.0)")
 }
 
 
