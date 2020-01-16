@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -133,6 +134,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     private final List<Runnable> _jobsToNotify = new Vector<>();
     private String _customApplicationKey;
     private Authorizer _customAuthorizer;
+    private boolean _isStarted = false;
 
 
     @Inject
@@ -156,6 +158,9 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
     @Override
     public Future<IPushNotificationService> startNotificationService(final Runnable job) {
+
+        LOG.log(Level.FINE, "Starting up Pusher notification service");
+        this._isStarted = true;
 
         if (job != null) {
             this._jobsToNotify.add(job);
@@ -201,6 +206,9 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
     @Override
     public PusherService stopNotificationService() {
 
+        LOG.log(Level.FINE, "Shutting down Pusher notification service");
+        this._isStarted = false;
+
         if (this._pusher != null) {
 
             final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
@@ -227,7 +235,40 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
     @Override
     public void onError(final String message, final String code, final Exception excp) {
-        LOG.log(Level.WARNING, "An Pusher exception occured: " + message + " [" + code + "]", excp);
+        LOG.log(
+            Level.WARNING,
+            "An Pusher (state: " + this._pusher.getConnection().getState().toString()
+                + ") exception occured: " + message + " [" + code + "]",
+            excp
+        );
+
+        // force reconnection in case the exception has lead to a disconnected state
+        if (excp != null && this._isStarted
+            && (this._pusher.getConnection().getState() == ConnectionState.DISCONNECTED
+                || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING)
+            && (excp instanceof java.net.UnknownHostException
+                || excp instanceof java.net.SocketException
+                || excp instanceof org.java_websocket.exceptions.WebsocketNotConnectedException
+                || excp instanceof org.java_websocket.exceptions.LimitExceededException
+                || excp instanceof org.java_websocket.exceptions.InvalidDataException
+
+            )) {
+            new Thread(() -> {
+                try {
+                    TimeUnit.SECONDS.sleep(PUSHER__RECONNECT_WAIT_TIME);
+                } catch (final InterruptedException ignore) {
+                    // ignore
+                }
+
+                if (this._pusher.getConnection().getState() == ConnectionState.DISCONNECTED
+                    || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING
+                ) {
+
+                    LOG.log(Level.FINE, "Initiating a re-connect to Pusher notification service");
+                    this._pusher.connect();
+                }
+            }).run();
+        }
     }
 
 
