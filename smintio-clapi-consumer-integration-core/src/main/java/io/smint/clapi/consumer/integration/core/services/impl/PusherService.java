@@ -113,6 +113,12 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
 
     /**
+     * The time to wait for next reconnection attempt after network errors.
+     */
+    public static final int PUSHER__RECONNECT_WAIT_TIME = 30;
+
+
+    /**
      * The application key used with authorizing Pusher.com service.
      */
     private static final String PUSHER__APPLICATION_KEY = "32f31c26a83e09dc401b";
@@ -307,6 +313,8 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             new PusherOptions()
                 .setCluster(PUSHER__CLUSTER)
                 .setAuthorizer(authorizer)
+                .setMaxReconnectionAttempts(Integer.MAX_VALUE)
+                .setMaxReconnectGapInSeconds(PUSHER__RECONNECT_WAIT_TIME)
         );
     }
 
