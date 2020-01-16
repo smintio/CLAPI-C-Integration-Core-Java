@@ -110,6 +110,8 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
     @Override
     public SmintIoSynchronization start() {
 
+        LOG.info("Starting Smint.io synchronization.");
+
         if (this._scheduledJobKey == null) {
             this._scheduledJobKey = this._scheduler.scheduleAtFixedRate(
                 this.createNewJob(true, null), JOB_SCHEDULE_PERIOD_MILLISEC
@@ -127,6 +129,8 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
 
     @Override
     public SmintIoSynchronization stop() {
+
+        LOG.info("Stopping Smint.io synchronization.");
 
         if (this._scheduledJobKey != null) {
 

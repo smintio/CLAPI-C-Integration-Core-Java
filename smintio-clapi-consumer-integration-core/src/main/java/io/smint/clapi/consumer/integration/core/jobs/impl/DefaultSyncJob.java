@@ -188,6 +188,8 @@ public class DefaultSyncJob implements ISyncJob {
                 this._syncDataStorage,
                 this._smintIoClient
             );
+
+            LOG.fine("calling afterSync() on sync target");
             this._syncTarget.afterSync();
 
         } catch (final SmintIoAuthenticatorException authExcp) {
