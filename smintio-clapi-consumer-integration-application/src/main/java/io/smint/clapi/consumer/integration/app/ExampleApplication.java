@@ -105,6 +105,16 @@ public class ExampleApplication {
     public static final String FILE_NAME_APPSETTINGS = "appsettings.json";
 
 
+    /**
+     * How many syncs to perform and then terminate.
+     *
+     * <pre>
+     *     {@code  MAX_SYNCS_THEN_TERMINATE = }{@value #MAX_SYNCS_THEN_TERMINATE}
+     * </pre>
+     */
+    public static final int MAX_SYNCS_THEN_TERMINATE = 2;
+
+
     private static final Logger LOG = Logger.getLogger(ExampleApplication.class.getName());
 
 
@@ -168,8 +178,11 @@ public class ExampleApplication {
         // set a callback to be executed after all asset sync
         syncTarget.setAfterSyncCallback((i) -> {
 
+            LOG.info("CALLBACK after sync.");
+
+
             syncCounter[0]++;
-            if (syncCounter[0] < 2) {
+            if (syncCounter[0] < MAX_SYNCS_THEN_TERMINATE) {
                 return;
             }
 
