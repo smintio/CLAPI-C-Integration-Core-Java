@@ -1,6 +1,23 @@
 Changelog
 ==================================
 
+release/v1.8.2 (2020-01-17)
+----------------------------------
+
+### New
+
+* Provide "run" task for gradle to run example application. ([974b3db](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/974b3db7a90a0b56c563e4c9ead90887887c20c6))
+
+### Changes
+
+* Replace deprecated gradle config. ([b7745dd](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/b7745dd36eb59f8cd18fd5b49f9890d4e4fa2b8e))
+* Remove unused code. ([dabd43b](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/dabd43b81853243c05b5cd69c3d8de2b5331e526))
+
+### Fix
+
+* Force pusher service to re-connect upon connection exception. ([5dcbc95](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/5dcbc958643612afc0b793c0a4577fb4a8818fdb))
+* Keep Pusher re-connecting on network error. ([d71793f](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/d71793f7acd22d599f8f267b65564bddc925d914))
+
 
 release/v1.8.1 (2020-01-07)
 ----------------------------------
