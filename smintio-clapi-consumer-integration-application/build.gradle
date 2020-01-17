@@ -1,5 +1,6 @@
 
 apply plugin: "java"
+apply plugin: "application"
 apply plugin: "maven-publish"
 
 
@@ -20,3 +21,7 @@ dependencies {
 
 
 javadoc.options.docTitle = "Smint.io CLAPI-C integration library for applications - version ${majorVersion}"
+
+application {
+    mainClassName = "io.smint.clapi.consumer.integration.app.ExampleApplication"
+}
