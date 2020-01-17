@@ -25,14 +25,14 @@ import java.util.concurrent.Future;
 /**
  * Provides methods to handle the sync process from assets at Smint.io to a downstream synchronization target.
  *
- * <h2>Two kinds of events for initiating a synchronization: <em>scheduled</em> + <em>on demand pusher</em></h2>
+ * <h2>Two kinds of events triggering synchronization: <em>scheduled</em> + <em>on demand pusher</em></h2>
  * <p>
  * Synchronization of purchased assets are performed on a regular/scheduled basis in the background. A timer is used to
- * start this task. Additional, synchronization can also started on demand, as soon as any new asset has been bought on
- * Smint.io. Hence the scheduled process does not need to run every minute but can be scheduled utilizing a wider
- * interval. In order to speed-up on-demand sync, the structured meta data usually is not synchronized at this step. It
- * can be assumed that syncing meta data in the scheduled process only is sufficient. So an initial synchronization is
- * required, usually performed during development time of any implementing instance.
+ * start this task every hour. Additional, synchronization can also started on demand, as soon as any new asset has been
+ * bought on Smint.io. Hence the scheduled process does not need to run every minute but can be scheduled utilizing a
+ * wider interval. In order to speed-up on-demand sync, the structured meta data usually is not synchronized at this
+ * step. It can be assumed that syncing meta data in the scheduled process only is sufficient. So an initial
+ * synchronization is required, usually performed during development time of any implementing instance.
  * </p>
  *
  * <ul>

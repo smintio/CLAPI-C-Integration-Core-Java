@@ -13,7 +13,7 @@ Todo
 
 1. Start-up the sync library
 
-    Utilize class 
+    Utilize class
     [SmintIoSynchronization](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/SmintIoSynchronization.html)
     and create an instance, providing your (proposed) required implementations:
 
@@ -25,7 +25,6 @@ Todo
             .setDataFactory(new MySyncTargetDataFactory())
             .setSyncTargetProvider(() -> new MySyncTarget())
     ).start();
-    smintIoSync.initialSync(false);
     ```
 
 2. Implement settings provider
@@ -80,3 +79,6 @@ Todo
 6. implement the interfaces representing meta data and asset data instances
    see [Packages "target"](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/package-summary.html)
 
+7. implement OAuth authentification with the user utilizing the
+   [Package "authenticator"](smintio-clapi-consumer-integration-authorizer/1/index.html),
+   see the [OAuth example](example-oauth.md)

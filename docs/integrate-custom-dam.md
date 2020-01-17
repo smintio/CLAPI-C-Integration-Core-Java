@@ -40,27 +40,7 @@ to do so, anyway.
             .setDataFactory(new MySyncTargetDataFactory())
             .setSyncTargetProvider(() -> new MySyncTarget())
     ).start();
-    smintIoSync.initialSync(false);
 ```
-
-
-
-OAuth 2.0  authentication
-----------------------------
-
-* Supporting library: <em>smintio-clapi-consumer-integration-authorizer</em>
-  ([JavaDoc](smintio-clapi-consumer-integration-authorizer/1/),
-  [example](example-oauth.md))
-
-
-The synchronization process is targetted at a specific company, operating
-the DAM. This company is called *tenant* on the Smint.io platform.
-Authorization is required to allow the running application to query Smint.io
-platform for all assets available.
-
-Authorization is performed utilizing [OAuth 2.0](https://oauth.net/2/).
-It involves user interaction to manually grant the authorization. This can
-be performed by an DAM administrator, but must be done manually.
 
 
 
@@ -174,6 +154,25 @@ Asset data as provided by this library, will reference the meta data
 utilizing the target DAM IDs/keys. Hence a 1:1 mapping, maintained by the
 `ISyncTarget` instance is required to find the target DAM ID for a Smint.io
 key.
+
+
+
+OAuth 2.0  authentication
+-------------------------
+
+* Supporting library: <em>smintio-clapi-consumer-integration-authorizer</em>
+  ([JavaDoc](smintio-clapi-consumer-integration-authorizer/1/),
+  [example](example-oauth.md))
+
+
+The synchronization process is targetted at a specific company, operating
+the DAM. This company is called *tenant* on the Smint.io platform.
+Authorization is required to allow the running application to query Smint.io
+platform for all assets available.
+
+Authorization is performed utilizing [OAuth 2.0](https://oauth.net/2/).
+It involves user interaction to manually grant the authorization. This can
+be performed by an DAM administrator, but must be done manually.
 
 
 

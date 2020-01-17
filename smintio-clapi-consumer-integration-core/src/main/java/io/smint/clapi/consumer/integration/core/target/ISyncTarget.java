@@ -27,12 +27,13 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
 
 // CHECKSTYLE OFF: MethodCount
 
+
 /**
  * Interface to implement for each synchronization target.
  *
  * <p>
- * This is the main interface to implement for each target to synchronize with. All other interfaces are provided by
- * this library. So usually integrators do not need to implement other interfaces than this one.
+ * This is the main interface to implement for each target to synchronize with. It maps all data for assets from
+ * Smint.io to the target DAM.
  * </p>
  *
  * <h2>Transmit assets from Smint.io to any DAM (one-way)</h2>
@@ -44,36 +45,52 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * to a target DAM - in a one-way process, from Smint.io to DAM (Smint.io --&gt;&gt; DAM).
  * </p>
  *
+ * <h2>Assets contain two kind of data sets</h2>
+ * <p>
+ * The data for assets contain two kind of data sets:
+ * </p>
+ * <ul>
+ * <li>Binary data of the asset, like image data.</li>
+ * <li>Meta data containing license data, names, tags, description, etc. - all localized if possible.</li>
+ * </ul>
+ * <p>
+ * So, when transmitting assets to the target DAM, all these data sets are transmitted. Usually the data hardly change,
+ * but updates must be possible for legal reasons and legal obligations. The same apply to licenses of assets. Licenses
+ * on assets won't change, a snapshot is created upon purchase of the asset. However, there might be legal obligations
+ * to change the license after purchase. Thus it must be possible to do so.
+ * </p>
+ *
  * <h2>Two-phased synchronization process</h2>
  * <p>
  * At first, structured meta data is synchronized, containing all kinds of meta data types, asset types, licenses, etc.
  * (see {@link #beforeGenericMetadataSync()}, {@link #afterGenericMetadataSync()}). Then binary assets are synchronized
  * (see {@link #beforeAssetsSync()}, {@link #afterAssetsSync()}). This will ensure, all required meta data types and
- * values are available on the target before the binaries are transmitted.
+ * values are available on the target before the binaries are transmitted. This is necessary, as meta data information
+ * on assets are linked to the assets via target DAM's IDs, to make it easier for the target DAM to store it without the
+ * hassle to perform a database lookup first for each meta data item.
  * </p>
  *
  * <p>
  * During synchronization of the meta data, an internal mapping of meta data's Smint.io API keys and sync target IDs are
  * created. This mapping is vital for feeding the meta data sync target UUID to the assets to reference these values.
  * This mapping is kept in memory as long as the synchronization is being scheduled. Nevertheless if this mapping is
- * missing, a meta data sync is enforced to create it.
+ * missing, a meta data sync is enforced to create it, even on push notification driven sync.
  * </p>
  *
  * <h2>Event driven notification for start and end of sync phases</h2>
  * <p>
- * The synchronization process is driven outside of instances of this interface. However, these are notified of some
- * events, eg: as soon as the overall sync process starts (see {@link #beforeSync()}) or ends (see
- * {@link #afterSync()}). The same applies to each phase. At every start of a phase (see
- * {@link #beforeGenericMetadataSync()}, {@link #beforeAssetsSync()}) instances may abort the synchronization process
- * immediately. At the end of every phase (see {@link #afterGenericMetadataSync()}, {@link #afterAssetsSync()})
- * instances may perform some clean-up.
+ * The synchronization process is triggered by external events. Implementing classes get notified of occurring events,
+ * like the start of a sync process (see {@link #beforeSync()}) or its ending (see {@link #afterSync()}). Each phase of
+ * the sync process create such events. At every start of a phase (see {@link #beforeGenericMetadataSync()},
+ * {@link #beforeAssetsSync()}) instances may abort the synchronization process immediately. At the end of every phase
+ * (see {@link #afterGenericMetadataSync()}, {@link #afterAssetsSync()}) instances may perform some clean-up.
  * </p>
  *
- * <h2>Two kinds of events for initiating an synchronization process</h2>
+ * <h2>Two ways to trigger a synchronization process</h2>
  * <p>
- * There are two kinds of events initiating a synchronization, as outlined in
- * {@link io.smint.clapi.consumer.integration.core.ISmintIoSynchronization}. The scheduled synchronization will sync
- * meta data, whereas the pushed kind of sync in case of a purchase will not.
+ * There are two ways how a synchronization is triggered, as outlined in
+ * {@link io.smint.clapi.consumer.integration.core.ISmintIoSynchronization}. A scheduled synchronization and
+ * synchronization because of receiving a push notification for new purchases.
  * </p>
  *
  * <h2>Parallel execution of imports</h2>
@@ -81,7 +98,7 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * When implementing a class, beware that all independent meta data may be imported in parallel by different threads.
  * Please do not impose blocking of multiple threads to the implementing class. Instead support calling different
  * imports by different threads at the same time and synchronize on the data level.<br>
- * eg: calling {@link #importBinaryTypes(ISmintIoMetadataElement[])} and
+ * Especially calling {@link #importBinaryTypes(ISmintIoMetadataElement[])} and
  * {@link #importContentTypes(ISmintIoMetadataElement[])} could be parallelized as these handle distinct, independent
  * content.
  * </p>
@@ -102,11 +119,15 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  * <p>
  * For each Smint.io key (see {@link ISmintIoMetadataElement#getKey()}) a sync target ID must be created and stored with
  * the meta data element by setting it to {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. This sync
- * target ID will be used with assets to import or update as references to the meta data item. In case the Smint.io key
- * already exists, just update/overwrite the localized names retrieved by {@link ISmintIoMetadataElement#getValues()}
- * and call {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)}. Implementing classes must not create new sync
- * target ID. It would lead to big mess with the meta data, as the strictly 1:1 relation between these keys would be
- * broken.
+ * target ID will be used with assets to import or update as references to the meta data item.
+ * </p>
+ * <p>
+ * Although very rare, updates to the meta data may occur for legal reasons or legal obligations. So always update the
+ * data in the sync target, overwriting with the new values supplied by Smint.io. In such case the Smint.io key already
+ * exists, just update/overwrite the localized names retrieved by {@link ISmintIoMetadataElement#getValues()} and call
+ * {@link ISmintIoMetadataElement#setTargetMetadataUuid(String)} passing the already existing target ID. Implementing
+ * classes must not create new sync target ID if the data already exists and is updated. This would lead to big mess
+ * with the meta data, as the strictly 1:1 relation between these keys would be broken.
  * </p>
  *
  * <p>
@@ -148,12 +169,12 @@ import io.smint.clapi.consumer.integration.core.target.impl.BaseSyncAsset;
  *
  *
  * <p>
- * Whenever meta data is synchronized, ALL data will be written to the sync target. There is no detection of already
- * existing meta data on the sync target, as the metadata items are so limited in list size that additional checks would
- * impose more performance penalty than any improvements. So, upon importing meta data, expect to some across already
- * existing Smint.io key. This is perfectly natural and expected behavior. However, implementors must not delete keys on
- * sync target that are not passed to the importing functions. These keys might still be used with assets. Deleting them
- * without any checks would break their meta information.
+ * Whenever meta data is synchronized, *ALL* data will be written to the sync target. At the moment Smint.io does not
+ * support deleting any meta data information, as it might break data of assets still referring to it. Nevertheless
+ * passing all data will enable sync targets to detect for deleted meta data. However, implementors must not delete keys
+ * on sync target that are not passed to the importing functions without any checks, whether they are still used or
+ * referred to. Doing so could break meta information of assets. So, upon importing meta data, expect to come across
+ * already existing Smint.io keys. This is perfectly natural and expected behavior.
  * </p>
  *
  */
@@ -590,6 +611,13 @@ public interface ISyncTarget {
      * duplicates.
      * </p>
      *
+     * <p>
+     * If the target DAM does not support compound assets, then throw an {@link java.lang.UnsupportedOperationException}
+     * with message "Not supported". Additionally you should set proper capabilities in {@link #getCapabilities()}. The
+     * the capabilities omit support for compound assets, then this function will never be called as compound assets
+     * will be ignored.
+     * </p>
+     *
      * @param newTargetCompoundAssets the list of new compound assets to create on the sync target. Ignore in case the
      *                                list is empty ore {@code null}.
      */
@@ -604,6 +632,13 @@ public interface ISyncTarget {
      * information is available which data of an asset has changed. Hence implementing classes should check binaries for
      * changes, too - based on the version number of the binary (see
      * {@link io.smint.clapi.consumer.integration.core.contracts.ISmintIoBinary#getVersion()}).
+     * </p>
+     *
+     * <p>
+     * If the target DAM does not support compound assets, then throw an {@link java.lang.UnsupportedOperationException}
+     * with message "Not supported". Additionally you should set proper capabilities in {@link #getCapabilities()}. The
+     * the capabilities omit support for compound assets, then this function will never be called as compound assets
+     * will be ignored.
      * </p>
      *
      * @param updatedTargetCompoundAssets the list of updates, existing assets to create on the sync target. Ignore in
@@ -634,10 +669,10 @@ public interface ISyncTarget {
      *
      * <p>
      * Authentication to the Smint.io API is performed right before the start of the synchronization process. In case an
-     * error occurs, authorization is tried a second time. So most of the time authentication exceptions happen here.
-     * Nevertheless in theory it is possible that the authentication becomes invalid due to session timeout after a long
-     * pause. Then a refresh of the authentication token is tried. In the event that re-authentication fails, this
-     * function is called in the course of a running synchronization process. So you never know, when shit happens.
+     * error occurs, authorization is re-tried a second time. So most of the time authentication exceptions happen
+     * there. Nevertheless in theory it is possible that the authentication becomes invalid due to session timeout after
+     * a long pause. Then a refresh of the authentication token is tried. In the event that re-authentication fails,
+     * this function is called in the course of a running synchronization process. So you never know, when shit happens.
      * Nevertheless, since synchronization is no task with big pauses or rest periods, the authenticated session should
      * not expire easily and thus most of the time this exception will occur right at the start of the sync process.
      * </p>

@@ -26,4 +26,4 @@ is a one-way synchronization: From Smint.io --> custom DAM.
 
 * [details about integration to custom DAM](integrate-custom-dam.md)
 * [get started](get-started.md)
-
+* [JavaDoc](smintio-clapi-consumer-integration-core/1/)
