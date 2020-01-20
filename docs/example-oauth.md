@@ -56,7 +56,13 @@ Stripped down to the most important part, OAuth works like this:
 1. The user's browser need to open the authenticaion URL to Smint.io site.
 2. The user will authenticate there and authorize the target DAM to access his Smint.io data.
 3. Smint.io will redirect the browser to the target DAM's URL, passing
-  the authorization data via GET-parameters.
+   the authorization data via GET-parameters. <br/>
+   The DAM's URL to use is provided by the settings object
+   (see [`ISettingsModel`](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html)),
+   which has to be implemented and is passed to this Smint.io library by
+   [`ISyncTargetFactory`](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/factory/ISyncTargetFactory.html).
+   This URL need to be registered manually (via email) with the Smint.io
+   admin, who will add it to the Smint.io server's whitelist.
 
 
 To implement these steps you will:
