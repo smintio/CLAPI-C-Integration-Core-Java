@@ -190,22 +190,32 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
         Objects.requireNonNull(
             syncTargetFactory.getSettings(),
             "No settings are made available by the provided sync target factory!"
+                + "function \"getSettings()\", delivering ISettingsModel"
         );
         Objects.requireNonNull(
             syncTargetFactory.getTargetDataFactory(),
             "No sync target data factory is made available by the provided sync target factory!"
+                + "function \"getTargetDataFactory()\", delivering ISyncTargetDataFactory"
         );
         Objects.requireNonNull(
             syncTargetFactory.createSyncTarget(),
             "No sync target is creates by the provided sync target factory!"
+                + "function \"createSyncTarget()\", delivering ISyncTarget"
         );
         Objects.requireNonNull(
             syncTargetFactory.getAuthTokenStorage(),
             "No OAuth token storage is made available by the provided sync target factory!"
+                + "function \"getAuthTokenStorage()\", delivering IAuthTokenStorage"
         );
         Objects.requireNonNull(
             syncTargetFactory.getAuthTokenStorage().getAuthData(),
             "No OAuth data is made available by the provided sync target factory!"
+                + "function \"getAuthTokenStorage().getAuthData()\", delivering IAuthTokenModel"
+        );
+        Objects.requireNonNull(
+            syncTargetFactory.getJobDataStorage(),
+            "No job data storage is made available by the provided sync target factory!"
+                + "function \"getJobDataStorage()\", delivering ISyncJobDataStorage"
         );
 
 

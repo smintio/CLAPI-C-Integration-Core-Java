@@ -43,6 +43,7 @@ import io.smint.clapi.consumer.integration.core.ISmintIoSynchronization;
 import io.smint.clapi.consumer.integration.core.SmintIoSynchronization;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoOAuthAuthorizer;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
+import io.smint.clapi.consumer.integration.core.configuration.impl.SyncJobDataMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.AuthTokenJsonConverter;
@@ -166,8 +167,9 @@ public class ExampleApplication {
         final SyncTargetJson syncTarget = new SyncTargetJson(assetsDir);
         final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
             new DefaultSyncTargetFactory()
-                .setAuthTokenStorage(tokenStorage)
                 .setSettingsProvider(() -> settings)
+                .setAuthTokenStorage(tokenStorage)
+                .setJobDataStorage(new SyncJobDataMemoryStorage())
                 .setSyncTargetProvider(() -> syncTarget)
                 .setDataFactory(new SyncTargetDataFactory())
         );

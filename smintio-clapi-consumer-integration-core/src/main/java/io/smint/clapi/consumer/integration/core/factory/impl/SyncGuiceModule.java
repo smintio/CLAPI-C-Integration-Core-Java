@@ -133,10 +133,8 @@ public class SyncGuiceModule extends AbstractModule {
         if (this._jobStorage == null) {
             this._jobStorage = factory != null ? factory.getJobDataStorage() : null;
         }
-        if (this._jobStorage == null) {
-            this._jobStorage = new SyncJobDataMemoryStorage();
-        }
 
+        Objects.requireNonNull(this._jobStorage, "Sync target factory does not provide a valid job data storage.");
         return this._jobStorage;
     }
 

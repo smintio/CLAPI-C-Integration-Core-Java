@@ -72,25 +72,7 @@ public class DefaultSyncTargetFactory implements ISyncTargetFactory {
      * create a new empty sync factory with pre-created values.
      */
     public DefaultSyncTargetFactory() {
-        this(null, null, null, null);
-    }
-
-
-    /**
-     * create a new sync factory with pre-created values.
-     *
-     * @param authTokenProvider  already created and available authentication token provider
-     * @param settings           already available settings provider
-     * @param dataFactory        factory to create sync target data instances
-     * @param syncTargetProvider a sync target provider
-     */
-    public DefaultSyncTargetFactory(
-        final IAuthTokenStorage authTokenProvider,
-        final Provider<ISettingsModel> settings,
-        final ISyncTargetDataFactory dataFactory,
-        final Provider<ISyncTarget> syncTargetProvider
-    ) {
-        this(authTokenProvider, settings, dataFactory, syncTargetProvider, null);
+        this(null, null, null, null, null);
     }
 
 
