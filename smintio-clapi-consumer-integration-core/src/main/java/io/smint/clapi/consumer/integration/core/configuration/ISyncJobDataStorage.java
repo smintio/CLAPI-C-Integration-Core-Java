@@ -37,6 +37,12 @@ import io.smint.clapi.consumer.integration.core.configuration.models.ISyncJobDat
  * </p>
  *
  * <p>
+ * If a next run should start at the beginning - synchronizing all assets from scratch - the only thing to do is, to
+ * remove the job data (<em>Continuation UUID</em>). Without this marker, the Smint.io server will start to send all
+ * assets, as if none of them has ever been synchronized yet.
+ * </p>
+ *
+ * <p>
  * Usually the same instance as passed to {@code #storeSyncProcessData(ISyncJobDataModel)} will be kept in memory and
  * returns with {@code #getSyncProcessData()}. However, it must be persisted to a storage system in order to restore it
  * once the JVM has been stopped and/or restarted.

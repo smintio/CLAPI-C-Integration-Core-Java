@@ -35,8 +35,9 @@ to do so, anyway.
 ```Java
     final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
         new DefaultSyncTargetFactory()
-            .setAuthTokenStorage(new MyAuthTokenStorage())
             .setSettingsProvider(() -> settings)
+            .setAuthTokenStorage(new MyAuthTokenStorage())
+            .setJobDataStorage(new MyJobStorageHandler())
             .setDataFactory(new MySyncTargetDataFactory())
             .setSyncTargetProvider(() -> new MySyncTarget())
     ).start();
@@ -74,23 +75,46 @@ This is the main implementation to provide by the DAM integration.
 
 
 
+Required work data for the library
+----------------------------------
+
+* Supporting library: <em>smintio-clapi-consumer-integration-core</em>
+  ([JavaDoc](smintio-clapi-consumer-integration-core/1/),
+  [example](https://github.com/smintio/CLAPI-C-Integration-Core-Java/blob/master/smintio-clapi-consumer-integration-application/src/main/java/io/smint/clapi/consumer/integration/app/ExampleApplication.java))
+
+
+The synchronization requires quite a lot of data to make it work
+correctly. This data needs to be loaded from and made
+persistent to a storage (usually the database). Therefore some instances are
+needed to handle the database access. Generally, the required data is:
+
+* some hardly changed settings, provided by
+  [`ISettingsModel`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html)
+* authorization data to access Smint.io server, loaded from and stored by
+  [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenStorage.html)
+* volatile job data, that changes with every run, loaded from and stored by
+  [`ISyncJobDataStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/ISyncJobDataStorage.html)
+
+
+Usually these data handling classes make use of additional data model
+classes, implementing specialised interfaces.
+
+
+
 How to provide custom implementations
 -------------------------------------
 
-The synchronization feature is started with the class `SmintIoSyncrhonization`.
+The synchronization feature is started with the class `SmintIoSynchronization`.
 Its constructor takes an instance of a factory that will provide the custom
 implementations for the required interfaces. see [Library entry
 point](#library-entry-point) above!
 
 
-The basic interfaces to implement and provide are
+More custom implementations are provided by the data factory instance
+[`ISyncTargetDataFactory`](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html),
+which is used to create proper instances for assets and related licence
+meta data.
 
-* [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html)
-* [`ISettingsModel`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/models/ISettingsModel.html)
-* [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenStorage.html)
-
-
-There some more interfaces to implement, that cover meta data and OAuth access data.
 
 
 
@@ -114,6 +138,21 @@ But this is not enough. By integrating a push service from
 [Pusher.com](https://pusher.com), Smint.io is able to send a push
 notification for every purchase. So any newly purchased asset will be
 synchronized almost immediately to the target DAM.
+
+
+### Synchronizing only new assets, skipping old ones - *Continuation UUID*
+
+A marker (*Continuation UUID*) is used to mark the last synchronized
+asset. This marker is sent to the Smint.io server on every synchronization
+run, so the server knows, which are the new assets to sync. Hence
+this *Continuation UUID* must be made persistent and such a persistence
+storage must be provided to this library (see
+[`ISyncJobDataStorage`](https://smintio.github.io/CLAPI-C-Integration-Core-Java/smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/ISyncJobDataStorage.html).
+
+So, whenever synchronization should start from the beginning, just delete
+the current *Continuation UUID* from the database. Then all assets will be
+synchronized again. This is particular useful during development phase of
+the target integration.
 
 
 
@@ -173,6 +212,3 @@ platform for all assets available.
 Authorization is performed utilizing [OAuth 2.0](https://oauth.net/2/).
 It involves user interaction to manually grant the authorization. This can
 be performed by an DAM administrator, but must be done manually.
-
-
-

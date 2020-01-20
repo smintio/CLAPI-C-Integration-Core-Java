@@ -20,8 +20,9 @@ Todo
     ```Java
     final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
         new DefaultSyncTargetFactory()
-            .setAuthTokenStorage(new MyAuthTokenStorage())
             .setSettingsProvider(() -> settings)
+            .setAuthTokenStorage(new MyAuthTokenStorage())
+            .setJobDataStorage(new MyJobStorageHandler())
             .setDataFactory(new MySyncTargetDataFactory())
             .setSyncTargetProvider(() -> new MySyncTarget())
     ).start();
@@ -35,7 +36,10 @@ Todo
 3. Implement storage provider for OAuth access data
   [`IAuthTokenStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/IAuthTokenModek.html).
 
-4. implement synchronization target (DAM) data factory
+4. implement storage handler for Job data storage
+  [`ISyncJobDataStorage`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/configuration/ISyncJobDataStorage.html).
+
+5. implement synchronization target (DAM) data factory
   [`ISyncTargetDataFactory`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html).
     ```java
     public class MySyncTargetDataFactory implements ISyncTargetDataFactory {
@@ -68,7 +72,7 @@ Todo
 
     ```
 
-5. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
+6. (*major*) implement synchronization target (DAM) abstraction [`ISyncTarget`](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html).
     ```java
     public class MySyncTarget implements ISyncTarget {
 
@@ -76,9 +80,9 @@ Todo
 
     ```
 
-6. implement the interfaces representing meta data and asset data instances
+7. implement the interfaces representing meta data and asset data instances
    see [Packages "target"](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/package-summary.html)
 
-7. implement OAuth authentification with the user utilizing the
+8. implement OAuth authentification with the user utilizing the
    [Package "authenticator"](smintio-clapi-consumer-integration-authorizer/1/index.html),
    see the [OAuth example](example-oauth.md)

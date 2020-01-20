@@ -49,11 +49,13 @@ import io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory;
  * </p>
  *
  * <pre>
- * final ISyncFactory syncFactory = new SyncFactoryFromDI(
- *     new MyAuthTokenProviderImplementation(),
- *     new MySettingsProviderImplementation(),
- *     () -&gt; new MySyncTargetImplementation()
- * );
+ * final ISyncTargetFactory syncFactory = new DefaultSyncTargetFactory()
+ *     .setSettingsProvider(() -&gt; settings)
+ *     .setAuthTokenStorage(new MyAuthTokenStorage())
+ *     .setJobDataStorage(new MyJobStorageHandler())
+ *     .setDataFactory(new MySyncTargetDataFactory())
+ *     .setSyncTargetProvider(() -&gt; new MySyncTarget())
+ *  );
  * </pre>
  */
 @Singleton

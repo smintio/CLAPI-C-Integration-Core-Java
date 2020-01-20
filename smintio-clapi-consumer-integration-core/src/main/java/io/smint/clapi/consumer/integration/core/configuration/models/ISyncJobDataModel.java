@@ -25,9 +25,16 @@ package io.smint.clapi.consumer.integration.core.configuration.models;
  *
  * <p>
  * At the moment, only the continuation UUID is required to be passed to next run. This UUID is presented to the
- * Smint.io server as a sort of session ID. A fixed set of assets to sync is attached to this UUID on the server,
- * greatly improving synchronization process. It helps to avoid loops and duplicate synchronization of assets as well as
- * helping to split a big list of assets into smaller chunks and keep track of these chunks.
+ * Smint.io server as a sort of session ID marker. The server links this UUID to the last synchronized asset. So on a
+ * new sync run, only newer assets need to be synchronized, greatly improving synchronization process. It helps to avoid
+ * loops and duplicate synchronization of assets as well as helping to split a big list of assets into smaller chunks
+ * and keep track of these chunks.
+ * </p>
+ *
+ * <p>
+ * If the next run should start at the beginning - synchronizing all assets from scratch - the only thing to do is, to
+ * remove this <em>Continuation UUID</em>. Without this marker, the Smint.io server will start to send all assets, as if
+ * none of them has ever been synchronized yet.
  * </p>
  */
 public interface ISyncJobDataModel {

@@ -84,8 +84,8 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * Create a new Smint.io synchronization process handler.
      *
      * <p>
-     * {@link #init(ISyncTargetFactory)} will try to load Google's Guice as Dependency Injection framework in order to
-     * create an instance of {@link ISmintIoSyncFactory}.
+     * calls {@link #init(ISyncTargetFactory)}, which validates the provided factory instance and then will try to load
+     * Google's Guice as Dependency Injection framework in order to create an instance of {@link ISmintIoSyncFactory}.
      * </p>
      *
      * @param syncTargetFactory the user factory helping to create all target specific instances.
@@ -170,6 +170,11 @@ public class SmintIoSynchronization implements ISmintIoSynchronization {
      * An instance of <a href="https://github.com/google/guice"> Google's Guice</a> is created as Dependency Injection
      * system and used to create this required instance of {@link ISmintIoSyncFactory}. The Guice injector is created by
      * calling {@link SyncGuiceModule#createSmintIoSyncFactory(ISyncTargetFactory)}.
+     * </p>
+     *
+     * <p>
+     * The provided factory is checked, whether it delivers all necessary data and data access handlers. Otherwise
+     * exceptions are thrown, which will help developers to know, which part of the implementation is still missing.
      * </p>
      *
      * @param syncTargetFactory sync target provided factory to use with this library.

@@ -20,23 +20,28 @@ downstream target system.
 <p>
 To make it work with a sync target, you need to implement the interfaces
 from the package {@link io.smint.clapi.consumer.integration.core.target}.
-Although you will need to implement all of these interfaces, the most
-important of this package are:
+Additionally, some database abstraction instances are needed, to store to and load
+work data from the database. The most
+important interfaces are:
 </p>
 <ul>
 <li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTarget}</li>
-<li>{@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenProvider}</li>
-<li>{@link io.smint.clapi.consumer.integration.core.configuration.ISettingsModel}</li>
+<li>{@link io.smint.clapi.consumer.integration.core.target.ISyncTargetDataFactory}</li>
+<li>{@link io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage}</li>
+<li>{@link io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage}</li>
+<li>{@link io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel}</li>
 </ul>
 
 <h2>How to provide your implementation to the sync library: Factory or dependency injection</h2>
 <p>
 In order to provide your implementation to the synchronization library framework, you need to provide a factory,
-implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncFactory}. There is a default
-implementation available as {@link io.smint.clapi.consumer.integration.core.factory.impl.SyncFactoryFromDI}. This
+implementing the interface {@link io.smint.clapi.consumer.integration.core.factory.ISyncTargetFactory}. There is a default
+implementation available as {@link io.smint.clapi.consumer.integration.core.factory.impl.DefaultSyncTargetFactory}. This
 class can be used even if you do not have any dependency injection available. Nevertheless using any DI framework
 would be helpful. There is an example how to use
-{@link io.smint.clapi.consumer.integration.core.factory.impl.SyncFactoryFromDI} in the documentation for that class.
+{@link io.smint.clapi.consumer.integration.core.factory.impl.DefaultSyncTargetFactory} in the documentation for that class
+and in the <a href="../../../../../../../../../../get-started.html"><em>Get Started</em></a>
+document.
 </p>
 
 <h2>Initialize the synchronization process</h2>
@@ -45,15 +50,15 @@ Initialization is performed utilizing class {@link io.smint.clapi.consumer.integ
 </p>
 
 <pre>
-ISmintIoSynchronization smintSync = new SmintIoSynchronization(
-    new SyncFactoryFromDI(
-        new MyAuthTokenStorageImplementation(),
-        new MySettingsModelProvider(),
-        () -&gt; new MySyncTargetImplementation()
-    )
-);
-smintSync.start();
-</pre>
+ final ISmintIoSynchronization smintIoSync = new SmintIoSynchronization(
+     new DefaultSyncTargetFactory()
+         .setSettingsProvider(() -> settings)
+         .setAuthTokenStorage(new MyAuthTokenStorage())
+         .setJobDataStorage(new MyJobStorageHandler())
+         .setDataFactory(new MySyncTargetDataFactory())
+         .setSyncTargetProvider(() -> new MySyncTarget())
+ ).start();
+ </pre>
 
 
 
