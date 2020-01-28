@@ -348,7 +348,7 @@ class AssetConverter extends BaseSyncDataConverter<ISmintIoAsset, WrapperSyncAss
                     .getReleaseStateId(rawReleaseDetails.getPropertyReleaseState());
 
                 if (!this.isNullOrEmpty(propertyReleaseState)) {
-                    targetReleaseDetails.setModelReleaseState(propertyReleaseState);
+                    targetReleaseDetails.setPropertyReleaseState(propertyReleaseState);
                 }
             }
 
