@@ -71,6 +71,9 @@
                        <detectJavaApiLink>true</detectJavaApiLink>
                        <doctitle>Smint.io Content Licensing API Consumer (CLAPI-C) Authorization Library - version ${project.majorVersion}</doctitle>
                        <notimestamp>true</notimestamp>
+                       <links>
+                           <link>https://javaee.github.io/javaee-spec/javadocs/</link>
+                       </links>
                    </configuration>
                 <executions>
                     <execution>
