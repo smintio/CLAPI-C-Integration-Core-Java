@@ -2,11 +2,12 @@ Changelog
 ==================================
 
 
-(unreleased)
-----------------------------------
+release/v1.8.3 (2020-01-28)
+---------------------------
 
 ### Fix
 
+* (asset) set property release state on asset. ([9a0662c](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/9a0662cae8faaa61d48e1944ec70e875c9182871))
 * Require implementation of ISyncJobDataStorage. ([161688e](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/161688e41279819498c2379e54eb760bcb1c9cf6))
 * Improve docs for required ISyncJobDataStorage. ([f6be51e](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/f6be51ed14afe163d54b6d43ea44a619a17ec822))
 
