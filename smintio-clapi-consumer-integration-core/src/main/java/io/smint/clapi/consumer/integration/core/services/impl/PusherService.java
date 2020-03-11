@@ -85,7 +85,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
      *    {@code PUSHER__OAUTH_SMINTIO_ENDPOINT} = {@value #PUSHER__OAUTH_SMINTIO_ENDPOINT}
      * </pre>
      */
-    public static final String PUSHER__OAUTH_SMINTIO_ENDPOINT = "https://{0}-clapi.smint.io/consumer/v1/notifications/pusher/auth";
+    public static final String PUSHER__OAUTH_SMINTIO_ENDPOINT = "https://{0}.clapi.smint.io/consumer/v1/notifications/pusher/auth";
 
 
     /**
