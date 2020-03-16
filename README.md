@@ -9,7 +9,7 @@ common codebase for integration to
 Web2Print, WCM or other systems, written in Java.
 
 
-Current version is: 1.8.3 (see [CHANGELOG](CHANGELOG.md))
+Current version is: 1.9.0 (see [CHANGELOG](CHANGELOG.md))
 
 see documentation: https://smintio.github.io/CLAPI-C-Integration-Core-Java/
 
@@ -92,8 +92,8 @@ the core library.
 
 
     dependencies {
-         compile ("io.smint:smintio-clapi-consumer-integration-core:[1.5.0,2.0.0)")
-         compile ("io.smint:smintio-clapi-consumer-integration-authorizer:[1.5.0,2.0.0)")
+         compile ("io.smint:smintio-clapi-consumer-integration-core:[1.9.0,2.0.0)")
+         compile ("io.smint:smintio-clapi-consumer-integration-authorizer:[1.9.0,2.0.0)")
     }
 
 ```
@@ -134,12 +134,12 @@ the core library.
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-core</artifactId>
-            <version>[1.6.0,2.0.0)</version>
+            <version>[1.9.0,2.0.0)</version>
         </dependency>
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-integration-authorizer</artifactId>
-            <version>[1.6.0,2.0.0)</version>
+            <version>[1.9.0,2.0.0)</version>
         </dependency>
 
     </dependencies>
