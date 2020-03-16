@@ -2,8 +2,35 @@ Changelog
 ==================================
 
 
-release/v1.8.3 (2020-01-28)
+!WARNING!
+---------
+
+Do not use releases prior to 1.9.0 anymore. This release has integrated a newer
+Smint.io API SDK 1.4.5, which had introduced breaking changes to URL configuration.
+Although no breaking changes of this project (integration library) have been
+introduced, predecessor versions are not going to work with the Smint.io API.
+
+
+release/v1.9.0 (2020-03-16)
 ---------------------------
+
+### Other
+
+* (BECAUSE OF BREAKING API)  Update Smint.io API SDK to 1.4.5. ([cad0671](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/2749dc65c2895e22289bf5c04b9586f3115f6d17))
+
+
+---
+
+Previous releases
+============================================
+
+*do not use previous releases! They won't work with the Smint.io API!*
+
+---
+
+
+release/v1.8.3 (2020-01-28)
+-------------------------------------------------
 
 ### Fix
 
