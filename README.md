@@ -1,6 +1,9 @@
 Smint.io CLAPI-C Java integration core library
 ==============================================
 
+About this library
+------------------
+
 [![MIT](https://img.shields.io/github/license/smintio/CLAPI-C-Integration-Core.svg)](https://opensource.org/licenses/MIT)
 
 The Smint.io Content Licensing Consumer Java Integration Core package provides a
@@ -12,6 +15,15 @@ Web2Print, WCM or other systems, written in Java.
 Current version is: 1.9.0 (see [CHANGELOG](CHANGELOG.md))
 
 see documentation: https://smintio.github.io/CLAPI-C-Integration-Core-Java/
+
+
+### Do not use versions prior to 1.9.0
+
+Do not use releases prior to 1.9.0 anymore. This release has integrated a newer
+Smint.io API SDK 1.4.5, which had introduced breaking changes to URL configuration.
+Although no breaking changes have been introduced to this project (integration
+library), predecessor versions are not going to work with the Smint.io API.
+
 
 
 Implemented features
