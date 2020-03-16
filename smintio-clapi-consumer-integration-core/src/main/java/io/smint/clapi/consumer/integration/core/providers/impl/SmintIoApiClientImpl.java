@@ -120,7 +120,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      * {@code SMINT_IO_API_BASE_URL = }{@value #SMINT_IO_API_BASE_URL}
      * </pre>
      */
-    public static final String SMINT_IO_API_BASE_URL = "https://{0}-clapi.smint.io/consumer/v1";
+    public static final String SMINT_IO_API_BASE_URL = "https://{0}.clapi.smint.io/consumer/v1";
 
 
     /**

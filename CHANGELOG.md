@@ -63,6 +63,7 @@ release/v1.8.1 (2020-01-07)
 
 ### Dependencies
 
+* Update Smint.io CLAPI-C client version to 1.4.5 to handle new API domain structure of Smint.io
 * Update Smint.io CLAPI-C client version to 1.4.4 to enable consumption of rolled-up license texts
   ([00a7df0](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/00a7df01e35ddc53496ad17612a14ae719f484fa))
 

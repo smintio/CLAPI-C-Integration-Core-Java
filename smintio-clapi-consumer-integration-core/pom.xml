@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.smint</groupId>
             <artifactId>smintio-clapi-consumer-client</artifactId>
-            <version>1.4.4</version>
+            <version>1.4.5</version>
         </dependency>
 
         <dependency>
