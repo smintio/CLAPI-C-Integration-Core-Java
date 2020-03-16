@@ -144,7 +144,7 @@ subprojects { proj ->
             "configDir": rootProject.file("config/checkstyle"),
             "baseDir": proj.file("src/"),
         ]
-        toolVersion = "8.25"
+        toolVersion = "8.29"
         ignoreFailures = true
     }
 

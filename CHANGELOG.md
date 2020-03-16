@@ -14,6 +14,10 @@ introduced, predecessor versions are not going to work with the Smint.io API.
 release/v1.9.0 (2020-03-16)
 ---------------------------
 
+### Fix
+
+* (build) upgrade CheckStyle to version 8.29.
+
 ### Other
 
 * (BECAUSE OF BREAKING API)  Update Smint.io API SDK to 1.4.5. ([cad0671](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/2749dc65c2895e22289bf5c04b9586f3115f6d17))
