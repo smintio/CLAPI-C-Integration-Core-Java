@@ -89,28 +89,41 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         final ISettingsModel settings, final IAuthTokenStorage authTokenStorage
     ) throws SmintIoAuthenticatorException {
 
-    	if (authTokenStorage == null) {
+        if (authTokenStorage == null) {
             LOG.warning("No access token can be renewed, as no token storage has been provided.");
             return this;
         }
-    	
-    	this.validateForTokenRefresh(authTokenStorage.getAuthData());
-    	
-    	if (settings == null) {
-    		LOG.warning("No access token can be renewed, as no settings storage has been provided.");
+
+        this.validateForTokenRefresh(authTokenStorage.getAuthData());
+
+        if (settings == null) {
+            LOG.warning("No access token can be renewed, as no settings storage has been provided.");
             return this;
-    	}
-    	
-    	this.validateForAuthenticator(settings);
+        }
+
+        this.validateForAuthenticator(settings);
 
 
+        // CHECKSTYLE OFF: MultipleStringLiterals
         final JSONObject response = this.performSmintIoApiRequest(settings, authTokenStorage);
+        if (response == null || response.has("error")) {
+
+            if (response != null && "invalid_grant".equalsIgnoreCase(response.getString("error"))) {
+                // invalidate authentication data in case of "invalid_grant" error
+                authTokenStorage.storeAuthData(new AuthTokenImpl().setIsSuccess(false));
+
+            } else {
+                authTokenStorage.storeAuthData(new AuthTokenImpl(authTokenStorage.getAuthData()).setIsSuccess(false));
+            }
+
+        } else {
+            authTokenStorage.storeAuthData(
+                this.extractTokenFromJsonResponse(response, authTokenStorage.getAuthData())
+            );
+        }
+        // CHECKSTYLE ON: MultipleStringLiterals
 
         // warning: performSmintIoApiRequest changes the authentication data, so fetch it again afterwards.
-        authTokenStorage.storeAuthData(
-            this.extractTokenFromJsonResponse(response, authTokenStorage.getAuthData())
-        );
-
         if (!authTokenStorage.getAuthData().isSuccess()) {
             // CHECKSTYLE OFF: MultipleStringLiterals
             final String serverErrorMessage = response.has("error_msg") ? response.getString("error_msg") : null;
@@ -233,11 +246,13 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
         LOG.entering(this.getClass().getName(), ":extractTokenFromJsonResponse");
         Objects.requireNonNull(response, "Invalid response!");
 
+        // CHECKSTYLE OFF: MultipleStringLiterals
         if (response.has("error")) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.CannotRefreshSmintIoToken, response.getString("error")
             );
         }
+        // CHECKSTYLE ON: MultipleStringLiterals
 
 
         final AuthTokenImpl newAuthData = new AuthTokenImpl(oldAuthData);
@@ -323,7 +338,7 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
             );
         }
     }
-    
+
     /**
      * Validates the available settings data for authenticator.
      *
@@ -350,14 +365,14 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
                 AuthenticatorError.SmintIoIntegrationWrongState, "The tenant ID is missing"
             );
         }
-        
+
         final String clientId = settings.getOAuthClientId();
         if (clientId == null || clientId.isEmpty()) {
             throw new SmintIoAuthenticatorException(
                 AuthenticatorError.SmintIoIntegrationWrongState, "The client ID is missing"
             );
         }
-        
+
         final String clientSecret = settings.getOAuthClientSecret();
         if (clientSecret == null || clientSecret.isEmpty()) {
             throw new SmintIoAuthenticatorException(
