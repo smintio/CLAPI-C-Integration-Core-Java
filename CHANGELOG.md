@@ -11,6 +11,16 @@ Although no breaking changes of this project (integration library) have been
 introduced, predecessor versions are not going to work with the Smint.io API.
 
 
+release/v1.9.1 (2020-05-25)
+----------------------------------
+
+### Fix
+
+* (auth) use default if target OAauth URL contains no port. ([70cea66](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/70cea666a605ef1ace8c4eafcd7d133d2dd7818f))
+* (build) max version 8.30 of "com.puppycrawl.tools" ([d336823](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/d3368233635ec5f64f1bf3b73c9cb88cf155c654))
+* (auth) store empty auth token if refresh fails with "invalid_grant" ([c3198f1](https://github.com/smintio/CLAPI-C-Integration-Core-Java/commit/c3198f1bbab294e943192d8a3a0e06d3cdb7c947))
+
+
 release/v1.9.0 (2020-03-16)
 ---------------------------
 
