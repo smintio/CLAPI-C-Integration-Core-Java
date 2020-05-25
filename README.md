@@ -12,14 +12,14 @@ common codebase for integration to
 Web2Print, WCM or other systems, written in Java.
 
 
-Current version is: 1.9.0 (see [CHANGELOG](CHANGELOG.md))
+Current version is: 1.9.1 (see [CHANGELOG](CHANGELOG.md))
 
 see documentation: https://smintio.github.io/CLAPI-C-Integration-Core-Java/
 
 
 ### Do not use versions prior to 1.9.0
 
-Do not use releases prior to 1.9.0 anymore. This release has integrated a newer
+Do not use releases prior to 1.9.1 anymore. This release has integrated a newer
 Smint.io API SDK 1.4.5, which had introduced breaking changes to URL configuration.
 Although no breaking changes have been introduced to this project (integration
 library), predecessor versions are not going to work with the Smint.io API.
