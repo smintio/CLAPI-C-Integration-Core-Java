@@ -21,6 +21,7 @@ package io.smint.clapi.consumer.integration.app.authenticator;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 import java.util.Objects;
@@ -146,7 +147,7 @@ public class AuthenticatorHttpServerCompanion extends NanoHTTPD {
         @Named("authorizer-url-params-consumer") final Consumer<Map<String, String[]>> consumerOfOAuthParams
     ) {
 
-        super(settings.getOAuthLocalUrlReceivingAccessData().getPort());
+        super(getPortFromUrl(settings.getOAuthLocalUrlReceivingAccessData()));
 
         this._authorizer = consumerOfOAuthParams;
         Objects.requireNonNull(consumerOfOAuthParams, "No OAuth data consumer with Smint.io has been provided");
@@ -274,5 +275,22 @@ public class AuthenticatorHttpServerCompanion extends NanoHTTPD {
     public void stop() {
         LOG.info("STOPPING web server!");
         super.stop();
+    }
+
+
+    private static int getPortFromUrl(final URL url) {
+        if (url == null) {
+            throw new IllegalArgumentException("Invalid URL is 'null'");
+        }
+
+        int port = url.getPort();
+        if (port <= 0) {
+            port = url.getDefaultPort();
+        }
+        if (port < 0) {
+            port = 0; // let server choose a free port
+        }
+
+        return port;
     }
 }
