@@ -278,7 +278,7 @@ public class AuthenticatorHttpServerCompanion extends NanoHTTPD {
     }
 
 
-    private static int getPortFromUrl(final URL url) {
+    public static int getPortFromUrl(final URL url) {
         if (url == null) {
             throw new IllegalArgumentException("Invalid URL is 'null'");
         }
