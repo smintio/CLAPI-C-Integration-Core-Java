@@ -208,6 +208,18 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
     }
 
 
+    @Override
+    public boolean isTargetOfReceivedAuthorizationData(final Map<String, String[]> urlParameters) {
+
+        Objects.requireNonNull(urlParameters, "No url parameters with authentication data have been passed!");
+
+        return !urlParameters.isEmpty()
+            && urlParameters.get("code") != null && urlParameters.get("code").length == 1
+            && urlParameters.get("state") != null && urlParameters.get("state").length == 1
+            && this._oAuthApiSecret.equals(urlParameters.get("state")[0]);
+    }
+
+
     /**
      * Validates the available settings data for requesting an OAuth access token.
      *

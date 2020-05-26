@@ -84,9 +84,20 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  *     protected void doGet(HttpServletRequest request, HttpServletResponse response)
  *         throws ServletException, IOException {
  *
- *         Global.getSmintIoOAuthAuthorizer().analyzeAuthorizationData(
- *             request.getParameterMap()
- *         );
+ *         final Map<String, String[]> authParameters = request.getParameterMap();
+ *
+ *         boolean isAuthDataConsumed = false;
+ *         for (final ISmintIoOAuthAuthorizer authorizer : Global.getSmintIoAuthorizers()) {
+ *             if (authorizer.isTargetOfReceivedAuthorizationData(authParameters)) {
+ *                 isAuthDataConsumed = true;
+ *                 authorizer.analyzeAuthorizationData(authParameters);
+ *                 break;
+ *             }
+ *         }
+ *
+ *         if (!isAuthDataConsumed) {
+ *             throw new SmintIoAuthenticatorException("Invalid URL parameters - no authenticator target found!");
+ *         }
  *     }
  *
  * }
@@ -159,4 +170,37 @@ public interface ISmintIoOAuthAuthorizer extends ISmintIoAuthenticator {
     ISmintIoOAuthAuthorizer analyzeReceivedAuthorizationData(
         final Map<String, String[]> urlParameters
     ) throws SmintIoAuthenticatorException;
+
+
+    /**
+     * Checks the authorization data sent from the server if these are targeted to this instance.
+     *
+     * <p>
+     * OAuth 2.0 authorization involves user interaction. So, only the initial call to the Smint.io API can be made by
+     * the authorizer, to request authorization. The OAuth service then will provide an URL the user must open in the
+     * browser in order to authorize this library manually. Then the server will redirect to a local URL, where a
+     * listener receives authorization data, that need to be passed to this function. The data will then be evaluated
+     * and a request token fetched from the Smint.io API.
+     * </p>
+     *
+     * <p>
+     * The URL any OAuth service will redirect to - after successful authorization - contains required URL parameters.
+     * As there might be some more authorizations are currently in progress, this check can be used, whether the
+     * received URL parameters are targeted at this instance. Each OAuth authorization progress to Smint.io relies on
+     * instances of this class. So multiple instances might be used in global scope to be passed to the same servlet
+     * receiving the authorization data. The servlet must use some lookup method to check, which instance is waiting for
+     * the authorization data. In case no instance is the target for such data, the servlet must fail with an
+     * authorization exception.
+     * </p>
+     *
+     * @param urlParameters the parameters received by the redirection URL listener. Using servlets, the parameters can
+     *                      be easily fetched by using <a href=
+     *                      "https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/HttpServletRequest.html"
+     *                      >{@code javax.servlet.http.HttpServletRequest#getParameterMap()}</a>.
+     * @return A valid URL to display to the user, which need to open it in the browser.
+     * @throws SmintIoAuthenticatorException in case no client ID or client secret are available, invalid, have expired
+     *                                       or the Smint.io API rejected the authorization request, or network is down
+     *                                       and the Smint.io API service can not be reached.
+     */
+    boolean isTargetOfReceivedAuthorizationData(final Map<String, String[]> urlParameters);
 }
