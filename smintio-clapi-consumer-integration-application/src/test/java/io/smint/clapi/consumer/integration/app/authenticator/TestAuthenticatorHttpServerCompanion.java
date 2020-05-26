@@ -88,14 +88,14 @@ public class TestAuthenticatorHttpServerCompanion {
     }
 
     @Test
-    @DisplayName("Failing extracting of port from invalid URL.")
+    @DisplayName("Check test on missing port in URL without port specification.")
     public void getPortFromUrl_ZeroForInvalidUrl() throws Exception {
         final URL url = new URL("file://www.smint.io/");
-        final int port = AuthenticatorHttpServerCompanion.getPortFromUrl(url);
-        Assertions.assertEquals(
-            0,
-            port,
-            "Failed to acquire port 0 from 'getPortFromUrl' for URL '" + url.toExternalForm() + "'!"
+
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> AuthenticatorHttpServerCompanion.getPortFromUrl(url),
+            "'getPortFromUrl' did not fail for URL without port specification!"
         );
     }
 }

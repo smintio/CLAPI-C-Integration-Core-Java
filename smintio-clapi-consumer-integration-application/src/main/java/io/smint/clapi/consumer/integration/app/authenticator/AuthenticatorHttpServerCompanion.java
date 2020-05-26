@@ -287,8 +287,8 @@ public class AuthenticatorHttpServerCompanion extends NanoHTTPD {
         if (port <= 0) {
             port = url.getDefaultPort();
         }
-        if (port < 0) {
-            port = 0; // let server choose a free port
+        if (port <= 0) {
+            throw new IllegalArgumentException("URL '" + url + "' does not contain a valid port!");
         }
 
         return port;
