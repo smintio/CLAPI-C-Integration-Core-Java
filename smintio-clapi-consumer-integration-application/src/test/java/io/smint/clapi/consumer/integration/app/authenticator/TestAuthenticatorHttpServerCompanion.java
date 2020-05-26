@@ -21,9 +21,9 @@ package io.smint.clapi.consumer.integration.app.authenticator;
 
 import java.net.URL;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
