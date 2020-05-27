@@ -79,7 +79,7 @@ public class TestModelDataJsonConverter {
                     "3jyY9K69oX28Tv8dpW99MOfFyfeVc1b9GIwYM83KvPS_X1TRms5RAAzjhR0ZUihaskYBmuCbGA2Ib6PvWevEMdI31ZCSOzk" +
                     "VhMuAgyx3WDmzVI1_UMQ6OtBwMPq67qKCg"
             ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU");
-        final IAuthTokenModel authTokenData = converter.decode(
+        IAuthTokenModel authTokenData = converter.decode(
             "{\n" +
                 "    \"_identityToken\": \"" + expectedTokenData.getIdentityToken() + "\",\n" +
                 "    \"_accessToken\": \"" + expectedTokenData.getAccessToken() + "\",\n" +
@@ -104,6 +104,98 @@ public class TestModelDataJsonConverter {
             expectedTokenData.getRefreshToken(),
             authTokenData.getRefreshToken(),
             "Failed to convert JSON to token model - access token unexpected!"
+        );
+
+
+        authTokenData = converter.decode(
+            "{\n" +
+                "    \"identityToken\": \"" + expectedTokenData.getIdentityToken() + "\",\n" +
+                "    \"accessToken\": \"" + expectedTokenData.getAccessToken() + "\",\n" +
+                "    \"token_type\": \"Bearer\",\n" +
+                "    \"refreshToken\": \"" + expectedTokenData.getRefreshToken() + "\",\n" +
+                "    \"scope\": \"openid profile smintio.full offline_access\"\n" +
+                "}"
+        );
+
+        Assertions.assertNotNull(authTokenData, "Failed to convert JSON(2) to token model!");
+        Assertions.assertEquals(
+            expectedTokenData.getIdentityToken(),
+            authTokenData.getIdentityToken(),
+            "Failed to convert JSON(2) to token model - identity token unexpected!"
+        );
+        Assertions.assertEquals(
+            expectedTokenData.getAccessToken(),
+            authTokenData.getAccessToken(),
+            "Failed to convert JSON(2) to token model - access token unexpected!"
+        );
+        Assertions.assertEquals(
+            expectedTokenData.getRefreshToken(),
+            authTokenData.getRefreshToken(),
+            "Failed to convert JSON(2) to token model - access token unexpected!"
+        );
+    }
+
+
+    @Test
+    @DisplayName("Decode valid auth token JSON from HTTP OAuth response")
+    public void decode_ValidJsonOfHttpResponse() throws Exception {
+
+        final MyAuthTokenJsonConverter converter = new MyAuthTokenJsonConverter();
+        final IAuthTokenModel expectedTokenData = new AuthTokenImpl()
+            .setAccessToken(
+                "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM3QUZDM0YwODc0RUQ1MkI2Q0IzQ0RDNzQ4NkJENEQ3M0ZCNUZBQTgiLCJ0eXAiOiJhdCt" +
+                    "qd3QiLCJ4NXQiOiJONl9EOElkTzFTdHNzODNIU0d2VTF6LTEtcWcifQ.eyJuYmYiOjE1OTA0ODI0MzAsImV4cCI6MTU5MDQ" +
+                    "4NjAzMCwiaXNzIjoiaHR0cHM6Ly9wb3J0YWwuc21pbnQuaW8vIiwiYXVkIjoic21pbnRpby5mdWxsIiwiY2xpZW50X2lkIj" +
+                    "oicmV3ZWdyb3VwIiwiY2xpZW50X2RldmVsb3Blcl91dWlkIjoiMiIsInN1YiI6ImQxMjdmYTkzLTc5ZjEtNDEwNS04MGY2L" +
+                    "WY4YjUyZmIxNzgwNiIsImF1dGhfdGltZSI6MTU5MDQ3NjAyNSwiaWRwIjoibG9jYWwiLCJqdGkiOiJYNGRVQy02dlZUcGpy" +
+                    "cktQZzQzRkJnIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsInNtaW50aW8uZnVsbCIsIm9mZmxpbmVfYWNjZXNzIl0" +
+                    "sImFtciI6WyJwd2QiXX0.rbzvdFlpHlIKoiOch76znIv-GXsapXQ5ZC_W2NPy7k_V5bHW3a5QUIvaCbOvBETwYCSl-rtJkB" +
+                    "gLqDp5J2qQ5SVMuH9WU8ExIipZZKHZfV3ZKYdieBG-IhcN9Csp8PBKkbVa2LOOjfVUzpb8JgluMiEs-bMCH8yM-rJ98Cnm_" +
+                    "CfWMq8pucZIxghvmX3YTllZJ6LUghRY50nwszi1LpsjExPLHG3sdR7e7DY1bEr2Hpc8y7A22XcXovfO9X8hCKC1MtekZLdz" +
+                    "oROMqWFDkg1BgAkBZGrWB7n4DT0xSu_BuD4w9gA1JzwXR_5mLcauFbKYQwB5tVlLXzaVpKqynfww3w"
+            ).setIdentityToken(
+                "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM3QUZDM0YwODc0RUQ1MkI2Q0IzQ0RDNzQ4NkJENEQ3M0ZCNUZBQTgiLCJ0eXAiOiJKV1Q" +
+                    "iLCJ4NXQiOiJONl9EOElkTzFTdHNzODNIU0d2VTF6LTEtcWcifQ.eyJuYmYiOjE1OTA0ODI0MzAsImV4cCI6MTU5MDQ4Mjc" +
+                    "zMCwiaXNzIjoiaHR0cHM6Ly9wb3J0YWwuc21pbnQuaW8vIiwiYXVkIjoicmV3ZWdyb3VwIiwiaWF0IjoxNTkwNDgyNDMwLC" +
+                    "JhdF9oYXNoIjoiREFOeDBkNFRadk95Y2taOFp1X01CUSIsInNfaGFzaCI6Im12ZFpIQ2lNR2V6VHlhMVZ3TnVBdFEiLCJza" +
+                    "WQiOiJKWExoNzdUVjduaGMtY1MxWGRIQVpnIiwic3ViIjoiZDEyN2ZhOTMtNzlmMS00MTA1LTgwZjYtZjhiNTJmYjE3ODA2" +
+                    "IiwiYXV0aF90aW1lIjoxNTkwNDc2MDI1LCJpZHAiOiJsb2NhbCIsImFtciI6WyJwd2QiXX0.IkG3pU92k32naDqfIvlhZqq" +
+                    "aDDZJl04VQahBjuFlHVQ6RvNoo9jNnFJdE4Yur0Uje5XkKXJiezBkmn-rTdQhVTEeqBwUpoX01YCZrDLGowcRl0KF13AN0H" +
+                    "Al4myziZb5LgKWBNZTeB4tEJxilFynwO0PCgMmKUDf-xAYbGpzLksQLALHN5ZhRejTp6zOM-Q4ixSjW0RydKLbnhcFq3WzP" +
+                    "3jyY9K69oX28Tv8dpW99MOfFyfeVc1b9GIwYM83KvPS_X1TRms5RAAzjhR0ZUihaskYBmuCbGA2Ib6PvWevEMdI31ZCSOzk" +
+                    "VhMuAgyx3WDmzVI1_UMQ6OtBwMPq67qKCg"
+            ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU");
+        final IAuthTokenModel authTokenData = converter.decode(
+            "{\n" +
+                "    \"id_token\": \"" + expectedTokenData.getIdentityToken() + "\",\n" +
+                "    \"access_token\": \"" + expectedTokenData.getAccessToken() + "\",\n" +
+                "    \"token_type\": \"Bearer\",\n" +
+                "    \"expires_in\": 3600,\n" +
+                "    \"refresh_token\": \"" + expectedTokenData.getRefreshToken() + "\",\n" +
+                "    \"scope\": \"openid profile smintio.full offline_access\"\n" +
+                "}"
+        );
+
+        Assertions.assertNotNull(authTokenData, "Failed to convert JSON to token model!");
+        Assertions.assertEquals(
+            expectedTokenData.getIdentityToken(),
+            authTokenData.getIdentityToken(),
+            "Failed to convert JSON to token model - identity token unexpected!"
+        );
+        Assertions.assertEquals(
+            expectedTokenData.getAccessToken(),
+            authTokenData.getAccessToken(),
+            "Failed to convert JSON to token model - access token unexpected!"
+        );
+        Assertions.assertEquals(
+            expectedTokenData.getRefreshToken(),
+            authTokenData.getRefreshToken(),
+            "Failed to convert JSON to token model - access token unexpected!"
+        );
+        Assertions.assertEquals(
+            true,
+            authTokenData.isSuccess(),
+            "Failed to convert JSON to token model - \"success\" is invalid!"
         );
     }
 
@@ -139,10 +231,10 @@ public class TestModelDataJsonConverter {
             ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU");
 
         final String expectedJSON = "{" +
-            "\"_isSuccess\":false," +
-            "\"_accessToken\":\"" + originalTokenData.getAccessToken() + "\"," +
-            "\"_refreshToken\":\"" + originalTokenData.getRefreshToken() + "\"," +
-            "\"_identityToken\":\"" + originalTokenData.getIdentityToken() + "\"" +
+            "\"isSuccess\":false," +
+            "\"accessToken\":\"" + originalTokenData.getAccessToken() + "\"," +
+            "\"refreshToken\":\"" + originalTokenData.getRefreshToken() + "\"," +
+            "\"identityToken\":\"" + originalTokenData.getIdentityToken() + "\"" +
             "}";
 
         final String convertedJson = converter.encode(originalTokenData);
