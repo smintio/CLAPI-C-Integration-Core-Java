@@ -19,6 +19,9 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+
 import com.google.gson.Gson;
 
 import org.junit.jupiter.api.Assertions;
@@ -78,16 +81,37 @@ public class TestModelDataJsonConverter {
                     "Al4myziZb5LgKWBNZTeB4tEJxilFynwO0PCgMmKUDf-xAYbGpzLksQLALHN5ZhRejTp6zOM-Q4ixSjW0RydKLbnhcFq3WzP" +
                     "3jyY9K69oX28Tv8dpW99MOfFyfeVc1b9GIwYM83KvPS_X1TRms5RAAzjhR0ZUihaskYBmuCbGA2Ib6PvWevEMdI31ZCSOzk" +
                     "VhMuAgyx3WDmzVI1_UMQ6OtBwMPq67qKCg"
-            ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU");
-        IAuthTokenModel authTokenData = converter.decode(
-            "{\n" +
-                "    \"_identityToken\": \"" + expectedTokenData.getIdentityToken() + "\",\n" +
-                "    \"_accessToken\": \"" + expectedTokenData.getAccessToken() + "\",\n" +
-                "    \"token_type\": \"Bearer\",\n" +
-                "    \"_refreshToken\": \"" + expectedTokenData.getRefreshToken() + "\",\n" +
-                "    \"scope\": \"openid profile smintio.full offline_access\"\n" +
-                "}"
-        );
+            ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU")
+            .setExpiration(OffsetDateTime.now().plus(600, ChronoUnit.SECONDS));
+
+        final OffsetDateTime expiresAt = expectedTokenData.getExpiration();
+        final String json = "{\n" +
+            "    \"_identityToken\": \"" + expectedTokenData.getIdentityToken() + "\",\n" +
+            "    \"_accessToken\": \"" + expectedTokenData.getAccessToken() + "\",\n" +
+            "    \"token_type\": \"Bearer\",\n" +
+            "    \"_refreshToken\": \"" + expectedTokenData.getRefreshToken() + "\",\n" +
+            "    \"scope\": \"openid profile smintio.full offline_access\",\n" +
+            "    \"_expirationDate\": {\n" +
+            "        \"dateTime\": {\n" +
+            "          \"date\": {\n" +
+            "            \"year\": " + expiresAt.getYear() + ",\n" +
+            "            \"month\": " + expiresAt.getMonthValue() + ",\n" +
+            "            \"day\": " + expiresAt.getDayOfMonth() + "\n" +
+            "          },\n" +
+            "          \"time\": {\n" +
+            "            \"hour\": " + expiresAt.getHour() + ",\n" +
+            "            \"minute\": " + expiresAt.getMinute() + ",\n" +
+            "            \"second\": " + expiresAt.getSecond() + ",\n" +
+            "            \"nano\": " + expiresAt.getNano() + "\n" +
+            "          }\n" +
+            "        },\n" +
+            "        \"offset\": {\n" +
+            "          \"totalSeconds\": " + expiresAt.getOffset().getTotalSeconds() + "\n" +
+            "        }\n" +
+            "    }" +
+            "}";
+
+        IAuthTokenModel authTokenData = converter.decode(json);
 
         Assertions.assertNotNull(authTokenData, "Failed to convert JSON to token model!");
         Assertions.assertEquals(
@@ -104,6 +128,15 @@ public class TestModelDataJsonConverter {
             expectedTokenData.getRefreshToken(),
             authTokenData.getRefreshToken(),
             "Failed to convert JSON to token model - access token unexpected!"
+        );
+        Assertions.assertNotNull(
+            expectedTokenData.getExpiration(),
+            "Failed to convert JSON to token model - expire time is missing!"
+        );
+        Assertions.assertEquals(
+            expectedTokenData.getExpiration().toEpochSecond(),
+            authTokenData.getExpiration().toEpochSecond(),
+            "Failed to convert JSON to token model - expire time do not match!"
         );
 
 

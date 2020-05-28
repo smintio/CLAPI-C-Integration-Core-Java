@@ -25,6 +25,7 @@ import java.time.ZoneId;
 
 import javax.inject.Inject;
 
+import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -54,7 +55,7 @@ public class AuthTokenImpl implements IAuthTokenModel {
     @SerializedName(value = "identityToken", alternate = { "_identityToken", "id_token" })
     private String _identityToken;
 
-    @JsonAdapter(ExpiresInDeserializer.class)
+    @JsonAdapter(ExpiresInTypeAdapter.class)
     @SerializedName(value = "expirationDate", alternate = { "_expirationDate", "expires_in" })
     private OffsetDateTime _expirationDate;
 
@@ -198,14 +199,21 @@ public class AuthTokenImpl implements IAuthTokenModel {
     }
 
 
-    public class ExpiresInDeserializer extends OffsetDateTimeTypeAdapter {
+    public class ExpiresInTypeAdapter extends OffsetDateTimeTypeAdapter {
         @Override
         public OffsetDateTime read(final JsonReader in) throws IOException {
             final JsonToken token = in.peek();
             if (token == JsonToken.NUMBER) {
                 final int expiresIn = in.nextInt();
                 return OffsetDateTime.now(ZoneId.systemDefault()).plusSeconds(expiresIn);
-            } else {
+
+            } else if (token == JsonToken.BEGIN_OBJECT) {
+                // original OffsetDateTime type adapter serialize to String.
+                // unfortunately it is not active by default. Thus there are some serializations that
+                // have invalid object type serializations. So, read these instead.
+                return new Gson().getAdapter(OffsetDateTime.class).read(in);
+
+            } else { // if STRING
                 return super.read(in);
             }
         }
