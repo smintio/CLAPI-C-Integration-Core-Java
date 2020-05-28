@@ -84,7 +84,7 @@ import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorE
  *     protected void doGet(HttpServletRequest request, HttpServletResponse response)
  *         throws ServletException, IOException {
  *
- *         final Map<String, String[]> authParameters = request.getParameterMap();
+ *         final Map&lt;String, String[]&gt; authParameters = request.getParameterMap();
  *
  *         boolean isAuthDataConsumed = false;
  *         for (final ISmintIoOAuthAuthorizer authorizer : Global.getSmintIoAuthorizers()) {
