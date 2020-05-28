@@ -94,7 +94,7 @@ public class BinaryAssetDownloader implements Provider<File> {
         final Request downloadRequest = new Request.Builder()
             .addHeader(
                 accessToken == null ? "X-Smint.io-Auth-dummy" : "Authorization",
-                accessToken == null ? "dummy" : "Bearer " + this._authTokenStorage.getAuthData().getAccessToken()
+                accessToken == null ? "dummy" : "Bearer " + accessToken
             )
             .url(url)
             .build();
