@@ -966,9 +966,14 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             List<SyncBinary> binaries = null;
             try {
-                binaries = this._downloadsApi.getLicensePurchaseTransactionBinariesForSync(
-                    asset.getCartPurchaseTransactionUuid(),
-                    asset.getLicensePurchaseTransactionUuid()
+                binaries = this.retryApiRequest(
+                    ThrowingSupplier.sneaky(() -> {
+                        this._downloadsApi.getApiClient().setAccessToken(this.getAuthToken().getAccessToken());
+                        return this._downloadsApi.getLicensePurchaseTransactionBinariesForSync(
+                            asset.getCartPurchaseTransactionUuid(),
+                            asset.getLicensePurchaseTransactionUuid()
+                        );
+                    })
                 );
             } catch (final ApiException excp) {
                 LOG.log(
