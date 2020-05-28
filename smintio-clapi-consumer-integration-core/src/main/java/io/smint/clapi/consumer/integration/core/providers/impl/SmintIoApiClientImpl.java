@@ -603,8 +603,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         return null;
     }
-    
-    
+
+
     private Map<Locale, String> getValuesForImportLanguages(
         final List<Locale> importLanguages, final List<LocalizedString> localizedStrings
     ) {
@@ -926,11 +926,13 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
             )
 
-            .setLicenseUrls(this.getGroupedUrlValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls()))
-            
+            .setLicenseUrls(
+                this.getGroupedUrlValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls())
+            )
+
             .setLicenseTerms(this.getLicenseTerms(importLanguages, apiAsset))
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
-            
+
             .setIsEditorialUse(isEditorialUse)
             .setHasRestrictiveLicenseTerms(
                 apiAsset.getHasPotentiallyRestrictiveLicenseTerms() != null
