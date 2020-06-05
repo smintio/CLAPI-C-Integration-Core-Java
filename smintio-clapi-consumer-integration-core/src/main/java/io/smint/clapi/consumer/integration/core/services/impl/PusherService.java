@@ -282,7 +282,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
     private PusherService subscribeToPusherChannel(final int channelId) {
 
-        final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
+        final String channelName = MessageFormat.format(PUSHER__CHANNEL, channelId);
         LOG.info(() -> "Pusher: subscribing to channel '" + channelName + "'");
 
 
