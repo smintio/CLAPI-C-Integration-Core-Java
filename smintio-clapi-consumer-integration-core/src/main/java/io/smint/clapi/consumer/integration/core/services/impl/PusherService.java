@@ -269,8 +269,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
                 }
 
                 if (this._pusher.getConnection().getState() == ConnectionState.DISCONNECTED
-                    || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING
-                ) {
+                    || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING) {
 
                     LOG.log(Level.FINE, "Initiating a re-connect to Pusher notification service");
                     this._pusher.connect();
