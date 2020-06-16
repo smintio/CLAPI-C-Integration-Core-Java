@@ -275,6 +275,6 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
         this.bind(ISyncTargetDataFactory.class).toProvider(() -> this._syncTargetFactory.getTargetDataFactory());
 
-        this.bind(IAuthTokenStorage.class).toInstance(this._syncTargetFactory.getAuthTokenStorage());
+        this.bind(IAuthTokenStorage.class).toProvider(AuthTokenStorageProvider.class);
     }
 }
