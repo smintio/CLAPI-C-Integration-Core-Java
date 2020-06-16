@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 
 import io.smint.clapi.consumer.integration.core.LocaleUtility;
+import io.smint.clapi.consumer.integration.core.authenticator.impl.AuthTokenRefreshUtilityImpl;
 import io.smint.clapi.consumer.integration.core.configuration.impl.AuthTokenMemoryStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
@@ -66,7 +67,10 @@ public abstract class TestSminIoApiClientBase {
         return new SmintIoApiClientImpl(
             () -> mySettings,
             new AuthTokenMemoryStorage(),
-            (settings, authTokenStorage) -> null,
+            new AuthTokenRefreshUtilityImpl(
+                (settings, authTokenStorage) -> null,
+                mySettings
+            ),
             null,
             null,
             null,

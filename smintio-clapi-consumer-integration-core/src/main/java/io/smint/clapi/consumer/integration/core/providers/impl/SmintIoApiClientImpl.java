@@ -49,7 +49,7 @@ import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransaction;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransactionQueryResult;
 import io.smint.clapi.consumer.generated.models.SyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.LocaleUtility;
-import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
+import io.smint.clapi.consumer.integration.core.authenticator.IAuthTokenRefreshUtility;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
@@ -201,7 +201,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
     private final IAuthTokenStorage _authTokenStorage;
     private final Provider<ISettingsModel> _settings;
-    private final ISmintIoAuthenticator _authenticator;
+    private final IAuthTokenRefreshUtility _tokenRefreshUtility;
     private final OkHttpClient _httpClient;
     private MetadataApi _metadataApi;
     private TransactionHistoryApi _transactionApi;
@@ -213,7 +213,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     public SmintIoApiClientImpl(
         final Provider<ISettingsModel> settings,
         final IAuthTokenStorage authTokenStorage,
-        final ISmintIoAuthenticator authenticator,
+        final IAuthTokenRefreshUtility tokenRefreshUtility,
         final OkHttpClient httpClient,
         @Nullable final MetadataApi smintIoMetadataApi,
         @Nullable final TransactionHistoryApi smintIoTransactionApi,
@@ -221,7 +221,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     ) {
         this._settings = settings;
         this._authTokenStorage = authTokenStorage;
-        this._authenticator = authenticator;
+        this._tokenRefreshUtility = tokenRefreshUtility;
         this._metadataApi = smintIoMetadataApi;
         this._transactionApi = smintIoTransactionApi;
         this._downloadsApi = smintIoDownloadsApi;
@@ -230,7 +230,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         Objects.requireNonNull(settings, "No settings provided to read tenant ID from.");
         Objects.requireNonNull(authTokenStorage, "No auth token storage has been provided to authorize for API.");
-        Objects.requireNonNull(this._authenticator, "Invalid authenticator has been provided.");
+        Objects.requireNonNull(tokenRefreshUtility, "Invalid token refresh utility has been provided.");
 
         if (this._metadataApi == null) {
             this._metadataApi = new MetadataApi();
@@ -401,16 +401,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
      */
     public IAuthTokenStorage getAuthTokenStorage() {
         return this._authTokenStorage;
-    }
-
-
-    /**
-     * Provide the authenticator as passed to the constructor.
-     *
-     * @return the authenticator or {@code null} as it has been provided to the constructor.
-     */
-    public ISmintIoAuthenticator getAuthenticator() {
-        return this._authenticator;
     }
 
 
@@ -694,7 +684,9 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         || apiError.getCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
                         try {
-                            this.getAuthenticator().refreshSmintIoToken(this.getSettings(), this.getAuthTokenStorage());
+                            this.getAuthTokenStorage().storeAuthData(
+                                this._tokenRefreshUtility.refreshOAuthToken(this.getAuthToken())
+                            );
                         } catch (final SmintIoAuthenticatorException authError) {
 
                             LOG.log(Level.WARNING, "Failed to authenticate with Smint.io platform API.", authError);

@@ -35,7 +35,9 @@ import com.google.inject.Provides;
 
 import okhttp3.OkHttpClient;
 
+import io.smint.clapi.consumer.integration.core.authenticator.IAuthTokenRefreshUtility;
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
+import io.smint.clapi.consumer.integration.core.authenticator.impl.AuthTokenRefreshUtilityImpl;
 import io.smint.clapi.consumer.integration.core.authenticator.impl.SmintIoAuthenticatorImpl;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.ISyncJobDataStorage;
@@ -268,6 +270,7 @@ public class SyncGuiceModule extends AbstractModule {
         this.bind(ISyncJobExecutionQueue.class).to(SyncJobExecutionQueueImpl.class).in(Singleton.class);
         this.bind(ISmintIoDownloadProvider.class).to(SmintIoDownloadProviderImpl.class).in(Singleton.class);
         this.bind(ISyncMetadataIdMapper.class).to(DefaultSyncMetadataIdMapperImpl.class).in(Singleton.class);
+        this.bind(IAuthTokenRefreshUtility.class).to(AuthTokenRefreshUtilityImpl.class).in(Singleton.class);
 
         this.bind(ISyncTarget.class).toProvider(() -> this._syncTargetFactory.createSyncTarget());
         this.bind(ISyncTargetDataFactory.class).toProvider(() -> this._syncTargetFactory.getTargetDataFactory());

@@ -94,7 +94,7 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
             return this;
         }
 
-        this.validateForTokenRefresh(authTokenStorage.getAuthData());
+        SmintIoAuthenticatorImpl.validateForTokenRefresh(authTokenStorage.getAuthData());
 
         if (settings == null) {
             LOG.warning("No access token can be renewed, as no settings storage has been provided.");
@@ -321,7 +321,7 @@ public class SmintIoAuthenticatorImpl implements ISmintIoAuthenticator {
      * @param authData the OAuth data to validate.
      * @throws SmintIoAuthenticatorException in case no refresh token is available.
      */
-    private void validateForTokenRefresh(final IAuthTokenModel authData) throws SmintIoAuthenticatorException {
+    public static void validateForTokenRefresh(final IAuthTokenModel authData) throws SmintIoAuthenticatorException {
 
         if (authData == null) {
             throw new SmintIoAuthenticatorException(
