@@ -22,6 +22,7 @@ package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import javax.inject.Inject;
 
@@ -200,8 +201,21 @@ public class AuthTokenImpl implements IAuthTokenModel {
 
 
     public class ExpiresInTypeAdapter extends OffsetDateTimeTypeAdapter {
+
+        public ExpiresInTypeAdapter() {
+            super();
+        }
+
+        @Override
+        public void write(final JsonWriter out, final OffsetDateTime date) throws IOException {
+            this.setFormat(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            super.write(out, date);
+        }
+
         @Override
         public OffsetDateTime read(final JsonReader in) throws IOException {
+            this.setFormat(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
             final JsonToken token = in.peek();
             if (token == JsonToken.NUMBER) {
                 final int expiresIn = in.nextInt();
