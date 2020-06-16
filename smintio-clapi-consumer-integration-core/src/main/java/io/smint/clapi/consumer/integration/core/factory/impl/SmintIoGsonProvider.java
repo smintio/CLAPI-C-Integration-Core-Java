@@ -20,6 +20,7 @@
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
 import java.text.DateFormat;
+import java.time.OffsetDateTime;
 
 import javax.inject.Provider;
 
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.smint.clapi.consumer.generated.JSON;
+import io.smint.clapi.consumer.integration.core.configuration.models.impl.OffsetDateTimeGsonAdapter;
 
 
 /**
@@ -49,6 +51,7 @@ public class SmintIoGsonProvider implements Provider<Gson> {
         final GsonBuilder builder = clapiGson != null ? clapiGson.newBuilder() : new GsonBuilder();
 
         return builder
+            .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeGsonAdapter())
             .setPrettyPrinting()
             .setDateFormat(DateFormat.LONG)
             .create();

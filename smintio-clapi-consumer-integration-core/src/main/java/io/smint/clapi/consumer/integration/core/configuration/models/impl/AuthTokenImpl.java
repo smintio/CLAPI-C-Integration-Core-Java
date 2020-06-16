@@ -21,12 +21,9 @@ package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import javax.inject.Inject;
 
-import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -34,7 +31,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
-import io.smint.clapi.consumer.generated.JSON.OffsetDateTimeTypeAdapter;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 
 
@@ -56,7 +52,7 @@ public class AuthTokenImpl implements IAuthTokenModel {
     @SerializedName(value = "identityToken", alternate = { "_identityToken", "id_token" })
     private String _identityToken;
 
-    @JsonAdapter(ExpiresInTypeAdapter.class)
+    @JsonAdapter(OffsetDateTimeGsonAdapter.class)
     @SerializedName(value = "expirationDate", alternate = { "_expirationDate", "expires_in" })
     private OffsetDateTime _expirationDate;
 
@@ -195,40 +191,6 @@ public class AuthTokenImpl implements IAuthTokenModel {
                 return value != null && !value.isEmpty() && !value.trim().isEmpty();
             } else {
                 return in.nextBoolean();
-            }
-        }
-    }
-
-
-    public class ExpiresInTypeAdapter extends OffsetDateTimeTypeAdapter {
-
-        public ExpiresInTypeAdapter() {
-            super();
-        }
-
-        @Override
-        public void write(final JsonWriter out, final OffsetDateTime date) throws IOException {
-            this.setFormat(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            super.write(out, date);
-        }
-
-        @Override
-        public OffsetDateTime read(final JsonReader in) throws IOException {
-            this.setFormat(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-
-            final JsonToken token = in.peek();
-            if (token == JsonToken.NUMBER) {
-                final int expiresIn = in.nextInt();
-                return OffsetDateTime.now(ZoneId.systemDefault()).plusSeconds(expiresIn);
-
-            } else if (token == JsonToken.BEGIN_OBJECT) {
-                // original OffsetDateTime type adapter serialize to String.
-                // unfortunately it is not active by default. Thus there are some serializations that
-                // have invalid object type serializations. So, read these instead.
-                return new Gson().getAdapter(OffsetDateTime.class).read(in);
-
-            } else { // if STRING
-                return super.read(in);
             }
         }
     }
