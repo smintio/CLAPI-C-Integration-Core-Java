@@ -19,25 +19,38 @@
 
 package io.smint.clapi.consumer.integration.core.factory.impl;
 
+import java.text.DateFormat;
+
 import javax.inject.Provider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import io.smint.clapi.consumer.generated.JSON;
 
 
 /**
  * Provides an instance of {@link Gson}, that is configured to serialize Smint.io API data correctly to JSON.
  *
  * <p>
- * Nevertheless converting JSON data to instances is most often impossible, as JSON lacks type information.
+ * Uses a builder to construct a {@link Gson} instance. The CLAPI-C Gson is fetched, and a {@GsonBuilder} is created
+ * from it with {@link Gson#newBuilder()}. This will harness all custom type adapter needed to serialize data coming
+ * from and running to CLAPI API. Additionally pretty printing is enabled with {@link GsonBuilder#setPrettyPrinting()}.
+ * Long format of dates are used, too with {@link GsonBuilder#setDateFormat(int)} and format number
+ * {@link DateFormat#LONG}.
  * </p>
  */
 public class SmintIoGsonProvider implements Provider<Gson> {
 
     @Override
     public Gson get() {
-        return new GsonBuilder()
+
+        final Gson clapiGson = new JSON().getGson();
+        final GsonBuilder builder = clapiGson != null ? clapiGson.newBuilder() : new GsonBuilder();
+
+        return builder
             .setPrettyPrinting()
+            .setDateFormat(DateFormat.LONG)
             .create();
     }
 }
