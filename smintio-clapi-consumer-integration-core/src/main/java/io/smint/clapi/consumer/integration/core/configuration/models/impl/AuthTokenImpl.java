@@ -188,7 +188,25 @@ public class AuthTokenImpl implements IAuthTokenModel {
             final JsonToken token = in.peek();
             if (token == JsonToken.STRING) {
                 final String value = in.nextString();
-                return value != null && !value.isEmpty() && !value.trim().isEmpty();
+                return value != null && !value.isEmpty() && !value.trim().isEmpty()
+                    && !"false".equalsIgnoreCase(value.trim());
+
+            } else if (token == JsonToken.NUMBER) {
+                try {
+                    final long value = in.nextLong();
+                    return value != 0;
+                } catch (final NumberFormatException ignore) {
+                    /* ignore - is not an integer */
+                }
+
+                try {
+                    final double value = in.nextDouble();
+                    return Math.floor(Math.abs(value)) != 0;
+                } catch (final NumberFormatException ignore) {
+                    /* ignore - is not a double */
+                    return false;
+                }
+
             } else {
                 return in.nextBoolean();
             }
