@@ -22,13 +22,12 @@ package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
-import com.google.gson.Gson;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
+import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
@@ -263,11 +262,11 @@ public class TestModelDataJsonConverter {
                     "VhMuAgyx3WDmzVI1_UMQ6OtBwMPq67qKCg"
             ).setRefreshToken("No7ejw0T5y7RcENcRFqWcRcDeNtYZfToT_lM-rgJKWU");
 
-        final String expectedJSON = "{" +
-            "\"isSuccess\":false," +
-            "\"accessToken\":\"" + originalTokenData.getAccessToken() + "\"," +
-            "\"refreshToken\":\"" + originalTokenData.getRefreshToken() + "\"," +
-            "\"identityToken\":\"" + originalTokenData.getIdentityToken() + "\"" +
+        final String expectedJSON = "{\n" +
+            "  \"isSuccess\": false,\n" +
+            "  \"accessToken\": \"" + originalTokenData.getAccessToken() + "\",\n" +
+            "  \"refreshToken\": \"" + originalTokenData.getRefreshToken() + "\",\n" +
+            "  \"identityToken\": \"" + originalTokenData.getIdentityToken() + "\"\n" +
             "}";
 
         final String convertedJson = converter.encode(originalTokenData);
@@ -284,7 +283,7 @@ public class TestModelDataJsonConverter {
     private class MyAuthTokenJsonConverter extends ModelDataJsonConverter<IAuthTokenModel, AuthTokenImpl> {
 
         public MyAuthTokenJsonConverter() {
-            super(new Gson());
+            super(new SmintIoGsonProvider().get());
             this.setClassOfModel(AuthTokenImpl.class);
         }
     }
