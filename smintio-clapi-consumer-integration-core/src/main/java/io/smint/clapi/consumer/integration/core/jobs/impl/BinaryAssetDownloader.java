@@ -82,12 +82,20 @@ public class BinaryAssetDownloader implements Provider<File> {
         final URL url = this._sourceURL;
         LOG.finer(() -> "Downloading asset binary from URL " + url);
 
+        // get and check access token
         final IAuthTokenModel authData = this._authTokenStorage != null ? this._authTokenStorage.getAuthData() : null;
         String accessToken = authData != null ? authData.getAccessToken() : null;
         if (url == null || !url.getHost().endsWith(".smint.io")) {
             accessToken = null;
         }
 
+        if (accessToken != null && authData != null && authData.hasExpired()) {
+            // access token has expired
+            accessToken = null;
+        }
+
+
+        // apply access token to HTTP headers
         final String token = accessToken;
         LOG.finer(() -> "Downloading asset binary with access token " + token + " from URL " + url);
 
