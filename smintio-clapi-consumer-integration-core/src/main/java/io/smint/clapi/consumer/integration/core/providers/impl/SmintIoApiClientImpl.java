@@ -448,8 +448,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         LOG.fine(() -> "Using Smint.io base API URL of " + baseURL);
 
         apiClient.setBasePath(baseURL);
+        this.useSameApiClientWithAllApi(apiClient);
         this.setAccessTokenToApi(authToken.getAccessToken());
-        this.getMetadataApiClient().setApiClient(apiClient);
 
 
         if (this._httpClient != null) {
@@ -1086,6 +1086,21 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         }
         if (this._downloadsApi != null) {
             this._downloadsApi.getApiClient().setAccessToken(token);
+        }
+    }
+
+
+    private void useSameApiClientWithAllApi(final ApiClient apiClient) {
+        final ApiClient client = apiClient == null ? this.getApiClient() : apiClient;
+
+        if (this._metadataApi != null) {
+            this._metadataApi.setApiClient(client);
+        }
+        if (this._transactionApi != null) {
+            this._transactionApi.setApiClient(client);
+        }
+        if (this._downloadsApi != null) {
+            this._downloadsApi.setApiClient(client);
         }
     }
 }
