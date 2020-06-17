@@ -709,7 +709,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         this.setupClapicOpenApiClient();
 
         final SyncLicensePurchaseTransactionQueryResult syncLptQueryResult = this.retryApiRequest(
-            ThrowingSupplier.unchecked(
+            ThrowingSupplier.sneaky(
                 () -> {
                     final TransactionHistoryApi transactionApi = this.getTransactionApiClient();
                     this.setAccessTokenToApi(this.getAuthToken().getAccessToken());
