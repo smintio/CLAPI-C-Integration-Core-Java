@@ -19,6 +19,9 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import io.smint.clapi.consumer.integration.core.authenticator.IAuthTokenRefreshUtility;
@@ -39,6 +42,8 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
  * </p>
  */
 public class AuthTokenStorageWrapperWithRefresh implements IAuthTokenStorage {
+
+    private static final Logger LOG = Logger.getLogger(AuthTokenStorageWrapperWithRefresh.class.getName());
 
 
     private final IAuthTokenRefreshUtility _refreshUtility;
@@ -75,9 +80,13 @@ public class AuthTokenStorageWrapperWithRefresh implements IAuthTokenStorage {
         if (authData != null && authData.isSuccess() && authData.hasExpired()) {
             // token data has expired, to try to refresh it
 
-            final IAuthTokenModel refreshedAuthData = this._refreshUtility.refreshOAuthToken(authData);
-            if (refreshedAuthData != null && refreshedAuthData.isSuccess()) {
-                return this._tokenStorage.storeAuthData(refreshedAuthData).getAuthData();
+            try {
+                final IAuthTokenModel refreshedAuthData = this._refreshUtility.refreshOAuthToken(authData);
+                if (refreshedAuthData != null && refreshedAuthData.isSuccess()) {
+                    return this._tokenStorage.storeAuthData(refreshedAuthData).getAuthData();
+                }
+            } catch (final Exception excp) {
+                LOG.log(Level.SEVERE, "Failed to refresh Smint.io access token!", excp);
             }
         }
 
