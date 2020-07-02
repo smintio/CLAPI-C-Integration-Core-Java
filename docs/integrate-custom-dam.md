@@ -181,7 +181,7 @@ assets.
 Meta data
 ---------
 
-Smint.io stores a lot of license information in a structured way. It is
+Smint.io stores a lot of license information in a [structured way](metadata.md). It is
 necessary to provide all the information needed to users about licensing
 of the asset. Each meta data item consists of a Smint.io ID/key, which need
 to be mapped to a target DAM ID. In the most simple way, these meta data do
