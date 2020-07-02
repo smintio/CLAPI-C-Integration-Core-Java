@@ -35,7 +35,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.impl.Offset
  * Provides an instance of {@link Gson}, that is configured to serialize Smint.io API data correctly to JSON.
  *
  * <p>
- * Uses a builder to construct a {@link Gson} instance. The CLAPI-C Gson is fetched, and a {@GsonBuilder} is created
+ * Uses a builder to construct a {@link Gson} instance. The CLAPI-C Gson is fetched, and a {@link GsonBuilder} is created
  * from it with {@link Gson#newBuilder()}. This will harness all custom type adapter needed to serialize data coming
  * from and running to CLAPI API. Additionally pretty printing is enabled with {@link GsonBuilder#setPrettyPrinting()}.
  * Long format of dates are used, too with {@link GsonBuilder#setDateFormat(int)} and format number

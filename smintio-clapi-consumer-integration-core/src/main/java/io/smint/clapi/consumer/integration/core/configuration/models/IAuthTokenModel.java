@@ -150,7 +150,7 @@ public interface IAuthTokenModel {
      * before {@link OffsetDateTime#now()};
      * </p>
      *
-     * @return {@true} in case the token data has already expired.
+     * @return {@code true} in case the token data has already expired.
      */
     default boolean hasExpired() {
         return this.getExpiration() != null && this.getExpiration().isBefore(OffsetDateTime.now());
@@ -164,12 +164,12 @@ public interface IAuthTokenModel {
      * For validity, the following checks are performed:
      * </p>
      * <ol>
-     * <li>The token data has been successfully created and thus {@link #isSuccess()} returns {@ode true}</li>
+     * <li>The token data has been successfully created and thus {@link #isSuccess()} returns {@code true}</li>
      * <li>The token data contains an access token, fetched with {@link #getAccessToken()}</li>
      * <li>The token data has not yet expired</li>
      * </ol>
      *
-     * @return {@true} in case the token data is valid.
+     * @return {@code true} in case the token data is valid.
      */
     default boolean isValid() {
         return this.isSuccess()
