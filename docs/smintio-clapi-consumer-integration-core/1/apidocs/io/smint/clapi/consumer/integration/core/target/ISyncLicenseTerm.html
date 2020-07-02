@@ -109,12 +109,41 @@ var activeTableTab = "activeTableTab";
 extends <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a></pre>
 <div class="block">Defines a license term composing restrictions and allowances.
 
+ <h2>Overview</h2>
  <p>
- These constrains need to be stored with the sync target. There is no need to read these values, as they are NOT
+ License terms cluster various license attributes into a single instance. Assets may refer to this instance instead of
+ having to replicate all license term attributes to their own property space.
+ </p>
+
+ <p>
+ License terms receives a translated name for UI and a sequence number. The sequence number is some sort of ID.
+ Nevertheless it is not globally unique but only within the same tenant.
+ </p>
+
+ <p>
+ License terms are never changed but somewhat read-only. When purchasing an asset a snapshot of the current active
+ license is attached to it. The purchase is based on this license term. Hence it must not be changed afterwards. In
+ case new license terms become active, the previous one is marked as inactive and a new license term instance is
+ created.
+ </p>
+
+ <p>
+ These license terms need to be stored with the sync target. There is no need to read these values, as they are NOT
  compared to the values at Smint.io. Smint.io platform is the master source of these values and thus during
  synchronization these value are only being set and not retrieved.
  </p>
 
+ <h2>Storing license terms with target DAM</h2>
+ <p>
+ License terms contain quite a list of restrictions and allowances of usage terms. It is possible to map all those
+ attributes into asset space or copy the same term attributes to all assets they apply to. Nevertheless it would be
+ best to store these data as a separate metadata instance and just refer to it with the asset. Unfortunately, not all
+ target DAM support such an operation. In that case, it is acceptable to copy all license attributes to each asset.
+ Keep in mind to store the <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html#setSequenceNumber-int-"><code>sequence number</code></a> and the <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncLicenseTerm.html#setName-java.util.Map-"><code>translated
+ license term name</code></a> with each asset, too.
+ </p>
+
+ <h2>Creation of new instances</h2>
  <p>
  Every instance is being created with <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html#createSyncLicenseTerm--"><code>ISyncTargetDataFactory.createSyncLicenseTerm()</code></a>.
  </p></div>

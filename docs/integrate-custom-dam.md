@@ -60,8 +60,8 @@ It is organised in four sections
 
 1. providing some insights about the target DAM
    [ISyncTarget#getCapabilities()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getCapabilities--)
-2. Importing meta data and retrieving target DAM IDs of Smint.io metadata
-   keys.
+2. Importing meta data and retrieving target DAM IDs of Smint.io
+    [metadata](metadata.md).
 3. Importing asset data
 4. Functions to support error handling and flow control
     * [ISyncTarget#beforeGenericMetadataSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeGenericMetadataSync--)

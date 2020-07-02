@@ -109,12 +109,19 @@ var activeTableTab = "activeTableTab";
 extends <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncDataType.html" title="interface in io.smint.clapi.consumer.integration.core.target">ISyncDataType</a></pre>
 <div class="block">Defines some download constraints on an asset.
 
+ <h2>Overview</h2>
+ <p>
+ This entity clusters download constraints, which are not very complicated. Because of its simplicity, it can be
+ easily mapped into asset property space. It does not need to be kept as a separate instance.
+ </p>
+
  <p>
  These constrains need to be stored with the sync target. There is no need to read these values, as they are NOT
  compared to the values at Smint.io. Smint.io platform is the master source of these values and thus during
  synchronization these value are only being set and not retrieved.
  </p>
 
+ <h2>Creation of new instances</h2>
  <p>
  Every instance is being created with <a href="../../../../../../../io/smint/clapi/consumer/integration/core/target/ISyncTargetDataFactory.html#createSyncDownloadConstraints--"><code>ISyncTargetDataFactory.createSyncDownloadConstraints()</code></a>.
  </p></div>
