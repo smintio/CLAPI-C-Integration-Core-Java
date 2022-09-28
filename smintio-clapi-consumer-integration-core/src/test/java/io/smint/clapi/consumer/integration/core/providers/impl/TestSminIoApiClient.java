@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
 import io.smint.clapi.consumer.integration.core.contracts.ISmintIoMetadataElement;
+import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
@@ -46,7 +46,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElementsForImportLanguages() throws Exception {
 
         final String[] importLanguages = new String[] { "en", "de" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -188,7 +188,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElements_WithMissingLanguageWithoutFallback() throws Exception {
 
         final String[] importLanguages = new String[] { "en", "de", "zh" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -336,7 +336,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElements_WithMissingLanguageWithFallback() throws Exception {
 
         final String[] importLanguages = new String[] { "de", "zh" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -477,7 +477,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElementsForImportLanguagesWithIso3() throws Exception {
 
         final String[] importLanguages = new String[] { "en", "deu" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -619,7 +619,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElementsForSingleLanguage() throws Exception {
 
         final String[] importLanguages = new String[] { "de" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -756,7 +756,7 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
     public void testGroupedMetadataElementsForSingleLanguageWithFallback() throws Exception {
 
         final String[] importLanguages = new String[] { "it" };
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = this.createGson();
         final LocalizedMetadataElement[] metaData = gson.fromJson(
             "[\n" +
                 "        {\n" +
@@ -903,6 +903,10 @@ public class TestSminIoApiClient extends TestSminIoApiClientBase {
             .invoke(apiClient, this.convertImportLanguages(importLanguages), elements);
     }
 
+
+    private Gson createGson() {
+        return new SmintIoGsonProvider().get().newBuilder().setPrettyPrinting().create();
+    }
 }
 
 // CHECKSTYLE.ON: MultipleStringLiterals

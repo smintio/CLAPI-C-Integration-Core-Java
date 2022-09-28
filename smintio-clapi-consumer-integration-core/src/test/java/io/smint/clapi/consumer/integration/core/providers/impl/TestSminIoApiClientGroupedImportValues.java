@@ -26,22 +26,23 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.smint.clapi.consumer.generated.models.LocalizedMetadataElement;
+import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
 
 
 // CHECKSTYLE.OFF: MultipleStringLiterals
 // CHECKSTYLE.OFF: MagicNumber
 
+
 @DisplayName("Test SmintIoApiClientImpl: getGroupedValuesForImportLanguages")
 public class TestSminIoApiClientGroupedImportValues extends TestSminIoApiClientBase {
 
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new SmintIoGsonProvider().get().newBuilder().setPrettyPrinting().create();
 
     @Test
     @DisplayName("converting to grouped values default.")

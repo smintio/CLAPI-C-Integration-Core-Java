@@ -162,6 +162,14 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
         LOG.log(Level.FINE, "Starting up Pusher notification service");
         this._isStarted = true;
 
+        // if there is no channel ID, then just do not connect to Pusher.com
+        final int channelID = this._settings != null ? this._settings.getChannelId() : -1;
+        if (channelID < 0) {
+            return CompletableFuture.completedFuture(this);
+        }
+
+
+        // add the job to the list of jobs to run when receiving any notifications
         if (job != null) {
             this._jobsToNotify.add(job);
         }
@@ -172,7 +180,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
                 this._settings,
                 this._tokenStorage != null ? this._tokenStorage.get() : null
             );
-            this.subscribeToPusherChannel(this._settings.getChannelId());
+            this.subscribeToPusherChannel(channelID);
 
             final Pusher pusher = this._pusher;
             final PusherService pusherService = this;
@@ -261,8 +269,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
                 }
 
                 if (this._pusher.getConnection().getState() == ConnectionState.DISCONNECTED
-                    || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING
-                ) {
+                    || this._pusher.getConnection().getState() == ConnectionState.DISCONNECTING) {
 
                     LOG.log(Level.FINE, "Initiating a re-connect to Pusher notification service");
                     this._pusher.connect();
@@ -274,7 +281,7 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
 
     private PusherService subscribeToPusherChannel(final int channelId) {
 
-        final String channelName = MessageFormat.format(PUSHER__CHANNEL, this._settings.getChannelId());
+        final String channelName = MessageFormat.format(PUSHER__CHANNEL, channelId);
         LOG.info(() -> "Pusher: subscribing to channel '" + channelName + "'");
 
 
@@ -376,10 +383,16 @@ public class PusherService implements IPushNotificationService, ConnectionEventL
             );
         }
 
+        // ignore channel IDs lower than 0 but log a warning
         if (settings.getChannelId() <= 0) {
-            throw new SmintIoAuthenticatorException(
-                AuthenticatorError.SmintIoIntegrationWrongState,
-                "The channel ID is invalid: " + settings.getChannelId()
+            LOG.log(
+                Level.WARNING,
+                "The channel ID is invalid ('" + settings.getChannelId() +
+                    "'). No connection to Pusher notification service will be establised.",
+                new SmintIoAuthenticatorException(
+                    AuthenticatorError.SmintIoIntegrationWrongState,
+                    "The channel ID is invalid: " + settings.getChannelId()
+                )
             );
         }
     }

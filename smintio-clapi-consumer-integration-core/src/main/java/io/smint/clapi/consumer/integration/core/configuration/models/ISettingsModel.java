@@ -114,7 +114,8 @@ public interface ISettingsModel {
      * </p>
      *
      * @return the <a href="https://pusher.com">Pusher.com</a> <a href="https://pusher.com/docs/channels">channel API
-     *         ID</a> to use for push notifications of newly bought assets.
+     *         ID</a> to use for push notifications of newly bought assets. If {@code -1} is returned, then no
+     *         connection to Pusher.com is ever opened, as this is an invalid channel ID.
      */
     int getChannelId();
 

@@ -1,0 +1,4 @@
+io.smint.clapi.consumer.integration.app
+io.smint.clapi.consumer.integration.app.authenticator
+io.smint.clapi.consumer.integration.app.configuration.impl
+io.smint.clapi.consumer.integration.app.target.json

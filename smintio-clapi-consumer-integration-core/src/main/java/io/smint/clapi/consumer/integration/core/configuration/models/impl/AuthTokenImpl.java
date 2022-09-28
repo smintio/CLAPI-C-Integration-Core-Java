@@ -19,9 +19,17 @@
 
 package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 
 import javax.inject.Inject;
+
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 
@@ -31,14 +39,21 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
  */
 public class AuthTokenImpl implements IAuthTokenModel {
 
-    // Note: Although Smint.io style guide requires private names to be prefixed with "_", this is
-    // not the case here, in order to get clean JSON property names without any annotation.
-    // Avoiding any JSON library annotation helps keeping this class independent from any JSON library.
-
+    @JsonAdapter(IsSuccessDeserializer.class)
+    @SerializedName(value = "isSuccess", alternate = { "_isSuccess", "token_type" })
     private boolean _isSuccess = false;
+
+    @SerializedName(value = "accessToken", alternate = { "_accessToken", "access_token" })
     private String _accessToken;
+
+    @SerializedName(value = "refreshToken", alternate = { "_refreshToken", "refresh_token" })
     private String _refreshToken;
+
+    @SerializedName(value = "identityToken", alternate = { "_identityToken", "id_token" })
     private String _identityToken;
+
+    @JsonAdapter(OffsetDateTimeGsonAdapter.class)
+    @SerializedName(value = "expirationDate", alternate = { "_expirationDate", "expires_in" })
     private OffsetDateTime _expirationDate;
 
 
@@ -159,5 +174,42 @@ public class AuthTokenImpl implements IAuthTokenModel {
     public AuthTokenImpl setExpiration(final OffsetDateTime newExpireDate) {
         this._expirationDate = newExpireDate;
         return this;
+    }
+
+
+    public class IsSuccessDeserializer extends TypeAdapter<Boolean> {
+        @Override
+        public void write(final JsonWriter out, final Boolean value) throws IOException {
+            out.value(value != null ? value.booleanValue() : false);
+        }
+
+        @Override
+        public Boolean read(final JsonReader in) throws IOException {
+            final JsonToken token = in.peek();
+            if (token == JsonToken.STRING) {
+                final String value = in.nextString();
+                return value != null && !value.isEmpty() && !value.trim().isEmpty()
+                    && !"false".equalsIgnoreCase(value.trim());
+
+            } else if (token == JsonToken.NUMBER) {
+                try {
+                    final long value = in.nextLong();
+                    return value != 0;
+                } catch (final NumberFormatException ignore) {
+                    /* ignore - is not an integer */
+                }
+
+                try {
+                    final double value = in.nextDouble();
+                    return Math.floor(Math.abs(value)) != 0;
+                } catch (final NumberFormatException ignore) {
+                    /* ignore - is not a double */
+                    return false;
+                }
+
+            } else {
+                return in.nextBoolean();
+            }
+        }
     }
 }

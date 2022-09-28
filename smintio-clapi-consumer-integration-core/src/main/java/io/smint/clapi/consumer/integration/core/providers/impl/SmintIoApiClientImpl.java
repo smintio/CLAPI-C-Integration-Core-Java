@@ -49,7 +49,7 @@ import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransaction;
 import io.smint.clapi.consumer.generated.models.SyncLicensePurchaseTransactionQueryResult;
 import io.smint.clapi.consumer.generated.models.SyncLicenseTerm;
 import io.smint.clapi.consumer.integration.core.LocaleUtility;
-import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoAuthenticator;
+import io.smint.clapi.consumer.integration.core.authenticator.IAuthTokenRefreshUtility;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
@@ -201,7 +201,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
     private final IAuthTokenStorage _authTokenStorage;
     private final Provider<ISettingsModel> _settings;
-    private final ISmintIoAuthenticator _authenticator;
+    private final IAuthTokenRefreshUtility _tokenRefreshUtility;
     private final OkHttpClient _httpClient;
     private MetadataApi _metadataApi;
     private TransactionHistoryApi _transactionApi;
@@ -213,7 +213,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     public SmintIoApiClientImpl(
         final Provider<ISettingsModel> settings,
         final IAuthTokenStorage authTokenStorage,
-        final ISmintIoAuthenticator authenticator,
+        final IAuthTokenRefreshUtility tokenRefreshUtility,
         final OkHttpClient httpClient,
         @Nullable final MetadataApi smintIoMetadataApi,
         @Nullable final TransactionHistoryApi smintIoTransactionApi,
@@ -221,7 +221,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
     ) {
         this._settings = settings;
         this._authTokenStorage = authTokenStorage;
-        this._authenticator = authenticator;
+        this._tokenRefreshUtility = tokenRefreshUtility;
         this._metadataApi = smintIoMetadataApi;
         this._transactionApi = smintIoTransactionApi;
         this._downloadsApi = smintIoDownloadsApi;
@@ -230,7 +230,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         Objects.requireNonNull(settings, "No settings provided to read tenant ID from.");
         Objects.requireNonNull(authTokenStorage, "No auth token storage has been provided to authorize for API.");
-        Objects.requireNonNull(this._authenticator, "Invalid authenticator has been provided.");
+        Objects.requireNonNull(tokenRefreshUtility, "Invalid token refresh utility has been provided.");
 
         if (this._metadataApi == null) {
             this._metadataApi = new MetadataApi();
@@ -254,7 +254,7 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         final SyncGenericMetadata syncGenericMetadata = this.retryApiRequest(
             ThrowingSupplier.sneaky(() -> {
                 final MetadataApi metadataApi = this.getMetadataApiClient();
-                metadataApi.getApiClient().setAccessToken(this.getAuthToken().getAccessToken());
+                this.setAccessTokenToApi(this.getAuthToken().getAccessToken());
                 return metadataApi.getGenericMetadataForSync();
             })
         );
@@ -405,16 +405,6 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
 
     /**
-     * Provide the authenticator as passed to the constructor.
-     *
-     * @return the authenticator or {@code null} as it has been provided to the constructor.
-     */
-    public ISmintIoAuthenticator getAuthenticator() {
-        return this._authenticator;
-    }
-
-
-    /**
      * Provide the Smint.io platform API client read from {@link #getMetadataApiClient()}.
      *
      * @return the API client or {@code null} if none has been provided with the metadata API client.
@@ -458,8 +448,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         LOG.fine(() -> "Using Smint.io base API URL of " + baseURL);
 
         apiClient.setBasePath(baseURL);
-        apiClient.setAccessToken(authToken.getAccessToken());
-        this.getMetadataApiClient().setApiClient(apiClient);
+        this.useSameApiClientWithAllApi(apiClient);
+        this.setAccessTokenToApi(authToken.getAccessToken());
 
 
         if (this._httpClient != null) {
@@ -603,8 +593,8 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         return null;
     }
-    
-    
+
+
     private Map<Locale, String> getValuesForImportLanguages(
         final List<Locale> importLanguages, final List<LocalizedString> localizedStrings
     ) {
@@ -694,7 +684,10 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                         || apiError.getCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
                         try {
-                            this.getAuthenticator().refreshSmintIoToken(this.getSettings(), this.getAuthTokenStorage());
+                            final IAuthTokenModel authData = this._tokenRefreshUtility
+                                .refreshOAuthToken(this.getAuthToken());
+                            this.getAuthTokenStorage().storeAuthData(authData);
+                            this.setAccessTokenToApi(authData.getAccessToken());
                         } catch (final SmintIoAuthenticatorException authError) {
 
                             LOG.log(Level.WARNING, "Failed to authenticate with Smint.io platform API.", authError);
@@ -715,11 +708,11 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
         this.setupClapicOpenApiClient();
 
-        final TransactionHistoryApi transactionApi = this.getTransactionApiClient();
         final SyncLicensePurchaseTransactionQueryResult syncLptQueryResult = this.retryApiRequest(
-            ThrowingSupplier.unchecked(
+            ThrowingSupplier.sneaky(
                 () -> {
-                    transactionApi.getApiClient().setAccessToken(this.getAuthToken().getAccessToken());
+                    final TransactionHistoryApi transactionApi = this.getTransactionApiClient();
+                    this.setAccessTokenToApi(this.getAuthToken().getAccessToken());
                     return transactionApi
                         .getLicensePurchaseTransactionsForSync(continuationUuid, SMINT_IO_ASSET_LIST_CHUNKSIZE);
                 }
@@ -926,11 +919,13 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
                 )
             )
 
-            .setLicenseUrls(this.getGroupedUrlValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls()))
-            
+            .setLicenseUrls(
+                this.getGroupedUrlValuesForImportLanguages(importLanguages, apiAsset.getOffering().getLicenseUrls())
+            )
+
             .setLicenseTerms(this.getLicenseTerms(importLanguages, apiAsset))
             .setDownloadConstraints(this.getDownloadConstraints(apiAsset))
-            
+
             .setIsEditorialUse(isEditorialUse)
             .setHasRestrictiveLicenseTerms(
                 apiAsset.getHasPotentiallyRestrictiveLicenseTerms() != null
@@ -966,9 +961,14 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
 
             List<SyncBinary> binaries = null;
             try {
-                binaries = this._downloadsApi.getLicensePurchaseTransactionBinariesForSync(
-                    asset.getCartPurchaseTransactionUuid(),
-                    asset.getLicensePurchaseTransactionUuid()
+                binaries = this.retryApiRequest(
+                    ThrowingSupplier.sneaky(() -> {
+                        this.setAccessTokenToApi(this.getAuthToken().getAccessToken());
+                        return this._downloadsApi.getLicensePurchaseTransactionBinariesForSync(
+                            asset.getCartPurchaseTransactionUuid(),
+                            asset.getLicensePurchaseTransactionUuid()
+                        );
+                    })
                 );
             } catch (final ApiException excp) {
                 LOG.log(
@@ -1074,4 +1074,33 @@ public class SmintIoApiClientImpl implements ISmintIoApiClient {
         return converted != null && converted.length > 0 ? converted[0] : null;
     }
 
+
+    private void setAccessTokenToApi(final String token) {
+        Objects.requireNonNull(token, "Acess token is invalid (<null>)");
+
+        if (this._metadataApi != null) {
+            this._metadataApi.getApiClient().setAccessToken(token);
+        }
+        if (this._transactionApi != null) {
+            this._transactionApi.getApiClient().setAccessToken(token);
+        }
+        if (this._downloadsApi != null) {
+            this._downloadsApi.getApiClient().setAccessToken(token);
+        }
+    }
+
+
+    private void useSameApiClientWithAllApi(final ApiClient apiClient) {
+        final ApiClient client = apiClient == null ? this.getApiClient() : apiClient;
+
+        if (this._metadataApi != null) {
+            this._metadataApi.setApiClient(client);
+        }
+        if (this._transactionApi != null) {
+            this._transactionApi.setApiClient(client);
+        }
+        if (this._downloadsApi != null) {
+            this._downloadsApi.setApiClient(client);
+        }
+    }
 }

@@ -123,7 +123,7 @@ public class TestPusherService {
             this.sendPushNotification();
             Assertions.assertEquals(
                 1,
-                waitForExecution[0].get(2000, TimeUnit.MILLISECONDS),
+                waitForExecution[0].get(5000, TimeUnit.MILLISECONDS),
                 "job has not been executed just once!"
             );
 
@@ -132,7 +132,7 @@ public class TestPusherService {
             waitForExecution[0] = new CompletableFuture<>();
             Assertions.assertEquals(
                 2,
-                waitForExecution[0].get(2000, TimeUnit.MILLISECONDS),
+                waitForExecution[0].get(5000, TimeUnit.MILLISECONDS),
                 "job has not been executed twice!"
             );
 

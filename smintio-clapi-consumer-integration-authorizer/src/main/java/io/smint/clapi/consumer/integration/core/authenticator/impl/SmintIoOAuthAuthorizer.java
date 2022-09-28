@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import com.github.scribejava.apis.openid.OpenIdOAuth2AccessToken;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -40,7 +41,6 @@ import okhttp3.OkHttpClient;
 
 import io.smint.clapi.consumer.integration.core.authenticator.ISmintIoOAuthAuthorizer;
 import io.smint.clapi.consumer.integration.core.configuration.IAuthTokenStorage;
-import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.ISettingsModel;
 import io.smint.clapi.consumer.integration.core.configuration.models.impl.AuthTokenImpl;
 import io.smint.clapi.consumer.integration.core.exceptions.SmintIoAuthenticatorException;
@@ -190,11 +190,16 @@ public class SmintIoOAuthAuthorizer extends SmintIoAuthenticatorImpl implements 
         try {
             final OAuth2AccessToken accessToken = this._service.getAccessToken(urlParameters.get("code")[0]);
 
-            final IAuthTokenModel accessData = new AuthTokenImpl()
+            final AuthTokenImpl accessData = new AuthTokenImpl()
                 .setAccessToken(accessToken.getAccessToken())
                 .setRefreshToken(accessToken.getRefreshToken())
                 .setIsSuccess(true)
                 .setExpiration(OffsetDateTime.now().plus(accessToken.getExpiresIn(), ChronoUnit.SECONDS));
+
+            if (accessToken instanceof OpenIdOAuth2AccessToken) {
+                accessData.setIdentityToken(((OpenIdOAuth2AccessToken) accessToken).getOpenIdToken());
+            }
+
             this._tokenStorage.storeAuthData(accessData);
 
         } catch (IOException | InterruptedException | ExecutionException e) {

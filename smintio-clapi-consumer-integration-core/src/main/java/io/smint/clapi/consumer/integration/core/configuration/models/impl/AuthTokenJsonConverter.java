@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import com.google.gson.Gson;
 
 import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenModel;
+import io.smint.clapi.consumer.integration.core.factory.impl.SmintIoGsonProvider;
 
 
 /**
@@ -36,7 +37,7 @@ import io.smint.clapi.consumer.integration.core.configuration.models.IAuthTokenM
 public class AuthTokenJsonConverter extends ModelDataJsonConverter<IAuthTokenModel, AuthTokenImpl> {
 
     public AuthTokenJsonConverter() {
-        this(new Gson());
+        this(new SmintIoGsonProvider().get());
     }
 
 

@@ -140,4 +140,40 @@ public interface IAuthTokenModel {
      * @return the expiration time of the access token. If {@code null} then the access token does not expire.
      */
     OffsetDateTime getExpiration();
+
+
+    /**
+     * Checks whether this token data has expired.
+     *
+     * <p>
+     * The token data has expired if there is a expiration date returned by {@link #getExpiration()} and the date lies
+     * before {@link OffsetDateTime#now()};
+     * </p>
+     *
+     * @return {@code true} in case the token data has already expired.
+     */
+    default boolean hasExpired() {
+        return this.getExpiration() != null && this.getExpiration().isBefore(OffsetDateTime.now());
+    }
+
+
+    /**
+     * Checks whether this token data is valid, meaning it has been successfully created and not yet expired.
+     *
+     * <p>
+     * For validity, the following checks are performed:
+     * </p>
+     * <ol>
+     * <li>The token data has been successfully created and thus {@link #isSuccess()} returns {@code true}</li>
+     * <li>The token data contains an access token, fetched with {@link #getAccessToken()}</li>
+     * <li>The token data has not yet expired</li>
+     * </ol>
+     *
+     * @return {@code true} in case the token data is valid.
+     */
+    default boolean isValid() {
+        return this.isSuccess()
+            && !this.hasExpired()
+            && this.getAccessToken() != null && !this.getAccessToken().trim().isEmpty();
+    }
 }

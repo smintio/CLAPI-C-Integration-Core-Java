@@ -60,8 +60,8 @@ It is organised in four sections
 
 1. providing some insights about the target DAM
    [ISyncTarget#getCapabilities()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#getCapabilities--)
-2. Importing meta data and retrieving target DAM IDs of Smint.io metadata
-   keys.
+2. Importing meta data and retrieving target DAM IDs of Smint.io
+    [metadata](metadata.md).
 3. Importing asset data
 4. Functions to support error handling and flow control
     * [ISyncTarget#beforeGenericMetadataSync()](smintio-clapi-consumer-integration-core/1/io/smint/clapi/consumer/integration/core/target/ISyncTarget.html#beforeGenericMetadataSync--)
@@ -181,7 +181,7 @@ assets.
 Meta data
 ---------
 
-Smint.io stores a lot of license information in a structured way. It is
+Smint.io stores a lot of license information in a [structured way](metadata.md). It is
 necessary to provide all the information needed to users about licensing
 of the asset. Each meta data item consists of a Smint.io ID/key, which need
 to be mapped to a target DAM ID. In the most simple way, these meta data do
