@@ -11,6 +11,14 @@ Although no breaking changes of this project (integration library) have been
 introduced, predecessor versions are not going to work with the Smint.io API.
 
 
+release/v1.9.2 (2022-09-28)
+----------------------------------
+
+### Other
+
+* (build) Support newest JRE versions
+
+
 release/v1.9.1 (2020-05-25)
 ----------------------------------
 
