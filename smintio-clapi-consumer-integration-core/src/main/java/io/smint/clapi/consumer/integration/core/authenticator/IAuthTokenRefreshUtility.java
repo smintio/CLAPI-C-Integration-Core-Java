@@ -44,7 +44,7 @@ public interface IAuthTokenRefreshUtility {
      * thus whether refreshing the token has been successfully done or not.
      * </p>
      *
-     * <h2>Return same data as passed-in in case of insufficient refresh data.</h2>
+     * <h4>Return same data as passed-in in case of insufficient refresh data.</h4>
      * <p>
      * In case the refreshing fails because of insufficient refresh token data, the originally passed-in token model
      * data is returned unchanged if it has not yet expired. So token data that is valid before can be re-used. If the
@@ -53,7 +53,7 @@ public interface IAuthTokenRefreshUtility {
      * This will provide the opportunity to reuse still valid authentication data.
      * </p>
      *
-     * <h2>Return some empty data if OAuth service rejected request.</h2>
+     * <h4>Return some empty data if OAuth service rejected request.</h4>
      * <p>
      * In case sufficient refresh data is available but the Smint.io OAuth service rejected the refresh request for some
      * reason, a {@link SmintIoAuthenticatorException} exception is thrown.
