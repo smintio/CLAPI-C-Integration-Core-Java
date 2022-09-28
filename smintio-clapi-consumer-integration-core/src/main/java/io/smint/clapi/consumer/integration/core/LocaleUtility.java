@@ -79,7 +79,7 @@ public abstract class LocaleUtility {
         for (final Locale sysLocale : Locale.getAvailableLocales()) {
 
             final String country = sysLocale.getCountry();
-            if ((country == null || country.isEmpty()) && languageIso3.equals(sysLocale.getISO3Language())) {
+            if ((country == null || country.isEmpty()) && languageIso3.equals(sysLocale.getISO3Language()) && sysLocale.toString().length() == 2) {
                 return sysLocale;
             }
         }
@@ -87,7 +87,7 @@ public abstract class LocaleUtility {
 
         // Now try with country code
         for (final Locale sysLocale : Locale.getAvailableLocales()) {
-            if (languageIso3.equals(sysLocale.getISO3Language())) {
+            if (languageIso3.equals(sysLocale.getISO3Language()) && sysLocale.toString().length() == 2) {
                 return sysLocale;
             }
         }

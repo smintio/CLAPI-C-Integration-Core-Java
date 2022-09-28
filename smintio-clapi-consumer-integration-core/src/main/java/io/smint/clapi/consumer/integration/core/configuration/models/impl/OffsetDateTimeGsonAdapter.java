@@ -1,6 +1,7 @@
 package io.smint.clapi.consumer.integration.core.configuration.models.impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -66,8 +67,9 @@ public class OffsetDateTimeGsonAdapter extends OffsetDateTimeTypeAdapter {
             // original OffsetDateTime type adapter serialize to String.
             // unfortunately it is not active by default. Thus there are some serializations that
             // have invalid object type serializations. So, read these instead.
-            return new Gson().getAdapter(OffsetDateTime.class).read(in);
-
+            OffsetDateTimeDeserializationModel offsetDateTimeDeserializationModel = new Gson().getAdapter(OffsetDateTimeDeserializationModel.class).read(in);            
+            
+            return offsetDateTimeDeserializationModel.getOffsetDateTime();
         } else { // if STRING
             return super.read(in);
         }
