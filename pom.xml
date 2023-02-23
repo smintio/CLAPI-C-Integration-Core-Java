@@ -91,7 +91,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions>${maven.multiModuleProjectDirectory}/config/checkstyle/suppressions.xml</checkstyle.suppressions>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
     <dependencies>
