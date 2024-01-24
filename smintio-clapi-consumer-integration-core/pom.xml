@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.smint</groupId>
         <artifactId>smintio-clapi-consumer-integration</artifactId>
-        <version>1.9.2</version>
+        <version>1.9.3</version>
     </parent>
 
     <artifactId>smintio-clapi-consumer-integration-core</artifactId>
